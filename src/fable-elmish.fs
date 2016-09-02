@@ -22,14 +22,14 @@ module Cmd =
         List.collect id cmds 
 
     let ofAsync (task:Async<_>) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
-        let run dispatch =
+        let bind dispatch =
             async {
                 let! r = task |> Async.Catch
                 dispatch (match r with
                          | Choice1Of2 x -> ofSuccess x
                          | Choice2Of2 x -> ofError x)
             }
-        [run >> Async.Start]
+        [bind >> Async.StartImmediate]
 
     let ofPromise (task:unit->Promise<_>) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
         let bind (dispatch:'msg -> unit) =
@@ -37,6 +37,15 @@ module Cmd =
             |> Fable.Extras.Promise.onSuccess (ofSuccess >> dispatch)
             |> Fable.Extras.Promise.onFail (ofError >> dispatch)
             |> ignore
+        [bind]
+
+    let ofFunc (task:unit->_) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+        let bind (dispatch:'msg -> unit) =
+            try 
+                task()
+                |> (ofSuccess >> dispatch)
+            with x -> 
+                x |> (ofError >> dispatch)
         [bind]
 
     let ofSub (sub:Sub<'msg>) =
@@ -75,10 +84,10 @@ module Program =
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
             let rec loop state = 
                 async {
+                    setState state 
                     let! msg = mb.Receive()
                     program.trace "Updating: " (state,msg)
                     let (model',cmd') = program.update msg state
-                    setState model' 
                     cmd' |> List.iter (fun sub -> sub mb.Post)
                     return! loop model'
                 }
