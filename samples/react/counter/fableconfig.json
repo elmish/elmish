@@ -1,0 +1,25 @@
+{
+    "module": "amd",
+    "sourceMaps": true,
+    "projFile": "./counter.fsx",
+    "outDir": "out",
+    "scripts": {
+        "prebuild": "npm install"
+    },
+    "targets": {
+        "debug": {
+            "watch": true,
+            "symbols": [
+                "DEV_SERVER"
+            ],
+            "scripts": {
+            }
+        },
+        "production": {
+            "sourceMaps": false,
+            "scripts": {
+                "postbuild": "node node_modules/webpack/bin/webpack -p"
+            }
+        }
+    }
+}
