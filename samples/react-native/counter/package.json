@@ -10,16 +10,15 @@
   },
   "dependencies": {
     "core-js": "^2.4.1",
-    "fable-core": "^0.5.5",
+    "fable-core": "^0.6.1",
     "react": "15.2.1",
     "react-native": "0.31.0"
   },
   "devDependencies": {
-    "fable-compiler": "^0.5.5",
     "fable-import-react": "^0.5.0",
     "fable-import-react-native": "^0.6.12",
     "fable-react-native-simple-store": "^0.2.11",
     "fable-import-fetch": "^0.1.7",
-    "fable-elmish": "^0.0.2"
+    "fable-elmish": "^0.1.0"
   }
 }

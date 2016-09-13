@@ -51,7 +51,7 @@ let view {count = count} dispatch =
 // App
 let program = 
     Program.mkSimple init update
-    |> Program.withTrace
+    |> Program.withConsoleTrace
 
 type App() as this =
     inherit React.Component<obj, Model>()

@@ -9,7 +9,6 @@
 #r "node_modules/fable-core/Fable.Core.dll"
 #load "node_modules/fable-import-react/Fable.Import.React.fs"
 #load "node_modules/fable-import-react/Fable.Helpers.React.fs"
-#load "node_modules/fable-elmish/fable-promise.fs"
 #load "node_modules/fable-elmish/fable-elmish.fs"
 
 open Fable.Core
@@ -318,7 +317,7 @@ let view model dispatch =
 // App
 let program = 
     Program.mkProgram (S.load >> init) update
-    |> Program.withTrace
+    |> Program.withConsoleTrace
 
 type TodoApp() as this =
     inherit React.Component<obj, Model>()
