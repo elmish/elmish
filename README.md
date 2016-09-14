@@ -2,6 +2,7 @@ Elmish: Elm-like abstractions for F# applications targeting Fable.
 =======
 
 [![npm version](https://badge.fury.io/js/fable-elmish.svg)](https://badge.fury.io/js/fable-elmish)
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-compiler/Fable)
 
 Elmish implements core abstractions that can be used to build applications following [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
 The library however does not model any "view" and is intended for use in conjuction with a DOM/renderer, like React/ReactNative or VirtualDOM.  
