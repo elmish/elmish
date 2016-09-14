@@ -1,6 +1,4 @@
-# ReactNative sample of [Yet another Elm-like architecture implementation](https://github.com/et1975/fable-elmish).
-
-Combines Elm's simplicity of its "model view update" architecture with ReactNative and F# in one awesome Fable app that runs on Android and iOS.
+# ReactNative counter sample.
 
 ## Build
 0. Have the SDK of your target platform installed and working.
