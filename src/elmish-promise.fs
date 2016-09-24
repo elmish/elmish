@@ -1,4 +1,4 @@
-namespace Fable.Extras
+namespace Elmish
 
 //---------------------------------------------------
 //PromisesExt (by Dave)
@@ -98,7 +98,6 @@ module PromiseBuilderImp =
 
 /// Elmish Cmd extension for promises
 module Cmd =
-    open Fable.Elmish
     /// Command to call `promise` block and map the results
     let ofPromise (task:unit->Fable.Import.JS.Promise<_>) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
         let bind (dispatch:'msg -> unit) =

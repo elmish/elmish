@@ -18,7 +18,7 @@
     <DebugType>Full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>..\Build</OutputPath>
+    <OutputPath>..\..\build</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
@@ -33,7 +33,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="fable-elmish.fs" />
-    <Compile Include="fable-promise.fs" />
+    <Compile Include="elmish-promise.fs" />
+    <Compile Include="elmish-browser-nav.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Choose>

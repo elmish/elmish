@@ -1,4 +1,4 @@
-module Fable.Elmish
+namespace Elmish
 
 open System
 
@@ -55,47 +55,50 @@ module Cmd =
     let ofSub (sub:Sub<'msg>) =
         [sub]
 
-type Program<'model,'msg> = {
-    init : unit -> 'model * Cmd<'msg>
+type Program<'arg,'model,'msg> = {
+    init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
-    trace : string -> ('model*'msg) -> unit 
 }
 
 /// Program module - functions to manipulate program instances 
 module Program =
     /// Typical program, produces new commands as part of init() and update() as well as the new model
-    let mkProgram (init:unit -> 'model * Cmd<'msg>) (update:'msg -> 'model -> 'model * Cmd<'msg>) =
+    let mkProgram (init:'arg -> 'model * Cmd<'msg>) (update:'msg -> 'model -> 'model * Cmd<'msg>) =
         { init = init
           update = update
-          subscribe = fun _ -> Cmd.none
-          trace = fun _ -> ignore }
+          subscribe = fun _ -> Cmd.none }
     
-    /// Simple program that only produces new model in init() and update().
+    /// Simple program that produces only new model in init() and update().
     /// Good for tutorials
-    let mkSimple (init:unit -> 'model) (update:'msg -> 'model -> 'model) =
+    let mkSimple (init:'arg -> 'model) (update:'msg -> 'model -> 'model) =
         { init = init >> fun state -> state,Cmd.none
           update = fun msg -> update msg >> fun state -> state,Cmd.none
-          subscribe = fun _ -> Cmd.none
-          trace = fun _ -> ignore }
+          subscribe = fun _ -> Cmd.none }
 
     /// Subscribe to external source of events
-    let withSubscription (subscribe : 'model -> Cmd<'msg>) (program:Program<'model,'msg>) = 
+    let withSubscription (subscribe : 'model -> Cmd<'msg>) (program:Program<'arg,'model,'msg>) = 
         { program with subscribe = subscribe }
 
     /// Trace all the updates to the console
-    let withConsoleTrace (program:Program<'model,'msg>) = 
-        let trace text (model:'model,msg:'msg) = 
+    let withConsoleTrace (program:Program<'arg,'model,'msg>) = 
+        let trace text msg model = 
             Fable.Import.Browser.console.log (text, model, msg)
-        { program with trace = trace} 
+            program.update msg model
+        { program with update = trace "Updating:"} 
 
     /// Trace all the messages as they update the model
-    let withTrace (program:Program<'model,'msg>) trace = 
-        { program with trace = trace} 
+    let withTrace (program:Program<'arg,'model,'msg>) trace = 
+        { program 
+            with update = fun msg model -> trace msg model; program.update msg model} 
 
-    /// Start the dispatch loop
-    let run setState (program:Program<'model,'msg>) : 'msg Dispatch=
-        let (model,cmd) = program.init()
+    /// Start the the program loop.
+    /// Returns the dispatch function to feed new messages into the loop.
+    /// arg: argument to pass to the init() function.
+    /// setState: function that will be called with the new model state.
+    /// program: program created with 'mkSimple' or 'mkProgram'.
+    let runWith (arg:'arg) setState (program:Program<'arg,'model,'msg>) : 'msg Dispatch=
+        let (model,cmd) = program.init arg
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
             let rec loop state = 
                 async {
@@ -104,7 +107,6 @@ module Program =
                     with ex -> 
                         Fable.Import.Browser.console.error ("unable to setState:", state, ex)
                     let! msg = mb.Receive()
-                    program.trace "Updating: " (state,msg)
                     try 
                         let (model',cmd') = program.update msg state
                         cmd' |> List.iter (fun sub -> sub mb.Post)
@@ -118,3 +120,7 @@ module Program =
         program.subscribe model 
         @ cmd |> List.iter (fun sub -> sub inbox.Post)
         inbox.Post
+
+    /// Start the dispatch loop with `unit` for the init() function.
+    let run setState (program:Program<unit,'model,'msg>) : 'msg Dispatch = runWith () setState program
+        
