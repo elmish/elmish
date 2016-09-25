@@ -5,6 +5,9 @@ open Fable.Elmish
 open Fable.Import.Fetch
 open Fable.Helpers.Fetch
 open Fable.Core.Extensions
+open Fable.Extras.Promise
+open Fable.Extras.Cmd
+open Fable.Extras.PromiseBuilderImp
 
 // Model
 type Status =
@@ -21,7 +24,7 @@ type Msg =
   | ChangeInput of string
   | SendRequest
   | Success of string
-  | Error of exn
+  | Error of obj
 
 
 let init () =
@@ -30,10 +33,10 @@ let init () =
     Status = NotStarted }, []
 
 // Helpers
-let getUrl url =
-  async {
-    let! res = fetchAsync(url, [])
-    return! Async.AwaitPromise(res.text())
+let getUrl ( url : string ) =
+  promise {
+    let! res = GlobalFetch.fetch url
+    return! res.text()
   }
 
 let statusString s =
@@ -50,14 +53,14 @@ let update msg model : Model*Cmd<Msg> =
   | SendRequest ->
     { model with
         StatusStr = (statusString InProgress)
-        Status = InProgress }, Cmd.ofAsync (getUrl model.Url) Success Error
+        Status = InProgress }, Fable.Extras.Cmd.ofPromise (fun _ -> getUrl model.Url) Success Error
   | Success str->
     { model with
         StatusStr = str
         Status = Complete }, []
   | Error e ->
     { model with
-        StatusStr = e.Message
+        StatusStr = string e
         Status = Complete }, []
 
 module R = Fable.Helpers.ReactNative
