@@ -6,16 +6,23 @@ open Elmish
 
 /// Parser is a function to turn the string in the address bar into
 /// data that is easier for your app to handle.
-type Parser<'a> = (Location -> 'a)
+type Parser<'a> = Location -> 'a
 
 type Navigable<'msg> = 
     | Change of Location
     | UserMsg of 'msg
 
+module Navigation =
+    let modifyUrl newUrl =
+        []
+
 module Program =
   /// Add the navigation to a program made with `mkProgram` or `mkSimple`.
   /// urlUpdate: similar to `update` function, but receives parsed url instead of message as an input.
-  let withNavigation (parser:Parser<'a>) (urlUpdate:'a->'model->('model * Cmd<'msg>)) (program:Program<'a,'model,'msg>) =
+  let runWithNavigation (parser:Parser<'a>) 
+                        (urlUpdate:'a->'model->('model * Cmd<'msg>)) 
+                        (setState:'model->unit) 
+                        (program:Program<'a,'model,'msg>) =
     let map (model, cmd) = 
         model, cmd |> Cmd.map UserMsg
     
@@ -38,8 +45,12 @@ module Program =
     let init () = 
         program.init (parser window.location) |> map
 
-    { init = init 
-      update = update
-      subscribe = subs }
+    let dispatch = 
+        { init = init 
+          update = update
+          subscribe = subs }
+        |> Program.run setState
+    
+    UserMsg >> dispatch
 
 

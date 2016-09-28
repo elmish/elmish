@@ -2,7 +2,7 @@ module AwesomeState
 
 open AwesomeTypes
 open Fable.Core
-open Fable.Elmish
+open Elmish
 
 let init ():Model*Cmd<Msg> =
     let (mainProps, mainCmd) = MainState.init()

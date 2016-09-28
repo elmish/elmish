@@ -31,7 +31,6 @@ Usage:
 open Elmish.Browser.Navigation
 
 Program.mkProgram init update
-|> Program.withNavigation parser urlUpdate
-|> Program.run setState
+|> Program.runWithNavigation parser urlUpdate setState
 
 ```

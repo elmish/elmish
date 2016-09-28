@@ -97,11 +97,12 @@ module PromiseBuilderImp =
 
 
 /// Elmish Cmd extension for promises
+[<RequireQualifiedAccess>]
 module Cmd =
     /// Command to call `promise` block and map the results
-    let ofPromise (task:unit->Fable.Import.JS.Promise<_>) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+    let ofPromise (task:'a->Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
         let bind (dispatch:'msg -> unit) =
-            task()
+            task arg
             |> Promise.onSuccess (ofSuccess >> dispatch)
             |> Promise.onFail (ofError >> dispatch)
             |> ignore

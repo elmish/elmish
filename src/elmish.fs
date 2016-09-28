@@ -11,6 +11,7 @@ type Cmd<'msg> = list<'msg Sub>
 
 /// Cmd module creating and manipulating actions 
 /// may produce one or more messages message(s)
+[<RequireQualifiedAccess>]
 module Cmd =
     /// None - no commands, also known as `[]`
     let none : Cmd<'msg> =
@@ -30,10 +31,10 @@ module Cmd =
 
     /// Command that will evaluate async block and map the result 
     /// into success or error (of exception) 
-    let ofAsync (task:Async<_>) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+    let ofAsync (task:'a->Async<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
         let bind dispatch =
             async {
-                let! r = task |> Async.Catch
+                let! r = task arg |> Async.Catch
                 dispatch (match r with
                          | Choice1Of2 x -> ofSuccess x
                          | Choice2Of2 x -> ofError x)
@@ -42,10 +43,10 @@ module Cmd =
 
     /// Command to evaluate a simple function and map the result 
     /// into success or error (of exception) 
-    let ofFunc (task:unit->_) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+    let ofFunc (task:'a->_) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
         let bind (dispatch:'msg -> unit) =
             try 
-                task()
+                task arg
                 |> (ofSuccess >> dispatch)
             with x -> 
                 x |> (ofError >> dispatch)
@@ -123,4 +124,3 @@ module Program =
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run setState (program:Program<unit,'model,'msg>) : 'msg Dispatch = runWith () setState program
-        

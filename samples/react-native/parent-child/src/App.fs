@@ -8,7 +8,7 @@ open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 open AwesomeTypes
 
-open Fable.Elmish
+open Elmish
 
 let program = Program.mkProgram AwesomeState.init AwesomeState.update
               |> Program.withSubscription AwesomeState.subscribe

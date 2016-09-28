@@ -1,0 +1,27 @@
+{
+  "name": "fable-elmish-react",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "fable -w",
+    "start": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+  },
+  "dependencies": {
+    "core-js": "^2.4.0",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "fable-core": "^0.6.1"
+  },
+  "devDependencies": {
+    "fable-elmish": "^0.1.0",
+    "fable-import-fetch": "^0.2.4",
+    "fable-import-react": "^0.5.2",
+    "react-hot-loader": "^1.3.0",
+    "source-map-loader": "^0.1.5",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "engines": {
+    "fable": "^0.6.4"
+  }
+}

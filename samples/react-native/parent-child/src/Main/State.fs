@@ -3,8 +3,7 @@ module MainState
 open MainTypes 
 open Fable.Import.Fetch
 open Fable.Core
-open Fable.Extras
-open Fable.Elmish
+open Elmish
 
 let getTime () = 
     promise {
@@ -25,7 +24,7 @@ let subscribe model =
 
 let update msg model : MainState * Cmd<MainMsg> =
     match msg with
-    | GetTime -> model, (Cmd.ofPromise getTime Retrieved (string >> Error))
+    | GetTime -> model, (Cmd.ofPromise getTime () Retrieved (string >> Error))
     | Error str
     | Retrieved str -> { model with retrieved = str }, Cmd.none
     | Current str -> { model with current = str }, Cmd.none
