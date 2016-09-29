@@ -1,6 +1,6 @@
 (**
- - title: Counter
- - tagline: The famous Increment/Decrement ported from Elm
+ - title: Navigation demo
+ - tagline: The router sample ported from Elm
 *)
 
 
@@ -35,6 +35,7 @@ let toHash =
     | Blog id -> "#blog/" + (string id)
     | Search query -> "#search/" + query
 
+/// The URL is turned into a Result.
 let pageParser : Parser<Page->_,_> =
   oneOf
     [ format Home (s "home")
@@ -59,10 +60,8 @@ let get query =
         let! r = Fable.Helpers.Fetch.fetchAs ("http://api.zippopotam.us/us/" + query, [])
         return r |> unbox<ZipResponse> |> fun r -> r.places |> List.map (fun p -> p.``place name`` + ", " + p.state)
     }
-
-(* The URL is turned into a result. If the URL is valid, we just update our
-model to the new count. If it is not a valid URL, we modify the URL to make
-sense.
+(* If the URL is valid, we just update our model or issue a command. 
+If it is not a valid URL, we modify the URL to whatever makes sense.
 *)
 let urlUpdate (result:Result<Page,string>) model =
   match result with

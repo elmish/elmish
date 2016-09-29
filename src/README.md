@@ -37,6 +37,7 @@ open Elmish
 Usage:
 ```fsharp
 open Elmish.UrlParser
+```
 
 ## Navigation: Integrate with browser's location and history.
 > Include source: `elmish-browser-nav.fs`
