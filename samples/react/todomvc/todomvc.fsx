@@ -9,11 +9,11 @@
 #r "node_modules/fable-core/Fable.Core.dll"
 #load "node_modules/fable-import-react/Fable.Import.React.fs"
 #load "node_modules/fable-import-react/Fable.Helpers.React.fs"
-#load "node_modules/fable-elmish/fable-elmish.fs"
+#load "node_modules/fable-elmish/elmish.fs"
 
 open Fable.Core
 open Fable.Import
-open Fable.Elmish
+open Elmish
 
 let [<Literal>] ESC_KEY = 27.
 let [<Literal>] ENTER_KEY = 13.
@@ -87,10 +87,6 @@ type Msg =
     | ChangeVisibility of string
 
 
-let focus id =
-    let noop _ = NoOp 
-    Cmd.ofFunc (fun () -> ()) noop noop // TODO
-
 
 // How we update our Model on a given Msg?
 let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
@@ -114,7 +110,7 @@ let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
     | EditingEntry (id,isEditing) ->
         let updateEntry t =
           if t.id = id then { t with editing = isEditing } else t
-        { model with entries = List.map updateEntry model.entries }, focus ("#todo-" + (string id))
+        { model with entries = List.map updateEntry model.entries }, []
 
     | UpdateEntry (id,task) ->
         let updateEntry t =
@@ -141,7 +137,7 @@ let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
 
 let setStorage (model:Model) : Cmd<Msg> =
     let noop _ = NoOp 
-    Cmd.ofFunc (fun () -> S.save model) noop noop // TODO
+    Cmd.ofFunc S.save model noop noop // TODO
 
 let updateWithStorage (msg:Msg) (model:Model) =
   let (newModel, cmds) = update msg model

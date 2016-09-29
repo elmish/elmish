@@ -1,7 +1,7 @@
 ﻿module AwesomeApp
 
 open Fable.Import
-open Fable.Elmish
+open Elmish
 
 module C = Container
 

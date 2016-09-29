@@ -1,6 +1,6 @@
 ﻿module Counter
 
-open Fable.Elmish
+open Elmish
 
 // Model
 type Model =

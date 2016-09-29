@@ -14,7 +14,7 @@ let appReferences  =
       !! "src/*.fsproj"
 
 // version info
-let version = "0.1"  // or retrieve from CI server
+let version = "0.3"  // or retrieve from CI server
 
 // Targets
 Target "Clean" (fun _ ->
@@ -31,6 +31,14 @@ Target "Npm" (fun _ ->
     Npm (fun p ->
             { p with
                 Command = Install Standard
+                WorkingDirectory = "./src"
+            })
+)
+
+Target "Publish" (fun _ ->
+    Npm (fun p ->
+            { p with
+                Command = Custom "publish"
                 WorkingDirectory = "./src"
             })
 )

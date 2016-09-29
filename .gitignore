@@ -12,4 +12,6 @@ npm-debug.log
 .paket/paket.exe
 packages/
 build/
-src/**/
+obj
+bin
+

@@ -7,11 +7,11 @@
 #r "node_modules/fable-core/Fable.Core.dll"
 #load "node_modules/fable-import-react/Fable.Import.React.fs"
 #load "node_modules/fable-import-react/Fable.Helpers.React.fs"
-#load "node_modules/fable-elmish/fable-elmish.fs"
+#load "node_modules/fable-elmish/elmish.fs"
 
 open Fable.Core
 open Fable.Import
-open Fable.Elmish
+open Elmish
 
 
 
@@ -78,5 +78,5 @@ type App() as this =
 
 ReactDom.render(
         R.com<App,_,_> () [],
-        Browser.document.getElementsByClassName("counter").[0]
+        Browser.document.getElementsByClassName("elmish-app").[0]
     ) |> ignore

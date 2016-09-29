@@ -1,6 +1,6 @@
 ﻿module Container
 
-open Fable.Elmish
+open Elmish
 
 module c = Counter
 

@@ -1,13 +1,10 @@
 ﻿module AwesomeApp
 
 open Fable.Import
-open Fable.Elmish
 open Fable.Import.Fetch
 open Fable.Helpers.Fetch
 open Fable.Core.Extensions
-open Fable.Extras.Promise
-open Fable.Extras.Cmd
-open Fable.Extras.PromiseBuilderImp
+open Elmish
 
 // Model
 type Status =
@@ -53,7 +50,7 @@ let update msg model : Model*Cmd<Msg> =
   | SendRequest ->
     { model with
         StatusStr = (statusString InProgress)
-        Status = InProgress }, Fable.Extras.Cmd.ofPromise (fun _ -> getUrl model.Url) Success Error
+        Status = InProgress }, Cmd.ofPromise getUrl model.Url Success Error
   | Success str->
     { model with
         StatusStr = str
@@ -72,7 +69,7 @@ let view model dispatch =
       [ TextInputProperties.Style
           [ Height 20.
             JustifyContent JustifyContent.SpaceAround]
-        OnChangeText (fun t -> ChangeInput t |> dispatch)
+        OnChangeText (ChangeInput >> dispatch)
         AutoFocus true
         Placeholder "http://ip.jsontest.com/"]
       ""

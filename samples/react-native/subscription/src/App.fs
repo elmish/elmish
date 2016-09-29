@@ -7,7 +7,7 @@ open Fable.Import.ReactNative
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 
-open Fable.Elmish
+open Elmish
 
 // Model
 
