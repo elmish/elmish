@@ -2,7 +2,7 @@ namespace Elmish
 
 open System
 
-/// Dispatch function - feed new message into the provessing loop 
+/// Dispatch function - feed new message into the processing loop 
 type Dispatch<'msg> = 'msg -> unit 
 /// Message subscriber function 
 type Sub<'msg> = 'msg Dispatch -> unit

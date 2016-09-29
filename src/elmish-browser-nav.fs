@@ -13,8 +13,14 @@ type Navigable<'msg> =
     | UserMsg of 'msg
 
 module Navigation =
-    let modifyUrl newUrl =
-        []
+    let modifyUrl (newUrl:string) =
+        [fun _ -> history.replaceState((), "", newUrl)]
+
+    let newUrl (newUrl:string) =
+        [fun _ -> window.location.hash <- newUrl]
+
+    let jump (n:int) =
+        [fun _ -> history.go n]
 
 module Program =
   /// Add the navigation to a program made with `mkProgram` or `mkSimple`.
@@ -34,8 +40,8 @@ module Program =
             program.update userMsg model
         |> map
 
-    let locationChanges dispatch = 
-        window.addEventListener_hashchange(fun _ -> window.location |> (Change >> dispatch) |> box)
+    let locationChanges (dispatch:Dispatch<_ Navigable>) = 
+        window.addEventListener_popstate(fun ev -> Change window.location |> dispatch |> box)
     
     let subs model =
         Cmd.batch

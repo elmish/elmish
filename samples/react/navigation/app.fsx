@@ -51,13 +51,13 @@ type Msg =
   | FetchSuccess of string*(string list)
 
 
-type Place = { ``place name``: string; state: string }
+type Place = { ``place name``: string; state: string; }
 type ZipResponse = { places : Place list }
 
 let get query =
     async {
-        let! r = Fable.Helpers.Fetch.fetchAs<ZipResponse> ("http://api.zippopotam.us/us/" + query, [])
-        return r.places |> List.map (fun p -> p.``place name`` + ", " + p.state)
+        let! r = Fable.Helpers.Fetch.fetchAs ("http://api.zippopotam.us/us/" + query, [])
+        return r |> unbox<ZipResponse> |> fun r -> r.places |> List.map (fun p -> p.``place name`` + ", " + p.state)
     }
 
 (* The URL is turned into a result. If the URL is valid, we just update our
@@ -81,6 +81,9 @@ let urlUpdate (result:Result<Page,string>) model =
 let init result =
   urlUpdate result { page = Home; query = ""; cache = Map.empty }
 
+let traceUrlUpdate (result:Result<Page,string>) m = 
+    console.log("UrlUpdate:", result)
+    urlUpdate result m
 
 
 (* A relatively normal update function. The only notable thing here is that we
@@ -95,12 +98,13 @@ let update msg model =
 
   | Enter ->
       let newPage = Search model.query
-      { model with page = newPage }, []// [ Navigation.newUrl (toHash newPage) ]
+      { model with page = newPage }, Navigation.newUrl (toHash newPage)
 
   | FetchFailure (query,_) ->
       { model with cache = Map.add query [] model.cache }, []
 
-  | FetchSuccess (query,locations) -> { model with cache = Map.add query locations model.cache }, []
+  | FetchSuccess (query,locations) -> 
+      { model with cache = Map.add query locations model.cache }, []
 
 
 
@@ -125,7 +129,7 @@ let internal centerStyle direction =
     ]
 
 let words size message =
-  span [ Style [ size |> sprintf "%dpx" |> box |> FontSizeAdjust ] ] [ unbox message ]
+  span [ Style [ unbox("fontSize", size |> sprintf "%dpx") ] ] [ unbox message ]
 
 let internal onEnter msg dispatch =
     function 
@@ -139,19 +143,16 @@ let viewPage model dispatch =
   match model.page with
   | Home ->
       [ words 60 "Welcome!"
-        unbox "Play with the links and search bar above. (Press ENTER to trigger the zip code search.)"
-      ]
+        unbox "Play with the links and search bar above. (Press ENTER to trigger the zip code search.)" ]
 
   | Blog id ->
       [ words 20 "This is blog post number"
-        words 100 (string id)
-      ]
+        words 100 (string id) ]
 
   | Search query ->
       match Map.tryFind query model.cache with
       | Some [] ->
           [ unbox ("No results found for " + query + ". Need a valid zip code like 90210.") ]
-
       | Some (location :: _) ->
           [ words 20 ("Zip code " + query + " is in " + location + "!") ]
       | _ ->
@@ -170,7 +171,7 @@ let view model dispatch =
             [ Placeholder "Enter a zip code (e.g. 90210)"
               Value (U2.Case1 model.query)
               onEnter Enter dispatch
-              OnInput (fun ev -> ev.target?value |> unbox |> dispatch)
+              OnInput (fun ev -> Query (unbox ev.target?value) |> dispatch)
               Style [ CSSProp.Width "200px"; Margin "0 20px" ]
             ]
             []
@@ -196,7 +197,7 @@ type App() as this =
 
     let dispatch = 
         program 
-        |> Program.runWithNavigation hashParser urlUpdate safeState
+        |> Program.runWithNavigation hashParser traceUrlUpdate safeState
 
     member this.componentDidMount() =
         this.props <- true
