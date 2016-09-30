@@ -17,7 +17,10 @@ module Navigation =
         [fun _ -> history.replaceState((), "", newUrl)]
 
     let newUrl (newUrl:string) =
-        [fun _ -> window.location.hash <- newUrl]
+        [fun _ -> history.pushState((), "", newUrl)
+                  document.createEvent_PopStateEvent()
+                  |> window.dispatchEvent 
+                  |> ignore ]
 
     let jump (n:int) =
         [fun _ -> history.go n]
