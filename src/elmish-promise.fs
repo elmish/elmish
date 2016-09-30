@@ -91,19 +91,18 @@ module Promise =
         member inline x.ReturnFrom(a) = a
         member inline x.Zero() = Fable.Import.JS.Promise.resolve()
 
+    /// Elmish Cmd extension for promises
+    [<RequireQualifiedAccess>]
+    module Cmd =
+        /// Command to call `promise` block and map the results
+        let ofPromise (task:'a->Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+            let bind (dispatch:'msg -> unit) =
+                task arg
+                |> onSuccess (ofSuccess >> dispatch)
+                |> onFail (ofError >> dispatch)
+                |> ignore
+            [bind]
+
 [<AutoOpen>]
 module PromiseBuilderImp =
     let promise = Promise.PromiseBuilder()
-
-
-/// Elmish Cmd extension for promises
-[<RequireQualifiedAccess>]
-module Cmd =
-    /// Command to call `promise` block and map the results
-    let ofPromise (task:'a->Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
-        let bind (dispatch:'msg -> unit) =
-            task arg
-            |> Promise.onSuccess (ofSuccess >> dispatch)
-            |> Promise.onFail (ofError >> dispatch)
-            |> ignore
-        [bind]
