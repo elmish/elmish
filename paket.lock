@@ -1,3 +1,6 @@
 NUGET
   remote: https://www.nuget.org/api/v2
     FAKE (4.39)
+    Node.js (5.3)
+    Npm.js (2.13.1)
+      Node.js (>= 0.12.7)
