@@ -38,9 +38,9 @@ let update (msg:Msg) {count = count} =
 // rendering views with ReactNative
 module R = Fable.Helpers.ReactNative
 
-let view {count = count} dispatch =
+let view {count = count} (dispatch:Dispatch<Msg>) =
   let onClick msg =
-    fun _ -> msg |> dispatch 
+    fun () -> msg |> dispatch 
 
   R.view []
     [ Styles.button "-" (onClick Decrement)

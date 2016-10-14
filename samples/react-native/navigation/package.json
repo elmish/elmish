@@ -1,0 +1,25 @@
+{
+  "name": "navigation",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "firstbuild": "npm install && fable",
+    "prebuild": "npm install",
+    "build": "fable",
+    "watch": "fable -w",
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "core-js": "^2.4.1",
+    "fable-core": "^0.6.9",
+    "react": "15.3.2",
+    "react-native": "0.33.0"
+  },
+  "devDependencies": {
+    "fable-compiler": "^0.6.15",
+    "fable-elmish": "^0.3.2",
+    "fable-import-fetch": "^0.2.4",
+    "fable-import-react": "^0.5.2",
+    "fable-import-react-native": "^0.11.0"
+  }
+}

@@ -34,14 +34,14 @@ let inline buttonStyle<'a> =
     TouchableHighlightProperties.Style [
         ViewStyle.BackgroundColor brandPrimary
         ViewStyle.BorderRadius borderRadius
-        ViewStyle.Margin 5.
+        Margin 5.
       ]
 
 let inline defaultText<'a> =
     TextProperties.Style [ 
         TextStyle.Color textColor
         TextStyle.TextAlign TextAlignment.Center
-        TextStyle.Margin 5.
+        Margin 5.
         TextStyle.FontSize fontSizeBase
       ]
 
@@ -49,37 +49,37 @@ let inline titleText<'a> =
     TextProperties.Style [ 
         TextStyle.Color textColor
         TextStyle.TextAlign TextAlignment.Center
-        TextStyle.Margin 15.
+        Margin 15.
         TextStyle.FontSize titleFontSize
       ] 
 
 let inline sceneBackground<'a> =
     ViewProperties.Style [ 
-        ViewStyle.AlignSelf Alignment.Stretch
-        ViewStyle.Padding 20.
+        AlignSelf Alignment.Stretch
+        Padding 20.
         ViewStyle.ShadowColor shadowColor
         ViewStyle.ShadowOpacity 0.8
         ViewStyle.ShadowRadius 3.
-        ViewStyle.JustifyContent JustifyContent.Center
-        ViewStyle.Flex 1
+        JustifyContent JustifyContent.Center
+        Flex 1.
         ViewStyle.BackgroundColor backgroundColor
       ]
 
 let inline button label onPress =
     text [ defaultText ] label
-    |> touchableHighlight [
+    |> touchableHighlightWithChild [
         buttonStyle
         TouchableHighlightProperties.UnderlayColor touched
         OnPress onPress]
 
 let inline verticalButton label onPress =
     text [ defaultText ] label
-    |> touchableHighlight [
+    |> touchableHighlightWithChild [
         TouchableHighlightProperties.Style [
             ViewStyle.BackgroundColor brandPrimary
             ViewStyle.BorderRadius borderRadius
-            ViewStyle.Margin 5.
-            ViewStyle.Padding 5.
+            Margin 5.
+            Padding 5.
         ]
         TouchableHighlightProperties.UnderlayColor touched
         OnPress onPress]

@@ -1,0 +1,15 @@
+export const brandPrimary = "#428bca";
+export const brandInfo = "#5bc0de";
+export const brandSuccess = "#5cb85c";
+export const brandDanger = "#d9534f";
+export const brandWarning = "#f0ad4e";
+export const brandSidebar = "#252932";
+export const inverseTextColor = "#000";
+export const textColor = "#FFFFFF";
+export const shadowColor = "#000000";
+export const backgroundColor = "#615A5B";
+export const inputBackgroundColor = "#251D1C";
+export const touched = "#5499C4";
+export const fontSizeBase = 15;
+export const titleFontSize = 17;
+export const borderRadius = 4;

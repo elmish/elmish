@@ -62,6 +62,7 @@ let update msg model : Model*Cmd<Msg> =
 
 module R = Fable.Helpers.ReactNative
 open R.Props
+open R.Props.TextInput
 
 let view model dispatch =
   R.view [] [

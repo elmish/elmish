@@ -39,8 +39,3 @@ buck-out/
 \.buckd/
 android/app/libs
 android/keystores/debug.keystore
-
-# Fable
-out/
-.vscode/.react/
-.vscode/launchReactNative.js

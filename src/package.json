@@ -1,6 +1,6 @@
 {
   "name": "fable-elmish",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "Elm-like architecture core for Fable F# apps.",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "scripts": {
   },
   "dependencies": {
-    "fable-core": "^0.6.1"
+    "fable-core": "^0.6.8"
   },
   "keywords": [
     "Elm",

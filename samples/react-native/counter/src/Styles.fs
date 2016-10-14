@@ -32,54 +32,54 @@ let [<Literal>] borderRadius = 4.
 
 let inline buttonStyle<'a> =
     TouchableHighlightProperties.Style [
-        ViewStyle.BackgroundColor brandPrimary
-        ViewStyle.BorderRadius borderRadius
-        ViewStyle.Margin 5.
+        BackgroundColor brandPrimary
+        BorderRadius borderRadius
+        Margin 5.
       ]
 
 let inline defaultText<'a> =
     TextProperties.Style [ 
-        TextStyle.Color textColor
-        TextStyle.TextAlign TextAlignment.Center
-        TextStyle.Margin 5.
-        TextStyle.FontSize fontSizeBase
+        Color textColor
+        TextAlign TextAlignment.Center
+        Margin 5.
+        FontSize fontSizeBase
       ]
 
 let inline titleText<'a> =
     TextProperties.Style [ 
-        TextStyle.Color textColor
-        TextStyle.TextAlign TextAlignment.Center
-        TextStyle.Margin 15.
-        TextStyle.FontSize titleFontSize
+        Color textColor
+        TextAlign TextAlignment.Center
+        Margin 15.
+        FontSize titleFontSize
       ] 
 
 let inline sceneBackground<'a> =
     ViewProperties.Style [ 
-        ViewStyle.AlignSelf Alignment.Stretch
-        ViewStyle.Padding 20.
-        ViewStyle.ShadowColor shadowColor
-        ViewStyle.ShadowOpacity 0.8
-        ViewStyle.ShadowRadius 3.
-        ViewStyle.JustifyContent JustifyContent.Center
-        ViewStyle.Flex 1
-        ViewStyle.BackgroundColor backgroundColor
+        AlignSelf Alignment.Stretch
+        Padding 20.
+        ShadowColor shadowColor
+        ShadowOpacity 0.8
+        ShadowRadius 3.
+        JustifyContent JustifyContent.Center
+        Flex 1.
+        BackgroundColor backgroundColor
       ]
 
 let inline button label onPress =
     text [ defaultText ] label
-    |> touchableHighlight [
+    |> touchableHighlightWithChild [
         buttonStyle
         TouchableHighlightProperties.UnderlayColor touched
         OnPress onPress]
 
 let inline verticalButton label onPress =
     text [ defaultText ] label
-    |> touchableHighlight [
+    |> touchableHighlightWithChild [
         TouchableHighlightProperties.Style [
-            ViewStyle.BackgroundColor brandPrimary
-            ViewStyle.BorderRadius borderRadius
-            ViewStyle.Margin 5.
-            ViewStyle.Padding 5.
+            BackgroundColor brandPrimary
+            BorderRadius borderRadius
+            Margin 5.
+            Padding 5.
         ]
         TouchableHighlightProperties.UnderlayColor touched
         OnPress onPress]

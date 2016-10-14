@@ -10,8 +10,12 @@ let buildDir  = "./build/"
 
 
 // Filesets
-let appReferences  =
+let sources  =
       !! "src/*.fsproj"
+
+// Samples
+let samples  =
+      !! "samples/**/fableconfig.json"
 
 // version info
 let version = "0.3"  // or retrieve from CI server
@@ -22,10 +26,23 @@ Target "Clean" (fun _ ->
 )
 
 Target "Build" (fun _ ->
-    // compile all projects below src/app/
-    MSBuildDebug buildDir "Build" appReferences
+    // compile all projects below src/
+    MSBuildDebug buildDir "Build" sources
         |> Log "AppBuild-Output: "
 )
+
+Target "Samples" (fun _ ->
+    // compile all sample scripts
+    samples
+    |> Seq.iter (fun s -> 
+                    let dir = IO.Path.GetDirectoryName s
+                    Npm (fun p ->
+                        { p with
+                            Command = Run "firstbuild"
+                            WorkingDirectory = dir
+                        }))
+)
+
 
 Target "Npm" (fun _ ->
     Npm (fun p ->
