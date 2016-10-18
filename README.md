@@ -58,4 +58,4 @@ Extras
 ## Elmish-React: boilerplate to get the React/Native root components registered and start the dispatch loop.
 `npm install --save-dev fable-elmish-react`
 
-For more information see the [readme](https://github.com/fable-compiler/fable-elmish/src/elmish-react/README.md)
+For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-react/README.md)
