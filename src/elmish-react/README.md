@@ -1,4 +1,5 @@
 Elmish-React: React extensions for [fable-elmish](https://github.com/fable-compiler/fable-elmish) applications.
+Implements boilerplate to setup a root component and get the dispatch loop started.
 =======
 
 

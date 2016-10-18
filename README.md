@@ -52,3 +52,10 @@ Application state is composed of the state of all its children, events buble up 
 The views delegate portions of the model to the appropriate child views to produce the new UI.
 
 
+Extras
+=======
+
+## Elmish-React: boilerplate to get the React/Native root components registered and start the dispatch loop.
+`npm install --save-dev fable-elmish-react`
+
+For more information see the [readme](https://github.com/fable-compiler/fable-elmish/src/elmish-react/README.md)
