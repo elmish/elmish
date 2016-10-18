@@ -14,7 +14,6 @@
 open Fable.Core
 open Fable.Import
 open Elmish
-open Elmish.React
 
 
 
@@ -58,6 +57,7 @@ let view {count = count} dispatch =
       R.button [ onClick Increment ] [ unbox "+" ]
     ]
 
+open Elmish.React
 // App
 Program.mkSimple init update view
 |> Program.withConsoleTrace

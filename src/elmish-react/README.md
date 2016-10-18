@@ -17,7 +17,7 @@ Program.toHtml Program.run "elmish-app" program
 
 ```
 
-## React (Html) helpers.
+## React (Native) helpers.
 > Include source: `elmish-native.fs`
 
 Usage:

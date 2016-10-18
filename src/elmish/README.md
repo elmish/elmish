@@ -46,7 +46,7 @@ Usage:
 ```fsharp
 open Elmish.Browser.Navigation
 
-Program.mkProgram init update
+Program.mkProgram init update view
 |> Program.runWithNavigation parser urlUpdate setState
 
 ```

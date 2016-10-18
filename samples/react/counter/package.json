@@ -1,5 +1,5 @@
 {
-  "name": "fable-elmish-react",
+  "name": "counter",
   "version": "1.0.0",
   "private": true,
   "scripts": {
