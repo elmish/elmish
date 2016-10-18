@@ -56,40 +56,49 @@ module Cmd =
     let ofSub (sub:Sub<'msg>) =
         [sub]
 
-type Program<'arg,'model,'msg> = {
+type Program<'arg,'model,'msg, 'view when 'model : equality> = {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
+    view : 'model -> Dispatch<'msg> -> 'view
 }
 
 /// Program module - functions to manipulate program instances 
 module Program =
     /// Typical program, produces new commands as part of init() and update() as well as the new model
-    let mkProgram (init:'arg -> 'model * Cmd<'msg>) (update:'msg -> 'model -> 'model * Cmd<'msg>) =
+    let mkProgram 
+        (init:'arg -> 'model * Cmd<'msg>) 
+        (update:'msg -> 'model -> 'model * Cmd<'msg>)
+        (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init
           update = update
+          view = view
           subscribe = fun _ -> Cmd.none }
     
     /// Simple program that produces only new model in init() and update().
     /// Good for tutorials
-    let mkSimple (init:'arg -> 'model) (update:'msg -> 'model -> 'model) =
+    let mkSimple 
+        (init:'arg -> 'model) 
+        (update:'msg -> 'model -> 'model)
+        (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init >> fun state -> state,Cmd.none
           update = fun msg -> update msg >> fun state -> state,Cmd.none
+          view = view
           subscribe = fun _ -> Cmd.none }
 
     /// Subscribe to external source of events
-    let withSubscription (subscribe : 'model -> Cmd<'msg>) (program:Program<'arg,'model,'msg>) = 
+    let withSubscription (subscribe : 'model -> Cmd<'msg>) (program:Program<'arg,'model,'msg,'view>) = 
         { program with subscribe = subscribe }
 
     /// Trace all the updates to the console
-    let withConsoleTrace (program:Program<'arg,'model,'msg>) = 
+    let withConsoleTrace (program:Program<'arg,'model,'msg,'view>) = 
         let trace text msg model = 
             Fable.Import.Browser.console.log (text, model, msg)
             program.update msg model
         { program with update = trace "Updating:"} 
 
     /// Trace all the messages as they update the model
-    let withTrace (program:Program<'arg,'model,'msg>) trace = 
+    let withTrace (program:Program<'arg,'model,'msg,'view>) trace = 
         { program 
             with update = fun msg model -> trace msg model; program.update msg model} 
 
@@ -98,22 +107,21 @@ module Program =
     /// arg: argument to pass to the init() function.
     /// setState: function that will be called with the new model state.
     /// program: program created with 'mkSimple' or 'mkProgram'.
-    let runWith (arg:'arg) setState (program:Program<'arg,'model,'msg>) : 'msg Dispatch=
+    let runWith (arg:'arg) (setState:'model->unit) (program:Program<'arg,'model,'msg,'view>) : 'msg Dispatch=
         let (model,cmd) = program.init arg
+        setState model 
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
-            let rec loop state = 
+            let rec loop (state:'model) = 
                 async {
-                    try 
-                        setState state 
-                    with ex -> 
-                        Fable.Import.Browser.console.error ("unable to setState:", state, ex)
                     let! msg = mb.Receive()
                     try 
                         let (model',cmd') = program.update msg state
+                        if state <> model' then
+                            setState model' 
                         cmd' |> List.iter (fun sub -> sub mb.Post)
                         return! loop model'
                     with ex -> 
-                        Fable.Import.Browser.console.error ("unable to update:", ex)
+                        Fable.Import.Browser.console.error ("unable to process a message:", ex)
                         return! loop state
                 }
             loop model
@@ -123,4 +131,4 @@ module Program =
         inbox.Post
 
     /// Start the dispatch loop with `unit` for the init() function.
-    let run setState (program:Program<unit,'model,'msg>) : 'msg Dispatch = runWith () setState program
+    let run setState (program:Program<unit,'model,'msg,'view>) : 'msg Dispatch = runWith () setState program

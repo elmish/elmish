@@ -62,24 +62,11 @@ let view {count = count} dispatch =
       Styles.button "+" (onClick Increment)
     ]
 
+open Elmish.ReactNative
 // App
-let program =
-    Program.mkProgram init update
+let runnable : obj->obj =
+    Program.mkProgram init update view
     |> Program.withSubscription subscription
     |> Program.withConsoleTrace
+    |> Program.toRunnable Program.run
 
-type App() as this =
-    inherit React.Component<obj, Model>()
-
-    let safeState state =
-        match unbox this.props with 
-        | false -> this.state <- state
-        | _ -> this.setState state
-
-    let dispatch = program |> Program.run safeState
-
-    member this.componentDidMount() =
-        this.props <- true
-
-    member this.render() =
-        view this.state dispatch

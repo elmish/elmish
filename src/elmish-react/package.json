@@ -1,0 +1,27 @@
+{
+  "name": "fable-elmish-react",
+  "version": "0.1.0",
+  "description": "React extensions for fable-elmish apps.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fable-compiler/fable-elmish.git"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+    "react": "^15.3.1",
+    "fable-core": "^0.6.8"
+  },
+  "keywords": [
+    "fable-elmish",
+    "F#",
+    "Fable",
+    "React"
+  ],
+  "author": "Eugene Tolmachev",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "fable-import-react": "^0.5.1",
+    "fable-elmish": "^0.4.0"
+  }
+}

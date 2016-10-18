@@ -8,10 +8,13 @@
 #load "node_modules/fable-import-react/Fable.Import.React.fs"
 #load "node_modules/fable-import-react/Fable.Helpers.React.fs"
 #load "node_modules/fable-elmish/elmish.fs"
+#load "node_modules/fable-elmish-react/elmish-app.fs"
+#load "node_modules/fable-elmish-react/elmish-react.fs"
 
 open Fable.Core
 open Fable.Import
 open Elmish
+open Elmish.React
 
 
 
@@ -56,27 +59,6 @@ let view {count = count} dispatch =
     ]
 
 // App
-let program = 
-    Program.mkSimple init update
-    |> Program.withConsoleTrace
-
-type App() as this =
-    inherit React.Component<obj, Model>()
-    
-    let safeState state =
-        match unbox this.props with 
-        | false -> this.state <- state
-        | _ -> this.setState state
-
-    let dispatch = program |> Program.run safeState
-
-    member this.componentDidMount() =
-        this.props <- true
-
-    member this.render() =
-        view this.state dispatch
-
-ReactDom.render(
-        R.com<App,_,_> () [],
-        Browser.document.getElementsByClassName("elmish-app").[0]
-    ) |> ignore
+Program.mkSimple init update view
+|> Program.withConsoleTrace
+|> Program.toHtml Program.run "elmish-app"

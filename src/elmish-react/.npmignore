@@ -1,0 +1,7 @@
+bin/
+obj/
+node_modules/
+*.fsproj
+paket.references
+fableconfig.json
+

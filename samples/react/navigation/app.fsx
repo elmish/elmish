@@ -13,6 +13,8 @@
 #load "node_modules/fable-elmish/elmish-browser-nav.fs"
 #load "node_modules/fable-elmish/elmish-result.fs"
 #load "node_modules/fable-elmish/elmish-parser.fs"
+#load "node_modules/fable-elmish-react/elmish-app.fs"
+#load "node_modules/fable-elmish-react/elmish-react.fs"
 
 open Fable.Core
 open Fable.Import
@@ -179,32 +181,9 @@ let view model dispatch =
       div [ centerStyle "column" ] (viewPage model dispatch)
     ]
 
-
+open Elmish.React
 
 // App
-let program = 
-    Program.mkProgram init update
-    |> Program.withConsoleTrace
-
-type App() as this =
-    inherit React.Component<obj, Model>()
-    
-    let safeState state =
-        match unbox this.props with 
-        | false -> this.state <- state
-        | _ -> this.setState state
-
-    let dispatch = 
-        program 
-        |> Program.runWithNavigation hashParser traceUrlUpdate safeState
-
-    member this.componentDidMount() =
-        this.props <- true
-
-    member this.render() =
-        view this.state dispatch
-
-ReactDom.render(
-        com<App,_,_> () [],
-        document.getElementsByClassName("elmish-app").[0]
-    ) |> ignore
+Program.mkProgram init update view
+|> Program.withConsoleTrace
+|> Program.toHtml (Program.runWithNavigation hashParser traceUrlUpdate) "elmish-app"

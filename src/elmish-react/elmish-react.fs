@@ -1,0 +1,18 @@
+namespace Elmish.React
+
+open System
+open Fable.Import.React
+open Fable.Core
+
+[<RequireQualifiedAccess>]
+module Program =
+    module R = Fable.Helpers.React
+
+    /// Render root React component inside html element identified by placeholderId 
+    let toHtml run placeholderId program =
+        let props = Props.ofProgram run program
+        
+        Fable.Import.React_Extensions.ReactDom.render(
+            R.com<Components.App<_>,_,_> props [],
+            Fable.Import.Browser.document.getElementsByClassName(placeholderId).[0]
+        ) |> ignore

@@ -4,7 +4,6 @@
     "projFile": "./app.fsx",
     "outDir": "out",
     "scripts": {
-        "prebuild": "npm install"
     },
     "targets": {
         "debug": {

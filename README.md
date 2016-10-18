@@ -40,7 +40,7 @@ A dispatch loop is responsible for running the [update cycle](http://www.elm-tut
 Command is an opaque data structure that when evaluated may produce one or more new messages.
 
 ### Tasks
-Tasks produce commands from side-effects, like reading a database, defined in Elmish as `async` or `promise` blocks, or just a plain function.
+Task is any code that will execute when a command is evalutated, like reading a database, defined in Elmish as `async` or `promise` blocks or just a plain function.
 
 ### Subscriptions
 These are external sources of events to process, defined as a F# functions that can dispatch new messages as they happen.

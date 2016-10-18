@@ -10,6 +10,8 @@
 #load "node_modules/fable-import-react/Fable.Import.React.fs"
 #load "node_modules/fable-import-react/Fable.Helpers.React.fs"
 #load "node_modules/fable-elmish/elmish.fs"
+#load "node_modules/fable-elmish-react/elmish-app.fs"
+#load "node_modules/fable-elmish-react/elmish-react.fs"
 
 open Fable.Core
 open Fable.Import
@@ -309,29 +311,8 @@ let view model dispatch =
           viewControls model.visibility model.entries dispatch ]
       infoFooter ]
 
-
+open Elmish.React
 // App
-let program = 
-    Program.mkProgram (S.load >> init) update
-    |> Program.withConsoleTrace
-
-type TodoApp() as this =
-    inherit React.Component<obj, Model>()
-    
-    let safeState state =
-        match unbox this.props with 
-        | false -> this.state <- state
-        | _ -> this.setState state
-
-    let dispatch = program |> Program.run safeState
-
-    member this.componentDidMount() =
-        this.props <- true
-
-    member this.render() =
-        view this.state dispatch
-
-ReactDom.render(
-        R.com<TodoApp,_,_> () [],
-        Browser.document.getElementsByClassName("todoapp").[0]
-    ) |> ignore
+Program.mkProgram (S.load >> init) update view
+|> Program.withConsoleTrace
+|> Program.toHtml Program.run "todoapp"

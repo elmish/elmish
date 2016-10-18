@@ -31,7 +31,7 @@ module Program =
   let runWithNavigation (parser:Parser<'a>) 
                         (urlUpdate:'a->'model->('model * Cmd<'msg>)) 
                         (setState:'model->unit) 
-                        (program:Program<'a,'model,'msg>) =
+                        (program:Program<'a,'model,'msg,'view>) =
     let map (model, cmd) = 
         model, cmd |> Cmd.map UserMsg
     
@@ -57,7 +57,8 @@ module Program =
     let dispatch = 
         { init = init 
           update = update
-          subscribe = subs }
+          subscribe = subs
+          view = fun model dispatch -> program.view model (UserMsg >> dispatch) }
         |> Program.run setState
     
     UserMsg >> dispatch
