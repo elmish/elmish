@@ -82,8 +82,8 @@ module Promise =
     /// Allows handing promise which is in rejected state. Propagates rejected promise, to allow chaining.
     /// Can be used for side-effects. 
     /// </summary>
-    let onFail (a : obj -> unit) (pr : Promise<'T>) : Promise<'T> =
-        pr.catch (unbox<Func<obj, U2<'T, PromiseLike<'T>>>> (fun reason -> a reason; ()))
+    let onFail (a : 'T -> unit) (pr : Promise<'R>) : Promise<'R> =
+        pr.catch (unbox<Func<obj, U2<'R, PromiseLike<'R>>>> (fun reason -> a <| unbox reason; reason))
 
     type PromiseBuilder() =
         member inline x.Bind(m,f) = bind f m
