@@ -105,9 +105,10 @@ module Program =
     /// Start the the program loop.
     /// Returns the dispatch function to feed new messages into the loop.
     /// arg: argument to pass to the init() function.
+    /// hasChanges: function to determine if setState should be called.
     /// setState: function that will be called with the new model state.
     /// program: program created with 'mkSimple' or 'mkProgram'.
-    let runWith (arg:'arg) hasChanged (setState:'model->unit) (program:Program<'arg,'model,'msg,'view>) : 'msg Dispatch=
+    let runWith (arg:'arg) (setState:'model->unit) (program:Program<'arg,'model,'msg,'view>) : 'msg Dispatch=
         let (model,cmd) = program.init arg
         setState model 
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
@@ -116,8 +117,7 @@ module Program =
                     let! msg = mb.Receive()
                     try 
                         let (model',cmd') = program.update msg state
-                        if hasChanged state model' then
-                            setState model' 
+                        setState model'
                         cmd' |> List.iter (fun sub -> sub mb.Post)
                         return! loop model'
                     with ex -> 
@@ -131,4 +131,4 @@ module Program =
         inbox.Post
 
     /// Start the dispatch loop with `unit` for the init() function.
-    let run setState (program:Program<unit,'model,'msg,'view>) : 'msg Dispatch = runWith () (<>) setState program
+    let run setState (program:Program<unit,'model,'msg,'view>) : 'msg Dispatch = runWith () setState program
