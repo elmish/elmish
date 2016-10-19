@@ -11,11 +11,15 @@ let buildDir  = "./build/"
 
 // Filesets
 let sources  =
-      !! "src/*.fsproj"
+      !! "src/*/*.fsproj"
 
 // Samples
 let samples  =
-      !! "samples/**/fableconfig.json"
+      !! "samples/*/*/fableconfig.json"
+
+// Samples
+let projects  =
+      !! "src/*/package.json"
 
 // version info
 let version = "0.3"  // or retrieve from CI server
@@ -36,6 +40,7 @@ Target "Samples" (fun _ ->
     samples
     |> Seq.iter (fun s -> 
                     let dir = IO.Path.GetDirectoryName s
+                    printf "Building: %s\n" dir
                     Npm (fun p ->
                         { p with
                             Command = Run "firstbuild"
@@ -43,20 +48,23 @@ Target "Samples" (fun _ ->
                         }))
 )
 
-
 Target "Npm" (fun _ ->
-    Npm (fun p ->
-            { p with
-                Command = Install Standard
-                WorkingDirectory = "./src"
-            })
+    projects
+    |> Seq.iter (fun s -> 
+                    let dir = IO.Path.GetDirectoryName s
+                    printf "Fetching dependencies for: %s\n" dir
+                    Npm (fun p ->
+                            { p with
+                                Command = Install Standard
+                                WorkingDirectory = dir
+                            }))
 )
 
 Target "Publish" (fun _ ->
     Npm (fun p ->
             { p with
                 Command = Custom "publish"
-                WorkingDirectory = "./src"
+                WorkingDirectory = "./src/elmish"
             })
 )
 
