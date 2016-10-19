@@ -1,0 +1,24 @@
+{
+    "module": "amd",
+    "sourceMaps": true,
+    "projFile": "./app.fsx",
+    "outDir": "out",
+    "scripts": {
+    },
+    "targets": {
+        "debug": {
+            "watch": true,
+            "symbols": [
+                "DEV_SERVER"
+            ],
+            "scripts": {
+            }
+        },
+        "production": {
+            "sourceMaps": false,
+            "scripts": {
+                "postbuild": "node node_modules/webpack/bin/webpack -p"
+            }
+        }
+    }
+}
