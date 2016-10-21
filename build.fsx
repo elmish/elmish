@@ -10,19 +10,20 @@ let buildDir  = "./build/"
 
 
 // Filesets
-let sources  =
+let projects  =
       !! "src/*/*.fsproj"
 
-// Samples
-let samples  =
-      !! "samples/*/*/fableconfig.json"
+// Fable projects
+let fables  =
+      !! "src/*/*/fableconfig.json"
+      ++ "samples/*/*/fableconfig.json"
 
-// Samples
-let projects  =
+// Artifact packages
+let packages  =
       !! "src/*/package.json"
 
 // version info
-let version = "0.3"  // or retrieve from CI server
+let version = "0.5"  // or retrieve from CI server
 
 // Targets
 Target "Clean" (fun _ ->
@@ -31,13 +32,12 @@ Target "Clean" (fun _ ->
 
 Target "Build" (fun _ ->
     // compile all projects below src/
-    MSBuildDebug buildDir "Build" sources
+    MSBuildDebug buildDir "Build" projects
         |> Log "AppBuild-Output: "
 )
 
-Target "Samples" (fun _ ->
-    // compile all sample scripts
-    samples
+Target "Transpile" (fun _ ->
+    fables
     |> Seq.iter (fun s -> 
                     let dir = IO.Path.GetDirectoryName s
                     printf "Building: %s\n" dir
@@ -48,19 +48,7 @@ Target "Samples" (fun _ ->
                         }))
 )
 
-Target "Npm" (fun _ ->
-    projects
-    |> Seq.iter (fun s -> 
-                    let dir = IO.Path.GetDirectoryName s
-                    printf "Fetching dependencies for: %s\n" dir
-                    Npm (fun p ->
-                            { p with
-                                Command = Install Standard
-                                WorkingDirectory = dir
-                            }))
-)
-
-Target "Publish" (fun _ ->
+Target "Publish-Elmish" (fun _ ->
     Npm (fun p ->
             { p with
                 Command = Custom "publish"
@@ -68,10 +56,18 @@ Target "Publish" (fun _ ->
             })
 )
 
+Target "Publish-Elmish-React" (fun _ ->
+    Npm (fun p ->
+            { p with
+                Command = Custom "publish"
+                WorkingDirectory = "./src/elmish-react"
+            })
+)
+
 // Build order
 "Clean"
-  ==> "Npm"
   ==> "Build"
+  ==> "Transpile"
 
 // start build
 RunTargetOrDefault "Build"

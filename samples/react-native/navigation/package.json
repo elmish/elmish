@@ -17,9 +17,9 @@
   },
   "devDependencies": {
     "fable-compiler": "^0.6.15",
-    "fable-elmish": "^0.3.2",
-    "fable-import-fetch": "^0.2.4",
     "fable-import-react": "^0.5.2",
-    "fable-import-react-native": "^0.11.0"
+    "fable-import-react-native": "^0.11.0",
+    "fable-elmish": "^0.4.0",
+    "fable-elmish-react": "^0.1.0"
   }
 }

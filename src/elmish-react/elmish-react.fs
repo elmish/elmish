@@ -10,7 +10,7 @@ module Program =
 
     /// Render root React component inside html element identified by placeholderId 
     let toHtml run placeholderId program =
-        let props = Props.ofProgram run program
+        let props = toAppProps run program
         
         Fable.Import.React_Extensions.ReactDom.render(
             R.com<Components.App<_>,_,_> props [],

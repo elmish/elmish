@@ -1,24 +1,10 @@
 {
-    "module": "amd",
+    "module": "es2015",
     "sourceMaps": true,
-    "projFile": "./app.fsx",
-    "outDir": "out",
-    "scripts": {
-    },
-    "targets": {
-        "debug": {
-            "watch": true,
-            "symbols": [
-                "DEV_SERVER"
-            ],
-            "scripts": {
-            }
-        },
-        "production": {
-            "sourceMaps": false,
-            "scripts": {
-                "postbuild": "node node_modules/webpack/bin/webpack -p"
-            }
-        }
+    "projFile": "./Fable.Elmish.React.fsproj",
+    "babelPlugins": ["transform-runtime"],
+    "outDir": "./es2015",
+    "refs": {
+        "Elmish": "fable-elmish/es2015"
     }
 }

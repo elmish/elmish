@@ -25,7 +25,7 @@ module R = Fable.Helpers.ReactNative
 let view model (dispatch:Dispatch<Msg>) =
   let onClick msg =
     fun _ -> msg |> dispatch
-  R.view []
+  R.view [Styles.sceneBackground]
     [ Styles.button "-" (fun _ -> dispatch Decrement)
       R.text [] (string model.count)
       Styles.button "+" (fun _ -> dispatch Increment) ]

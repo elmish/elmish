@@ -1,4 +1,8 @@
-*/
+obj/
+Fable.Core.*
+FSharp.Core.*
 *.fsproj
+*.fs
+*.mdb
 paket.references
 

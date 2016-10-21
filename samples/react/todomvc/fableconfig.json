@@ -5,6 +5,10 @@
     "outDir": "out",
     "scripts": {
     },
+    "refs": {
+        "Elmish": "fable-elmish/es2015",
+        "Elmish.React": "fable-elmish-react/es2015"
+    },
     "targets": {
         "debug": {
             "watch": true,

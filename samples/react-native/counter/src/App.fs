@@ -42,7 +42,7 @@ let view {count = count} (dispatch:Dispatch<Msg>) =
   let onClick msg =
     fun () -> msg |> dispatch 
 
-  R.view []
+  R.view [Styles.sceneBackground]
     [ Styles.button "-" (onClick Decrement)
       R.text [] (string count)
       Styles.button "+" (onClick Increment)

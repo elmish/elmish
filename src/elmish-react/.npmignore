@@ -1,7 +1,11 @@
-bin/
 obj/
 node_modules/
+Elmish.dll
+Fable.Core.*
+FSharp.Core.*
 *.fsproj
+*.fs
+*.mdb
 paket.references
 fableconfig.json
 

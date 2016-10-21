@@ -9,9 +9,8 @@
 #r "node_modules/fable-core/Fable.Core.dll"
 #load "node_modules/fable-import-react/Fable.Import.React.fs"
 #load "node_modules/fable-import-react/Fable.Helpers.React.fs"
-#load "node_modules/fable-elmish/elmish.fs"
-#load "node_modules/fable-elmish-react/elmish-app.fs"
-#load "node_modules/fable-elmish-react/elmish-react.fs"
+#r "node_modules/fable-elmish/bin/Elmish.dll"
+#r "node_modules/fable-elmish-react/bin/Elmish.React.dll"
 
 open Fable.Core
 open Fable.Import
@@ -313,6 +312,6 @@ let view model dispatch =
 
 open Elmish.React
 // App
-Program.mkProgram (S.load >> init) update view
-|> Program.withConsoleTrace
-|> Program.toHtml Program.run "todoapp"
+let p = Program.mkProgram (S.load >> init) update view
+
+Program.toHtml Program.run "todoapp" p

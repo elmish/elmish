@@ -1,12 +1,15 @@
 Elmish-React: React extensions for [fable-elmish](https://github.com/fable-compiler/fable-elmish) applications.
 =======
+Implements boilerplate to setup a root component and get the dispatch loop started.
 
+> Reference: `#r "node_modules/fable-elmish-react/bin/Elmish.React.dll`
+> fableconfig/refs: "Elmish.React": "fable-elmish-react/es2015"
 
 ## App component.
-> Include source: `elmish-app.fs`
+This component is used internally by the bootstrap code for React and ReactNative, shown bellow.
 
 ## React (Html) helpers.
-> Include source: `elmish-react.fs`
+Construct your program as you normally would then pass it along with the chosen `run` function and the placeholder `div` id where the program should be rendered:
 
 Usage:
 ```fsharp
@@ -16,8 +19,8 @@ Program.toHtml Program.run "elmish-app" program
 
 ```
 
-## React (Html) helpers.
-> Include source: `elmish-native.fs`
+## React (Native) helpers.
+Construct your program as you normally would then convert it to `runnable` let binding, which would be referenced from the `index.js`:
 
 Usage:
 ```fsharp

@@ -52,11 +52,11 @@ module Cmd =
                 x |> (ofError >> dispatch)
         [bind]
 
-    /// Command to call the subscriber 
+    /// Command to call the subscriber
     let ofSub (sub:Sub<'msg>) =
         [sub]
 
-type Program<'arg,'model,'msg, 'view when 'model : equality> = {
+type Program<'arg,'model,'msg, 'view> = {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
@@ -105,6 +105,7 @@ module Program =
     /// Start the the program loop.
     /// Returns the dispatch function to feed new messages into the loop.
     /// arg: argument to pass to the init() function.
+    /// hasChanges: function to determine if setState should be called.
     /// setState: function that will be called with the new model state.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg:'arg) (setState:'model->unit) (program:Program<'arg,'model,'msg,'view>) : 'msg Dispatch=
@@ -116,8 +117,7 @@ module Program =
                     let! msg = mb.Receive()
                     try 
                         let (model',cmd') = program.update msg state
-                        if state <> model' then
-                            setState model' 
+                        setState model'
                         cmd' |> List.iter (fun sub -> sub mb.Post)
                         return! loop model'
                     with ex -> 

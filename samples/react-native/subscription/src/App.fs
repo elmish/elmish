@@ -14,15 +14,12 @@ open Elmish
 type Msg =
   | Increment
   | Decrement
-  | NoOp
 
 type Model = 
-  { count:int
-    currentMsg:Msg }
+  { count:int }
 
 let init () =
-  { count = 0
-    currentMsg = NoOp }, []
+  { count = 0 }, []
 
 // Update
 
@@ -30,23 +27,19 @@ let update (msg:Msg) (model:Model) : Model*Cmd<Msg> =
   match msg with
   | Increment ->
     { model with
-        count = model.count + 1
-        currentMsg = Increment }, []
+        count = model.count + 1 }, []
   | Decrement ->
     { model with
-        count = model.count - 1
-        currentMsg = Decrement }, []
-  | NoOp ->
-      model, []
+        count = model.count - 1 }, []
 
 // Subscriptions
-let timerTick model dispatch =
+let timerTick dispatch =
   let t = new Timers.Timer 1000.
   t.Elapsed.Subscribe(fun _ -> dispatch Increment) |> ignore
   t.Enabled <- true
 
-let subscription model =
-  Cmd.ofSub (timerTick model)
+let subscription _ =
+  Cmd.ofSub timerTick
 
 
 // rendering views with ReactNative
