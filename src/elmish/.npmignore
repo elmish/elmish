@@ -1,4 +1,5 @@
 */
 *.fsproj
 paket.references
+fableconfig.json
 

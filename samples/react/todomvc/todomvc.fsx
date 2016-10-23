@@ -149,6 +149,7 @@ let updateWithStorage (msg:Msg) (model:Model) =
 module R = Fable.Helpers.React
 open Fable.Core.JsInterop
 open Fable.Helpers.React.Props
+open Elmish.React
 
 let internal onEnter msg dispatch =
     function 
@@ -176,7 +177,7 @@ let internal classList classes =
     |> List.fold (fun complete -> function | (name,true) -> complete + " " + name | _ -> complete) ""
     |> ClassName
 
-let viewEntry dispatch todo =
+let viewEntry todo dispatch =
   R.li
     [ classList [ ("completed", todo.completed); ("editing", todo.editing) ] 
       Key (string todo.id) ]
@@ -237,7 +238,7 @@ let viewEntries visibility entries dispatch =
           [ ClassName "todo-list" ]
           (entries
            |> List.filter isVisible  
-           |> List.map (viewEntry dispatch)) ]
+           |> List.map (fun i -> lazyView2 viewEntry i dispatch)) ]
 
 // VIEW CONTROLS AND FOOTER
 let visibilitySwap uri visibility actualVisibility dispatch =
@@ -284,9 +285,9 @@ let viewControls visibility entries dispatch =
   R.footer
       [ ClassName "footer"
         Hidden (List.isEmpty entries) ]
-      [ viewControlsCount entriesLeft
-        viewControlsFilters visibility dispatch
-        viewControlsClear entriesCompleted dispatch ]
+      [ lazyView viewControlsCount entriesLeft
+        lazyView2 viewControlsFilters visibility dispatch
+        lazyView2 viewControlsClear entriesCompleted dispatch ]
 
 
 let infoFooter =
@@ -306,12 +307,11 @@ let view model dispatch =
     [ ClassName "todomvc-wrapper"]
     [ R.section
         [ ClassName "todoapp" ]
-        [ viewInput model.field dispatch
-          viewEntries model.visibility model.entries dispatch
-          viewControls model.visibility model.entries dispatch ]
+        [ lazyView2 viewInput model.field dispatch
+          lazyView3 viewEntries model.visibility model.entries dispatch
+          lazyView3 viewControls model.visibility model.entries dispatch ]
       infoFooter ]
 
-open Elmish.React
 // App
 Program.mkProgram (S.load >> init) update view
 |> Program.withConsoleTrace

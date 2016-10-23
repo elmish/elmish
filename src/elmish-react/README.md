@@ -1,10 +1,23 @@
 Elmish-React: React extensions for [fable-elmish](https://github.com/fable-compiler/fable-elmish) applications.
-Implements boilerplate to setup a root component and get the dispatch loop started.
 =======
+Implements boilerplate to setup a root component and get the dispatch loop started.
 
 
 ## App component.
 > Include source: `elmish-app.fs`
+
+## Lazy views (experimental).
+> Include source: `elmish-app.fs`
+
+Usage:
+```fsharp
+open Elmish.React
+
+lazyView view model
+lazyView2 view model dispatch
+lazyView3 view model1 model2 dispatch
+
+```
 
 ## React (Html) helpers.
 > Include source: `elmish-react.fs`
