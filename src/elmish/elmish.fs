@@ -52,7 +52,7 @@ module Cmd =
                 x |> (ofError >> dispatch)
         [bind]
 
-    /// Command to call the subscriber 
+    /// Command to call the subscriber
     let ofSub (sub:Sub<'msg>) =
         [sub]
 

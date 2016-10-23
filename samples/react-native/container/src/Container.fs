@@ -33,7 +33,7 @@ let update msg model : Model*Cmd<Msg>=
 module R = Fable.Helpers.ReactNative
 
 let view model (dispatch: Dispatch<Msg>) =
-  R.view []
+  R.view [Styles.sceneBackground]
     [ c.view model.Top (Top >> dispatch)
       c.view model.Bottom (Bottom >> dispatch) ]
 
