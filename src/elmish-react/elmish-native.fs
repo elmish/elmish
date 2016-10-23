@@ -15,5 +15,5 @@ module Program =
 
     /// Return a function suitable for the native runnable registration
     let toRunnable run program =
-        let props = Props.ofProgram run program
+        let props = toAppProps run program
         fun (appParameters:obj) -> Globals.renderApplication(unbox typeof<Components.App<_>>, props, appParameters?rootTag)

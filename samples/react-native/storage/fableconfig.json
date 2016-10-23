@@ -1,0 +1,10 @@
+{
+    "module": "es2015",
+    "ecma": "es2015",
+    "outDir": "out",
+    "sourceMaps": false,
+    "projFile": "src/Awesome.fsproj",
+    "babelPlugins": [],
+    "scripts": {
+    }
+}

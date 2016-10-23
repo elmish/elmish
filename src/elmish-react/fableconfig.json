@@ -1,0 +1,10 @@
+{
+    "module": "es2015",
+    "sourceMaps": true,
+    "projFile": "./Fable.Elmish.React.fsproj",
+    "babelPlugins": ["transform-runtime"],
+    "outDir": "./es2015",
+    "refs": {
+        "Elmish": "fable-elmish/es2015"
+    }
+}
