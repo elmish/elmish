@@ -4956,7 +4956,7 @@
 	      _createClass(Themed, [{
 	        key: 'getWrappedInstance',
 	        value: function getWrappedInstance() {
-	          (0, _invariant2.default)(optionWithRef, 'To access the wrapped instance, you need to specify ' + '{ withRef: true } as the third argument of the themr() call.');
+	          (0, _invariant2.default)(optionWithRef, 'To access the wrapped instance, you need to specify ' + '{ withRef: true } as the third argument of themr() call.');
 	
 	          return this.refs.wrappedInstance;
 	        }

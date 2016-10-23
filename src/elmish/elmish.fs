@@ -102,7 +102,7 @@ module Program =
         { program 
             with update = fun msg model -> trace msg model; program.update msg model} 
 
-    /// Start the the program loop.
+    /// Start the program loop.
     /// Returns the dispatch function to feed new messages into the loop.
     /// arg: argument to pass to the init() function.
     /// hasChanges: function to determine if setState should be called.
