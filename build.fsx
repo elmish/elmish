@@ -8,15 +8,13 @@ open Fake.NpmHelper
 // Directories
 let buildDir  = "./build/"
 
-
 // Filesets
 let projects  =
       !! "src/*/*.fsproj"
 
 // Fable projects
 let fables  =
-      !! "src/*/*/fableconfig.json"
-      ++ "samples/*/*/fableconfig.json"
+      !! "samples/*/*/fableconfig.json"
 
 // Artifact packages
 let packages  =
@@ -36,7 +34,7 @@ Target "Build" (fun _ ->
         |> Log "AppBuild-Output: "
 )
 
-Target "Transpile" (fun _ ->
+Target "Samples" (fun _ ->
     fables
     |> Seq.iter (fun s -> 
                     let dir = IO.Path.GetDirectoryName s
@@ -67,7 +65,6 @@ Target "Publish-Elmish-React" (fun _ ->
 // Build order
 "Clean"
   ==> "Build"
-  ==> "Transpile"
-
+  
 // start build
 RunTargetOrDefault "Build"

@@ -9,8 +9,9 @@
 #r "node_modules/fable-core/Fable.Core.dll"
 #load "node_modules/fable-import-react/Fable.Import.React.fs"
 #load "node_modules/fable-import-react/Fable.Helpers.React.fs"
-#r "node_modules/fable-elmish/bin/Elmish.dll"
-#r "node_modules/fable-elmish-react/bin/Elmish.React.dll"
+#load "node_modules/fable-elmish/elmish.fs"
+#load "node_modules/fable-elmish-react/elmish-app.fs"
+#load "node_modules/fable-elmish-react/elmish-react.fs"
 
 open Fable.Core
 open Fable.Import
@@ -148,6 +149,7 @@ let updateWithStorage (msg:Msg) (model:Model) =
 module R = Fable.Helpers.React
 open Fable.Core.JsInterop
 open Fable.Helpers.React.Props
+open Elmish.React
 
 let internal onEnter msg dispatch =
     function 
@@ -175,7 +177,7 @@ let internal classList classes =
     |> List.fold (fun complete -> function | (name,true) -> complete + " " + name | _ -> complete) ""
     |> ClassName
 
-let viewEntry dispatch todo =
+let viewEntry todo dispatch =
   R.li
     [ classList [ ("completed", todo.completed); ("editing", todo.editing) ] 
       Key (string todo.id) ]
@@ -236,7 +238,7 @@ let viewEntries visibility entries dispatch =
           [ ClassName "todo-list" ]
           (entries
            |> List.filter isVisible  
-           |> List.map (viewEntry dispatch)) ]
+           |> List.map (fun i -> lazyView2 viewEntry i dispatch)) ]
 
 // VIEW CONTROLS AND FOOTER
 let visibilitySwap uri visibility actualVisibility dispatch =
@@ -283,9 +285,9 @@ let viewControls visibility entries dispatch =
   R.footer
       [ ClassName "footer"
         Hidden (List.isEmpty entries) ]
-      [ viewControlsCount entriesLeft
-        viewControlsFilters visibility dispatch
-        viewControlsClear entriesCompleted dispatch ]
+      [ lazyView viewControlsCount entriesLeft
+        lazyView2 viewControlsFilters visibility dispatch
+        lazyView2 viewControlsClear entriesCompleted dispatch ]
 
 
 let infoFooter =
@@ -305,13 +307,12 @@ let view model dispatch =
     [ ClassName "todomvc-wrapper"]
     [ R.section
         [ ClassName "todoapp" ]
-        [ viewInput model.field dispatch
-          viewEntries model.visibility model.entries dispatch
-          viewControls model.visibility model.entries dispatch ]
+        [ lazyView2 viewInput model.field dispatch
+          lazyView3 viewEntries model.visibility model.entries dispatch
+          lazyView3 viewControls model.visibility model.entries dispatch ]
       infoFooter ]
 
-open Elmish.React
 // App
-let p = Program.mkProgram (S.load >> init) update view
-
-Program.toHtml Program.run "todoapp" p
+Program.mkProgram (S.load >> init) update view
+|> Program.withConsoleTrace
+|> Program.toHtml Program.run "todoapp"

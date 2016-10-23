@@ -1,8 +1,6 @@
 obj/
-Fable.Core.*
-FSharp.Core.*
-*.fsproj
+bin/
+es2015/
 *.fs
-*.mdb
 paket.references
 

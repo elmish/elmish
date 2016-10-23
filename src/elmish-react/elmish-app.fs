@@ -13,10 +13,9 @@ type AppProps<'model> = {
 }
 
 type LazyProps<'model> = {
-    equal:'model->'model->bool
-    view:'model->ReactElement<obj>
-    mutable state:'model option
-    nextState:'model
+    state:'model
+    render:unit->ReactElement<obj>
+    equal:'model->'model->bool 
 }
 
 module Components =
@@ -40,19 +39,14 @@ module Components =
         member this.render () =
             view this.state 
 
-    
-    type LazyView<'model>(props:LazyProps<'model>) =
-        inherit Component<LazyProps<'model>,'model>(props)
+    type LazyView<'model>(props) =
+        inherit Component<LazyProps<'model>,obj>(props)
 
         member this.shouldComponentUpdate(nextProps, nextState, nextContext) =
-            Fable.Import.Browser.console.log("shouldComponentUpdate", nextProps, nextState, nextContext)
-            match props.state with
-            | Some previous -> not <| props.equal previous props.nextState
-            | _ -> true
+            not <| this.props.equal nextProps.state this.props.state
 
         member this.render () =
-            props.state <- Some this.state
-            props.view props.nextState 
+            this.props.render ()
 
 [<AutoOpen>]
 module Common =
@@ -61,18 +55,40 @@ module Common =
         { main = fun setState -> 
                     let dispatch = run setState program
                     fun model -> program.view model dispatch }
-
-    let lazyView (view:'model->'msg Dispatch->ReactElement<_>) (dispatch:'msg Dispatch) =
-        let mutable lastState = None
-        fun state -> { view = fun model -> view model dispatch
-                       state = lastState
-                       nextState = state
-                       equal = (=) } |> Components.LazyView
                 
-    let lazyViewWith (equal:'model->'model->bool) (view:'model->'msg Dispatch->ReactElement<_>) (dispatch:'msg Dispatch) =
-        let mutable lastState = None
-        fun state -> { view = fun model -> view model dispatch
-                       state = lastState
-                       nextState = state
-                       equal = equal } |> Components.LazyView
+    let lazyViewWith (equal:'model->'model->bool) 
+                     (view:'model->ReactElement<_>) 
+                     (state:'model) =
+        com<Components.LazyView<_>,_,_> 
+            { render = fun () -> view state
+              equal = equal
+              state = state }
+            []
+
+    let lazyView2With (equal:'model->'model->bool) 
+                             (view:'model->'msg Dispatch->ReactElement<_>) 
+                             (state:'model) 
+                             (dispatch:'msg Dispatch) =
+        com<Components.LazyView<_>,_,_> 
+            { render = fun () -> view state dispatch
+              equal = equal
+              state = state }
+            []
+
+    let lazyView3With (equal:_->_->bool) (view:_->_->_->ReactElement<_>) arg1 arg2 (dispatch:'msg Dispatch) =
+        com<Components.LazyView<_>,_,_> 
+            { render = fun () -> view arg1 arg2 dispatch
+              equal = equal
+              state = (arg1,arg2) }
+            []
+
+    let inline lazyView (view:'model->ReactElement<_>) =
+        lazyViewWith (=) view
+
+    let inline lazyView2 (view:'model->'msg Dispatch->ReactElement<_>) =
+        lazyView2With (=) view
+
+    let inline lazyView3 (view:_->_->_->ReactElement<_>) =
+        lazyView3With (=) view
+                     
 
