@@ -52,7 +52,7 @@ module Cmd =
                 x |> (ofError >> dispatch)
         [bind]
 
-    /// Command to call the subscriber 
+    /// Command to call the subscriber
     let ofSub (sub:Sub<'msg>) =
         [sub]
 
@@ -105,7 +105,6 @@ module Program =
     /// Start the program loop.
     /// Returns the dispatch function to feed new messages into the loop.
     /// arg: argument to pass to the init() function.
-    /// hasChanges: function to determine if setState should be called.
     /// setState: function that will be called with the new model state.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg:'arg) (setState:'model->unit) (program:Program<'arg,'model,'msg,'view>) : 'msg Dispatch=
