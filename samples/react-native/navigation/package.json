@@ -19,6 +19,7 @@
     "fable-compiler": "^0.6.15",
     "fable-import-react": "^0.5.2",
     "fable-import-react-native": "^0.11.0",
+    "fable-import-fetch": "^0.1.7",
     "fable-elmish": "^0.4.1",
     "fable-elmish-react": "^0.1.1"
   }
