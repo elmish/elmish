@@ -23,6 +23,8 @@ open Fable.Import.Browser
 open Elmish.Browser.Navigation
 open Elmish.UrlParser
 
+JsInterop.importAll "whatwg-fetch"
+
 // Types
 type Page = Home | Blog of int | Search of string
 
