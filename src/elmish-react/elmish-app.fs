@@ -56,6 +56,10 @@ module Common =
                     let dispatch = run setState program
                     fun model -> program.view model dispatch }
                 
+    /// Avoid rendering the view unless the model has changed.
+    /// equal: function the compare the previous and the new states
+    /// view: function to render the model
+    /// state: new state to render
     let lazyViewWith (equal:'model->'model->bool) 
                      (view:'model->ReactElement<_>) 
                      (state:'model) =
@@ -65,6 +69,11 @@ module Common =
               state = state }
             []
 
+    /// Avoid rendering the view unless the model has changed.
+    /// equal: function the compare the previous and the new states
+    /// view: function to render the model using the dispatch
+    /// state: new state to render
+    /// dispatch: dispatch function
     let lazyView2With (equal:'model->'model->bool) 
                              (view:'model->'msg Dispatch->ReactElement<_>) 
                              (state:'model) 
@@ -75,19 +84,31 @@ module Common =
               state = state }
             []
 
-    let lazyView3With (equal:_->_->bool) (view:_->_->_->ReactElement<_>) arg1 arg2 (dispatch:'msg Dispatch) =
+    /// Avoid rendering the view unless the model has changed.
+    /// equal: function the compare the previous and the new model (a tuple of two states)
+    /// view: function to render the model using the dispatch
+    /// state1: new state to render
+    /// state2: new state to render
+    /// dispatch: dispatch function
+    let lazyView3With (equal:_->_->bool) (view:_->_->_->ReactElement<_>) state1 state2 (dispatch:'msg Dispatch) =
         com<Components.LazyView<_>,_,_> 
-            { render = fun () -> view arg1 arg2 dispatch
+            { render = fun () -> view state1 state2 dispatch
               equal = equal
-              state = (arg1,arg2) }
+              state = (state1,state2) }
             []
 
+    /// Avoid rendering the view unless the model has changed.
+    /// view: function of model to render the view
     let inline lazyView (view:'model->ReactElement<_>) =
         lazyViewWith (=) view
 
+    /// Avoid rendering the view unless the model has changed.
+    /// view: function of two arguments to render the model using the dispatch
     let inline lazyView2 (view:'model->'msg Dispatch->ReactElement<_>) =
         lazyView2With (=) view
 
+    /// Avoid rendering the view unless the model has changed.
+    /// view: function of three arguments to render the model using the dispatch
     let inline lazyView3 (view:_->_->_->ReactElement<_>) =
         lazyView3With (=) view
                      
