@@ -41,18 +41,17 @@ module Cmd =
             }
         [bind >> Async.StartImmediate]
 
-    /// Command that will schedule animation frame callback and map the result 
-    /// into success or error (of exception) 
-    let ofAnimationFrame (task:float->_) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
-        let bind dispatch =
-            let animate ts =
+    /// Command that will evaluate a function that triggers a callback then
+    /// maps the result into success or error (of exception) 
+    let ofCallback (task:'a->('b->unit)->unit) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+        let bind (dispatch:'msg -> unit) =
+            let completed result =
                 try 
-                    task ts
+                    result
                     |> (ofSuccess >> dispatch)
                 with x -> 
                     x |> (ofError >> dispatch)
-            Fable.Import.Browser.window.requestAnimationFrame (Fable.Import.Browser.FrameRequestCallback animate)
-            |> ignore
+            task arg completed
         [bind]
 
     /// Command to evaluate a simple function and map the result 
