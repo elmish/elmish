@@ -41,19 +41,6 @@ module Cmd =
             }
         [bind >> Async.StartImmediate]
 
-    /// Command that will evaluate a function that triggers a callback then
-    /// maps the result into success or error (of exception) 
-    let ofCallback (task:'a->('b->unit)->unit) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
-        let bind (dispatch:'msg -> unit) =
-            let completed result =
-                try 
-                    result
-                    |> (ofSuccess >> dispatch)
-                with x -> 
-                    x |> (ofError >> dispatch)
-            task arg completed
-        [bind]
-
     /// Command to evaluate a simple function and map the result 
     /// into success or error (of exception) 
     let ofFunc (task:'a->_) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
