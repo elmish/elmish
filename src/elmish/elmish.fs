@@ -131,3 +131,7 @@ module Program =
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run setState (program:Program<unit,'model,'msg,'view>) : 'msg Dispatch = runWith () (fun m _ -> setState m) program
+
+    /// Start the dispatch loop with `unit` for the init() function and using the program view
+    let runWithView (program:Program<unit,'model,'msg,_>) : 'msg Dispatch = runWith () program.view program
+
