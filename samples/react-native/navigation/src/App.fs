@@ -11,6 +11,7 @@ open Types.App
 open State
 open Scenes
 open Elmish
+open Elmish.React
 open Elmish.ReactNative
 
 let view model dispatch =
@@ -19,9 +20,9 @@ let view model dispatch =
 
     let scene (ps:NavigationTransitionProps) =
         match ps.scene.route.key with
-        | Routes.Current -> Current.render model.CurrentState (CurrentMsg >> dispatch)
-        | Routes.Retrieved -> Retrieved.render model.RetrievedState (RetrievedMsg >> dispatch)
-        | _ -> Main.render model.MainState (MainMsg >> dispatch)
+        | Routes.Current -> lazyView2 Current.render model.CurrentState (CurrentMsg >> dispatch)
+        | Routes.Retrieved -> lazyView2 Retrieved.render model.RetrievedState (RetrievedMsg >> dispatch)
+        | _ -> lazyView2 Main.render model.MainState (MainMsg >> dispatch)
     
     let header (ps:NavigationTransitionProps) =
         navigationHeader [ NavigationHeaderProps.RenderTitleComponent (fun _ -> text [TextProperties.Style [TextAlign TextAlignment.Center]] (string ps.scene.route.title))

@@ -179,8 +179,7 @@ let internal classList classes =
 
 let viewEntry todo dispatch =
   R.li
-    [ classList [ ("completed", todo.completed); ("editing", todo.editing) ] 
-      Key (string todo.id) ]
+    [ classList [ ("completed", todo.completed); ("editing", todo.editing) ]]
     [ R.div
         [ ClassName "view" ]
         [ R.input

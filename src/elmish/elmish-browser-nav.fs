@@ -13,13 +13,15 @@ type Navigable<'msg> =
     | UserMsg of 'msg
 
 module Navigation =
+    let [<Literal>] internal NavigatedEvent = "NavigatedEvent"
     let modifyUrl (newUrl:string) =
         [fun _ -> history.replaceState((), "", newUrl)]
 
     let newUrl (newUrl:string) =
         [fun _ -> history.pushState((), "", newUrl)
-                  document.createEvent_PopStateEvent()
-                  |> window.dispatchEvent 
+                  let ev = document.createEvent_CustomEvent()
+                  ev.initCustomEvent (NavigatedEvent, true, true, obj())
+                  window.dispatchEvent ev
                   |> ignore ]
 
     let jump (n:int) =
@@ -45,6 +47,7 @@ module Program =
 
     let locationChanges (dispatch:Dispatch<_ Navigable>) = 
         window.addEventListener_popstate(fun ev -> Change window.location |> dispatch |> box)
+        window.addEventListener(Navigation.NavigatedEvent, unbox <| fun ev -> Change window.location |> dispatch |> box)
     
     let subs model =
         Cmd.batch

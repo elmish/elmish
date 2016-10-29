@@ -3,8 +3,7 @@
     "sourceMaps": true,
     "projFile": "./app.fsx",
     "outDir": "out",
-    "scripts": {
-    },
+    "babelPlugins": ["transform-runtime"],
     "targets": {
         "debug": {
             "watch": true,
