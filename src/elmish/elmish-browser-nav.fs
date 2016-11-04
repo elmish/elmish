@@ -32,7 +32,7 @@ module Program =
   /// urlUpdate: similar to `update` function, but receives parsed url instead of message as an input.
   let runWithNavigation (parser:Parser<'a>) 
                         (urlUpdate:'a->'model->('model * Cmd<'msg>)) 
-                        (setState:'model->unit) 
+                        (setState:'model->'msg Dispatch->unit) 
                         (program:Program<'a,'model,'msg,'view>) =
     let map (model, cmd) = 
         model, cmd |> Cmd.map UserMsg
@@ -57,13 +57,11 @@ module Program =
     let init () = 
         program.init (parser window.location) |> map
 
-    let dispatch = 
-        { init = init 
-          update = update
-          subscribe = subs
-          view = fun model dispatch -> program.view model (UserMsg >> dispatch) }
-        |> Program.run setState
+    { init = init 
+      update = update
+      subscribe = subs
+      view = fun model dispatch -> program.view model (UserMsg >> dispatch) }
+    |> Program.run (fun model dispatch -> setState model (UserMsg >> dispatch))
     
-    UserMsg >> dispatch
-
+    
 

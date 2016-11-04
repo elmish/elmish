@@ -2,15 +2,15 @@ namespace Elmish
 
 open System
 
-/// Dispatch function - feed new message into the processing loop 
+/// Dispatch - feed new message into the processing loop 
 type Dispatch<'msg> = 'msg -> unit 
-/// Message subscriber function 
+/// Subscriber - return immediately, but may schedule dispatch of a message at any time
 type Sub<'msg> = 'msg Dispatch -> unit
-/// Cmd modu- container for actions that when evaluated 
+/// Cmd - container for subscriptions that may produce messages 
 type Cmd<'msg> = list<'msg Sub>
 
 /// Cmd module creating and manipulating actions 
-/// may produce one or more messages message(s)
+/// may produce one or more message(s)
 [<RequireQualifiedAccess>]
 module Cmd =
     /// None - no commands, also known as `[]`
@@ -103,11 +103,10 @@ module Program =
             with update = fun msg model -> trace msg model; program.update msg model} 
 
     /// Start the program loop.
-    /// Returns the dispatch function to feed new messages into the loop.
     /// arg: argument to pass to the init() function.
-    /// setState: function that will be called with the new model state.
+    /// setState: function that will be called with the new model state and the dispatch function to feed new messages into the loop..
     /// program: program created with 'mkSimple' or 'mkProgram'.
-    let runWith (arg:'arg) (setState:'model->('msg->unit)->unit) (program:Program<'arg,'model,'msg,'view>) : 'msg Dispatch=
+    let runWith (arg:'arg) (setState:'model->'msg Dispatch->unit) (program:Program<'arg,'model,'msg,'view>) =
         let (model,cmd) = program.init arg
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
             let rec loop (state:'model) = 
@@ -127,11 +126,10 @@ module Program =
         setState model inbox.Post
         program.subscribe model 
         @ cmd |> List.iter (fun sub -> sub inbox.Post)
-        inbox.Post
 
     /// Start the dispatch loop with `unit` for the init() function.
-    let run setState (program:Program<unit,'model,'msg,'view>) : 'msg Dispatch = runWith () (fun m _ -> setState m) program
+    let run setState (program:Program<unit,'model,'msg,'view>) = runWith () setState program
 
-    /// Start the dispatch loop with `unit` for the init() function and using the program view
-    let runWithView (program:Program<unit,'model,'msg,_>) : 'msg Dispatch = runWith () program.view program
+    /// Start the dispatch loop with `unit` for the init() function and use the program.view to set state
+    let runWithView (program:Program<unit,'model,'msg,_>) = runWith () program.view program
 

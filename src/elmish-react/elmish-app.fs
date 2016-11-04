@@ -6,10 +6,10 @@ open Fable.Helpers.React
 open Fable.Core
 open Elmish
 
-type MkView<'model> = ('model->unit) -> ('model->ReactElement<obj>)
+type MkView<'model,'msg> = ('model->'msg Dispatch->unit) -> ('model->'msg Dispatch->ReactElement<obj>)
 
-type AppProps<'model> = {
-    main:MkView<'model>
+type AppProps<'model,'msg> = {
+    main:MkView<'model,'msg>
 }
 
 type LazyProps<'model> = {
@@ -21,12 +21,13 @@ type LazyProps<'model> = {
 module Components =
     let mutable internal mounted = false
 
-    type App<'model>(props:AppProps<'model>) as this =
+    type App<'model,'msg>(props:AppProps<'model,'msg>) as this =
         inherit Component<obj,'model>()
         do
             mounted <- false
-        
-        let safeState state =
+        let mutable dispatch = None
+        let safeState state d =
+            dispatch <- Some d
             match mounted with 
             | false -> this.state <- state
             | _ -> this.setState state
@@ -37,7 +38,7 @@ module Components =
             mounted <- true
 
         member this.render () =
-            view this.state 
+            view this.state dispatch.Value  
 
     type LazyView<'model>(props) =
         inherit Component<LazyProps<'model>,obj>(props)
@@ -53,8 +54,8 @@ module Common =
     /// Make props for the root React App component
     let internal toAppProps run (program:Program<'arg,'model,'msg,_>) =
         { main = fun setState -> 
-                    let dispatch = run setState program
-                    fun model -> program.view model dispatch }
+                    run setState program
+                    fun model dispatch -> program.view model dispatch }
                 
     /// Avoid rendering the view unless the model has changed.
     /// equal: function the compare the previous and the new states

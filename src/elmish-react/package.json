@@ -1,6 +1,6 @@
 {
   "name": "fable-elmish-react",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "React extensions for fable-elmish apps.",
   "repository": {
     "type": "git",
@@ -23,6 +23,6 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "fable-import-react": "^0.5.1",
-    "fable-elmish": "^0.4.1",
+    "fable-elmish": "^0.5.0",
     "babel-plugin-transform-runtime": "^6.15.0"
   }}

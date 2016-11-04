@@ -13,6 +13,6 @@ module Program =
         let props = toAppProps run program
         
         Fable.Import.React_Extensions.ReactDom.render(
-            R.com<Components.App<_>,_,_> props [],
+            R.com<Components.App<_,_>,_,_> props [],
             Fable.Import.Browser.document.getElementsByClassName(placeholderId).[0]
         ) |> ignore
