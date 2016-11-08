@@ -44,9 +44,9 @@
     <Compile Include="../node_modules/fable-import-react/Fable.Helpers.React.fs" />
     <Compile Include="../node_modules/fable-import-react-native/Fable.Import.ReactNative.fs" />
     <Compile Include="../node_modules/fable-import-react-native/Fable.Helpers.ReactNative.fs" />
-    <Compile Include="../node_modules/fable-import-fetch/Fable.Import.Fetch.fs" />
-    <Compile Include="../node_modules/fable-import-fetch/Fable.Helpers.Fetch.fs" />
     <Compile Include="../node_modules/fable-elmish/elmish.fs" />
+    <Compile Include="../node_modules/fable-elmish-react/elmish-app.fs" />
+    <Compile Include="../node_modules/fable-elmish-react/elmish-native.fs" />
     <Compile Include="Styles.fs" />
     <Compile Include="Counter.fs" />
     <Compile Include="Container.fs" />

@@ -35,5 +35,6 @@ module R = Fable.Helpers.ReactNative
 let view model (dispatch: Dispatch<Msg>) =
   R.view [Styles.sceneBackground]
     [ c.view model.Top (Top >> dispatch)
+      Styles.button "Reset" (fun _ -> dispatch Reset) 
       c.view model.Bottom (Bottom >> dispatch) ]
 

@@ -1,5 +1,5 @@
 {
-  "name": "awesome-project",
+  "name": "counter",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -19,6 +19,7 @@
     "fable-import-react": "^0.5.0",
     "fable-import-react-native": "^0.11.0",
     "fable-import-fetch": "^0.1.7",
-    "fable-elmish": "^0.3.2"
+    "fable-elmish": "^0.4.0",
+    "fable-elmish-react": "^0.1.0"
   }
 }
