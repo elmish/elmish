@@ -65,7 +65,7 @@ type Program<'arg,'model,'msg, 'view> = {
 
 /// Program module - functions to manipulate program instances 
 module Program =
-    /// Typical program, produces new commands as part of init() and update() as well as the new model
+    /// Typical program, produces new commands as part of init() and update() as well as the new model.
     let mkProgram 
         (init:'arg -> 'model * Cmd<'msg>) 
         (update:'msg -> 'model -> 'model * Cmd<'msg>)
@@ -86,7 +86,8 @@ module Program =
           view = view
           subscribe = fun _ -> Cmd.none }
 
-    /// Subscribe to external source of events
+    /// Subscribe to external source of events.
+    /// The subscriptions are called once - with the initial model, but can call dispatch whenever they need.
     let withSubscription (subscribe : 'model -> Cmd<'msg>) (program:Program<'arg,'model,'msg,'view>) = 
         { program with subscribe = subscribe }
 
@@ -104,7 +105,7 @@ module Program =
 
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
-    /// setState: function that will be called with the new model state and the dispatch function to feed new messages into the loop..
+    /// setState: function that will be called with the new model state and the dispatch function to feed new messages into the loop.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg:'arg) (setState:'model->'msg Dispatch->unit) (program:Program<'arg,'model,'msg,'view>) =
         let (model,cmd) = program.init arg

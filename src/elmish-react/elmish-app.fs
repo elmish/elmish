@@ -55,7 +55,7 @@ module Common =
     let internal toAppProps run (program:Program<'arg,'model,'msg,_>) =
         { main = fun setState -> 
                     run setState program
-                    fun model dispatch -> program.view model dispatch }
+                    program.view }
                 
     /// Avoid rendering the view unless the model has changed.
     /// equal: function the compare the previous and the new states
