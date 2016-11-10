@@ -12,7 +12,9 @@ This file is used internally by the rest of the library and must be included fir
 
 Rendering of any view can be optimizied by avoiding the DOM reconciliation and skipping the DOM construction entierly if there are no changes in the model.
 Can be used by both React and ReactNative applications.
+
 `lazyView` can be used with equattable models (most F# core types: records, tuples,etc).
+
 `lazyViewWith` can be used with types that don't implement `equality` constraint, such us types/instances coming from JS libraries, by passing the custom `equal` function that compares the previous and the new models.
 
 Usage:
@@ -24,6 +26,8 @@ lazyView2 view model dispatch
 lazyView3 view model1 model2 dispatch
 
 ```
+
+Note: The root application state can not be lazy-rendered at the moment, as React batches the updates and discards F# metadata.
 
 ## React (Html) helpers.
 > Include source: `elmish-react.fs`

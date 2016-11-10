@@ -44,7 +44,7 @@ module Components =
         inherit Component<LazyProps<'model>,obj>(props)
 
         member this.shouldComponentUpdate(nextProps, nextState, nextContext) =
-            not <| this.props.equal nextProps.state this.props.state
+            not <| this.props.equal this.props.state nextProps.state
 
         member this.render () =
             this.props.render ()
