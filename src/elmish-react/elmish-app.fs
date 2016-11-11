@@ -12,8 +12,13 @@ type AppProps<'model,'msg> = {
     main:MkView<'model,'msg>
 }
 
+type AppState<'model,'msg> = {
+    dispatch : 'msg Dispatch
+    model : 'model
+}
+
 type LazyProps<'model> = {
-    state:'model
+    model:'model
     render:unit->ReactElement<obj>
     equal:'model->'model->bool 
 }
@@ -22,15 +27,13 @@ module Components =
     let mutable internal mounted = false
 
     type App<'model,'msg>(props:AppProps<'model,'msg>) as this =
-        inherit Component<obj,'model>()
+        inherit Component<obj,AppState<'model,'msg>>()
         do
             mounted <- false
-        let mutable dispatch = None
-        let safeState state d =
-            dispatch <- Some d
+        let safeState m d =
             match mounted with 
-            | false -> this.state <- state
-            | _ -> this.setState state
+            | false -> this.state <- { dispatch = d; model = m }
+            | _ -> this.setState { dispatch = d; model = m }
 
         let view = props.main safeState
 
@@ -38,13 +41,13 @@ module Components =
             mounted <- true
 
         member this.render () =
-            view this.state dispatch.Value  
+            view this.state.model this.state.dispatch  
 
     type LazyView<'model>(props) =
         inherit Component<LazyProps<'model>,obj>(props)
 
         member this.shouldComponentUpdate(nextProps, nextState, nextContext) =
-            not <| this.props.equal this.props.state nextProps.state
+            not <| this.props.equal this.props.model nextProps.model
 
         member this.render () =
             this.props.render ()
@@ -67,7 +70,7 @@ module Common =
         com<Components.LazyView<_>,_,_> 
             { render = fun () -> view state
               equal = equal
-              state = state }
+              model = state }
             []
 
     /// Avoid rendering the view unless the model has changed.
@@ -82,7 +85,7 @@ module Common =
         com<Components.LazyView<_>,_,_> 
             { render = fun () -> view state dispatch
               equal = equal
-              state = state }
+              model = state }
             []
 
     /// Avoid rendering the view unless the model has changed.
@@ -95,7 +98,7 @@ module Common =
         com<Components.LazyView<_>,_,_> 
             { render = fun () -> view state1 state2 dispatch
               equal = equal
-              state = (state1,state2) }
+              model = (state1,state2) }
             []
 
     /// Avoid rendering the view unless the model has changed.

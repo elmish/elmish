@@ -27,8 +27,6 @@ lazyView3 view model1 model2 dispatch
 
 ```
 
-Note: The root application state can not be lazy-rendered at the moment, as React batches the updates and discards F# metadata.
-
 ## React (Html) helpers.
 > Include source: `elmish-react.fs`
 
