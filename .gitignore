@@ -6,6 +6,9 @@
 #
 **/node_modules/
 npm-debug.log
+samples/**/public
+
+.vscode/
 
 # F#
 .fake/

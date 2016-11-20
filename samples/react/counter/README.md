@@ -2,16 +2,9 @@ This is a port of [Elm's counter example](https://github.com/evancz/elm-architec
 ========
 
 This is a simple demo of [Elmish](https://github.com/et1975/fable-elmish).
-The model had to be made a record because React doesn't support primitives as state. A limitation one can live with.
 
-## Build
-1. `npm install -g fable-compiler`
-2. `npm install`
-3. `npm run build`
+## Instructions
 
-## Running a hot-loading webpack server
-`npm start`
-open http://localhost:8080/webpack-dev-server/
-
-
-
+1. Install dependencies in the repository root dir: `npm install`
+2. Compile F# code to JS (current dir): `npm run build`
+3. Start a local server (current dir): `npm start`

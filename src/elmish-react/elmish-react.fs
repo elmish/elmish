@@ -8,11 +8,11 @@ open Fable.Core
 module Program =
     module R = Fable.Helpers.React
 
-    /// Render root React component inside html element identified by placeholderId 
+    /// Render root React component inside html element identified by placeholderId
     let toHtml run placeholderId program =
         let props = toAppProps run program
-        
-        Fable.Import.React_Extensions.ReactDom.render(
+
+        Fable.Import.ReactDom.render(
             R.com<Components.App<_,_>,_,_> props [],
             Fable.Import.Browser.document.getElementsByClassName(placeholderId).[0]
-        ) |> ignore
+        )

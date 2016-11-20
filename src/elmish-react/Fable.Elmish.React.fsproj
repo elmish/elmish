@@ -26,12 +26,19 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="node_modules/fable-core/Fable.Core.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="node_modules/fable-import-react/Fable.Import.React.fs" />
-    <Compile Include="node_modules/fable-import-react/Fable.Helpers.React.fs" />
-    <Compile Include="node_modules/fable-elmish/elmish.fs" />
+    <Reference Include="../../node_modules/fable-core/Fable.Core.dll" />
+    <Reference Include="../../node_modules/fable-powerpack/Fable.Powerpack.dll" />
+    <Reference Include="../../node_modules/fable-react/Fable.React.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../elmish/Fable.Elmish.fsproj">
+      <Name>Fable.Elmish.fsproj</Name>
+      <Project>{e5e8b419-2545-4ae4-8bb4-14a44c1a0ad4}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="elmish-app.fs" />
     <Compile Include="elmish-react.fs" />
     <Compile Include="elmish-native.fs" />

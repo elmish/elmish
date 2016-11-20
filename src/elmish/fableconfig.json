@@ -1,7 +1,23 @@
 {
-    "module": "es2015",
-    "sourceMaps": true,
     "projFile": "./Fable.Elmish.fsproj",
+    "sourceMaps": true,
     "babelPlugins": ["transform-runtime"],
-    "outDir": "./es2015"
+    "outDir": "npm",
+    "module": "es2015",
+    "dll": true,
+    "refs": {
+        "Fable.Core": "fable-core",
+        "Fable.PowerPack": "fable-powerpack"
+    },
+    "targets": {
+        "umd": {
+            "outDir": "npm/umd",
+            "module": "umd",
+            "dll": false,
+            "refs": {
+                "Fable.Core": "fable-core/umd",
+                "Fable.PowerPack": "fable-powerpack/umd"
+            }
+        }
+    }
 }
