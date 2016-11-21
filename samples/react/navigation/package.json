@@ -11,10 +11,11 @@
     "fable-core": "^0.6.8",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^1.0.0",
+    "babel-runtime": "^6.18.0"
   },
   "devDependencies": {
-    "fable-elmish": "^0.4.1",
+    "fable-elmish": "^0.4.4",
     "fable-elmish-react": "^0.1.1",
     "fable-import-fetch": "^0.2.4",
     "fable-import-react": "^0.5.2",
