@@ -9,6 +9,6 @@ let ofPromise (task:'a->Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess:_->'msg)
     let bind (dispatch:'msg -> unit) =
         task arg
         |> Promise.map (ofSuccess >> dispatch)
-        |> Promise.catch (ofError >> dispatch)
+        |> Promise.catch (unbox >> ofError >> dispatch)
         |> ignore
     [bind]
