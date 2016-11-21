@@ -10,7 +10,7 @@ let buildDir  = "./build/"
 
 // Filesets
 let projects  =
-      !! "src/*/*.fsproj"
+      !! "src/*/fableconfig.json"
 
 // Fable projects
 let fables  =
@@ -29,9 +29,15 @@ Target "Clean" (fun _ ->
 )
 
 Target "Build" (fun _ ->
-    // compile all projects below src/
-    MSBuildDebug buildDir "Build" projects
-        |> Log "AppBuild-Output: "
+    projects
+    |> Seq.iter (fun s -> 
+                    let dir = IO.Path.GetDirectoryName s
+                    printf "Building: %s\n" dir
+                    Npm (fun p ->
+                        { p with
+                            Command = Run "build"
+                            WorkingDirectory = dir
+                        }))
 )
 
 Target "Samples" (fun _ ->
@@ -41,7 +47,7 @@ Target "Samples" (fun _ ->
                     printf "Building: %s\n" dir
                     Npm (fun p ->
                         { p with
-                            Command = Run "firstbuild"
+                            Command = Run "build"
                             WorkingDirectory = dir
                         }))
 )

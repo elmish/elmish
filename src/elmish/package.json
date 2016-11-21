@@ -7,7 +7,7 @@
     "url": "git://github.com/fable-compiler/fable-elmish.git"
   },
   "scripts": {
-    "firstbuild": "npm install && fable"
+    "build": "node ../../node_modules/fable-compiler"
   },
   "keywords": [
     "Elm",
