@@ -6,8 +6,8 @@
     "type": "git",
     "url": "git://github.com/fable-compiler/fable-elmish.git"
   },
-  "scripts": {
-    "build": "node ../../node_modules/fable-compiler"
+  "dependencies": {
+    "fable-core": ">= 0.7.6"
   },
   "keywords": [
     "fable-elmish",
