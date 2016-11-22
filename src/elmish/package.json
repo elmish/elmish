@@ -10,7 +10,7 @@
       "firstbuild": "npm install && fable"
   },
   "dependencies": {
-    "fable-core": "^0.6.8"
+    "fable-core": ">= 0.7.6"
   },
   "keywords": [
     "Elm",
