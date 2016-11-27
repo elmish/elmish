@@ -23,9 +23,6 @@ type [<Pojo>] LazyProps<'model> = {
     equal:'model->'model->bool
 }
 
-/// This is just to appease the compile with LazyView
-type [<Pojo>] EmptyState = { foo: obj }
-
 module Components =
     let mutable internal mounted = false
 
@@ -45,7 +42,7 @@ module Components =
             view this.state.model this.state.dispatch
 
     type LazyView<'model>(props) =
-        inherit Component<LazyProps<'model>,EmptyState>(props)
+        inherit Component<LazyProps<'model>,obj>(props)
 
         member this.shouldComponentUpdate(nextProps, nextState, nextContext) =
             not <| this.props.equal this.props.model nextProps.model

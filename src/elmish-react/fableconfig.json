@@ -1,24 +1,25 @@
 {
-    "projFile": ["../elmish/Fable.Elmish.fsproj","./Fable.Elmish.React.fsproj"],
+    "projFile": "./Fable.Elmish.React.fsproj",
     "sourceMaps": true,
     "babelPlugins": ["transform-runtime"],
-    "outDir": "npm",
-    "module": "es2015",
+    "outDir": "./npm",
     "dll": true,
     "refs": {
         "Fable.Core": "fable-core",
         "Fable.PowerPack": "fable-powerpack",
-        "Fable.React": "fable-react"
+        "Fable.React": "fable-react",
+        "Fable.Elmish": "fable-elmish"
     },
     "targets": {
         "umd": {
-            "outDir": "npm/umd",
+            "outDir": "./npm/umd",
             "module": "umd",
             "dll": false,
             "refs": {
                 "Fable.Core": "fable-core/umd",
                 "Fable.PowerPack": "fable-powerpack/umd",
-                "Fable.React": "fable-react/umd"
+                "Fable.React": "fable-react/umd",
+                "Fable.Elmish": "fable-elmish/umd"
             }
         }
     }

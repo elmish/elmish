@@ -33,7 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="elmish.fs" />
-    <Compile Include="elmish-promise.fs" />
     <Compile Include="elmish-result.fs" />
     <Compile Include="elmish-parser.fs" />
     <Compile Include="elmish-browser-nav.fs" />

@@ -31,12 +31,7 @@
     <Reference Include="../../node_modules/fable-core/Fable.Core.dll" />
     <Reference Include="../../node_modules/fable-powerpack/Fable.Powerpack.dll" />
     <Reference Include="../../node_modules/fable-react/Fable.React.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="../elmish/Fable.Elmish.fsproj">
-      <Name>Fable.Elmish.fsproj</Name>
-      <Project>{e5e8b419-2545-4ae4-8bb4-14a44c1a0ad4}</Project>
-    </ProjectReference>
+    <Reference Include="../elmish/npm/Fable.Elmish.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="elmish-app.fs" />

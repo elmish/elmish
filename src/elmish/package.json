@@ -17,5 +17,9 @@
     "Redux"
   ],
   "author": "Eugene Tolmachev",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "peerDependencies": {
+    "fable-core": "^0.7.9",
+    "fable-powerpack": "^0.0.15"
+  }
 }
