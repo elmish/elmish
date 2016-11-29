@@ -4,10 +4,11 @@
 *)
 
 
-#r "../../../node_modules/fable-core/Fable.Core.dll"
-#r "../../../node_modules/fable-powerpack/Fable.PowerPack.dll"
-#r "../../../node_modules/fable-react/Fable.React.dll"
-#r "../../../src/elmish-react/npm/Fable.Elmish.React.dll"
+#r "../node_modules/fable-core/Fable.Core.dll"
+#r "../node_modules/fable-powerpack/Fable.PowerPack.dll"
+#r "../node_modules/fable-react/Fable.React.dll"
+#r "../node_modules/fable-elmish/Fable.Elmish.dll"
+#r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
 
 open Fable.Core
 open Fable.Import
@@ -47,4 +48,5 @@ open Elmish.React
 // App
 Program.mkSimple init update view
 |> Program.withConsoleTrace
-|> Program.toHtml Program.run "elmish-app"
+|> Program.withReact "elmish-app"
+|> Program.run

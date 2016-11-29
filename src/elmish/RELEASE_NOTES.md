@@ -1,3 +1,7 @@
+### 0.7.1-alpha.2
+
+* Rearranging `Program` API to prepare for debugger
+
 ### 0.7.0-alpha.4
 
 * Update README

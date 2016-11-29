@@ -3,7 +3,8 @@
     "sourceMaps": true,
     "projFile": "./todomvc.fsx",
     "outDir": "out",
-    "scripts": {
+    "refs": {
+        "Fable.Core": "fable-core/umd"
     },
     "targets": {
         "debug": {
@@ -17,7 +18,7 @@
         "production": {
             "sourceMaps": false,
             "scripts": {
-                "postbuild": "node node_modules/webpack/bin/webpack -p"
+                "postbuild": "node ../node_modules/webpack/bin/webpack -p"
             }
         }
     }

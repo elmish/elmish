@@ -1,17 +1,13 @@
 (**
  - title: Todo MVC
  - tagline: The famous todo mvc ported from elm-todomvc
- - app-style: width:800px; margin:20px auto 50px auto;
- - intro: Todo MVC implemented to show a more realistic example.
 *)
 
 
-#r "node_modules/fable-core/Fable.Core.dll"
-#load "node_modules/fable-import-react/Fable.Import.React.fs"
-#load "node_modules/fable-import-react/Fable.Helpers.React.fs"
-#load "node_modules/fable-elmish/elmish.fs"
-#load "node_modules/fable-elmish-react/elmish-app.fs"
-#load "node_modules/fable-elmish-react/elmish-react.fs"
+#r "../node_modules/fable-core/Fable.Core.dll"
+#r "../node_modules/fable-react/Fable.React.dll"
+#r "../node_modules/fable-elmish/Fable.Elmish.dll"
+#r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
 
 open Fable.Core
 open Fable.Import
@@ -314,4 +310,5 @@ let view model dispatch =
 // App
 Program.mkProgram (S.load >> init) update view
 |> Program.withConsoleTrace
-|> Program.toHtml Program.run "todoapp"
+|> Program.withReact "todoapp"
+|> Program.run

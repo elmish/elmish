@@ -1,10 +1,10 @@
 This is a port of [Elm's counter example](https://github.com/evancz/elm-architecture-tutorial/blob/master/examples/1-button.elm) implemented in F# and targeting Fable and React.
 ========
 
-This is a simple demo of [Elmish](https://github.com/et1975/fable-elmish).
+This is a simple demo of [Elmish](https://github.com/fable-compiler/fable-elmish).
 
-## Instructions
 
-1. Install dependencies in the repository root dir: `npm install`
-2. Compile F# code to JS (current dir): `npm run build`
-3. Start a local server (current dir): `npm start`
+## Build and running the sample
+1. `pushd .. && yarn install && popd`
+2. `yarn run build & yarn start`
+3. open http://localhost:8080/webpack-dev-server/

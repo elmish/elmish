@@ -1,6 +1,6 @@
 namespace Elmish
 
-(* This library helps you turn URLs into nicely structured data.
+(* This port of the Elm library helps you turn URLs into nicely structured data.
 It is designed to be used with `elm-lang/navigation` to help folks create
 single-page applications (SPAs) where you manage browser navigation yourself.
 *)
@@ -15,7 +15,7 @@ module UrlParser =
     to proceed is to just start using it. You can go far if you just assume it will
     do the intuitive thing.
     **Note:** If you *insist* on digging deeper, I recommend figuring out the type
-    of `int </> int` based on the type signatures for `int` and `</>`. You may be
+    of `i32 </> i32` based on the type signatures for `i32` and `</>`. You may be
     able to just know based on intuition, but instead, you should figure out
     exactly how every type variable gets unified. It is pretty cool! From there,
     maybe check out the implementation a bit.
@@ -25,7 +25,7 @@ module UrlParser =
 
     (* Actually run a parser. For example, if we want to handle blog posts with
     an ID number and a name, we might write something like this:
-        blog = s "blog" </> int </> string
+        blog = s "blog" </> i32 </> string
         result = parse (,) blog "blog/42/cat-herding-techniques"
         -- result == OK (42, "cat-herding-techniques")
     Notice that we use the `(,)` function for building tuples as the first argument

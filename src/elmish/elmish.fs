@@ -59,7 +59,7 @@ module Cmd =
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
-    let ofPromise (task:'a->Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:Exception->'msg) : Cmd<'msg> =
+    let ofPromise (task:'a->Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
         let bind (dispatch:'msg -> unit) =
             task arg
             |> Promise.map (ofSuccess >> dispatch)
@@ -73,29 +73,32 @@ type Program<'arg,'model,'msg, 'view> = {
     update : 'msg -> 'model -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
     view : 'model -> Dispatch<'msg> -> 'view
+    setState : 'model -> Dispatch<'msg> -> unit
 }
 
 /// Program module - functions to manipulate program instances
 module Program =
     /// Typical program, produces new commands as part of init() and update() as well as the new model.
-    let mkProgram
-        (init:'arg -> 'model * Cmd<'msg>)
-        (update:'msg -> 'model -> 'model * Cmd<'msg>)
+    let mkProgram 
+        (init : 'arg -> 'model * Cmd<'msg>) 
+        (update : 'msg -> 'model -> 'model * Cmd<'msg>)
         (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init
           update = update
           view = view
+          setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none }
 
     /// Simple program that produces only new model in init() and update().
     /// Good for tutorials
-    let mkSimple
-        (init:'arg -> 'model)
-        (update:'msg -> 'model -> 'model)
+    let mkSimple 
+        (init : 'arg -> 'model) 
+        (update : 'msg -> 'model -> 'model)
         (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init >> fun state -> state,Cmd.none
           update = fun msg -> update msg >> fun state -> state,Cmd.none
           view = view
+          setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none }
 
     /// Subscribe to external source of events.
@@ -119,7 +122,7 @@ module Program =
     /// arg: argument to pass to the init() function.
     /// setState: function that will be called with the new model state and the dispatch function to feed new messages into the loop.
     /// program: program created with 'mkSimple' or 'mkProgram'.
-    let runWith (arg:'arg) (setState:'model->'msg Dispatch->unit) (program:Program<'arg,'model,'msg,'view>) =
+    let runWith (arg:'arg) (program:Program<'arg,'model,'msg,'view>) =
         let (model,cmd) = program.init arg
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
             let rec loop (state:'model) =
@@ -127,7 +130,7 @@ module Program =
                     let! msg = mb.Receive()
                     try
                         let (model',cmd') = program.update msg state
-                        setState model' mb.Post
+                        program.setState model' mb.Post
                         cmd' |> List.iter (fun sub -> sub mb.Post)
                         return! loop model'
                     with ex ->
@@ -136,13 +139,10 @@ module Program =
                 }
             loop model
         )
-        setState model inbox.Post
+        program.setState model inbox.Post
         program.subscribe model
         @ cmd |> List.iter (fun sub -> sub inbox.Post)
 
     /// Start the dispatch loop with `unit` for the init() function.
-    let run setState (program:Program<unit,'model,'msg,'view>) = runWith () setState program
-
-    /// Start the dispatch loop with `unit` for the init() function and use the program.view to set state
-    let runWithView (program:Program<unit,'model,'msg,_>) = runWith () program.view program
+    let run (program:Program<unit,'model,'msg,'view>) = runWith () program
 

@@ -28,15 +28,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="../../node_modules/fable-core/Fable.Core.dll" />
-    <Reference Include="../../node_modules/fable-powerpack/Fable.Powerpack.dll" />
-    <Reference Include="../../node_modules/fable-react/Fable.React.dll" />
+    <Reference Include="node_modules/fable-core/Fable.Core.dll" />
+    <Reference Include="node_modules/fable-powerpack/Fable.Powerpack.dll" />
+    <Reference Include="node_modules/fable-react/Fable.React.dll" />
     <Reference Include="../elmish/npm/Fable.Elmish.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="elmish-app.fs" />
-    <Compile Include="elmish-react.fs" />
-    <Compile Include="elmish-native.fs" />
+    <Compile Include="common.fs" />
+    <Compile Include="react.fs" />
+    <Compile Include="react-native.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Choose>

@@ -4,22 +4,17 @@
 *)
 
 
-#r "node_modules/fable-core/Fable.Core.dll"
-#load "node_modules/fable-import-react/Fable.Import.React.fs"
-#load "node_modules/fable-import-react/Fable.Helpers.React.fs"
-#load "node_modules/fable-import-fetch/Fable.Import.Fetch.fs"
-#load "node_modules/fable-import-fetch/Fable.Helpers.Fetch.fs"
-#load "node_modules/fable-elmish/elmish.fs"
-#load "node_modules/fable-elmish/elmish-browser-nav.fs"
-#load "node_modules/fable-elmish/elmish-result.fs"
-#load "node_modules/fable-elmish/elmish-parser.fs"
-#load "node_modules/fable-elmish-react/elmish-app.fs"
-#load "node_modules/fable-elmish-react/elmish-react.fs"
+#r "../node_modules/fable-core/Fable.Core.dll"
+#r "../node_modules/fable-react/Fable.React.dll"
+#r "../node_modules/fable-elmish/Fable.Elmish.dll"
+#r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
+#r "../node_modules/fable-powerpack/Fable.PowerPack.dll"
 
 open Fable.Core
 open Fable.Import
 open Elmish
 open Fable.Import.Browser
+open Fable.PowerPack
 open Elmish.Browser.Navigation
 open Elmish.UrlParser
 
@@ -60,9 +55,9 @@ type Place = { ``place name``: string; state: string; }
 type ZipResponse = { places : Place list }
 
 let get query =
-    async {
-        let! r = Fable.Helpers.Fetch.fetchAs ("http://api.zippopotam.us/us/" + query, [])
-        return r |> unbox<ZipResponse> |> fun r -> r.places |> List.map (fun p -> p.``place name`` + ", " + p.state)
+    promise {
+        let! r = Fable.PowerPack.Fetch.fetchAs<ZipResponse> ("http://api.zippopotam.us/us/" + query, [])
+        return r |> fun r -> r.places |> List.map (fun p -> p.``place name`` + ", " + p.state)
     }
 (* If the URL is valid, we just update our model or issue a command. 
 If it is not a valid URL, we modify the URL to whatever makes sense.
@@ -76,17 +71,13 @@ let urlUpdate (result:Result<Page,string>) model =
   | Ok (Search query as page) ->
       { model with page = page; query = query },
          if Map.containsKey query model.cache then [] 
-         else Cmd.ofAsync get query (fun r -> FetchSuccess (query,r)) (fun ex -> FetchFailure (query,ex)) 
+         else Cmd.ofPromise get query (fun r -> FetchSuccess (query,r)) (fun ex -> FetchFailure (query,ex)) 
 
   | Ok page ->
       { model with page = page; query = "" }, []
 
 let init result =
   urlUpdate result { page = Home; query = ""; cache = Map.empty }
-
-let traceUrlUpdate (result:Result<Page,string>) m = 
-    console.log("UrlUpdate:", result)
-    urlUpdate result m
 
 
 (* A relatively normal update function. The only notable thing here is that we
@@ -187,5 +178,7 @@ open Elmish.React
 
 // App
 Program.mkProgram init update view
+|> Program.toNavigable hashParser urlUpdate
 |> Program.withConsoleTrace
-|> Program.toHtml (Program.runWithNavigation hashParser traceUrlUpdate) "elmish-app"
+|> Program.withReact "elmish-app"
+|> Program.run 

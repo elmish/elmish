@@ -30,10 +30,9 @@ module Navigation =
 module Program =
   /// Add the navigation to a program made with `mkProgram` or `mkSimple`.
   /// urlUpdate: similar to `update` function, but receives parsed url instead of message as an input.
-  let runWithNavigation (parser:Parser<'a>) 
-                        (urlUpdate:'a->'model->('model * Cmd<'msg>)) 
-                        (setState:'model->'msg Dispatch->unit) 
-                        (program:Program<'a,'model,'msg,'view>) =
+  let toNavigable (parser : Parser<'a>) 
+                  (urlUpdate : 'a->'model->('model * Cmd<'msg>)) 
+                  (program : Program<'a,'model,'msg,'view>) =
     let map (model, cmd) = 
         model, cmd |> Cmd.map UserMsg
     
@@ -56,12 +55,12 @@ module Program =
     
     let init () = 
         program.init (parser window.location) |> map
-
+    
     { init = init 
       update = update
       subscribe = subs
+      setState = fun model dispatch -> program.setState model (UserMsg >> dispatch) 
       view = fun model dispatch -> program.view model (UserMsg >> dispatch) }
-    |> Program.run (fun model dispatch -> setState model (UserMsg >> dispatch))
     
     
 

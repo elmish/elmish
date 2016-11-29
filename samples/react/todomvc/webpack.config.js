@@ -10,35 +10,50 @@ var cfg = {
     filename: "bundle.js"
   },
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "source-map-loader"
+        loader: "source-map-loader",
+        enforce: "pre"
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          presets: [["es2015", {"modules" : false}]],
+          plugins: ["transform-runtime"]
+        },
       }
+    ]
+  },
+  resolve: {
+    modules: [
+      "node_modules", path.resolve("../node_modules/")
     ]
   }
 };
 
 if (process.env.WEBPACK_DEV_SERVER) {
-    cfg.entry = [
-        "webpack-dev-server/client?http://localhost:8080",
-        'webpack/hot/only-dev-server',
-        "./out"
-    ];
-    cfg.plugins = [
-        new webpack.HotModuleReplacementPlugin()    
-    ];
-    cfg.module.loaders = [{
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "react-hot-loader"
-    }];
-    cfg.devServer = {
-        hot: true,
-        contentBase: "public/",
-        publicPath: "/"
-    };
+  cfg.entry = [
+    "webpack-dev-server/client?http://localhost:8080",
+    'webpack/hot/only-dev-server',
+    "./out"
+  ];
+  cfg.plugins = [
+    new webpack.HotModuleReplacementPlugin()
+  ];
+  cfg.module.loaders = [{
+    test: /\.js$/,
+    exclude: /node_modules/,
+    loader: "react-hot-loader"
+  }];
+  cfg.devServer = {
+    hot: true,
+    contentBase: "public/",
+    publicPath: "/"
+  };
 }
 
 module.exports = cfg;

@@ -1,6 +1,6 @@
-### 0.7.0-alpha.3
+### 0.7.1-alpha.2
 
-* Update libraries
+* Support for new `Program` API
 
 ### 0.7.0-alpha.1
 

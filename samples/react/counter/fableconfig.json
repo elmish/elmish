@@ -1,12 +1,23 @@
 {
   "projFile": "./app.fsx",
   "sourceMaps": true,
-  "rollup": {
-    "dest": "public/bundle.js",
-    "external": ["react", "react-dom"],
-    "globals": {
-        "react": "React",
-        "react-dom": "ReactDOM"
+  "outDir": "out",
+  "refs": {
+    "Fable.Core": "fable-core/umd"
+  },
+  "targets": {
+    "debug": {
+      "watch": true,
+      "symbols": [
+        "DEV_SERVER"
+      ],
+      "scripts": {}
+    },
+    "production": {
+      "sourceMaps": false,
+      "scripts": {
+        "postbuild": "node ../node_modules/webpack/bin/webpack -p"
+      }
     }
   }
 }

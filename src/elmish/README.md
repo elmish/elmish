@@ -15,40 +15,55 @@ npm install --save fable-core fable-powerpack fable-elmish
 
 Add a reference to the assemblies in the package folders (e.g. `node_modules/fable-elmish/Fable.Elmish.dll`).
 
-## Basic dispatch
+## Basic dispatch.
+> Note that by itself the following program expects the `view` to carry out both DOM construction *and* DOM rendering.
+ 
+Usage:
+```fsharp
+open Elmish
+
+Program.mkProgram init update view
+|> Program.run
+```
+
+## Async: schedule a command transforming the results of an `async<_>` function.
+Usage:
+```fsharp
+open Elmish
+
+Cmd.ofAsync asyncFunction arg ofSuccess ofError
+```
+
+## Promise: schedule a command transforming the results of a `promise<_>` function.
+Usage:
+```fsharp
+open Elmish
+
+Cmd.ofPromise promiseFunction arg ofSuccess ofError
+```
+
+## Result: Ok/Error type and operators.
+> This type is standard in F# 4.1 and will be removed from this lib when MS releases it.
 
 Usage:
 ```fsharp
 open Elmish
+
 ```
 
-## Promise: Integrate JS promises
-
-Usage:
-```fsharp
-open Elmish
-```
-
-## Result: Ok/Error type and operators
-
-Usage:
-```fsharp
-open Elmish
-```
-
-## UrlParser: Combinator for parsing browser's location url
-
+## UrlParser: Combinator for parsing browser's location url.
 Usage:
 ```fsharp
 open Elmish.UrlParser
 ```
 
-## Navigation: Integrate with browser's location and history
-
+## Navigation: Integrate with browser's location and history.
 Usage:
 ```fsharp
 open Elmish.Browser.Navigation
 
 Program.mkProgram init update view
-|> Program.runWithNavigation parser urlUpdate setState
+|> Program.toNavigable parser urlUpdate 
+|> Program.run
+
 ```
