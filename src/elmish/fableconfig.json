@@ -6,7 +6,6 @@
     "module": "es2015",
     "dll": true,
     "refs": {
-        "Fable.Core": "fable-core",
         "Fable.PowerPack": "fable-powerpack"
     },
     "targets": {
@@ -15,7 +14,6 @@
             "module": "umd",
             "dll": false,
             "refs": {
-                "Fable.Core": "fable-core/umd",
                 "Fable.PowerPack": "fable-powerpack/umd"
             }
         }

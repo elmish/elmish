@@ -1,14 +1,20 @@
 Elmish-React: React extensions for [fable-elmish](https://github.com/fable-compiler/fable-elmish) applications.
 =======
 
+## Installation
 
-## App component.
-> Include source: `elmish-app.fs`
+```shell
+npm install --save react react-dom
+npm install --save fable-core fable-powerpack fable-elmish fable-react fable-elmish-react
+```
+
+Add a reference to the assemblies in the package folders (e.g. `node_modules/fable-elmish/Fable.Elmish.dll`).
+
+## App component
 
 This file is used internally by the rest of the library and must be included first.
 
-## Lazy views.
-> Include source: `elmish-app.fs`
+## Lazy views
 
 Rendering of any view can be optimizied by avoiding the DOM reconciliation and skipping the DOM construction entierly if there are no changes in the model.
 Can be used by both React and ReactNative applications.
@@ -27,8 +33,7 @@ lazyView3 view model1 model2 dispatch
 
 ```
 
-## React (Html) helpers.
-> Include source: `elmish-react.fs`
+## React (Html) helpers
 
 Implements boilerplate to setup a root component and get the dispatch loop started for React application.
 
@@ -40,8 +45,7 @@ Program.toHtml Program.run "elmish-app" program
 
 ```
 
-## React (Native) helpers.
-> Include source: `elmish-native.fs`
+## React (Native) helpers
 
 Implements boilerplate to setup a root component and get the dispatch loop started for ReactNative application.
 

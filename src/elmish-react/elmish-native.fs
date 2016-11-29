@@ -9,8 +9,9 @@ module Program =
     open Fable.Core.JsInterop
     open Elmish.React
 
+    [<Erase>]
     type Globals =
-        [<Import("default","renderApplication")>] 
+        [<Import("default","renderApplication")>]
         static member renderApplication(rootComponent:ComponentClass<'P>, initialProps:'P, rootTag:obj) : obj = failwith "JS only"
 
     /// Return a function suitable for the native runnable registration
