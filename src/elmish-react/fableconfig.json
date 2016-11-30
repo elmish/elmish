@@ -5,8 +5,6 @@
     "outDir": "./npm",
     "dll": true,
     "refs": {
-        "Fable.PowerPack": "fable-powerpack",
-        "Fable.React": "fable-react",
         "Fable.Elmish": "fable-elmish"
     },
     "targets": {
@@ -15,8 +13,6 @@
             "module": "umd",
             "dll": false,
             "refs": {
-                "Fable.PowerPack": "fable-powerpack/umd",
-                "Fable.React": "fable-react/umd",
                 "Fable.Elmish": "fable-elmish/umd"
             }
         }

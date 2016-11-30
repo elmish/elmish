@@ -5,17 +5,11 @@
     "outDir": "npm",
     "module": "es2015",
     "dll": true,
-    "refs": {
-        "Fable.PowerPack": "fable-powerpack"
-    },
     "targets": {
         "umd": {
             "outDir": "npm/umd",
             "module": "umd",
-            "dll": false,
-            "refs": {
-                "Fable.PowerPack": "fable-powerpack/umd"
-            }
+            "dll": false
         }
     }
 }

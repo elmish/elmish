@@ -1,3 +1,7 @@
+### 0.7.1-alpha.3
+
+* Update dependencies
+
 ### 0.7.1-alpha.2
 
 * Support for new `Program` API
