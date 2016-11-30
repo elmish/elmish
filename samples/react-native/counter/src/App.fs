@@ -11,7 +11,7 @@ open Elmish
 
 // MODEL
 
-type Model = {count:int}
+type Model = int
 
 
 type Msg =
@@ -20,25 +20,25 @@ type Msg =
 
 
 let init () =
-  { count = 0 }
+  0
 
 
 // UPDATE
 
-let update (msg:Msg) {count = count} =
+let update (msg:Msg) count =
   match msg with
   | Increment ->
-      { count = count + 1 }
+      count + 1
 
   | Decrement ->
-      { count = count - 1 }
+      count - 1
 
 
 
 // rendering views with ReactNative
 module R = Fable.Helpers.ReactNative
 
-let view {count = count} (dispatch:Dispatch<Msg>) =
+let view count (dispatch:Dispatch<Msg>) =
   let onClick msg =
     fun () -> msg |> dispatch 
 

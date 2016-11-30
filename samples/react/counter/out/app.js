@@ -2,10 +2,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-import _Symbol from "fable-core/umd/Symbol";
-import { declare, compareUnions, equalsUnions } from "fable-core/umd/Util";
+import _Symbol from "fable-core/Symbol";
+import { declare, compareUnions, equalsUnions } from "fable-core/Util";
 import { createElement } from "react";
-import { fold } from "fable-core/umd/Seq";
+import { fold } from "fable-core/Seq";
 import { ProgramModule } from "../../node_modules/fable-elmish/elmish";
 import { withReact } from "../../node_modules/fable-elmish-react/react";
 export var Msg = function () {

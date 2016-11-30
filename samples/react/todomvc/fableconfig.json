@@ -4,7 +4,6 @@
     "projFile": "./todomvc.fsx",
     "outDir": "out",
     "refs": {
-        "Fable.Core": "fable-core/umd"
     },
     "targets": {
         "debug": {
