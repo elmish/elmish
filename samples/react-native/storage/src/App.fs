@@ -3,7 +3,7 @@
 open System
 open Fable.Core
 open Fable.Import
-open Fable.Import.ReactNative
+open Fable.Helpers.ReactNativeSimpleStore
 open Fable.Helpers.ReactNative
 open Fable.Helpers.ReactNative.Props
 
@@ -86,20 +86,21 @@ let view (state:Model) (dispatch:Dispatch<Msg>) =
 // storage
 open Fable.Helpers.ReactNativeSimpleStore
 let load () =
-  Cmd.ofAsync DB.get<int option> 0 Loaded (fun _ -> NotPresent)
+  Cmd.ofPromise DB.get<int option> 0 Loaded (fun _ -> NotPresent)
 
 let save value =
-  Cmd.ofAsync DB.update<int option> (0,value) (fun _ -> Saved) ErrorStoring
+  Cmd.ofPromise DB.update<int option> (0,value) (fun _ -> Saved) ErrorStoring
 
 let erase () =
-  Cmd.ofAsync DB.clear<int option> () (fun _ -> NotPresent) ErrorStoring
+  Cmd.ofPromise DB.clear<int option> () (fun _ -> NotPresent) ErrorStoring
 
 let updatePersistence msg model =
   update (load,save,erase) msg model
 
 // App
 open Elmish.ReactNative
-let runnable:obj->obj = 
-    Program.mkProgram init updatePersistence view
-    |> Program.withConsoleTrace
-    |> Program.toRunnable Program.run
+
+Program.mkProgram init updatePersistence view
+|> Program.withConsoleTrace
+|> Program.withReactNative "counter"
+|> Program.run

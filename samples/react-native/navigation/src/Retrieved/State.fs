@@ -1,13 +1,13 @@
 module State.Retrieved
 
-open Types.Retrieved 
-open Fable.Import.Fetch
 open Fable.Core
+open Fable.PowerPack
 open Elmish
+open Types.Retrieved 
 
 let getTime () = 
     promise {
-        let! r = GlobalFetch.fetch "http://www.timeapi.org/utc/now"
+        let! r = Fetch.fetch "http://www.timeapi.org/utc/now" []
         return! r.text()
     }
 

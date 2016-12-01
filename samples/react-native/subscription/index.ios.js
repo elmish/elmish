@@ -1,4 +1,2 @@
 import {AppRegistry} from 'react-native';
-import {runnable} from './out/App';
-
-AppRegistry.registerRunnable('AwesomeProject', runnable);
+import * as app from './out/App';

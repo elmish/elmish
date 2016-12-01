@@ -38,17 +38,12 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="../node_modules/fable-core/Fable.Core.dll" />
+    <Reference Include="../node_modules/fable-powerpack/Fable.PowerPack.dll" />
+    <Reference Include="../node_modules/fable-react/Fable.React.dll" />
+    <Reference Include="../node_modules/fable-elmish/Fable.Elmish.dll" />
+    <Reference Include="../node_modules/fable-elmish-react/Fable.Elmish.React.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="../node_modules/fable-import-react/Fable.Import.React.fs" />
-    <Compile Include="../node_modules/fable-import-react/Fable.Helpers.React.fs" />
-    <Compile Include="../node_modules/fable-import-react-native/Fable.Import.ReactNative.fs" />
-    <Compile Include="../node_modules/fable-import-react-native/Fable.Helpers.ReactNative.fs" />
-    <Compile Include="../node_modules/fable-import-fetch/Fable.Import.Fetch.fs" />
-    <Compile Include="../node_modules/fable-import-fetch/Fable.Helpers.Fetch.fs" />
-    <Compile Include="../node_modules/fable-elmish/elmish.fs" />
-    <Compile Include="../node_modules/fable-elmish-react/elmish-app.fs" />
-    <Compile Include="../node_modules/fable-elmish-react/elmish-native.fs" />
     <Compile Include="Styles.fs" />
     <Compile Include="Counter.fs" />
     <Compile Include="Container.fs" />

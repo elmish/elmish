@@ -34,8 +34,8 @@ let view model dispatch =
                         scene 
                         [NavigationCardStackProps.RenderHeader header]
 
-let runnable :obj->obj = 
-    Program.mkProgram App.init App.update view
-    |> Program.withSubscription App.subscribe
-    |> Program.withConsoleTrace
-    |> Program.toRunnable Program.run
+Program.mkProgram App.init App.update view
+|> Program.withSubscription App.subscribe
+|> Program.withConsoleTrace
+|> Program.withReactNative "navigation"
+|> Program.run

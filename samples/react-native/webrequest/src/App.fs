@@ -1,9 +1,7 @@
 ﻿module AwesomeApp
 
 open Fable.Import
-open Fable.Import.Fetch
-open Fable.Helpers.Fetch
-open Fable.Core.Extensions
+open Fable.PowerPack
 open Elmish
 
 // Model
@@ -21,7 +19,7 @@ type Msg =
   | ChangeInput of string
   | SendRequest
   | Success of string
-  | Error of obj
+  | Error of exn
 
 
 let init () =
@@ -32,7 +30,7 @@ let init () =
 // Helpers
 let getUrl ( url : string ) =
   promise {
-    let! res = GlobalFetch.fetch url
+    let! res = Fetch.fetch url []
     return! res.text()
   }
 
@@ -81,7 +79,7 @@ let view model dispatch =
 
 open Elmish.ReactNative
 // App
-let runnable:obj->obj =
-    Program.mkProgram init update view
-    |> Program.withConsoleTrace
-    |> Program.toRunnable Program.run
+Program.mkProgram init update view
+|> Program.withConsoleTrace
+|> Program.withReactNative "awesome"
+|> Program.run

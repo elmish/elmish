@@ -1,25 +1,24 @@
 {
-  "name": "awesome-project",
+  "name": "awesome",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "firstbuild": "npm install && fable",
-    "prebuild": "npm install",
-    "build": "fable",
-    "watch": "fable -w",
+    "prebuild": "yarn install",
+    "build": "node node_modules/fable-compiler",
+    "watch": "node node_modules/fable-compiler -w",
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "core-js": "^2.4.1",
-    "fable-core": "^0.6.6",
-    "react": "15.2.1",
-    "react-native": "0.33.0"
+    "buffer": "^5.0.0",
+    "fable-core": "^0.7.11",
+    "react": "~15.3.2",
+    "react-native": "^0.36.0"
   },
   "devDependencies": {
-    "fable-import-react": "^0.5.0",
-    "fable-import-react-native": "^0.11.0",
-    "fable-import-fetch": "^0.1.7",
-    "fable-elmish": "^0.4.1",
-    "fable-elmish-react": "^0.1.1"
+    "fable-powerpack": "^0.0.18",
+    "fable-compiler": "^0.7.11",
+    "fable-elmish": "^0.7.1-alpha.3",
+    "fable-elmish-react": "^0.7.1-alpha.5",
+    "fable-react": "^0.7.2"
   }
 }

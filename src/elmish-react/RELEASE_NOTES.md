@@ -1,3 +1,7 @@
+### 0.7.1-alpha.5
+
+* Working around deprecated RN API 
+
 ### 0.7.1-alpha.3
 
 * Update dependencies

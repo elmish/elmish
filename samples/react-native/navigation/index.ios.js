@@ -1,4 +1,3 @@
 import {AppRegistry} from 'react-native';
-import {runnable} from './out/App';
+import * as app from './out/App';
 
-AppRegistry.registerRunnable('navigation', runnable);

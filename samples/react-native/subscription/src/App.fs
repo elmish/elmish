@@ -57,9 +57,9 @@ let view {count = count} dispatch =
 
 open Elmish.ReactNative
 // App
-let runnable : obj->obj =
-    Program.mkProgram init update view
-    |> Program.withSubscription subscription
-    |> Program.withConsoleTrace
-    |> Program.toRunnable Program.run
+Program.mkProgram init update view
+|> Program.withSubscription subscription
+|> Program.withConsoleTrace
+|> Program.withReactNative "awesome"
+|> Program.run
 

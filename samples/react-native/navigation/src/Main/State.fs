@@ -1,7 +1,6 @@
 module State.Main
 
 open Types.Main 
-open Fable.Import.Fetch
 open Fable.Core
 open Elmish
 

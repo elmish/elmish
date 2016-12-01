@@ -50,7 +50,7 @@ let view count (dispatch:Dispatch<Msg>) =
 
 open Elmish.ReactNative
 // App
-let runnable:obj->obj = 
-    Program.mkSimple init update view
-    |> Program.withConsoleTrace
-    |> Program.toRunnable Program.run
+Program.mkSimple init update view
+|> Program.withConsoleTrace
+|> Program.withReactNative "counter"
+|> Program.run

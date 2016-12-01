@@ -18,3 +18,5 @@ build/
 obj
 bin
 
+# git
+*.orig

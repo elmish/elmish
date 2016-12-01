@@ -6,29 +6,31 @@ open Fable.Core
 open Elmish
 
 module Components =
-
-    type SetState<'model,'msg> = ('model->'msg Dispatch->unit)->unit
-
-    type [<Pojo>] AppProps<'model,'msg> = {
-        setState : SetState<'model,'msg>
-        view : 'model->'msg Dispatch->ReactElement
+    type [<Pojo>] AppState = { 
+        render : unit -> ReactElement
+        setState : AppState -> unit
     }
 
-    type [<Pojo>] AppState<'model,'msg> = {
-        dispatch : 'msg Dispatch
-        model : 'model
-    }
+    let mutable appState = None
 
-    type App<'model,'msg>(props:AppProps<'model,'msg>) as this =
-        inherit Component<AppProps<'model,'msg>, AppState<'model,'msg>>(props)
+    type App() as this =
+        inherit Component<obj,AppState>()
         do
-            props.setState (fun m d -> this.setInitState { dispatch = d; model = m })
+            match appState with
+            | Some state ->
+                appState <- Some { state with AppState.setState = this.setInitState }
+                this.setInitState state
+            | _ -> failwith "was Elmish.ReactNative.Program.withReactNative called?"
 
         member this.componentDidMount() =
-            props.setState (fun m d -> this.setState { dispatch = d; model = m })
-        
-        member this.render () =
-            props.view this.state.model this.state.dispatch
+            appState <- Some { appState.Value with setState = this.setState }
+
+        member this.render () = 
+            this.state.render()
+
+[<Import("AppRegistry","react-native")>] 
+type AppRegistry =
+    static member registerComponent(appKey:string, getComponentFunc:unit->ComponentClass<_>) : unit = failwith "JS only"
 
 [<RequireQualifiedAccess>]
 module Program =
@@ -36,18 +38,14 @@ module Program =
     open Elmish.React
     open Components
 
-    type Globals =
-        [<Import("default","renderApplication")>] 
-        static member renderApplication(rootComponent:ComponentClass<'P>, initialProps:'P, rootTag:obj) : obj = failwith "JS only"
-
     /// Setup rendering of root ReactNative component
-    let toRunnable run (program:Program<_,_,_,_>) =
-        let mutable lastState = Option.None
-        let mutable setState = fun model dispatch -> lastState <- Some (model,dispatch) 
-        let props = { view = program.view
-                      setState = fun f -> match lastState with
-                                          | Some (model,dispatch) -> f model dispatch
-                                          | _ -> ()
-                                          setState <- f }
-        run { program with setState = setState }
-        fun (appParameters:obj) -> Globals.renderApplication(unbox typeof<Components.App<_,_>>, props, appParameters?rootTag)
+    let withReactNative appKey (program:Program<_,_,_,_>) =
+        AppRegistry.registerComponent(appKey, fun () -> unbox typeof<Components.App>)
+        let render m d =
+             match Components.appState with
+             | Some state -> 
+                state.setState { state with render = fun () -> program.view m d }
+             | _ -> 
+                Components.appState <- Some { render = fun () -> program.view m d 
+                                              setState = ignore }
+        { program with setState = render }
