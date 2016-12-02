@@ -16,13 +16,13 @@
             "args": ["update"]
         },
         {
-            "taskName": "firstbuild",
-            "args": ["run", "firstbuild"]
-        },
-        {
             "taskName": "build",
             "args": ["run", "build"],
-            "isBuildCommand": true,
+            "isBuildCommand": true
+        },
+        {
+            "taskName": "watch",
+            "args": ["run", "build"],
             "isWatching": true
         }
     ]

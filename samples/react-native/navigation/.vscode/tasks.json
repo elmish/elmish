@@ -22,7 +22,7 @@
         },
         {
             "taskName": "watch",
-            "args": ["run", "watch"],
+            "args": ["run", "build"],
             "isWatching": true
         }
     ]

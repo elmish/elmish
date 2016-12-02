@@ -44,6 +44,4 @@ android/keystores/debug.keystore
 out/
 .vscode/.react/
 .vscode/launchReactNative.js
-
-ios/
-android/
+public/base.css public/index.css
