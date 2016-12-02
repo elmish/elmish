@@ -25,6 +25,9 @@ module Components =
         member this.componentDidMount() =
             appState <- Some { appState.Value with setState = this.setState }
 
+        member this.componentWillUnmount() =
+            appState <- Some { appState.Value with setState = ignore; render = this.state.render }
+
         member this.render () = 
             this.state.render()
 
@@ -40,12 +43,12 @@ module Program =
 
     /// Setup rendering of root ReactNative component
     let withReactNative appKey (program:Program<_,_,_,_>) =
-        AppRegistry.registerComponent(appKey, fun () -> unbox typeof<Components.App>)
+        AppRegistry.registerComponent(appKey, fun () -> unbox typeof<App>)
         let render m d =
-             match Components.appState with
+             match appState with
              | Some state -> 
                 state.setState { state with render = fun () -> program.view m d }
              | _ -> 
-                Components.appState <- Some { render = fun () -> program.view m d 
-                                              setState = ignore }
+                appState <- Some { render = fun () -> program.view m d 
+                                   setState = ignore }
         { program with setState = render }
