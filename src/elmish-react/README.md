@@ -22,14 +22,15 @@ Program.mkProgram init update view
 
 ```
 
-ReactNative application needs a `runnable` function:
+ReactNative:
 
 Usage:
 ```fsharp
 open Elmish.ReactNative
 
-let runnable : obj->obj =
-    Program.toRunnable Program.run program
+Program.mkProgram init update view
+|> Program.withReactNative "awesome" // app component id, should match the react-native CLI-generated native package id
+|> Program.run
 
 ```
 
@@ -37,9 +38,8 @@ in index.ios.js and index.android.js:
 
 ```js
 import {AppRegistry} from 'react-native';
-import {runnable} from './out/App';
+import * as app from './out/App';
 
-AppRegistry.registerRunnable('awesome', runnable);
 ```
 
 

@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "buffer": "^5.0.0",
-    "fable-core": "^0.7.11",
+    "fable-core": "^0.7.21",
     "react": "~15.3.2",
     "react-native": "^0.36.0"
   },
   "devDependencies": {
     "fable-powerpack": "^0.0.18",
-    "fable-compiler": "^0.7.11",
-    "fable-elmish": "^0.7.1-alpha.3",
-    "fable-elmish-react": "^0.7.1",
+    "fable-compiler": "^0.7.21",
+    "fable-elmish": "^0.7.2",
+    "fable-elmish-react": "^0.7.2",
     "fable-react": "^0.7.2"
   }
 }

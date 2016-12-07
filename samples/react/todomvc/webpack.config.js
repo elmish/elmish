@@ -22,7 +22,6 @@ var cfg = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: [["es2015", {"modules" : false}]],
           plugins: ["transform-runtime"]
         },
       }
@@ -44,11 +43,11 @@ if (process.env.WEBPACK_DEV_SERVER) {
   cfg.plugins = [
     new webpack.HotModuleReplacementPlugin()
   ];
-  cfg.module.loaders = [{
+  cfg.module.rules.push({
     test: /\.js$/,
     exclude: /node_modules/,
     loader: "react-hot-loader"
-  }];
+  });
   cfg.devServer = {
     hot: true,
     contentBase: "public/",

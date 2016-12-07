@@ -1,6 +1,10 @@
-### 0.7.2
+### 0.7.2-alpha
 
-* Fix dependencies
+* Fable dev tools bump
+
+### 0.7.1
+
+* Stable release
 
 ### 0.7.1-alpha.3
 

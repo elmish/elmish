@@ -1,9 +1,13 @@
 {
-    "module": "amd",
     "sourceMaps": true,
     "projFile": "./todomvc.fsx",
     "outDir": "out",
     "refs": {
+        "Fable.Core": "fable-core/umd",
+        "Fable.PowerPack": "fable-powerpack/umd",
+        "Fable.React": "fable-react/umd",
+        "Fable.Elmish": "fable-elmish/umd",
+        "Fable.Elmish.React": "fable-elmish-react/umd"
     },
     "targets": {
         "debug": {

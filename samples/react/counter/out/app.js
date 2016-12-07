@@ -2,12 +2,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+import { setType } from "fable-core/Symbol";
 import _Symbol from "fable-core/Symbol";
-import { declare, compareUnions, equalsUnions } from "fable-core/Util";
+import { compareUnions, equalsUnions } from "fable-core/Util";
 import { createElement } from "react";
 import { fold } from "fable-core/Seq";
-import { ProgramModule } from "../../node_modules/fable-elmish/elmish";
-import { withReact } from "../../node_modules/fable-elmish-react/react";
+import { ProgramModule } from "fable-elmish/elmish";
+import { withReact } from "fable-elmish-react/react";
 export var Msg = function () {
   function Msg(caseName, fields) {
     _classCallCheck(this, Msg);
@@ -18,7 +19,7 @@ export var Msg = function () {
 
   _createClass(Msg, [{
     key: _Symbol.reflection,
-    value: function value() {
+    value: function () {
       return {
         type: "App.Msg",
         interfaces: ["FSharpUnion", "System.IEquatable", "System.IComparable"],
@@ -30,19 +31,19 @@ export var Msg = function () {
     }
   }, {
     key: "Equals",
-    value: function Equals(other) {
+    value: function (other) {
       return equalsUnions(this, other);
     }
   }, {
     key: "CompareTo",
-    value: function CompareTo(other) {
+    value: function (other) {
       return compareUnions(this, other);
     }
   }]);
 
   return Msg;
 }();
-declare(Msg);
+setType("App.Msg", Msg);
 export function init() {
   return 0;
 }
