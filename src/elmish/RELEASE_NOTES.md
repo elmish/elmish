@@ -1,3 +1,7 @@
+### 0.7.2
+
+* Fix dependencies
+
 ### 0.7.1-alpha.3
 
 * Update dependencies

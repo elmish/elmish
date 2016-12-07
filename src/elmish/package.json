@@ -20,8 +20,8 @@
   "author": "Eugene Tolmachev",
   "license": "Apache-2.0",
   "devDependencies": {
-    "fable-compiler": "^0.7.16",
-    "fable-core": "^0.7.11",
-    "fable-powerpack": "^0.0.18"
+    "fable-compiler": "^0.7.22",
+    "fable-core": "^0.7.15",
+    "fable-powerpack": "^0.0.19"
   }
 }

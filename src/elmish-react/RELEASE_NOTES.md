@@ -1,10 +1,14 @@
+### 0.7.2
+
+* Fix dependencies
+
 ### 0.7.1
 
-* Handling unmounted properly 
+* Handling unmounted properly
 
 ### 0.7.1-alpha.5
 
-* Working around deprecated RN API 
+* Working around deprecated RN API
 
 ### 0.7.1-alpha.3
 
