@@ -1,4 +1,4 @@
-### 0.7.2-alpha
+### 0.7.2
 
 * Fable dev tools bump
 

@@ -56,7 +56,7 @@ type ZipResponse = { places : Place list }
 
 let get query =
     promise {
-        let! r = Fable.PowerPack.Fetch.fetchAs<ZipResponse> ("http://api.zippopotam.us/us/" + query, [])
+        let! r = Fable.PowerPack.Fetch.fetchAs<ZipResponse> ("http://api.zippopotam.us/us/" + query) []
         return r |> fun r -> r.places |> List.map (fun p -> p.``place name`` + ", " + p.state)
     }
 (* If the URL is valid, we just update our model or issue a command. 
