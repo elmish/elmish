@@ -4,10 +4,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 import { setType } from "fable-core/Symbol";
 import _Symbol from "fable-core/Symbol";
-import { compareUnions, equalsUnions } from "fable-core/Util";
+import { Interface, Unit, compareUnions, equalsUnions } from "fable-core/Util";
 import { createElement } from "react";
 import { fold } from "fable-core/Seq";
 import { ProgramModule } from "fable-elmish/elmish";
+import { Program } from "fable-elmish-debugger/debugger";
 import { withReact } from "fable-elmish-react/react";
 export var Msg = function () {
   function Msg(caseName, fields) {
@@ -65,7 +66,7 @@ export function view(count, dispatch) {
     return o;
   }, {}, [onClick(new Msg("Increment", []))]), "+"));
 }
-ProgramModule.run(withReact("elmish-app", ProgramModule.withConsoleTrace(ProgramModule.mkSimple(function () {
+ProgramModule.run(Program.withDebugger(withReact("elmish-app", ProgramModule.mkSimple(function () {
   return init();
 }, function (msg) {
   return function (count) {
@@ -75,5 +76,10 @@ ProgramModule.run(withReact("elmish-app", ProgramModule.withConsoleTrace(Program
   return function (dispatch) {
     return view(count, dispatch);
   };
-}))));
+})), {
+  a: Unit,
+  model: "number",
+  msg: Msg,
+  view: Interface("Fable.Import.React.ReactElement")
+}));
 //# sourceMappingURL=app.js.map

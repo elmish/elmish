@@ -617,6 +617,10 @@ balanced-match@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
 
+base-64@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
+
 base64-js@^1.0.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.2.0.tgz#a39992d723584811982be5e290bb6a53d86700f1"
@@ -869,6 +873,10 @@ commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
 
+component-emitter@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.0.tgz#ccd113a86388d06482d03de3fc7df98526ba8efe"
+
 compressible@~2.0.8:
   version "2.0.9"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.9.tgz#6daab4e2b599c2770dd9e21e7a891b1c5a755425"
@@ -983,6 +991,10 @@ crypto-browserify@^3.11.0:
     pbkdf2 "^3.0.3"
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
+
+cycle@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/cycle/-/cycle-1.0.3.tgz#21e80b2be8580f98b468f379430662b046c34ad2"
 
 dashdash@^1.12.0:
   version "1.14.1"
@@ -1225,13 +1237,17 @@ fable-core@^0.7.15:
   version "0.7.15"
   resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-0.7.15.tgz#1b16a95970838197b181015446007efb99510f91"
 
-fable-elmish-react@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.7.2.tgz#4f01d6a7d5636a76ad23b6ff9e1f2ab4a58e43af"
+fable-elmish-debugger@next:
+  version "0.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.1.0-alpha.1.tgz#cf6faa7eceba1af845b90c4ed82d1ac47cc15106"
 
-fable-elmish@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.7.2.tgz#6fdebac377bc978a646a3f67afe8dbfae9822815"
+fable-elmish-react@next:
+  version "0.8.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.8.0-alpha.1.tgz#099ade32e4f9a02dad92347a66e8b751cad9dba4"
+
+fable-elmish@next:
+  version "0.8.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.8.0-alpha.1.tgz#5fa7504ea0bd920529383e0f8a8a31310091af38"
 
 fable-powerpack@^0.0.19:
   version "0.0.19"
@@ -1743,6 +1759,10 @@ js-tokens@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-2.0.0.tgz#79903f5563ee778cc1162e6dcf1a0027c97f9cb5"
 
+jsan@^3.1.3:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/jsan/-/jsan-3.1.5.tgz#8144b968ace7db092914a3639e9768181d686f61"
+
 jsbn@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.0.tgz#650987da0dd74f4ebf5a11377a2aa2d273e97dfd"
@@ -1820,6 +1840,10 @@ lcid@^1.0.0:
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"
   dependencies:
     invert-kv "^1.0.0"
+
+linked-list@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/linked-list/-/linked-list-0.1.0.tgz#798b0ff97d1b92a4fd08480f55aea4e9d49d37bf"
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -2081,6 +2105,10 @@ opn@4.0.2:
     object-assign "^4.0.1"
     pinkie-promise "^2.0.0"
 
+options@>=0.0.5:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
+
 original@>=0.0.5:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/original/-/original-1.0.0.tgz#9147f93fa1696d04be61e01bd50baeaca656bd3b"
@@ -2261,7 +2289,7 @@ querystring-es3@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/querystring-es3/-/querystring-es3-0.2.1.tgz#9ec61f79049875707d69414596fd907a4d711e73"
 
-querystring@0.2.0:
+querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
@@ -2405,6 +2433,14 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
+remotedev@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/remotedev/-/remotedev-0.2.3.tgz#c15978e5c691399a49060f5c0ba4f7ccc3c6dc8e"
+  dependencies:
+    jsan "^3.1.3"
+    querystring "^0.2.0"
+    socketcluster-client "^5.0.0"
+
 repeat-element@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/repeat-element/-/repeat-element-1.1.2.tgz#ef089a178d1483baae4d93eb98b4f9e4e11d990a"
@@ -2511,6 +2547,28 @@ rollup@^0.36.3:
   dependencies:
     source-map-support "^0.4.0"
 
+sc-channel@1.0.x:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/sc-channel/-/sc-channel-1.0.5.tgz#09738b35febbb8a66a395255dfd99a52a217c8d3"
+  dependencies:
+    sc-emitter "1.0.x"
+
+sc-emitter@1.0.x:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/sc-emitter/-/sc-emitter-1.0.1.tgz#0fbf52950c9c6816235cec99544cec38a5010763"
+  dependencies:
+    component-emitter "1.2.0"
+
+sc-errors@1.0.x:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/sc-errors/-/sc-errors-1.0.6.tgz#80e77c36348b2c88bbe7ead8dc63be61f34b7103"
+  dependencies:
+    cycle "1.0.3"
+
+sc-formatter@3.0.x:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/sc-formatter/-/sc-formatter-3.0.0.tgz#c91b1fe56c260abd5a6a2e6af98c724bc7998a38"
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -2589,6 +2647,19 @@ sntp@1.x.x:
   resolved "https://registry.yarnpkg.com/sntp/-/sntp-1.0.9.tgz#6541184cc90aeea6c6e7b35e2659082443c66198"
   dependencies:
     hoek "2.x.x"
+
+socketcluster-client@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/socketcluster-client/-/socketcluster-client-5.1.1.tgz#77d3c3eec8bc5a4224d445511159a1d09c9e6ed9"
+  dependencies:
+    base-64 "0.1.0"
+    linked-list "0.1.0"
+    querystring "0.2.0"
+    sc-channel "1.0.x"
+    sc-emitter "1.0.x"
+    sc-errors "1.0.x"
+    sc-formatter "3.0.x"
+    ws "1.1.1"
 
 sockjs-client@1.1.1:
   version "1.1.1"
@@ -2865,6 +2936,10 @@ uid-number@~0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
+ultron@1.0.x:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
+
 unpipe@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
@@ -3068,6 +3143,13 @@ wrap-ansi@^2.0.0:
 wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
+
+ws@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.1.tgz#082ddb6c641e85d4bb451f03d52f06eabdb1f018"
+  dependencies:
+    options ">=0.0.5"
+    ultron "1.0.x"
 
 xtend@^4.0.0:
   version "4.0.1"

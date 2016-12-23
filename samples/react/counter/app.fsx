@@ -9,6 +9,7 @@
 #r "../node_modules/fable-react/Fable.React.dll"
 #r "../node_modules/fable-elmish/Fable.Elmish.dll"
 #r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
+#r "../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll"
 
 open Fable.Core
 open Fable.Import
@@ -40,13 +41,14 @@ let view count dispatch =
 
   R.div []
     [ R.button [ onClick Decrement ] [ unbox "-" ]
-    ; R.div [] [ unbox (string count) ]
-    ; R.button [ onClick Increment ] [ unbox "+" ] ]
+      R.div [] [ unbox (string count) ]
+      R.button [ onClick Increment ] [ unbox "+" ] ]
 
 open Elmish.React
+open Elmish.Debug
 
 // App
 Program.mkSimple init update view
-|> Program.withConsoleTrace
 |> Program.withReact "elmish-app"
+|> Program.withDebugger
 |> Program.run

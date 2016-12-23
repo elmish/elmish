@@ -1,3 +1,7 @@
+### 0.8.0-alpha.1
+
+* Lookup placeholdId by Id, instead of class
+
 ### 0.7.2
 
 * Fix dependencies

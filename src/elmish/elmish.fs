@@ -74,11 +74,13 @@ type Program<'arg,'model,'msg, 'view> = {
     subscribe : 'model -> Cmd<'msg>
     view : 'model -> Dispatch<'msg> -> 'view
     setState : 'model -> Dispatch<'msg> -> unit
-    onError : exn -> unit
+    onError : (string*exn) -> unit
 }
 
 /// Program module - functions to manipulate program instances
 module Program =
+    let internal onError (text:string,ex:exn) = Fable.Import.Browser.console.error (text,ex)
+
     /// Typical program, produces new commands as part of init() and update() as well as the new model.
     let mkProgram 
         (init : 'arg -> 'model * Cmd<'msg>) 
@@ -89,7 +91,7 @@ module Program =
           view = view
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
-          onError = fun ex -> Fable.Import.Browser.console.error ("unable to process a message:", ex) }
+          onError = onError }
 
     /// Simple program that produces only new model in init() and update().
     /// Good for tutorials
@@ -102,7 +104,7 @@ module Program =
           view = view
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
-          onError = fun ex -> Fable.Import.Browser.console.error ("unable to process a message:", ex) }
+          onError = onError }
 
     /// Subscribe to external source of events.
     /// The subscriptions are called once - with the initial model, but can call dispatch whenever they need.
@@ -137,7 +139,7 @@ module Program =
                         cmd' |> List.iter (fun sub -> sub mb.Post)
                         return! loop model'
                     with ex ->
-                        program.onError ex
+                        program.onError ("Unable to process a message:", ex)
                         return! loop state
                 }
             loop model

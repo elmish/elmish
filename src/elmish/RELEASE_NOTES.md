@@ -1,3 +1,7 @@
+### 0.8.0-alpha.1
+
+* Expanding `Program` to accommodate plugabble error reporting
+
 ### 0.7.2
 
 * Fable dev tools bump

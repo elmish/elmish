@@ -22,6 +22,9 @@
     "fable-compiler": "^0.7.22",
     "fable-core": "^0.7.15",
     "fable-powerpack": "^0.0.19",
+    "fable-elmish": "^0.8.0-alpha.1"
+  },
+  "peerDependencies": {
     "remotedev": "^0.2.3"
   }
 }

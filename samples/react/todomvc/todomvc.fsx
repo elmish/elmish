@@ -8,6 +8,7 @@
 #r "../node_modules/fable-react/Fable.React.dll"
 #r "../node_modules/fable-elmish/Fable.Elmish.dll"
 #r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
+#r "../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll"
 
 open Fable.Core
 open Fable.Import
@@ -307,8 +308,9 @@ let view model dispatch =
           lazyView3 viewControls model.visibility model.entries dispatch ]
       infoFooter ]
 
+open Elmish.Debug
 // App
 Program.mkProgram (S.load >> init) update view
-|> Program.withConsoleTrace
 |> Program.withReact "todoapp"
+|> Program.withDebugger
 |> Program.run

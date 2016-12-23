@@ -18,7 +18,7 @@ Usage:
 open Elmish.React
 
 Program.mkProgram init update view
-|> Program.withReact "placehoder"
+|> Program.withReact "placehoder" // 
 |> Program.run
 
 ```

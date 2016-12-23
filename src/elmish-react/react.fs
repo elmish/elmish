@@ -13,7 +13,7 @@ module Program =
         let setState model dispatch =
             Fable.Import.ReactDom.render(
                 lazyView2With (fun x y -> obj.ReferenceEquals(x,y)) program.view model dispatch,
-                Fable.Import.Browser.document.getElementsByClassName(placeholderId).[0]
+                Fable.Import.Browser.document.getElementById(placeholderId)
             )
 
         { program with setState = setState } 

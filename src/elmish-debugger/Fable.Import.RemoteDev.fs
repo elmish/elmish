@@ -5,29 +5,35 @@ open Fable.Core
 open Fable.Import.JS
 open Fable.Import.Browser
 
-[<Erase>]
-[<AutoOpen>]
 module RemoteDev =
     type Options = { remote:bool; port:int; hostname:string; secure:bool }
+    
+    module MsgTypes =
+        [<Literal>]
+        let Start = "START"
+        [<Literal>]
+        let Action = "ACTION"
+        [<Literal>]
+        let Dispatch = "DISPATCH"
 
-    type Msg = { payload:obj; action:obj; ``type``:string }
+    type Msg = { state:string; action:obj; ``type``:string }
 
-    type Listener<'msg> = 'msg -> unit
+    type Listener = Msg -> unit
     
     type Unsubscribe = unit -> unit
 
     type Connection =
         abstract init: obj * obj Option -> unit
-        abstract subscribe: Listener<Msg> -> Unsubscribe
+        abstract subscribe: Listener -> Unsubscribe
         abstract unsubscribe: Unsubscribe
         abstract send: obj * obj -> unit
         abstract error: obj -> unit
 
     [<Import("connect","remotedev")>]
-    let connect : Options option -> Connection = jsNative
+    let connect : Options -> Connection = jsNative
 
     [<Import("connectViaExtension","remotedev")>]
-    let connectViaExtension : Options option -> Connection = jsNative
+    let connectViaExtension : Options -> Connection = jsNative
     
     [<Import("extractState","remotedev")>]
-    let extractState<'state> : Msg -> 'state = jsNative
+    let extractState : obj -> obj = jsNative

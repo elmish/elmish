@@ -21,10 +21,8 @@
   "devDependencies": {
     "fable-compiler": "^0.7.22",
     "fable-core": "^0.7.15",
+    "fable-elmish": "^0.8.0-alpha.1",
     "fable-powerpack": "^0.0.19",
     "fable-react": "^0.7.12"
-  },
-  "peerDependencies": {
-    "fable-elmish": "^0.7.2"
   }
 }
