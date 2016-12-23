@@ -74,6 +74,7 @@ type Program<'arg,'model,'msg, 'view> = {
     subscribe : 'model -> Cmd<'msg>
     view : 'model -> Dispatch<'msg> -> 'view
     setState : 'model -> Dispatch<'msg> -> unit
+    onError : exn -> unit
 }
 
 /// Program module - functions to manipulate program instances
@@ -87,7 +88,8 @@ module Program =
           update = update
           view = view
           setState = fun model -> view model >> ignore
-          subscribe = fun _ -> Cmd.none }
+          subscribe = fun _ -> Cmd.none
+          onError = fun ex -> Fable.Import.Browser.console.error ("unable to process a message:", ex) }
 
     /// Simple program that produces only new model in init() and update().
     /// Good for tutorials
@@ -99,7 +101,8 @@ module Program =
           update = fun msg -> update msg >> fun state -> state,Cmd.none
           view = view
           setState = fun model -> view model >> ignore
-          subscribe = fun _ -> Cmd.none }
+          subscribe = fun _ -> Cmd.none
+          onError = fun ex -> Fable.Import.Browser.console.error ("unable to process a message:", ex) }
 
     /// Subscribe to external source of events.
     /// The subscriptions are called once - with the initial model, but can call dispatch whenever they need.
@@ -134,7 +137,7 @@ module Program =
                         cmd' |> List.iter (fun sub -> sub mb.Post)
                         return! loop model'
                     with ex ->
-                        Fable.Import.Browser.console.error ("unable to process a message:", ex)
+                        program.onError ex
                         return! loop state
                 }
             loop model

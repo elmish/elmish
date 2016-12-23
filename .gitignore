@@ -5,6 +5,7 @@
 # node.js
 #
 **/node_modules/
+**/npm/
 npm-debug.log
 samples/**/public
 

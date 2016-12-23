@@ -9,7 +9,8 @@ npm install --save-dev fable-core fable-powerpack fable-elmish fable-react fable
 ```
 
 Add a reference to the assemblies in the package folders (e.g. `node_modules/fable-elmish/Fable.Elmish.dll`).
-## App component.
+
+## App component
 React application needs a root component to be rendered at the specified placeholder:
 
 Usage:
@@ -44,7 +45,7 @@ import * as app from './out/App';
 
 
 
-## Lazy views.
+## Lazy views
 Rendering of any view can be optimizied by avoiding the DOM reconciliation and skipping the DOM construction entierly if there are no changes in the model.
 Can be used by both React and ReactNative applications.
 

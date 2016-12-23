@@ -59,6 +59,7 @@ module Program =
     { init = init 
       update = update
       subscribe = subs
+      onError = program.onError
       setState = fun model dispatch -> program.setState model (UserMsg >> dispatch) 
       view = fun model dispatch -> program.view model (UserMsg >> dispatch) }
     

@@ -15,7 +15,7 @@ npm install --save fable-core fable-powerpack fable-elmish
 
 Add a reference to the assemblies in the package folders (e.g. `node_modules/fable-elmish/Fable.Elmish.dll`).
 
-## Basic dispatch.
+## Basic dispatch
 > Note that by itself the following program expects the `view` to carry out both DOM construction *and* DOM rendering.
  
 Usage:
@@ -26,7 +26,7 @@ Program.mkProgram init update view
 |> Program.run
 ```
 
-## Async: schedule a command transforming the results of an `async<_>` function.
+## Async: schedule a command transforming the results of an `async<_>` function
 Usage:
 ```fsharp
 open Elmish
@@ -34,7 +34,7 @@ open Elmish
 Cmd.ofAsync asyncFunction arg ofSuccess ofError
 ```
 
-## Promise: schedule a command transforming the results of a `promise<_>` function.
+## Promise: schedule a command transforming the results of a `promise<_>` function
 Usage:
 ```fsharp
 open Elmish
@@ -51,13 +51,13 @@ open Elmish
 
 ```
 
-## UrlParser: Combinator for parsing browser's location url.
+## UrlParser: Combinator for parsing browser's location url
 Usage:
 ```fsharp
 open Elmish.UrlParser
 ```
 
-## Navigation: Integrate with browser's location and history.
+## Navigation: Integrate with browser's location and history
 Usage:
 ```fsharp
 open Elmish.Browser.Navigation
