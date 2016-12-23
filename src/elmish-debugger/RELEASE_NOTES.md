@@ -1,3 +1,7 @@
+### 0.1.0-alpha.2
+
+* Simple state works
+
 ### 0.1.0-alpha.1
 
 * Initial debugger release
