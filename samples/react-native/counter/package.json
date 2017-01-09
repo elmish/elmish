@@ -6,19 +6,24 @@
     "prebuild": "yarn install",
     "build": "node node_modules/fable-compiler",
     "watch": "node node_modules/fable-compiler -w",
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "i-remotedev": "remotedev --hostname=localhost --port=8000 --injectserver=reactnative",
+    "rm-remotedev": "remotedev --revert=reactnative"
   },
   "dependencies": {
     "buffer": "^5.0.0",
-    "fable-core": "^0.7.21",
+    "fable-core": "^0.7.18",
     "react": "~15.3.2",
-    "react-native": "^0.36.0"
+    "react-native": "^0.36.0",
+    "remotedev": "^0.2.3"
   },
   "devDependencies": {
-    "fable-compiler": "^0.7.21",
-    "fable-elmish": "^0.7.2",
-    "fable-elmish-react": "^0.7.2",
+    "fable-compiler": "^0.7.25",
+    "fable-elmish": "next",
+    "fable-elmish-debugger": "next",
+    "fable-elmish-react": "next",
     "fable-powerpack": "^0.0.18",
-    "fable-react": "^0.7.2"
+    "fable-react": "^0.7.2",
+    "remotedev-server": "^0.3.0-beta-2"
   }
 }

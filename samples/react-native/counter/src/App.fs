@@ -49,8 +49,10 @@ let view count (dispatch:Dispatch<Msg>) =
     ]
 
 open Elmish.ReactNative
+open Elmish.Debug
+
 // App
 Program.mkSimple init update view
-|> Program.withConsoleTrace
 |> Program.withReactNative "counter"
+|> Program.withDebuggerAt (Debugger.Remote ("localhost",8000))
 |> Program.run
