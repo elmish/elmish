@@ -1,4 +1,4 @@
-### 0.8.0-alpha.1
+### 0.8.0-alpha.2
 
 * Lookup placeholdId by Id, instead of class
 

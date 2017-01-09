@@ -28,6 +28,7 @@ module Program =
 
         let update msg model : 'model * Cmd<'msg> =
             let (model',cmd) = program.update msg model
+            Fable.Import.Browser.console.log ("sending", msg, model')
             connection.send (msg, model')
             (model',cmd)
 
@@ -35,8 +36,12 @@ module Program =
             let sub dispatch =
                 function 
                 | (msg:Msg) when msg.``type`` = MsgTypes.Dispatch ->
-                    let state = JsInterop.inflate<'model> (extractState msg)
-                    program.setState state dispatch
+                    Fable.Import.Browser.console.log ("msg", msg)
+                    try
+                        let state = JsInterop.inflate<'model> (extractState msg)
+                        program.setState state dispatch
+                    with ex ->
+                        Fable.Import.Browser.console.error ("Unable to deserialize state", msg.state, ex)
                 | _ -> ()
                 |> connection.subscribe
                 |> ignore

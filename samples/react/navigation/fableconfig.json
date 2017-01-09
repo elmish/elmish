@@ -3,9 +3,6 @@
     "sourceMaps": true,
     "projFile": "./app.fsx",
     "outDir": "out",
-    "refs": {
-        "Fable.Core": "fable-core/umd"
-    },
     "targets": {
         "debug": {
             "watch": true,

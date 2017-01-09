@@ -49,7 +49,11 @@ export function init() {
   return 0;
 }
 export function update(msg, count) {
-  return msg.Case === "Decrement" ? count - 1 : count + 1;
+  if (msg.Case === "Decrement") {
+    return count - 1;
+  } else {
+    return count + 1;
+  }
 }
 export function view(count, dispatch) {
   var onClick = function onClick(msg) {

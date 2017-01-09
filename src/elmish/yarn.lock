@@ -774,9 +774,9 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
-fable-compiler@^0.7.22:
-  version "0.7.22"
-  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-0.7.22.tgz#081e5d2077c6d332fbcd38646354f29ffb86f3d9"
+fable-compiler@^0.7.25:
+  version "0.7.25"
+  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-0.7.25.tgz#35d2aba5e8d7a5de74eca18e1662ec717863a37b"
   dependencies:
     babel-core "^6.18.2"
     babel-dts-generator "^0.6.2"
@@ -795,9 +795,9 @@ fable-compiler@^0.7.22:
     rollup-plugin-node-resolve "^2.0.0"
     semver "^5.3.0"
 
-fable-core@^0.7.15:
-  version "0.7.15"
-  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-0.7.15.tgz#1b16a95970838197b181015446007efb99510f91"
+fable-core@^0.7.18:
+  version "0.7.18"
+  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-0.7.18.tgz#6526c5de8e81637c6d5d60a2d2418aad617ed57c"
 
 fable-powerpack@^0.0.19:
   version "0.0.19"
