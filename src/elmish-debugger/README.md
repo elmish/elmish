@@ -14,7 +14,7 @@ Follow the monitor installation instructions at [Remotedev tools](https://github
 
 
 ## Program module functions
-Augument your program instance with a debugger:
+Augument your program instance with a debugger, make sure it's the last item in the `Program` pipeline:
 
 Usage:
 ```fsharp
