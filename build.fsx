@@ -11,6 +11,10 @@ let buildDir  = "./build/"
 // Filesets
 let projects  =
       !! "src/*/fableconfig.json"
+let installs  =
+      !! "package.json"
+      ++ "src/*/package.json"
+      ++ "samples/*/package.json"
 
 // Fable projects
 let fables  =
@@ -28,6 +32,19 @@ Target "Clean" (fun _ ->
     CleanDirs [buildDir]
 )
 
+Target "Install" (fun _ ->
+    installs
+    |> Seq.iter (fun s -> 
+                    let dir = IO.Path.GetDirectoryName s
+                    printf "Installing: %s\n" dir
+                    Npm (fun p ->
+                        { p with
+                            Command = Install Standard
+                            WorkingDirectory = dir
+                        }))
+)
+
+
 Target "Build" (fun _ ->
     projects
     |> Seq.iter (fun s -> 
@@ -44,6 +61,7 @@ Target "Samples" (fun _ ->
     fables
     |> Seq.iter (fun s -> 
                     let dir = IO.Path.GetDirectoryName s
+                    printf "Installing: %s\n" dir
                     printf "Building: %s\n" dir
                     Npm (fun p ->
                         { p with
@@ -72,6 +90,7 @@ Target "All" ignore
 
 // Build order
 "Clean"
+  ==> "Install"
   ==> "Build"
   ==> "Samples"
   ==> "All"
