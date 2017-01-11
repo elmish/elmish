@@ -59,3 +59,9 @@ Extras
 `npm install --save-dev fable-elmish-react`
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-react/README.md)
+
+
+## Elmish-Debugger: RemoteDev tools integration adds support for time-travelling debugger and import/export.
+`npm install --save-dev fable-elmish-debugger`
+
+For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-debugger/README.md)

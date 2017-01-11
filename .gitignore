@@ -18,6 +18,7 @@ packages/
 build/
 obj
 bin
+out
 
 # git
 *.orig

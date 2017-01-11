@@ -19,12 +19,12 @@
   "author": "Eugene Tolmachev",
   "license": "Apache-2.0",
   "devDependencies": {
-    "fable-compiler": "^0.7.25",
-    "fable-core": "^0.7.18",
-    "fable-elmish": "^0.8.0-alpha.1",
+    "fable-compiler": "^0.7.28",
+    "fable-core": "^0.7.20",
+    "fable-elmish": "^0.8.0",
     "fable-powerpack": "^0.0.19"
   },
   "peerDependencies": {
-    "remotedev": "^0.2.3"
+    "remotedev": "^0.2.5"
   }
 }

@@ -1,4 +1,4 @@
-### 0.8.0-alpha.2
+### 0.8.0
 
 * Expanding `Program` to accommodate plugabble error reporting
 

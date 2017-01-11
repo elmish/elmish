@@ -1,4 +1,8 @@
-### 0.1.0-alpha.4
+### 0.1.0
+
+* Releasing the debugger support
+
+### 0.1.0-alpha.5
 
 * Everyting that Fable can `inflate` should work when time-traveling
 

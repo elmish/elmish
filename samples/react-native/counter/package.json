@@ -8,6 +8,7 @@
     "watch": "node node_modules/fable-compiler -w",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "i-remotedev": "remotedev --hostname=localhost --port=8000 --injectserver=reactnative",
+    "remotedev": "remotedev --hostname=localhost --port=8000",
     "rm-remotedev": "remotedev --revert=reactnative"
   },
   "dependencies": {

@@ -34,7 +34,6 @@ let update (msg:Msg) count =
       count - 1
 
 
-
 // rendering views with ReactNative
 module R = Fable.Helpers.ReactNative
 
@@ -45,8 +44,7 @@ let view count (dispatch:Dispatch<Msg>) =
   R.view [Styles.sceneBackground]
     [ Styles.button "-" (onClick Decrement)
       R.text [] (string count)
-      Styles.button "+" (onClick Increment)
-    ]
+      Styles.button "+" (onClick Increment) ]
 
 open Elmish.ReactNative
 open Elmish.Debug
@@ -54,5 +52,5 @@ open Elmish.Debug
 // App
 Program.mkSimple init update view
 |> Program.withReactNative "counter"
-|> Program.withDebuggerAt (Debugger.Remote ("localhost",8000))
+|> Program.withDebugger
 |> Program.run

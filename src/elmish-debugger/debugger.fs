@@ -2,6 +2,7 @@ namespace Elmish.Debug
 open Fable.Import.RemoteDev
 
 module Debugger =
+    open Fable.Core.JsInterop
 
     type ConnectionOptions =
         | ViaExtension
@@ -9,10 +10,13 @@ module Debugger =
         | Secure of address:string * port:int
 
     let connect =
+        let inline getCase cmd : obj = createObj ["type" ==> unbox cmd?Case
+                                                  "fields" ==> cmd?Fields]
+
         function
-        | ViaExtension -> { Options.remote = false; hostname = "localhost"; port = 8000; secure = false }
-        | Remote (address,port) -> { Options.remote = true; hostname = address; port = port; secure = false }
-        | Secure (address,port) -> { Options.remote = true; hostname = address; port = port; secure = true }
+        | ViaExtension -> { Options.remote = false; hostname = "localhost"; port = 8000; secure = false; getActionType = Some getCase }
+        | Remote (address,port) -> { Options.remote = true; hostname = address; port = port; secure = false; getActionType = None }
+        | Secure (address,port) -> { Options.remote = true; hostname = address; port = port; secure = true; getActionType = None }
         >> connectViaExtension
 
 module Program =
@@ -28,7 +32,6 @@ module Program =
 
         let update msg model : 'model * Cmd<'msg> =
             let (model',cmd) = program.update msg model
-            Fable.Import.Browser.console.log ("sending", msg, model')
             connection.send (msg, model')
             (model',cmd)
 
@@ -36,7 +39,6 @@ module Program =
             let sub dispatch =
                 function 
                 | (msg:Msg) when msg.``type`` = MsgTypes.Dispatch ->
-                    Fable.Import.Browser.console.log ("msg", msg)
                     try
                         let state = JsInterop.inflate<'model> (extractState msg)
                         program.setState state dispatch
