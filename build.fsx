@@ -68,9 +68,13 @@ Target "Publish-Elmish-React" (fun _ ->
             })
 )
 
+Target "All" ignore
+
 // Build order
 "Clean"
   ==> "Build"
+  ==> "Samples"
+  ==> "All"
   
 // start build
 RunTargetOrDefault "Build"
