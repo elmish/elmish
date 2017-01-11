@@ -32,6 +32,12 @@ Target "Build" (fun _ ->
     projects
     |> Seq.iter (fun s -> 
                     let dir = IO.Path.GetDirectoryName s
+                    printf "Installing: %s\n" dir
+                    Npm (fun p ->
+                        { p with
+                            Command = Install Standard
+                            WorkingDirectory = dir
+                        })
                     printf "Building: %s\n" dir
                     Npm (fun p ->
                         { p with
