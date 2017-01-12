@@ -1,3 +1,7 @@
+### 0.1.1
+
+* Adding basic import support
+
 ### 0.1.0
 
 * Releasing the debugger support

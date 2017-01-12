@@ -6,8 +6,6 @@ open Fable.Import.JS
 open Fable.Import.Browser
 
 module RemoteDev =
-    type Options = { remote:bool; port:int; hostname:string; secure:bool; getActionType:(obj->obj) option  }
-    
     module MsgTypes =
         [<Literal>]
         let Start = "START"
@@ -16,7 +14,40 @@ module RemoteDev =
         [<Literal>]
         let Dispatch = "DISPATCH"
 
-    type Msg = { state:string; action:obj; ``type``:string}
+    module PayloadTypes =
+        [<Literal>]
+        let ImportState = "IMPORT_STATE"
+        [<Literal>]
+        let JumpToState = "JUMP_TO_STATE"
+        [<Literal>]
+        let JumpToAction = "JUMP_TO_ACTION"
+
+    type Options =
+        { remote : bool
+          port : int
+          hostname : string
+          secure : bool
+          getActionType : (obj->obj) option }
+    
+    type Action = 
+        { ``type``: string
+          fields : obj array }
+
+    type LiftedState =
+        { actionsById : Action array
+          computedStates : obj array
+          currentStateIndex : int
+          nextActionId : int }
+    
+    type Payload =
+        { nextLiftedState : LiftedState
+          ``type``: string }
+
+    type Msg =
+        { state : string
+          action : obj
+          ``type`` : string
+          payload : Payload }
 
     type Listener = Msg -> unit
     

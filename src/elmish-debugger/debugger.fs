@@ -1,9 +1,9 @@
 namespace Elmish.Debug
 open Fable.Import.RemoteDev
+open Fable.Core.JsInterop
+open Fable.Core
 
 module Debugger =
-    open Fable.Core.JsInterop
-
     type ConnectionOptions =
         | ViaExtension
         | Remote of address:string * port:int
@@ -21,7 +21,6 @@ module Debugger =
 
 module Program =
     open Elmish
-    open Fable.Core
 
     [<PassGenericsAttribute>]
     let withDebuggerUsing (connection:Connection) (program : Program<'a,'model,'msg,'view>) : Program<'a,'model,'msg,'view> =
@@ -37,13 +36,21 @@ module Program =
 
         let subscribe model = 
             let sub dispatch =
-                function 
+                function
                 | (msg:Msg) when msg.``type`` = MsgTypes.Dispatch ->
                     try
-                        let state = JsInterop.inflate<'model> (extractState msg)
-                        program.setState state dispatch
+                        match msg.payload.``type`` with
+                        | PayloadTypes.JumpToAction
+                        | PayloadTypes.JumpToState ->
+                            let state = inflate<'model> (extractState msg)
+                            program.setState state dispatch
+                        | PayloadTypes.ImportState ->
+                            let state = msg.payload.nextLiftedState.computedStates |> Array.last
+                            program.setState (inflate<'model> state?state) dispatch
+                            connection.send(null, msg.payload.nextLiftedState)
+                        | _ -> ()
                     with ex ->
-                        Fable.Import.Browser.console.error ("Unable to deserialize state", msg.state, ex)
+                        Fable.Import.Browser.console.error ("Unable to process monitor command", msg, ex)
                 | _ -> ()
                 |> connection.subscribe
                 |> ignore
