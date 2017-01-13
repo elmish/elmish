@@ -6,7 +6,7 @@ open Elmish.ReactNative
 
 module C = Container
 
-let runnable:obj->obj = 
-    Program.mkProgram C.init C.update C.view
-    |> Program.withConsoleTrace
-    |> Program.toRunnable Program.run
+Program.mkProgram C.init C.update C.view
+|> Program.withReactNative "counter"
+|> Program.withConsoleTrace
+|> Program.run

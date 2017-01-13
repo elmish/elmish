@@ -1215,9 +1215,9 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
-fable-compiler@^0.7.28:
-  version "0.7.28"
-  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-0.7.28.tgz#c8d356219ea0a7ab615e7f50620f2143757bd190"
+fable-compiler@^0.7.30:
+  version "0.7.30"
+  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-0.7.30.tgz#72410ee1400870f498b40f83508e653baf980894"
   dependencies:
     babel-core "^6.18.2"
     babel-dts-generator "^0.6.2"
@@ -1238,19 +1238,19 @@ fable-compiler@^0.7.28:
     rollup-plugin-node-resolve "^2.0.0"
     semver "^5.3.0"
 
-fable-core@^0.7.20:
-  version "0.7.20"
-  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-0.7.20.tgz#db448cf12e21c0bfb52918daeb91b68039b507d4"
+fable-core@^0.7.22:
+  version "0.7.22"
+  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-0.7.22.tgz#f1f34713d41d83c18b91556717f68a9610467192"
 
-fable-elmish-debugger@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.1.0.tgz#1263af0dcca44f336945290cdb8b9902f6413ad9"
+fable-elmish-debugger@^0.1.0:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.1.1.tgz#fd65832d2a443fc241292321f8af219fb0d7f16f"
 
-fable-elmish-react@0.8.0:
+fable-elmish-react@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.8.0.tgz#7ee979fcf906ae9e5292ca981d4f867b3d7d5bbc"
 
-fable-elmish@0.8.0:
+fable-elmish@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.8.0.tgz#f24398a1acfeb7ba09bab40aa461da5280f277ed"
 
@@ -1258,9 +1258,9 @@ fable-powerpack@^0.0.19:
   version "0.0.19"
   resolved "https://registry.yarnpkg.com/fable-powerpack/-/fable-powerpack-0.0.19.tgz#9349aab7d01958bf6936a76fefee06e1a7424294"
 
-fable-react@^0.7.12:
-  version "0.7.14"
-  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-0.7.14.tgz#b8b676721d7db073e83df2a405966536d9fc8018"
+fable-react@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-0.8.0.tgz#f3adef0f99cf3899baa62f1787e29cbecf10785c"
 
 faye-websocket@^0.10.0:
   version "0.10.0"

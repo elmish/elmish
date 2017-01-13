@@ -4,9 +4,6 @@
     "babelPlugins": ["transform-runtime"],
     "outDir": "./npm",
     "dll": true,
-    "refs": {
-        "Fable.Elmish": "fable-elmish"
-    },
     "targets": {
         "umd": {
             "outDir": "./npm/umd",

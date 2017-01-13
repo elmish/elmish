@@ -28,9 +28,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="node_modules/fable-core/Fable.Core.dll" />
-    <Reference Include="node_modules/fable-powerpack/Fable.Powerpack.dll" />
-    <Reference Include="node_modules/fable-react/Fable.React.dll" />
+    <Reference Include="../../node_modules/fable-core/Fable.Core.dll" />
+    <Reference Include="../../node_modules/fable-powerpack/Fable.PowerPack.dll" />
+    <Reference Include="../../node_modules/fable-react/Fable.React.dll" />
     <Reference Include="../elmish/npm/Fable.Elmish.dll" />
   </ItemGroup>
   <ItemGroup>

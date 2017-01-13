@@ -7,7 +7,7 @@
     "url": "git://github.com/fable-compiler/fable-elmish.git"
   },
   "scripts": {
-    "build": "node node_modules/fable-compiler",
+    "build": "node ../../node_modules/fable-compiler",
     "package": "node build.js"
   },
   "keywords": [
@@ -17,12 +17,5 @@
     "React"
   ],
   "author": "Eugene Tolmachev",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "fable-compiler": "^0.7.28",
-    "fable-core": "^0.7.20",
-    "fable-elmish": "^0.8.0",
-    "fable-powerpack": "^0.0.19",
-    "fable-react": "^0.7.12"
-  }
+  "license": "Apache-2.0"
 }
