@@ -5,9 +5,24 @@ open System
 open Fake
 open Fake.NpmHelper
 
+let yarn = 
+    if EnvironmentHelper.isWindows then "yarn.cmd" else "yarn"
+    |> ProcessHelper.tryFindFileOnPath
+    |> function
+       | Some yarn -> yarn
+       | _ -> failwith "yarn not found\n"
+
 // Directories
 let buildDir  = "./build/"
 
+// Install prereqs
+let installs  =
+        !! "package.json"
+
+let samplesInstalls  =
+        !! "samples/*/package.json"
+        ++ "samples/react-native/*/package.json"
+ 
 // Filesets
 let projects  =
       !! "src/*/fableconfig.json"
@@ -23,6 +38,32 @@ let packages  =
 // version info
 let version = "0.5"  // or retrieve from CI server
 
+Target "Install" (fun _ ->
+    installs
+    |> Seq.iter (fun s -> 
+                    let dir = IO.Path.GetDirectoryName s
+                    printf "Installing: %s\n" dir
+                    Npm (fun p ->
+                        { p with
+                            NpmFilePath = yarn
+                            Command = Install Standard
+                            WorkingDirectory = dir
+                        }))
+)
+
+Target "InstallSamples" (fun _ ->
+    samplesInstalls
+    |> Seq.iter (fun s -> 
+                    let dir = IO.Path.GetDirectoryName s
+                    printf "Installing for samples: %s\n" dir
+                    Npm (fun p ->
+                        { p with
+                            NpmFilePath = yarn
+                            Command = Install Standard
+                            WorkingDirectory = dir
+                        }))
+)
+
 // Targets
 Target "Clean" (fun _ ->
     CleanDirs [buildDir]
@@ -35,6 +76,7 @@ Target "Build" (fun _ ->
                     printf "Building: %s\n" dir
                     Npm (fun p ->
                         { p with
+                            NpmFilePath = yarn
                             Command = Run "build"
                             WorkingDirectory = dir
                         }))
@@ -47,6 +89,7 @@ Target "Samples" (fun _ ->
                     printf "Building: %s\n" dir
                     Npm (fun p ->
                         { p with
+                            NpmFilePath = yarn
                             Command = Run "build"
                             WorkingDirectory = dir
                         }))
@@ -72,7 +115,13 @@ Target "All" ignore
 
 // Build order
 "Clean"
+  ==> "Install"
   ==> "Build"
+
+"InstallSamples"
+  ==> "Samples"
+
+"Build"
   ==> "Samples"
   ==> "All"
   

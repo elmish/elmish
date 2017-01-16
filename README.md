@@ -3,6 +3,9 @@ Elmish: Elm-like abstractions for F# applications targeting Fable.
 
 [![npm version](https://badge.fury.io/js/fable-elmish.svg)](https://badge.fury.io/js/fable-elmish)
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-compiler/Fable)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/fdb2fxf2h9bd719r?svg=true)](https://ci.appveyor.com/project/et1975/fable-elmish)
+[![Mono Build Status](https://travis-ci.org/fable-compiler/fable-elmish.svg "Mono Build Status")](https://travis-ci.org/fable-compiler/fable-elmish)
+
 
 Elmish implements core abstractions that can be used to build applications following [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
 The library however does not model any "view" and is intended for use in conjuction with a DOM/renderer, like React/ReactNative or VirtualDOM.  
@@ -65,3 +68,16 @@ For more information see the [readme](https://github.com/fable-compiler/fable-el
 `npm install --save-dev fable-elmish-debugger`
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-debugger/README.md)
+
+
+Building Elmish
+=======
+
+Make sure you have `yarn` installed (`yarn` is to `npm` like `paket` is to `nuget`) and it's in the PATH.
+> `npm install -g yarn`
+
+Then run fake:
+> `./build.sh` or `build`
+
+And/or build samples:
+> `build Samples`

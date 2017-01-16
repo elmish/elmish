@@ -5,6 +5,11 @@ sudo: false  # use the new container-based Travis infrastructure
 before_script:
   - nvm install 4.4
   - nvm use 4.4
+  #install yarn globally
+  - npm install -g yarn
+
+cache:
+  yarn: true
 
 script:
   - ./build.sh
