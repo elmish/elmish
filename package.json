@@ -3,8 +3,8 @@
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-runtime": "^6.18.0",
-    "fable-compiler": "^0.7.30",
-    "fable-core": "^0.7.22",
+    "fable-compiler": "^0.7.31",
+    "fable-core": "^0.7.23",
     "fable-powerpack": "^0.0.19",
     "fable-react": "^0.8.0",
     "fs-extra": "^1.0.0"

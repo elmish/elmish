@@ -1,3 +1,7 @@
+### 0.8.2
+
+* Fixed relative path to elmish
+
 ### 0.8.1
 
 * Updated React native root to pass (unused) `props`
