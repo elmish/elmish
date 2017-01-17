@@ -13,8 +13,8 @@ module Components =
 
     let mutable appState = None
 
-    type App() as this =
-        inherit Component<obj,AppState>()
+    type App(props) as this =
+        inherit Component<obj,AppState>(props)
         do
             match appState with
             | Some state ->
