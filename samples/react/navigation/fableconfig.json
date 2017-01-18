@@ -1,5 +1,4 @@
 {
-    "module": "amd",
     "sourceMaps": true,
     "projFile": "./app.fsx",
     "outDir": "out",
