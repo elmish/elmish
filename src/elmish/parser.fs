@@ -25,7 +25,7 @@ module UrlParser =
 
     (* Actually run a parser. For example, if we want to handle blog posts with
     an ID number and a name, we might write something like this:
-        blog = s "blog" </> i32 </> string
+        blog = s "blog" </> i32 </> str
         result = parse (,) blog "blog/42/cat-herding-techniques"
         -- result == OK (42, "cat-herding-techniques")
     Notice that we use the `(,)` function for building tuples as the first argument
@@ -102,7 +102,7 @@ module UrlParser =
     you can imagine.
         search = s "search" </> str
     **Note:** this parser will only match URLs with exactly two segments. So things
-    like `/search/this/that` would fail. You could use `search </> string` to handle
+    like `/search/this/that` would fail. You could use `search </> str` to handle
     that case if you wanted though!
     *)
     let str chunks = custom "string" Ok chunks
@@ -112,7 +112,7 @@ module UrlParser =
     URLs like `/blog/42` where `42` can be replaced by any positive number.
         blog = s "blog" </> i32
     **Note:** this parser will only match URLs with exactly two segments. So things
-    like `/blog/42/cat-herding-techniques` would fail. You could use `blog </> string`
+    like `/blog/42/cat-herding-techniques` would fail. You could use `blog </> str`
     to handle that scenario if you wanted though!
     *)
     let i32 chunks = custom "i32" (int >> Ok) chunks
