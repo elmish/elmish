@@ -70,12 +70,20 @@ module Program =
 
 
     [<PassGenericsAttribute>]
-    let withDebuggerAt options = 
-        Debugger.connect options
-        |> withDebuggerUsing
+    let withDebuggerAt options program : Program<'a,'model,'msg,'view> = 
+        try
+            (Debugger.connect options, program)
+            ||> withDebuggerUsing
+        with ex -> 
+            Fable.Import.Browser.console.error ("Unable to connect to the monitor, continuing w/o debugger", ex)
+            program
 
     
     [<PassGenericsAttribute>]
     let withDebugger (program : Program<'a,'model,'msg,'view>) : Program<'a,'model,'msg,'view> =
-        ((Debugger.connect Debugger.ViaExtension),program)
-        ||> withDebuggerUsing
+        try
+            ((Debugger.connect Debugger.ViaExtension),program)
+            ||> withDebuggerUsing
+        with ex -> 
+            Fable.Import.Browser.console.error ("Unable to connect to the monitor, continuing w/o debugger", ex)
+            program
