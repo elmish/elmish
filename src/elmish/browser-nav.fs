@@ -14,17 +14,21 @@ type Navigable<'msg> =
 
 module Navigation =
     let [<Literal>] internal NavigatedEvent = "NavigatedEvent"
-    let modifyUrl (newUrl:string) =
+
+    /// Modify current location
+    let modifyUrl (newUrl:string):Cmd<_> =
         [fun _ -> history.replaceState((), "", newUrl)]
 
-    let newUrl (newUrl:string) =
+    /// Push new location into history and navigate there
+    let newUrl (newUrl:string):Cmd<_> =
         [fun _ -> history.pushState((), "", newUrl)
                   let ev = document.createEvent_CustomEvent()
                   ev.initCustomEvent (NavigatedEvent, true, true, obj())
                   window.dispatchEvent ev
                   |> ignore ]
 
-    let jump (n:int) =
+    /// Jump to some point in history (positve=forward, nagative=backward)
+    let jump (n:int):Cmd<_> =
         [fun _ -> history.go n]
 
 module Program =
