@@ -1,3 +1,7 @@
+### 0.8.1
+
+* Browser navigation: working around IE11/Edge lack of `popstate` event
+
 ### 0.8.0
 
 * Expanding `Program` to accommodate plugabble error reporting

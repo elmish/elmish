@@ -1,3 +1,7 @@
+### 0.1.2
+
+* Safely continue if the monitor is not available
+
 ### 0.1.1
 
 * Adding basic import support
