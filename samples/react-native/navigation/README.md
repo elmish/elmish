@@ -10,3 +10,9 @@ This sample shows how to use the components and embed the navigation state into 
 3. `npm install && fable`
 4. Have your Android/iOS simulator or device started at this point 
 5. `react-native run-ios` *or* `react-native run-android` 
+
+### On Windows
+1. `react-native windows`
+2. Use Visual Studio 2015 to open, change configuration to x86/x64 and build the `navigation.sln` in `windows` subfolder
+3. `react-native start`
+4. run the `navigation.sln` from Visual Studio
