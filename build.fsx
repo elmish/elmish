@@ -10,7 +10,7 @@ let yarn =
     |> ProcessHelper.tryFindFileOnPath
     |> function
        | Some yarn -> yarn
-       | _ -> failwith "yarn not found\n"
+       | ex -> failwith ( sprintf "yarn not found (%A)\n" ex )
 
 // Directories
 let buildDir  = "./build/"
