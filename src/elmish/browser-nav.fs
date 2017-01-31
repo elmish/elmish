@@ -45,8 +45,18 @@ module Program =
         |> map
 
     let locationChanges (dispatch:Dispatch<_ Navigable>) = 
-        window.addEventListener_popstate(fun ev -> Change window.location |> dispatch |> box)
-        window.addEventListener(Navigation.NavigatedEvent, unbox <| fun ev -> Change window.location |> dispatch |> box)
+        let mutable lastLocation = None
+        let onChange _ =
+            match lastLocation with
+            | Some href when href = window.location.href -> ()
+            | _ ->
+                lastLocation <- Some window.location.href
+                Change window.location |> dispatch
+            |> box
+                
+        window.addEventListener_popstate(unbox onChange)
+        window.addEventListener_hashchange(unbox onChange)
+        window.addEventListener(Navigation.NavigatedEvent, unbox onChange)
     
     let subs model =
         Cmd.batch
