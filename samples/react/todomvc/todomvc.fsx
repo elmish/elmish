@@ -23,13 +23,13 @@ let [<Literal>] COMPLETED_TODOS = "completed"
 // Local storage interface
 module S =
     let private STORAGE_KEY = "elmish-react-todomvc"
-    let load<'T> (): 'T option =
+    let [<PassGenericsAttribute>] load<'T> (): 'T option =
         Browser.localStorage.getItem(STORAGE_KEY)
-        |> unbox 
-        |> Core.Option.map (JS.JSON.parse >> unbox<'T>)
+        |> unbox
+        |> Core.Option.map (JsInterop.ofJson)
 
     let save<'T> (model: 'T) =
-        Browser.localStorage.setItem(STORAGE_KEY, JS.JSON.stringify model)
+        Browser.localStorage.setItem(STORAGE_KEY, JsInterop.toJson model)
 
 
 // MODEL
@@ -48,7 +48,7 @@ type Model = {
     visibility : string
 }
 
-let emptyModel = 
+let emptyModel =
     { entries = []
       visibility = ALL_TODOS
       field = ""
@@ -73,7 +73,7 @@ let init = function
 messages are fed into the `update` function as they occur, letting us react
 to them.
 *)
-type Msg = 
+type Msg =
     | NoOp
     | UpdateField of string
     | EditingEntry of int*bool
@@ -135,7 +135,7 @@ let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
         { model with visibility = visibility }, []
 
 let setStorage (model:Model) : Cmd<Msg> =
-    let noop _ = NoOp 
+    let noop _ = NoOp
     Cmd.ofFunc S.save model noop noop // TODO
 
 let updateWithStorage (msg:Msg) (model:Model) =
@@ -149,9 +149,9 @@ open Fable.Helpers.React.Props
 open Elmish.React
 
 let internal onEnter msg dispatch =
-    function 
+    function
     | (ev:React.KeyboardEvent) when ev.keyCode = ENTER_KEY ->
-        ev.preventDefault() 
+        ev.preventDefault()
         dispatch msg
     | _ -> ()
     |> OnKeyDown
@@ -170,7 +170,7 @@ let viewInput (model:string) dispatch =
     ]
 
 let internal classList classes =
-    classes 
+    classes
     |> List.fold (fun complete -> function | (name,true) -> complete + " " + name | _ -> complete) ""
     |> ClassName
 
@@ -230,10 +230,10 @@ let viewEntries visibility entries dispatch =
         R.label
           [ HtmlFor "toggle-all" ]
           [ unbox "Mark all as complete" ]
-        R.ul 
+        R.ul
           [ ClassName "todo-list" ]
           (entries
-           |> List.filter isVisible  
+           |> List.filter isVisible
            |> List.map (fun i -> lazyView2 viewEntry i dispatch)) ]
 
 // VIEW CONTROLS AND FOOTER
@@ -272,7 +272,7 @@ let viewControlsClear entriesCompleted dispatch =
 let viewControls visibility entries dispatch =
   let entriesCompleted =
       entries
-      |> List.filter (fun t -> t.completed) 
+      |> List.filter (fun t -> t.completed)
       |> List.length
 
   let entriesLeft =
@@ -288,7 +288,7 @@ let viewControls visibility entries dispatch =
 
 let infoFooter =
   R.footer [ ClassName "info" ]
-    [ R.p [] 
+    [ R.p []
         [ unbox "Double-click to edit a todo" ]
       R.p []
         [ unbox "Ported from Elm by "
@@ -310,7 +310,7 @@ let view model dispatch =
 
 open Elmish.Debug
 // App
-Program.mkProgram (S.load >> init) update view
+Program.mkProgram (S.load >> init) updateWithStorage view
 |> Program.withReact "todoapp"
 |> Program.withDebugger
 |> Program.run
