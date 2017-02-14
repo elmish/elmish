@@ -5,9 +5,9 @@ open System
 /// Dispatch - feed new message into the processing loop
 type Dispatch<'msg> = 'msg -> unit
 /// Subscriber - return immediately, but may schedule dispatch of a message at any time
-type Sub<'msg> = 'msg Dispatch -> unit
+type Sub<'msg> = Dispatch<'msg> -> unit
 /// Cmd - container for subscriptions that may produce messages
-type Cmd<'msg> = list<'msg Sub>
+type Cmd<'msg> = Sub<'msg> list
 
 /// Cmd module creating and manipulating actions
 /// may produce one or more message(s)
@@ -19,19 +19,19 @@ module Cmd =
 
     /// Command to issue a specific message
     let ofMsg (msg:'msg) =
-        [fun (dispatch:'msg Dispatch) -> dispatch msg]
+        [fun (dispatch: Dispatch<'msg>) -> dispatch msg]
 
     /// When emitting the message, map to another type
-    let map (f:'a -> 'msg) (cmd:Cmd<'a>) : Cmd<'msg> =
+    let map (f: 'a -> 'msg) (cmd: Cmd<'a>) : Cmd<'msg> =
         cmd |> List.map (fun g -> (fun post -> f >> post) >> g)
 
     /// Aggregate multiple commands
-    let batch (cmds:list<'msg Cmd>) : Cmd<'msg> =
+    let batch (cmds: Cmd<'msg> list) : Cmd<'msg> =
         List.collect id cmds
 
-    /// Command that will evaluate async block and map the result
+    /// Command that will evaluate an async block and map the result
     /// into success or error (of exception)
-    let ofAsync (task:'a->Async<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+    let ofAsync (task: 'a -> Async<_>) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             async {
                 let! r = task arg |> Async.Catch
@@ -43,7 +43,7 @@ module Cmd =
 
     /// Command to evaluate a simple function and map the result
     /// into success or error (of exception)
-    let ofFunc (task:'a->_) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+    let ofFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind (dispatch:'msg -> unit) =
             try
                 task arg
@@ -53,13 +53,13 @@ module Cmd =
         [bind]
 
     /// Command to call the subscriber
-    let ofSub (sub:Sub<'msg>) =
+    let ofSub (sub: Sub<'msg>) =
         [sub]
 
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
-    let ofPromise (task:'a->Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess:_->'msg) (ofError:_->'msg) : Cmd<'msg> =
+    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind (dispatch:'msg -> unit) =
             task arg
             |> Promise.map (ofSuccess >> dispatch)
@@ -68,7 +68,7 @@ module Cmd =
         [bind]
 
 
-type Program<'arg,'model,'msg, 'view> = {
+type Program<'arg, 'model, 'msg, 'view> = {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
@@ -79,7 +79,7 @@ type Program<'arg,'model,'msg, 'view> = {
 
 /// Program module - functions to manipulate program instances
 module Program =
-    let internal onError (text:string,ex:exn) = Fable.Import.Browser.console.error (text,ex)
+    let internal onError (text: string, ex: exn) = Fable.Import.Browser.console.error (text,ex)
 
     /// Typical program, produces new commands as part of init() and update() as well as the new model.
     let mkProgram 
@@ -108,18 +108,18 @@ module Program =
 
     /// Subscribe to external source of events.
     /// The subscriptions are called once - with the initial model, but can call dispatch whenever they need.
-    let withSubscription (subscribe : 'model -> Cmd<'msg>) (program:Program<'arg,'model,'msg,'view>) =
+    let withSubscription (subscribe : 'model -> Cmd<'msg>) (program: Program<'arg, 'model, 'msg, 'view>) =
         { program with subscribe = subscribe }
 
     /// Trace all the updates to the console
-    let withConsoleTrace (program:Program<'arg,'model,'msg,'view>) =
+    let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
         let trace text msg model =
             Fable.Import.Browser.console.log (text, model, msg)
             program.update msg model
         { program with update = trace "Updating:"}
 
     /// Trace all the messages as they update the model
-    let withTrace (program:Program<'arg,'model,'msg,'view>) trace =
+    let withTrace (program: Program<'arg, 'model, 'msg, 'view>) trace =
         { program
             with update = fun msg model -> trace msg model; program.update msg model}
 
@@ -127,7 +127,7 @@ module Program =
     /// arg: argument to pass to the init() function.
     /// setState: function that will be called with the new model state and the dispatch function to feed new messages into the loop.
     /// program: program created with 'mkSimple' or 'mkProgram'.
-    let runWith (arg:'arg) (program:Program<'arg,'model,'msg,'view>) =
+    let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
             let rec loop (state:'model) =
@@ -149,5 +149,5 @@ module Program =
         @ cmd |> List.iter (fun sub -> sub inbox.Post)
 
     /// Start the dispatch loop with `unit` for the init() function.
-    let run (program:Program<unit,'model,'msg,'view>) = runWith () program
+    let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program
 
