@@ -1,3 +1,7 @@
+### 0.8.2
+
+* Stricter signatures
+
 ### 0.8.1
 
 * Browser navigation: working around IE11/Edge lack of `popstate` event

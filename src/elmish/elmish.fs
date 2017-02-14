@@ -9,8 +9,7 @@ type Sub<'msg> = Dispatch<'msg> -> unit
 /// Cmd - container for subscriptions that may produce messages
 type Cmd<'msg> = Sub<'msg> list
 
-/// Cmd module creating and manipulating actions
-/// may produce one or more message(s)
+/// Cmd module for creating and manipulating commands
 [<RequireQualifiedAccess>]
 module Cmd =
     /// None - no commands, also known as `[]`
@@ -18,7 +17,7 @@ module Cmd =
         []
 
     /// Command to issue a specific message
-    let ofMsg (msg:'msg) =
+    let ofMsg (msg:'msg) : Cmd<'msg> =
         [fun (dispatch: Dispatch<'msg>) -> dispatch msg]
 
     /// When emitting the message, map to another type
@@ -53,7 +52,7 @@ module Cmd =
         [bind]
 
     /// Command to call the subscriber
-    let ofSub (sub: Sub<'msg>) =
+    let ofSub (sub: Sub<'msg>) : Cmd<'msg> =
         [sub]
 
     open Fable.PowerPack
@@ -67,7 +66,7 @@ module Cmd =
             |> ignore
         [bind]
 
-
+/// Program type captures various aspects of program behavior
 type Program<'arg, 'model, 'msg, 'view> = {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
