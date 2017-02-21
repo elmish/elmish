@@ -18,11 +18,11 @@ module Cmd =
 
     /// Command to issue a specific message
     let ofMsg (msg:'msg) : Cmd<'msg> =
-        [fun (dispatch: Dispatch<'msg>) -> dispatch msg]
+        [fun dispatch -> dispatch msg]
 
     /// When emitting the message, map to another type
     let map (f: 'a -> 'msg) (cmd: Cmd<'a>) : Cmd<'msg> =
-        cmd |> List.map (fun g -> (fun post -> f >> post) >> g)
+        cmd |> List.map (fun g -> (fun dispatch -> f >> dispatch) >> g)
 
     /// Aggregate multiple commands
     let batch (cmds: Cmd<'msg> list) : Cmd<'msg> =
@@ -43,7 +43,7 @@ module Cmd =
     /// Command to evaluate a simple function and map the result
     /// into success or error (of exception)
     let ofFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
-        let bind (dispatch:'msg -> unit) =
+        let bind dispatch =
             try
                 task arg
                 |> (ofSuccess >> dispatch)
@@ -59,7 +59,7 @@ module Cmd =
 
     /// Command to call `promise` block and map the results
     let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
-        let bind (dispatch:'msg -> unit) =
+        let bind dispatch =
             task arg
             |> Promise.map (ofSuccess >> dispatch)
             |> Promise.catch (ofError >> dispatch)
@@ -77,6 +77,8 @@ type Program<'arg, 'model, 'msg, 'view> = {
 }
 
 /// Program module - functions to manipulate program instances
+[<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
     let internal onError (text: string, ex: exn) = Fable.Import.Browser.console.error (text,ex)
 
@@ -124,7 +126,6 @@ module Program =
 
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
-    /// setState: function that will be called with the new model state and the dispatch function to feed new messages into the loop.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg

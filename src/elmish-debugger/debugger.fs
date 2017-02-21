@@ -3,6 +3,7 @@ open Fable.Import.RemoteDev
 open Fable.Core.JsInterop
 open Fable.Core
 
+[<RequireQualifiedAccess>]
 module Debugger =
     type ConnectionOptions =
         | ViaExtension
@@ -19,6 +20,7 @@ module Debugger =
         | Secure (address,port) -> { Options.remote = true; hostname = address; port = port; secure = true; getActionType = None }
         >> connectViaExtension
 
+[<RequireQualifiedAccess>]
 module Program =
     open Elmish
 

@@ -12,6 +12,7 @@ type Navigable<'msg> =
     | Change of Location
     | UserMsg of 'msg
 
+[<RequireQualifiedAccess>]
 module Navigation =
     let [<Literal>] internal NavigatedEvent = "NavigatedEvent"
 
@@ -31,6 +32,8 @@ module Navigation =
     let jump (n:int):Cmd<_> =
         [fun _ -> history.go n]
 
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+[<RequireQualifiedAccess>]
 module Program =
   /// Add the navigation to a program made with `mkProgram` or `mkSimple`.
   /// urlUpdate: similar to `update` function, but receives parsed url instead of message as an input.

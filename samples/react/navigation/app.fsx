@@ -9,6 +9,7 @@
 #r "../node_modules/fable-elmish/Fable.Elmish.dll"
 #r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
 #r "../node_modules/fable-powerpack/Fable.PowerPack.dll"
+#r "../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll"
 
 open Fable.Core
 open Fable.Import
@@ -175,10 +176,11 @@ let view model dispatch =
     ]
 
 open Elmish.React
+open Elmish.Debug
 
 // App
 Program.mkProgram init update view
 |> Program.toNavigable hashParser urlUpdate
-|> Program.withConsoleTrace
+|> Program.withDebugger
 |> Program.withReact "elmish-app"
 |> Program.run 

@@ -47,10 +47,9 @@ let view count (dispatch:Dispatch<Msg>) =
       Styles.button "+" (onClick Increment) ]
 
 open Elmish.ReactNative
-open Elmish.Debug
 
 // App
 Program.mkSimple init update view
+|> Program.withConsoleTrace
 |> Program.withReactNative "counter"
-|> Program.withDebugger
 |> Program.run

@@ -42,7 +42,6 @@
     <Reference Include="../node_modules/fable-react/Fable.React.dll" />
     <Reference Include="../node_modules/fable-elmish/Fable.Elmish.dll" />
     <Reference Include="../node_modules/fable-elmish-react/Fable.Elmish.React.dll" />
-    <Reference Include="../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Styles.fs" />
