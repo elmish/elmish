@@ -49,7 +49,7 @@ Task is any code that will execute when a command is evalutated, like reading a 
 These are external sources of events to process, defined as a F# functions that can dispatch new messages as they happen.
 
 ## Parent-child composition
-Please refer to [Elm's diagrams](http://www.elm-tutorial.org/en/02-elm-arch/08-composing-3.html) for an overview.
+Please refer to [Elm's diagrams](https://www.elm-tutorial.org/en-v01/02-elm-arch/08-composing-3.html) for an overview.
 
 Application state is composed of the state of all its children, events buble up from the children all the way to the top update function where they are distributed back to the children in an explicit fashion.
 The views delegate portions of the model to the appropriate child views to produce the new UI.
