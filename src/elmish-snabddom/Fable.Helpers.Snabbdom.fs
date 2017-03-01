@@ -614,8 +614,6 @@ let a b c = hyperscript "a" b c
 let abbr b c = hyperscript "abbr" b c
 [<Emit(typeof<Emitter>, "Tagged", "address")>]
 let address b c = hyperscript "address" b c
-[<Emit(typeof<Emitter>, "Tagged", "area")>]
-let area b c = hyperscript "area" b c
 [<Emit(typeof<Emitter>, "Tagged", "article")>]
 let article b c = hyperscript "article" b c
 [<Emit(typeof<Emitter>, "Tagged", "aside")>]
@@ -624,8 +622,6 @@ let aside b c = hyperscript "aside" b c
 let audio b c = hyperscript "audio" b c
 [<Emit(typeof<Emitter>, "Tagged", "b")>]
 let b b' c = hyperscript "b" b' c
-[<Emit(typeof<Emitter>, "Tagged", "base")>]
-let ``base`` b c = hyperscript "base" b c
 [<Emit(typeof<Emitter>, "Tagged", "bdi")>]
 let bdi b c = hyperscript "bdi" b c
 [<Emit(typeof<Emitter>, "Tagged", "bdo")>]
@@ -636,8 +632,7 @@ let big b c = hyperscript "big" b c
 let blockquote b c = hyperscript "blockquote" b c
 [<Emit(typeof<Emitter>, "Tagged", "body")>]
 let body b c = hyperscript "body" b c
-[<Emit(typeof<Emitter>, "Tagged", "br")>]
-let br b c = hyperscript "br" b c
+
 [<Emit(typeof<Emitter>, "Tagged", "button")>]
 let button b c = hyperscript "button" b c
 [<Emit(typeof<Emitter>, "Tagged", "canvas")>]
@@ -648,8 +643,6 @@ let caption b c = hyperscript "caption" b c
 let cite b c = hyperscript "cite" b c
 [<Emit(typeof<Emitter>, "Tagged", "code")>]
 let code b c = hyperscript "code" b c
-[<Emit(typeof<Emitter>, "Tagged", "col")>]
-let col b c = hyperscript "col" b c
 [<Emit(typeof<Emitter>, "Tagged", "colgroup")>]
 let colgroup b c = hyperscript "colgroup" b c
 [<Emit(typeof<Emitter>, "Tagged", "data")>]
@@ -674,8 +667,6 @@ let dl b c = hyperscript "dl" b c
 let dt b c = hyperscript "dt" b c
 [<Emit(typeof<Emitter>, "Tagged", "em")>]
 let em b c = hyperscript "em" b c
-[<Emit(typeof<Emitter>, "Tagged", "embed")>]
-let embed b c = hyperscript "embed" b c
 [<Emit(typeof<Emitter>, "Tagged", "fieldset")>]
 let fieldset b c = hyperscript "fieldset" b c
 [<Emit(typeof<Emitter>, "Tagged", "figcaption")>]
@@ -704,32 +695,22 @@ let head b c = hyperscript "head" b c
 let header b c = hyperscript "header" b c
 [<Emit(typeof<Emitter>, "Tagged", "hgroup")>]
 let hgroup b c = hyperscript "hgroup" b c
-[<Emit(typeof<Emitter>, "Tagged", "hr")>]
-let hr b c = hyperscript "hr" b c
 [<Emit(typeof<Emitter>, "Tagged", "html")>]
 let html b c = hyperscript "html" b c
 [<Emit(typeof<Emitter>, "Tagged", "i")>]
 let i b c = hyperscript "i" b c
 [<Emit(typeof<Emitter>, "Tagged", "iframe")>]
 let iframe b c = hyperscript "iframe" b c
-[<Emit(typeof<Emitter>, "Tagged", "img")>]
-let img b c = hyperscript "img" b c
-[<Emit(typeof<Emitter>, "Tagged", "input")>]
-let input b c = hyperscript "input" b c
 [<Emit(typeof<Emitter>, "Tagged", "ins")>]
 let ins b c = hyperscript "ins" b c
 [<Emit(typeof<Emitter>, "Tagged", "kbd")>]
 let kbd b c = hyperscript "kbd" b c
-[<Emit(typeof<Emitter>, "Tagged", "keygen")>]
-let keygen b c = hyperscript "keygen" b c
 [<Emit(typeof<Emitter>, "Tagged", "label")>]
 let label b c = hyperscript "label" b c
 [<Emit(typeof<Emitter>, "Tagged", "legend")>]
 let legend b c = hyperscript "legend" b c
 [<Emit(typeof<Emitter>, "Tagged", "li")>]
 let li b c = hyperscript "li" b c
-[<Emit(typeof<Emitter>, "Tagged", "link")>]
-let link b c = hyperscript "link" b c
 [<Emit(typeof<Emitter>, "Tagged", "main")>]
 let main b c = hyperscript "main" b c
 [<Emit(typeof<Emitter>, "Tagged", "map")>]
@@ -738,10 +719,6 @@ let map b c = hyperscript "map" b c
 let mark b c = hyperscript "mark" b c
 [<Emit(typeof<Emitter>, "Tagged", "menu")>]
 let menu b c = hyperscript "menu" b c
-[<Emit(typeof<Emitter>, "Tagged", "menuitem")>]
-let menuitem b c = hyperscript "menuitem" b c
-[<Emit(typeof<Emitter>, "Tagged", "meta")>]
-let meta b c = hyperscript "meta" b c
 [<Emit(typeof<Emitter>, "Tagged", "meter")>]
 let meter b c = hyperscript "meter" b c
 [<Emit(typeof<Emitter>, "Tagged", "nav")>]
@@ -760,8 +737,6 @@ let option b c = hyperscript "option" b c
 let output b c = hyperscript "output" b c
 [<Emit(typeof<Emitter>, "Tagged", "p")>]
 let p b c = hyperscript "p" b c
-[<Emit(typeof<Emitter>, "Tagged", "param")>]
-let param b c = hyperscript "param" b c
 [<Emit(typeof<Emitter>, "Tagged", "picture")>]
 let picture b c = hyperscript "picture" b c
 [<Emit(typeof<Emitter>, "Tagged", "pre")>]
@@ -788,8 +763,6 @@ let section b c = hyperscript "section" b c
 let select b c = hyperscript "select" b c
 [<Emit(typeof<Emitter>, "Tagged", "small")>]
 let small b c = hyperscript "small" b c
-[<Emit(typeof<Emitter>, "Tagged", "source")>]
-let source b c = hyperscript "source" b c
 [<Emit(typeof<Emitter>, "Tagged", "span")>]
 let span b c = hyperscript "span" b c
 [<Emit(typeof<Emitter>, "Tagged", "strong")>]
@@ -822,8 +795,6 @@ let time b c = hyperscript "time" b c
 let title b c = hyperscript "title" b c
 [<Emit(typeof<Emitter>, "Tagged", "tr")>]
 let tr b c = hyperscript "tr" b c
-[<Emit(typeof<Emitter>, "Tagged", "track")>]
-let track b c = hyperscript "track" b c
 [<Emit(typeof<Emitter>, "Tagged", "u")>]
 let u b c = hyperscript "u" b c
 [<Emit(typeof<Emitter>, "Tagged", "ul")>]
@@ -832,8 +803,40 @@ let ul b c = hyperscript "ul" b c
 let var b c = hyperscript "var" b c
 [<Emit(typeof<Emitter>, "Tagged", "video")>]
 let video b c = hyperscript "video" b c
+// Void Elements
+[<Emit(typeof<Emitter>, "Tagged", "area")>]
+let area (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "base")>]
+let ``base`` (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "br")>]
+let br (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "col")>]
+let col (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "embed")>]
+let embed (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "hr")>]
+let hr (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "img")>]
+let img (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "input")>]
+let input (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "keygen")>]
+let keygen (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "link")>]
+let link (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "menuitem")>]
+let menuitem (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "meta")>]
+let meta (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "param")>]
+let param (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "source")>]
+let source (b: VNodeData list) : VNode = jsNative
+[<Emit(typeof<Emitter>, "Tagged", "track")>]
+let track (b: VNodeData list) : VNode = jsNative
 [<Emit(typeof<Emitter>, "Tagged", "wbr")>]
-let wbr b c = hyperscript "wbr" b c
+let wbr (b: VNodeData list) : VNode = jsNative
+// SVG api
 [<Emit(typeof<Emitter>, "Tagged", "svg")>]
 let svg b c = hyperscript "svg" b c
 [<Emit(typeof<Emitter>, "Tagged", "circle")>]
