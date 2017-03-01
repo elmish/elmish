@@ -7,7 +7,8 @@
 #r "../node_modules/fable-core/Fable.Core.dll"
 #r "../node_modules/fable-powerpack/Fable.PowerPack.dll"
 #r "../node_modules/fable-elmish/Fable.Elmish.dll"
-#r "../../../src/elmish-snabddom/npm/Fable.Elmish.Snabbdom.dll"
+//#r "../../../src/elmish-snabddom/npm/Fable.Elmish.Snabbdom.dll"
+#r "../node_modules/fable-elmish-snabbdom/Fable.Elmish.Snabbdom.dll"
 
 open Fable.Core
 open Fable.Import
@@ -48,8 +49,12 @@ let view count dispatch =
         [ On [
             Click (onClick Increment)
           ]
+          Props [
+            classBaseList "myclass1" [ ("myclass2", true); ("myclass3", false) ]
+          ]
         ]
-        [ unbox "+" ] ]
+        [ unbox "+" ]
+    ]
 
 open Elmish.Snabbdom
 
