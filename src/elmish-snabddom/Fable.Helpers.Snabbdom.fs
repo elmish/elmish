@@ -1,4 +1,3 @@
-[<Fable.Core.Erase>]
 module Fable.Helpers.Snabbdom
 
 open Fable.Core
@@ -14,7 +13,7 @@ module Props =
 
     [<KeyValueList>]
     type CSSProp =
-        | [<Erase>] Extra of string * string
+        | [<Erase>] Unsafe of string * string
         | BoxFlex of float
         | BoxFlexGroup of float
         | ColumnCount of float
@@ -299,14 +298,8 @@ module Props =
         inherit IProp
 
     [<KeyValueList>]
-    type Prop =
-        | Key of string
-        | Ref of (Browser.Element->unit)
-        interface IHTMLProp
-
-    [<KeyValueList>]
     type Events =
-        | [<Erase>] Extra of string * (obj -> unit)
+        | [<Erase>] Unsafe of string * (obj -> unit)
         | Copy of (ClipboardEvent -> unit)
         | Cut of (ClipboardEvent -> unit)
         | Paste of (ClipboardEvent -> unit)
@@ -370,11 +363,11 @@ module Props =
         | TouchStart of (TouchEvent -> unit)
         | Scroll of (UIEvent -> unit)
         | Wheel of (WheelEvent -> unit)
-        interface IHTMLProp
+        interface IProp
 
     [<KeyValueList>]
     type HTMLAttr =
-        | [<Erase>] Extra of string * string
+        | [<Erase>] Unsafe of string * string
         | DefaultChecked of bool
         | DefaultValue of U2<string, ResizeArray<string>>
         | Accept of string
@@ -523,7 +516,7 @@ module Props =
 
     [<KeyValueList>]
     type SVGAttr =
-        | [<Erase>] Extra of string * string
+        | [<Erase>] Unsafe of string * string
         | ClipPath of string
         | Cx of U2<float, string>
         | Cy of U2<float, string>
@@ -583,12 +576,12 @@ module Props =
 
     [<KeyValueList>]
     type IClass =
-        | [<Erase>] Extra of string * bool
+        | [<Erase>] Classy of string * bool
 
     [<KeyValueList>]
     type VNodeData =
         | Props of IProp list
-        | Attrs of HTMLAttr list
+        | Attrs of IHTMLProp list
         | Class of IClass list
         | Style of ICSSProp list
         | Dataset of obj
@@ -604,6 +597,18 @@ module Props =
 open Props
 open Fable.Snabbdom.Internal
 open Fable.Import.Snabbdom
+
+type Unsafe =
+    static member Property (key: string) (value: string) = HTMLAttr.Unsafe (key, value)
+    static member Attribute (key: string) (value: string) = HTMLAttr.Unsafe (key, value)
+    static member Event (key: string) (value: obj-> unit) = Events.Unsafe (key, value)
+
+let classBaseList std classes =
+    classes
+    |> List.fold (fun complete -> function | (name,true) -> complete + " " + name | _ -> complete) std
+    |> ClassName
+
+let classList classes = classBaseList "" classes
 
 [<Emit(typeof<Emitter>, "From")>]
 let hyperscript (tag: string) (props: VNodeData list) (children: VNode list): VNode = jsNative
