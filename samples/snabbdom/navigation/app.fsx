@@ -9,13 +9,14 @@
 #r "../node_modules/fable-elmish-snabbdom/Fable.Elmish.Snabbdom.dll"
 #r "../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll"
 
-open Fable.Core
-open Fable.Import
 open Elmish
-open Fable.Import.Browser
-open Fable.PowerPack
 open Elmish.Browser.Navigation
 open Elmish.UrlParser
+open Fable.Core
+open Fable.Core.JsInterop
+open Fable.Import
+open Fable.Import.Browser
+open Fable.PowerPack
 
 JsInterop.importAll "whatwg-fetch"
 
@@ -150,9 +151,9 @@ let internal onEnter msg dispatch =
         ev.preventDefault()
         dispatch msg
     | _ -> ()
-    |> KeyDown
+    |> OnKeyDown
 
-let viewPage model dispath =
+let viewPage model dispatch =
   match model.Page with
   | Home ->
       [ words 60 "Welcome!"
@@ -173,7 +174,7 @@ let viewPage model dispath =
       | _ ->
           [ unbox "..." ]
 
-let view model dispath =
+let view model dispatch =
   div
     []
     [ div
@@ -191,9 +192,16 @@ let view model dispath =
             CSSProp.Width "200px"
             Margin "0 20px"
           ]
+          On [
+            onEnter Enter dispatch
+            OnInput (fun ev -> Query (unbox ev.target?value) |> dispatch)
+          ]
         ]
+      hr []
+      div
+        [ centerStyle "column" ]
+        (viewPage model dispatch)
     ]
-
 
 open Elmish.Snabbdom
 open Elmish.Debug
