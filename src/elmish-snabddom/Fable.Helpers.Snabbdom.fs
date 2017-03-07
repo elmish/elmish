@@ -340,7 +340,7 @@ module Props =
         | [<CompiledName("waiting")>] OnWaiting of (Event -> unit)
         | [<CompiledName("click")>] OnClick of (MouseEvent -> unit)
         | [<CompiledName("contextmenu")>] OnContextMenu of (MouseEvent -> unit)
-        | [<CompiledName("doubleclick")>] OnDoubleClick of (MouseEvent -> unit)
+        | [<CompiledName("dblclick")>] OnDoubleClick of (MouseEvent -> unit)
         | [<CompiledName("drag")>] OnDrag of (DragEvent -> unit)
         | [<CompiledName("dragend")>] OnDragEnd of (DragEvent -> unit)
         | [<CompiledName("dragenter")>] OnDragEnter of (DragEvent -> unit)

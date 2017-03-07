@@ -1,3 +1,7 @@
+### 0.1.0-alpha.4
+
+* Fix OnDoubleClick event
+
 ### 0.1.0-alpha.3
 
 * Use keyword `Events` in the DSL instead of `On`
