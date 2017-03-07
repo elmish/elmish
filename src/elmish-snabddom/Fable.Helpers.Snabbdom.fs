@@ -585,7 +585,7 @@ module Props =
         | Class of IClass list
         | Style of ICSSProp list
         | Dataset of obj
-        | On of Events list
+        | [<CompiledName("on")>] Events of Events list
         | Hero of obj
         | AttachData of obj
         | Hook of obj//Hooks
