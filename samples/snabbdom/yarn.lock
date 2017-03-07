@@ -1217,8 +1217,8 @@ extsprintf@1.0.2:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
 fable-compiler@^0.7.47:
-  version "0.7.48"
-  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-0.7.48.tgz#27fc55e087d2ed8c4e074275d2083fe9b0169345"
+  version "0.7.49"
+  resolved "https://registry.yarnpkg.com/fable-compiler/-/fable-compiler-0.7.49.tgz#8c767c1613df8e4830941ac96834e876c37c64bd"
   dependencies:
     babel-core "^6.23.1"
     babel-dts-generator "^0.6.3"
@@ -1252,8 +1252,8 @@ fable-elmish-react@^0.8.2:
   resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.8.2.tgz#c6c938bacdc5b43f42a5475f28d6004954bcca5c"
 
 fable-elmish-snabbdom@next:
-  version "0.1.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/fable-elmish-snabbdom/-/fable-elmish-snabbdom-0.1.0-alpha.3.tgz#181f489d03e91c98c50cb250d2939903fa29ba20"
+  version "0.1.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/fable-elmish-snabbdom/-/fable-elmish-snabbdom-0.1.0-alpha.4.tgz#4a8d54ecae7a4d8c7790e84d01531256dc6fb872"
 
 fable-elmish@^0.8.1:
   version "0.8.1"
@@ -2703,8 +2703,8 @@ slash@^1.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-1.0.0.tgz#c41f2f6c39fc16d1cd17ad4b5d896114ae470d55"
 
 snabbdom@^0.6.5:
-  version "0.6.5"
-  resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.6.5.tgz#01b0cba8d623eca19e570876630c12c057830066"
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.6.6.tgz#c865eb8386754056821eaed5285b6625b6e365c3"
 
 sntp@1.x.x:
   version "1.0.9"
@@ -2984,8 +2984,8 @@ ua-parser-js@^0.7.9:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
 uglify-js@^2.7.5:
-  version "2.8.7"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.7.tgz#e0391911507b6d2e05697a528f1686e90a11b160"
+  version "2.8.8"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-2.8.8.tgz#1a5cd145eb528b606fa2b86e578885272b597cd7"
   dependencies:
     source-map "~0.5.1"
     uglify-to-browserify "~1.0.0"
