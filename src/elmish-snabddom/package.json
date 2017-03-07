@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "node ../../node_modules/fable-compiler",
+    "watch": "node ../../node_modules/fable-compiler -w",
     "package": "node build.js"
   },
   "keywords": [

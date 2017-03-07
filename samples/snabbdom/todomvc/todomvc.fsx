@@ -19,18 +19,6 @@ let [<Literal>] ALL_TODOS = "all"
 let [<Literal>] ACTIVE_TODOS = "active"
 let [<Literal>] COMPLETED_TODOS = "completed"
 
-// Local storage interface
-module S =
-  let private STORAGE_KEY = "elmish-react-todomvc"
-  let [<PassGenericsAttribute>] load<'T> (): 'T option =
-    Browser.localStorage.getItem(STORAGE_KEY)
-    |> unbox
-    |> Core.Option.map (JsInterop.ofJson)
-
-  let save<'T> (model: 'T) =
-    Browser.localStorage.setItem(STORAGE_KEY, JsInterop.toJson model)
-
-
 // MODEL
 type Entry = {
   Description : string
@@ -58,14 +46,10 @@ let newEntry desc id =
     Completed = false
     Editing = false
     Id = id
-}
+  }
 
 
-let init = function
-  | Some savedModel -> savedModel, []
-  | _ -> emptyModel, []
-
-
+let init _ = emptyModel, Cmd.Empty
 // UPDATE
 
 
@@ -89,13 +73,12 @@ type Msg =
 
 // How we update our Model on a given Msg?
 let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
-  Browser.console.log "Flag update"
   match msg with
   | NoOp ->
     model, []
 
   | Add ->
-    Browser.console.log "Add"
+    Browser.console.log model.Field
     let xs =
       if System.String.IsNullOrEmpty model.Field then
         model.Entries
@@ -107,6 +90,7 @@ let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
         Entries = xs }, []
 
   | UpdateField str ->
+    Browser.console.log str
     { model with Field = str }, []
 
   | EditingEntry (id,isEditing) ->
@@ -137,13 +121,6 @@ let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
   | ChangeVisibility visibility ->
     { model with Visibility = visibility }, []
 
-let setStorage (model:Model) : Cmd<Msg> =
-  let noop _ = NoOp
-  Cmd.ofFunc S.save model noop noop // TODO
-
-let updateWithStorage (msg:Msg) (model:Model) =
-  let (newModel, cmds) = update msg model
-  newModel, Cmd.batch [ setStorage newModel; cmds ]
 
 // rendering views with React
 open Fable.Core.JsInterop
@@ -181,7 +158,7 @@ let viewInput (model:string) dispatch =
           ]
           Events [
             onEnter Add dispatch
-            OnChange ((fun ev -> ev.target?value) >> unbox >> UpdateField >> dispatch)
+            OnInput ((fun ev -> ev.target?value) >> unbox >> UpdateField >> dispatch)
           ]
         ]
   ]
@@ -210,7 +187,7 @@ let viewEntry todo dispatch =
                 Checked todo.Completed
               ]
               Events [
-                OnChange (fun _ -> Check (todo.Id,(not todo.Completed)) |> dispatch)
+                OnInput (fun _ -> Check (todo.Id,(not todo.Completed)) |> dispatch)
               ]
             ]
           label
@@ -448,6 +425,6 @@ let view model dispatch =
 open Elmish.Debug
 open Elmish.Snabbdom
 // App
-Program.mkProgram (S.load >> init) updateWithStorage view
+Program.mkProgram init update view
 |> Program.withSnabbdom "todoapp"
 |> Program.run
