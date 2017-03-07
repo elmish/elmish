@@ -1,0 +1,8 @@
+/* Todo MVC css fixes */
+body {
+    max-width: none;
+    min-width: none;
+}
+.todoapp .footer {
+    height: 40px;
+}
