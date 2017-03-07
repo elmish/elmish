@@ -50,9 +50,6 @@ let view count dispatch =
         [ Events [
             onClick Increment
           ]
-          Props [
-            classBaseList "myclass1" [ ("myclass2", true); ("myclass3", false) ]
-          ]
         ]
         [ unbox "+" ]
     ]
