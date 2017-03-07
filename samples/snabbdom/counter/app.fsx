@@ -33,12 +33,13 @@ open Fable.Helpers.Snabbdom.Props
 
 let view count dispatch =
   let onClick msg =
-    fun _ -> msg |> dispatch
+    fun _ -> dispatch msg
+    |> OnClick
 
   div []
     [ button
-        [ On [
-            Click (onClick Decrement)
+        [ Events [
+            onClick Decrement
           ]
         ]
         [ unbox "-" ]
@@ -46,8 +47,8 @@ let view count dispatch =
         []
         [ unbox (string count) ]
       button
-        [ On [
-            Click (onClick Increment)
+        [ Events [
+            onClick Increment
           ]
           Props [
             classBaseList "myclass1" [ ("myclass2", true); ("myclass3", false) ]

@@ -192,7 +192,7 @@ let view model dispatch =
             CSSProp.Width "200px"
             Margin "0 20px"
           ]
-          On [
+          Events [
             onEnter Enter dispatch
             OnInput (fun ev -> Query (unbox ev.target?value) |> dispatch)
           ]

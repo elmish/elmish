@@ -1252,8 +1252,8 @@ fable-elmish-react@^0.8.2:
   resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.8.2.tgz#c6c938bacdc5b43f42a5475f28d6004954bcca5c"
 
 fable-elmish-snabbdom@next:
-  version "0.1.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/fable-elmish-snabbdom/-/fable-elmish-snabbdom-0.1.0-alpha.2.tgz#4e04a097e8c7b7676b103e44dbaec709dbdd4dab"
+  version "0.1.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/fable-elmish-snabbdom/-/fable-elmish-snabbdom-0.1.0-alpha.3.tgz#181f489d03e91c98c50cb250d2939903fa29ba20"
 
 fable-elmish@^0.8.1:
   version "0.8.1"
