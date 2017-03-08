@@ -139,8 +139,12 @@ let setStorage (model:Model) : Cmd<Msg> =
     Cmd.ofFunc S.save model noop noop // TODO
 
 let updateWithStorage (msg:Msg) (model:Model) =
-  let (newModel, cmds) = update msg model
-  newModel, Cmd.batch [ setStorage newModel; cmds ]
+  match msg with
+  // If the Msg is NoOp we don't need to store the model in the storage
+  | NoOp -> model, []
+  | _ ->
+    let (newModel, cmds) = update msg model
+    newModel, Cmd.batch [ setStorage newModel; cmds ]
 
 // rendering views with React
 module R = Fable.Helpers.React
