@@ -1,4 +1,4 @@
-This is a port of [Elm's counter example](https://github.com/evancz/elm-architecture-tutorial/blob/master/examples/1-button.elm) implemented in F# and targeting Fable and React.
+This is a port of [Elm's counter example](https://github.com/evancz/elm-architecture-tutorial/blob/master/examples/1-button.elm) implemented in F# and targeting Fable and Snabbdom.
 ========
 
 This is a simple demo of [Elmish](https://github.com/fable-compiler/fable-elmish).

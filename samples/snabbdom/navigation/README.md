@@ -1,8 +1,8 @@
-This is a port of [Elm's counter example](https://github.com/evancz/elm-architecture-tutorial/blob/master/examples/1-button.elm) implemented in F# and targeting Fable and React.
+Handling browser navigation implemented in F# and targeting Fable.
 ========
 
-This is a simple demo of [Elmish](https://github.com/fable-compiler/fable-elmish).
-
+This is a navigation sample ported from Elm.
+In addition to `init`, `update`, `view` functions it introduces `hashParser` and `urlUpdate` to handle browser navigation events.
 
 ## Build and running the sample
 1. `pushd .. && yarn install && popd`
