@@ -8,8 +8,8 @@ Elmish: Elm-like abstractions for F# applications targeting Fable.
 
 
 Elmish implements core abstractions that can be used to build applications following [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
-The library however does not model any "view" and is intended for use in conjuction with a DOM/renderer, like React/ReactNative or VirtualDOM.  
-For those familiar with Redux, the [Fable](https://github.com/fable-compiler) applications targeting React or ReactNative may find Elmish a more natural fit than Redux allowing one to stay completely in idiomatic F#. 
+The library however does not model any "view" and is intended for use in conjuction with a DOM/renderer, like React/ReactNative or VirtualDOM.
+For those familiar with Redux, the [Fable](https://github.com/fable-compiler) applications targeting React or ReactNative may find Elmish a more natural fit than Redux allowing one to stay completely in idiomatic F#.
 
 Elmish abstractions have been carefully designed to resemble Elm's "look and feel" and anyone familiar with post-Signal Elm terminology will find themselves right at home.
 
@@ -62,6 +62,11 @@ Extras
 `npm install --save-dev fable-elmish-react`
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-react/README.md)
+
+## Elmish-Snabbdom: boilerplate to get the Snabbdom virtual DOM registered and start the dispatch loop.
+`npm install --save-dev fable-elmish-snabbdom`
+
+For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-snabddom/README.md)
 
 
 ## Elmish-Debugger: RemoteDev tools integration adds support for time-travelling debugger and import/export.

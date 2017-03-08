@@ -1,0 +1,10 @@
+{
+  "name": "counter",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ../node_modules/fable-compiler",
+    "watch": "node ../node_modules/fable-compiler -w",
+    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+  }
+}

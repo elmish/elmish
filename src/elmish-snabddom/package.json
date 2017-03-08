@@ -1,0 +1,22 @@
+{
+  "name": "fable-elmish-snabbdom",
+  "version": "0.0.0",
+  "description": "Snabbdom extensions for fable-elmish apps.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fable-compiler/fable-elmish.git"
+  },
+  "scripts": {
+    "build": "node ../../node_modules/fable-compiler",
+    "watch": "node ../../node_modules/fable-compiler -w",
+    "package": "node build.js"
+  },
+  "keywords": [
+    "fable-elmish",
+    "F#",
+    "Fable",
+    "Snabbdom"
+  ],
+  "author": "Maxime Mangel",
+  "license": "Apache-2.0"
+}
