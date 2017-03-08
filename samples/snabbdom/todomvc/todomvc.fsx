@@ -20,20 +20,18 @@ let [<Literal>] ACTIVE_TODOS = "active"
 let [<Literal>] COMPLETED_TODOS = "completed"
 
 // MODEL
-type Entry = {
-  Description : string
-  Completed : bool
-  Editing : bool
-  Id : int
-}
+type Entry = 
+  { Description : string
+    Completed : bool
+    Editing : bool
+    Id : int }
 
 // The full application state of our todo app.
-type Model = {
-  Entries : Entry list
-  Field : string
-  Uid : int
-  Visibility : string
-}
+type Model = 
+  { Entries : Entry list
+    Field : string
+    Uid : int
+    Visibility : string }
 
 let emptyModel =
   { Entries = []
@@ -45,8 +43,7 @@ let newEntry desc id =
   { Description = desc
     Completed = false
     Editing = false
-    Id = id
-  }
+    Id = id }
 
 
 let init _ = emptyModel, Cmd.Empty
@@ -264,7 +261,7 @@ let viewEntries visibility entries dispatch =
             HtmlFor "toggle-all"
           ]
         ]
-        [ unbox "Marl all as complete" ]
+        [ unbox "Mark all as complete" ]
       ul
         [
           Props [
