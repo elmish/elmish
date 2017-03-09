@@ -1,0 +1,23 @@
+{
+  "projFile": "./CounterWs.fsproj",
+  "sourceMaps": true,
+  "outDir": "out",
+  "babelrc": true,
+  "targets": {
+    "debug": {
+      "watch": true,
+      "symbols": [
+        "DEV_SERVER"
+      ],
+      "scripts": {
+        "postbuild": "node ../node_modules/webpack/bin/webpack"
+      }
+    },
+    "production": {
+      "sourceMaps": false,
+      "scripts": {
+        "postbuild": "node ../node_modules/webpack/bin/webpack -p"
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "counter",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ../node_modules/fable-compiler -d",
+    "watch": "node ../node_modules/fable-compiler -w",
+    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+  },
+  "dependencies": {
+    "express": "~4.14.0",
+    "http-server": "^0.9.0",
+    "ws": "^2.2.0"
+  },
+  "devDependencies": {
+    "bufferutil": "^3.0.0",
+    "json-loader": "^0.5.4",
+    "utf-8-validate": "^3.0.1"
+  }
+}
