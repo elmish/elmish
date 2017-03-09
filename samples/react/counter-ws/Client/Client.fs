@@ -8,16 +8,37 @@ open Messages
 open Fable.Core.JsInterop
 open Fable.Import.JS
 
+// MODEL
+
+type Msg =
+    | Increment
+    | Decrement
+    | Send of WsMessage
+
 let ws = WebSocket.Create("ws://localhost:8080")
 console.log(ws.readyState);
+
+let onMessage dispatch =
+    fun (msg: MessageEvent) ->
+        let msg' = msg.data |> string |> JSON.parse :?> WsMessage
+        match msg' with
+        | DoIncr -> dispatch Increment
+        | DoDecr -> dispatch Decrement
+        | _ -> console.log(sprintf "Not handling unknown message: %s" (string msg.data))
+        unbox None
+
+let subscription dispatch =
+    ws.onmessage <- unbox (onMessage dispatch)
+
+let subscribe model = Cmd.ofSub subscription
 
 ws.onopen <- fun _ ->
     console.log("ws open")
 
-    ws.onmessage <- fun msg ->
-        console.log("Got msg")  
-        console.log(msg.data)
-        unbox None
+//    ws.onmessage <- fun msg ->
+//        console.log("Got msg")  
+//        console.log(msg.data)
+//        unbox None
 
     unbox None
 
@@ -26,13 +47,6 @@ let send msg =
 //    console.log("Sending msg")
 //    console.log(m)
     ws.send m
-
-// MODEL
-
-type Msg =
-    | Increment
-    | Decrement
-    | Send of WsMessage
 
 let init () = 0
 
@@ -68,4 +82,5 @@ open Elmish.React
 Program.mkSimple init update view
 |> Program.withConsoleTrace
 |> Program.withReact "elmish-app"
+|> Program.withSubscription subscribe
 |> Program.run

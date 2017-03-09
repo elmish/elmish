@@ -1,7 +1,7 @@
 {
-  "projFile": "./CounterWs.fsproj",
+  "projFile": "./WsClient.fsproj",
   "sourceMaps": true,
-  "outDir": "out",
+  "outDir": "../out",
   "babelrc": true,
   "targets": {
     "debug": {
@@ -10,13 +10,13 @@
         "DEV_SERVER"
       ],
       "scripts": {
-        "postbuild": "node ../node_modules/webpack/bin/webpack"
+        "postbuild": "node ../../node_modules/webpack/bin/webpack"
       }
     },
     "production": {
       "sourceMaps": false,
       "scripts": {
-        "postbuild": "node ../node_modules/webpack/bin/webpack -p"
+        "postbuild": "node ../../node_modules/webpack/bin/webpack -p"
       }
     }
   }

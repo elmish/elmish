@@ -45,14 +45,27 @@ wsServer.on_connection(fun ws ->
     //ws.send something    
     console.log("Client connected")
 
+//    let ct = new System.Threading.CancellationTokenSource()
+//    let rec repeatSend msg s = 
+////        let ct = new System.Threading.CancellationTokenSource()
+//        async {
+//            do! Async.Sleep s
+//            ws.send msg
+//            return! repeatSend msg s
+//        }
+//
+//    let start msg s = 
+//        Async.Start(repeatSend msg s, ct.Token)
+
     ws.on_message <| fun msg -> 
         console.log("got msg")
         console.log(msg)
-        let msg' = JSON.parse (util.toString msg) :?> WsMessage
+        let msg' = JSON.parse (string msg) :?> WsMessage
         match msg' with
-        | Incr ms -> console.log("Incrementing every " + (unbox ms))
-        | Decr ms -> console.log("Decrementing every " + (unbox ms))
-        | Stop -> console.log("Stopping")
+        | Incr ms -> console.log("Incrementing every " + (unbox ms))//; start DoIncr ms
+        | Decr ms -> console.log("Decrementing every " + (unbox ms))//; start DoDecr ms
+        | Stop -> console.log("Stopping")//; ct.Cancel()
+        | _ -> ()
 
 
     ws.on_close(fun _ ->
