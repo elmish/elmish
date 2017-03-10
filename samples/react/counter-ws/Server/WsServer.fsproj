@@ -61,8 +61,8 @@
     <Compile Include="..\Messages.fs">
       <Link>Messages.fs</Link>
     </Compile>
-    <Compile Include="Fable.Import.Ws.fs" />
-    <Compile Include="Fable.Helpers.Ws.fs" />
+    <Compile Include="../node_modules/fable-import-ws/Fable.Import.Ws.fs" />
+    <Compile Include="../node_modules/fable-import-ws/Fable.Helpers.Ws.fs" />
     <Compile Include="Server.fs" />
   </ItemGroup>
   <PropertyGroup>
