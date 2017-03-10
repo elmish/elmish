@@ -16,7 +16,7 @@
     "fable-core": "^0.7.22",
     "fable-elmish": "^0.8.1",
     "fable-elmish-debugger": "^0.1.0",
-    "fable-elmish-react": "^0.8.2",
+    "fable-elmish-react": "^0.8.3",
     "fable-powerpack": "^0.0.19",
     "fable-react": "^0.8.0",
     "fs-extra": "^1.0.0",

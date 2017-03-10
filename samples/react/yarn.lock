@@ -1242,9 +1242,9 @@ fable-elmish-debugger@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.1.1.tgz#fd65832d2a443fc241292321f8af219fb0d7f16f"
 
-fable-elmish-react@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.8.2.tgz#c6c938bacdc5b43f42a5475f28d6004954bcca5c"
+fable-elmish-react@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.8.3.tgz#8099b65e651edb66eaa8c56741b64d6263a799ef"
 
 fable-elmish@^0.8.1:
   version "0.8.1"

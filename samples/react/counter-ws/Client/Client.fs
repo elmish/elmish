@@ -15,6 +15,8 @@ type Model =
       connected: bool }
 
 type Msg =
+    | Noop of unit
+    | Error of exn
     | Increment
     | Decrement
     | Send of WsMessage
@@ -51,16 +53,20 @@ let send msg =
     let m = JSON.stringify msg
     ws.send m
 
-let init () = { count = 0; connected = false }
+let init () = { count = 0; connected = false }, []
 
 // UPDATE
 
 let update (msg:Msg) model =
     match msg with
-    | Increment -> { model with count = model.count + 1 }
-    | Decrement -> { model with count = model.count - 1 }
-    | Send m -> send m; model
-    | Connected c -> { model with connected = c }
+    | Noop _ -> model,[]
+    | Increment -> { model with count = model.count + 1 },[]
+    | Decrement -> { model with count = model.count - 1 },[]
+    | Send m -> model, Cmd.ofFunc send m Noop Error
+    | Error ex ->
+        console.error("Error: ", ex)
+        model, []
+    | Connected c -> { model with connected = c },[]
 
 // rendering views with React
 module R = Fable.Helpers.React
@@ -87,8 +93,8 @@ let view model dispatch =
 open Elmish.React
 
 // App
-Program.mkSimple init update view
+Program.mkProgram init update view
+|> Program.withSubscription subscribe
 |> Program.withConsoleTrace
 |> Program.withReact "elmish-app"
-|> Program.withSubscription subscribe
 |> Program.run
