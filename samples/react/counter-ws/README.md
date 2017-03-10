@@ -1,10 +1,16 @@
-This is a port of [Elm's counter example](https://github.com/evancz/elm-architecture-tutorial/blob/master/examples/1-button.elm) implemented in F# and targeting Fable and React.
+Counter Modified to use WebSockets
 ========
 
-This is a simple demo of [Elmish](https://github.com/fable-compiler/fable-elmish).
+This is a modified version of the [Elmish counter sample](https://github.com/fable-compiler/fable-elmish/tree/master/samples/react/counter) illustrating the use of WebSockets in a Fable app.
 
+## Client
+Uses ``Fable.Import.Browser.WebSocket`` type.
+
+## Server
+Uses ``fable-import-ws`` to fire WebSockets events from an ``Express`` node HTTP server, all from Fable-generated code.
 
 ## Build and running the sample
-1. `pushd .. && yarn install && popd`
-2. `yarn run build & yarn start`
-3. open http://localhost:8080/webpack-dev-server/
+1. Build/Watch the client: `yarn run client`
+2. Build/Watch the server: `yarn run watchserver`
+3. Start Express server: `yarn run startserver`
+4. open http://localhost:8080
