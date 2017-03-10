@@ -21,7 +21,7 @@ let installs  =
 
 let samplesInstalls  =
         !! "samples/*/package.json"
-        ++ "samples/react-native/*/package.json"
+        ++ "samples/*/*/package.json"
  
 // Filesets
 let projects  =
@@ -29,7 +29,7 @@ let projects  =
 
 // Fable projects
 let fables  =
-      !! "samples/*/*/fableconfig.json"
+      !! "samples/**/fableconfig.json"
 
 // Artifact packages
 let packages  =
@@ -121,9 +121,8 @@ Target "All" ignore
 "InstallSamples"
   ==> "Samples"
 
-"Build"
-  ==> "Samples"
-  ==> "All"
+"All"
+  <== ["Build"; "Samples"]
   
 // start build
 RunTargetOrDefault "Build"

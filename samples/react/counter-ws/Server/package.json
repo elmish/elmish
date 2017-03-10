@@ -1,0 +1,10 @@
+{
+  "name": "counter-ws-server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ../../node_modules/fable-compiler",
+    "watch": "node ../../node_modules/fable-compiler -w",
+    "start": "node ../server_out/Server/Server.js"
+  }
+}

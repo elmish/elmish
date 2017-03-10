@@ -1,0 +1,9 @@
+{
+  "name": "counter-ws-client",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ../../node_modules/fable-compiler -p",
+    "watch": "node ../../node_modules/fable-compiler -d"
+  }
+}

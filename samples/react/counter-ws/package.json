@@ -2,15 +2,8 @@
   "name": "counter-ws",
   "version": "1.0.0",
   "private": true,
-  "scripts": {
-    "client": "node ../node_modules/fable-compiler ./Client/ -d",
-    "buildserver": "node ../node_modules/fable-compiler ./Server/",
-    "watchserver": "node ../node_modules/fable-compiler ./Server/ -w",
-    "startserver": "node ./server_out/Server/Server.js"
-  },
   "dependencies": {
     "express": "~4.14.0",
-    "http-server": "^0.9.0",
     "ws": "^2.2.0"
   },
   "devDependencies": {
