@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "build": "node ../../node_modules/fable-compiler",
-    "watch": "node ../../node_modules/fable-compiler -w",
-    "start": "node ../server_out/Server/Server.js"
+    "watch": "node ../../node_modules/fable-compiler -w"
   }
 }
