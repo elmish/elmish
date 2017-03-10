@@ -27,10 +27,6 @@ type HttpServer =
 type HttpServerFactory =
     abstract createServer: unit -> HttpServer
 
-//type Util =
-//    abstract toString: obj -> string
-//let util = importDefault<Util>("fable-core/umd/Util")
-
 // Create Express server
 let serv = importDefault<HttpServerFactory>("http").createServer()
 let express = importDefault<Express>("express")
@@ -47,7 +43,6 @@ let opts = [ ServerOptions.Server <| unbox serv ]
 let wsServer = Server.createServer(unbox opts)
 
 wsServer.on_connection(fun ws ->
-    //ws.send something    
     console.log("Client connected")
 
     let mutable ct = new System.Threading.CancellationTokenSource()

@@ -10,10 +10,15 @@ open Fable.Import.JS
 
 // MODEL
 
+type Model =
+    { count: int
+      connected: bool }
+
 type Msg =
     | Increment
     | Decrement
     | Send of WsMessage
+    | Connected of bool
 
 let ws = WebSocket.Create("ws://localhost:8080")
 console.log(ws.readyState);
@@ -27,53 +32,56 @@ let onMessage dispatch =
         | _ -> console.log(sprintf "Not handling unknown message: %s" (string msg.data))
         unbox None
 
+let onOpen dispatch = fun _ -> Connected true |> dispatch
+let onClose dispatch = fun _ -> Connected false |> dispatch
+
 let subscription dispatch =
     ws.onmessage <- unbox (onMessage dispatch)
+    ws.onopen <- unbox (onOpen dispatch)
+    ws.onclose <- unbox (onClose dispatch)
 
 let subscribe model = Cmd.ofSub subscription
 
 ws.onopen <- fun _ ->
     console.log("ws open")
 
-//    ws.onmessage <- fun msg ->
-//        console.log("Got msg")  
-//        console.log(msg.data)
-//        unbox None
-
     unbox None
 
 let send msg =
     let m = JSON.stringify msg
-//    console.log("Sending msg")
-//    console.log(m)
     ws.send m
 
-let init () = 0
+let init () = { count = 0; connected = false }
 
 // UPDATE
 
-let update (msg:Msg) count =
+let update (msg:Msg) model =
     match msg with
-    | Increment -> count + 1
-    | Decrement -> count - 1
-    | Send m -> send m; count
+    | Increment -> { model with count = model.count + 1 }
+    | Decrement -> { model with count = model.count - 1 }
+    | Send m -> send m; model
+    | Connected c -> { model with connected = c }
 
 // rendering views with React
 module R = Fable.Helpers.React
 open Fable.Helpers.React.Props
 
-let view count dispatch =
+let view model dispatch =
     let onClick msg =
         OnClick <| fun _ -> msg |> dispatch
+    let disable = not model.connected
     R.div [] [
         R.button [ onClick Decrement ] [ unbox "-" ]
-        R.div [] [ unbox (string count) ]
+        R.div [] [ unbox (string model.count) ]
         R.button [ onClick Increment ] [ unbox "+" ] 
-        R.div [ Style [ Display "flex"; FlexDirection "row"; MarginTop 40 ]] [
-            R.button [ onClick <| Send (Incr 1000) ] [ unbox "Auto +" ]
-            R.button [ onClick <| Send (Decr 1000) ] [ unbox "Auto -" ]
-            R.button [ onClick <| Send Stop ] [ unbox "Stop it!" ]
-        ] 
+        R.div [ Style [ MarginTop 40 ]] [
+            R.div [] [ unbox <| if model.connected then "Server, count for me:" else "Server disconnected :(" ]
+            R.div [ Style [ Display "flex"; FlexDirection "row" ]] [
+                R.button [ Disabled disable; onClick <| Send (Incr 1000) ] [ unbox "Auto +" ]
+                R.button [ Disabled disable; onClick <| Send (Decr 1000) ] [ unbox "Auto -" ]
+                R.button [ Disabled disable; onClick <| Send Stop ] [ unbox "Stop it!" ]
+            ]         
+        ]
     ]
 
 open Elmish.React

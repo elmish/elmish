@@ -1,7 +1,7 @@
 {
   "projFile": "./WsClient.fsproj",
   "sourceMaps": true,
-  "outDir": "../out",
+  "outDir": "../client_out",
   "babelrc": true,
   "targets": {
     "debug": {

@@ -7,7 +7,7 @@
     "buildserver": "node ../node_modules/fable-compiler ./Server/",
     "watchclient": "node ../node_modules/fable-compiler ./Client/ -w",
     "watchserver": "node ../node_modules/fable-compiler ./Server/ -w",
-    "startserver": "node ./out/Server/Server.js"
+    "startserver": "node ./server_out/Server/Server.js"
   },
   "dependencies": {
     "express": "~4.14.0",

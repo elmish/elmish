@@ -3,7 +3,7 @@ var webpack = require("webpack");
 
 var cfg = {
   devtool: "source-map",
-  entry: "../out/Client/Client.js",
+  entry: "../client_out/Client.js",
   output: {
     path: path.join(__dirname, "../public"),
     publicPath: "../public",
