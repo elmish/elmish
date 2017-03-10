@@ -1,3 +1,7 @@
+### 0.8.3
+
+* Optimizing rendering #41
+
 ### 0.8.2
 
 * Fixed relative path to elmish
