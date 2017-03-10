@@ -23,3 +23,5 @@ out
 # git
 *.orig
 samples/react-native/navigation/windows/
+
+.vs

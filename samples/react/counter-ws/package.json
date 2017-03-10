@@ -1,0 +1,24 @@
+{
+  "name": "counter-ws",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "client": "node ../node_modules/fable-compiler ./Client/ -d",
+    "buildserver": "node ../node_modules/fable-compiler ./Server/",
+    "watchserver": "node ../node_modules/fable-compiler ./Server/ -w",
+    "startserver": "node ./server_out/Server/Server.js"
+  },
+  "dependencies": {
+    "express": "~4.14.0",
+    "http-server": "^0.9.0",
+    "ws": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "bufferutil": "^3.0.0",
+    "fable-import-ws": "^0.2.0",
+    "json-loader": "^0.5.4",
+    "utf-8-validate": "^3.0.1"
+  }
+}
