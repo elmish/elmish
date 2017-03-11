@@ -46,19 +46,19 @@ wsServer.on_connection(fun ws ->
     console.log("Client connected")
 
     let mutable ct = new System.Threading.CancellationTokenSource()
-    let rec repeatSend msg s = 
+    let rec repeatSend msg ms =
         async {
-            do! Async.Sleep s
+            do! Async.Sleep ms
             msg |> JSON.stringify |> ws.send
-            return! repeatSend msg s
+            return! repeatSend msg ms
         }
 
-    let start msg s = 
+    let start msg ms = 
         ct.Cancel()
         ct <- new System.Threading.CancellationTokenSource()
-        Async.StartImmediate(repeatSend msg s, ct.Token)
+        Async.StartImmediate(repeatSend msg ms, ct.Token)
 
-    ws.on_message <| fun msg -> 
+    ws.on_message <| fun msg ->
         console.log("got msg")
         console.log(msg)
         let msg' = JSON.parse (string msg) :?> WsMessage

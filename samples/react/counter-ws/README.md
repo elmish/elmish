@@ -10,7 +10,9 @@ Uses ``Fable.Import.Browser.WebSocket`` type.
 Uses ``fable-import-ws`` to fire WebSockets events from an ``Express`` node HTTP server, all from Fable-generated code.
 
 ## Build and running the sample
-1. Build/Watch the client: `cd Client && yarn build` or `cd Client && yarn watch`
-2. Build/Watch the server: `cd Server && yarn build` or `cd Server && yarn watch`
-3. Start Express server: `yarn run start`
-4. open http://localhost:8080
+1. Install shared sample dependencies: `pushd .. && yarn install && popd`
+2. Install dependencies of this sample: `yarn install`
+3. Build/Watch the client: `cd Client && yarn build` or `cd Client && yarn watch`
+4. Build/Watch the server: `cd Server && yarn build` or `cd Server && yarn watch`
+5. Start Express server: `yarn run start`
+6. open http://localhost:8080
