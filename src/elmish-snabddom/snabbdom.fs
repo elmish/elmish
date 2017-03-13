@@ -2,6 +2,7 @@ namespace Elmish.Snabbdom
 
 open System
 open Fable.Import
+open Fable.Import.Browser
 open Fable.Import.Snabbdom
 open Fable.Core
 
@@ -16,10 +17,17 @@ module Program =
         // Store the VNode returned by Snabbdom
         // We init it as the selected element
         let mutable viewState: U2<VNode, Browser.Element> = Case2 node
+        let mutable lastRequest = None
 
         let setState model dispatch =
-            let vnode = program.view model dispatch
-            viewState <- patch.Invoke(viewState, vnode) |> Case1
+            match lastRequest with
+            | Some r -> window.cancelAnimationFrame r
+            | None -> ()
+
+            lastRequest <- Some (window.requestAnimationFrame (fun _ ->
+                let vnode = program.view model dispatch
+                viewState <- patch.Invoke(viewState, vnode) |> Case1
+            ))
 
         { program with setState = setState }
 

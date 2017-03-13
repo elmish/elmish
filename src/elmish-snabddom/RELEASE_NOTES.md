@@ -1,3 +1,7 @@
+### 0.1.1
+
+* Optimizing rendering #41 (requestAnimationFrame)
+
 ### 0.1.0
 
 * Release version
