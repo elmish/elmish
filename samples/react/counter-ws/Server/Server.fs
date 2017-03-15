@@ -9,16 +9,9 @@ open Fable.Core.JsInterop
 open Fable.Import.Node
 open Messages
 open Fable.Import.JS
+open Fable.Import.express
 
 // Helper types for running an express server
-
-type ExpressApp =
-    abstract ``use``: string -> unit
-
-type Express =
-    [<Emit("$0()")>]
-    abstract create: unit -> ExpressApp
-    abstract ``static``: string -> string
 
 type HttpServer =
     inherit http_types.Server
@@ -29,14 +22,13 @@ type HttpServerFactory =
 
 // Create Express server
 let serv = importDefault<HttpServerFactory>("http").createServer()
-let express = importDefault<Express>("express")
-let app = express.create()
+let app = express.Invoke()
 
 let path = __dirname + "/../../"
 
 console.log(sprintf "Server content from %s" path)
 
-app.``use``(express.``static``(path))
+app.``use``(express.``static``.Invoke(path)) |> ignore
 
 // Create Websocket server
 let opts = [ ServerOptions.Server <| unbox serv ]
