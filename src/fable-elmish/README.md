@@ -9,11 +9,11 @@ Elmish abstractions have been carefully designed to resemble Elm's "look and fee
 
 ## Installation
 
-```shell
-npm install --save fable-core fable-powerpack fable-elmish
-```
+In a project directory with `dotnet-fable` CLI tools installed, type:
 
-Add a reference to the assemblies in the package folders (e.g. `node_modules/fable-elmish/Fable.Elmish.dll`).
+```shell
+dotnet fable add fable-powerpack fable-elmish
+```
 
 ## Basic dispatch
 > Note that by itself the following program expects the `view` to carry out both DOM construction *and* DOM rendering.
