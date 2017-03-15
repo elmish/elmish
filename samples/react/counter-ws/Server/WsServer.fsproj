@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="../node_modules/fable-import-ws/Fable.Import.Ws.fs" />
     <Compile Include="../node_modules/fable-import-ws/Fable.Helpers.Ws.fs" />
+    <Compile Include="../node_modules/fable-import-express/Fable.Import.Express.fs" />
     <Compile Include="Server.fs" />
   </ItemGroup>
   <PropertyGroup>
