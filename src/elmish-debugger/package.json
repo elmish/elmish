@@ -6,10 +6,6 @@
     "type": "git",
     "url": "git://github.com/fable-compiler/fable-elmish.git"
   },
-  "scripts": {
-    "build": "node ../../node_modules/fable-compiler",
-    "package": "node build.js"
-  },
   "keywords": [
     "F#",
     "Fable",

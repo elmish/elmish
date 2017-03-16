@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <NodeModulesDir>node_modules</NodeModulesDir>
+    <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="$(NodeModulesDir)/fable-powerpack/Fable.PowerPack.fsproj" />
