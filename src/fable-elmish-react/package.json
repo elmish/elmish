@@ -1,14 +1,10 @@
 {
   "name": "fable-elmish-react",
-  "version": "0.0.0",
+  "version": "0.9.0-beta-1",
   "description": "React extensions for fable-elmish apps.",
   "repository": {
     "type": "git",
     "url": "git://github.com/fable-compiler/fable-elmish.git"
-  },
-  "scripts": {
-    "build": "node ../../node_modules/fable-compiler",
-    "package": "node build.js"
   },
   "keywords": [
     "fable-elmish",

@@ -24,10 +24,7 @@ var cfg = {
         test: /\.fs(x|proj)?$/,
         use: {
           loader: "fable-loader",
-          options: {
-            fableCore: resolve("../node_modules/fable-core"),
-            babel: babelOptions
-          }
+          options: { babel: babelOptions }
         }
       },
       {

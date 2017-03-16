@@ -1,9 +1,9 @@
-<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+﻿<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../src/fable-elmish-react/Fable.Elmish.React.fsproj" />
+    <ProjectReference Include="../node_modules/fable-elmish-react/Fable.Elmish.React.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app.fs" />
