@@ -2,11 +2,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <NodeModulesDir>node_modules</NodeModulesDir>
-    <NodeModulesDir Condition="$(MSBuildThisFileDirectory.Contains('node_modules'))">..</NodeModulesDir>
+    <Fable-Elmish Condition="Exists('$(NodeModulesDir)/fable-elmish/Fable.Elmish.fsproj')">$(NodeModulesDir)/fable-elmish/Fable.Elmish.fsproj</Fable-Elmish>
+    <Fable-Elmish Condition="Exists('../elmish/Fable.Elmish.fsproj')">../elmish/Fable.Elmish.fsproj</Fable-Elmish>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="$(NodeModulesDir)/fable-react/Fable.React.fsproj" />
-    <ProjectReference Include="../fable-elmish/Fable.Elmish.fsproj" />
+    <ProjectReference Include="$(Fable-Elmish)"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common.fs" />

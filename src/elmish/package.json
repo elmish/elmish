@@ -6,10 +6,6 @@
     "type": "git",
     "url": "git://github.com/fable-compiler/fable-elmish.git"
   },
-  "scripts": {
-    "build": "node ../../node_modules/fable-compiler",
-    "package": "node build.js"
-  },
   "keywords": [
     "Elm",
     "F#",
@@ -18,5 +14,8 @@
     "Redux"
   ],
   "author": "Eugene Tolmachev",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {
+    "fable-powerpack": "^1.0.0-narumi-1"
+  }
 }

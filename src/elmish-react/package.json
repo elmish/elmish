@@ -6,9 +6,8 @@
     "type": "git",
     "url": "git://github.com/fable-compiler/fable-elmish.git"
   },
-  "scripts": {
-    "build": "node ../../node_modules/fable-compiler",
-    "package": "node build.js"
+  "dependencies": {
+    "fable-react": "^1.0.0-narumi-1"
   },
   "keywords": [
     "fable-elmish",

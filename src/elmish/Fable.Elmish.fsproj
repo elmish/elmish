@@ -2,15 +2,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <NodeModulesDir>node_modules</NodeModulesDir>
-    <Fable-Elmish Condition="Exists('$(NodeModulesDir)/fable-elmish/Fable.Elmish.fsproj')">$(NodeModulesDir)/fable-elmish/Fable.Elmish.fsproj</Fable-Elmish>
-    <Fable-Elmish Condition="Exists('../elmish/Fable.Elmish.fsproj')">../elmish/Fable.Elmish.fsproj</Fable-Elmish>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(Fable-Elmish)"/>
+    <ProjectReference Include="$(NodeModulesDir)/fable-powerpack/Fable.PowerPack.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fable.Import.RemoteDev.fs" />
-    <Compile Include="debugger.fs" />
+    <Compile Include="elmish.fs" />
+    <Compile Include="result.fs" />
+    <Compile Include="parser.fs" />
+    <Compile Include="browser-nav.fs" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-compile-fsc" Version="1.0.0-preview2-*" />
