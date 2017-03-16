@@ -17,10 +17,6 @@ let yarn =
 // Directories
 let buildDir  = "./build/"
 
-// Install prereqs
-let installs  =
-        !! "package.json"
-
 let samplesInstalls  =
         !! "samples/*/package.json"
         ++ "samples/*/*/package.json"
@@ -102,7 +98,7 @@ Target "InstallDotNetCore" (fun _ ->
 
 
 Target "Install" (fun _ ->
-    installs
+    projects
     |> Seq.iter (fun s -> 
                     let dir = IO.Path.GetDirectoryName s
                     printf "Installing: %s\n" dir
