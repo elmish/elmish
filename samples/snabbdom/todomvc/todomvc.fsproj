@@ -3,7 +3,7 @@
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../src/elmish-snabbdom/Fable.Elmish.Snabbdom.fsproj" />
+    <ProjectReference Include="../node_modules/fable-elmish-snabbdom/Fable.Elmish.Snabbdom.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="todomvc.fs" />
