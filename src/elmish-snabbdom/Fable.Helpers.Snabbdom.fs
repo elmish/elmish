@@ -7,11 +7,9 @@ open Fable.Import.Browser
 
 module Props =
 
-    [<KeyValueList>]
     type ICSSProp =
         interface end
 
-    [<KeyValueList>]
     type CSSProp =
         | [<Erase>] Unsafe of string * string
         | BoxFlex of float
@@ -289,15 +287,12 @@ module Props =
         | WritingMode of obj
         interface ICSSProp
 
-    [<KeyValueList>]
     type IProp =
         interface end
 
-    [<KeyValueList>]
     type IHTMLProp =
         inherit IProp
 
-    [<KeyValueList>]
     type Events =
         | [<Erase>] Unsafe of string * (obj -> unit)
         | [<CompiledName("copy")>] OnCopy of (ClipboardEvent -> unit)
@@ -365,7 +360,6 @@ module Props =
         | [<CompiledName("wheel")>] OnWheel of (WheelEvent -> unit)
         interface IProp
 
-    [<KeyValueList>]
     type HTMLAttr =
         | [<Erase>] Unsafe of string * string
         | DefaultChecked of bool
@@ -514,7 +508,6 @@ module Props =
         | Unselectable of bool
         interface IHTMLProp
 
-    [<KeyValueList>]
     type SVGAttr =
         | [<Erase>] Unsafe of string * string
         | ClipPath of string
@@ -574,11 +567,9 @@ module Props =
         | Y of U2<float, string>
         interface IProp
 
-    [<KeyValueList>]
     type IClass =
         | [<Erase>] Classy of string * bool
 
-    [<KeyValueList>]
     type VNodeData =
         | Props of IProp list
         | Attrs of IHTMLProp list

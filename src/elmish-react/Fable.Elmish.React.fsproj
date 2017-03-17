@@ -7,11 +7,13 @@
     <Fable-Elmish Condition="Exists('../elmish/Fable.Elmish.fsproj')">../elmish/Fable.Elmish.fsproj</Fable-Elmish>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="$(NodeModulesDir)/fable-react/Fable.React.fsproj" />
     <ProjectReference Include="$(Fable-Elmish)"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fable.Import.RemoteDev.fs" />
-    <Compile Include="debugger.fs" />
+    <Compile Include="common.fs" />
+    <Compile Include="react.fs" />
+    <Compile Include="react-native.fs" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-compile-fsc" Version="1.0.0-preview2-*" />

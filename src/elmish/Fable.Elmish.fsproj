@@ -2,16 +2,16 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <NodeModulesDir>node_modules</NodeModulesDir>
-    <NodeModulesDir Condition="$(MSBuildThisFileDirectory.Contains('node_modules'))">..</NodeModulesDir>
+    <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="$(NodeModulesDir)/fable-react/Fable.React.fsproj" />
-    <ProjectReference Include="../fable-elmish/Fable.Elmish.fsproj" />
+    <ProjectReference Include="$(NodeModulesDir)/fable-powerpack/Fable.PowerPack.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="common.fs" />
-    <Compile Include="react.fs" />
-    <Compile Include="react-native.fs" />
+    <Compile Include="elmish.fs" />
+    <Compile Include="result.fs" />
+    <Compile Include="parser.fs" />
+    <Compile Include="browser-nav.fs" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="dotnet-compile-fsc" Version="1.0.0-preview2-*" />
