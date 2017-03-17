@@ -13,5 +13,8 @@
     "React"
   ],
   "author": "Eugene Tolmachev",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "fable-react": "^1.0.0-narumi-1"
+  }
 }

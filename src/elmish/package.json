@@ -15,7 +15,7 @@
   ],
   "author": "Eugene Tolmachev",
   "license": "Apache-2.0",
-  "dependencies": {
+  "devDependencies": {
     "fable-powerpack": "^1.0.0-narumi-1"
   }
 }

@@ -1,11 +1,14 @@
 <Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <NodeModulesDir>node_modules</NodeModulesDir>
-    <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="$(NodeModulesDir)/fable-powerpack/Fable.PowerPack.fsproj" />
+  <!-- REFERENCES DURING DEVELOPMENT -->
+  <ItemGroup Condition="!$(MSBuildThisFileDirectory.Contains('node_modules'))" >
+    <ProjectReference Include="node_modules/fable-powerpack/Fable.PowerPack.fsproj" />
+  </ItemGroup>
+  <!-- REFERENCES WHEN USED AS A LIBRARY -->
+  <ItemGroup Condition="$(MSBuildThisFileDirectory.Contains('node_modules'))">  
+    <ProjectReference Include="../fable-powerpack/Fable.PowerPack.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="elmish.fs" />
