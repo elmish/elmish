@@ -3,12 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../node_modules/fable-compiler",
-    "watch": "node ../node_modules/fable-compiler -w",
-    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js --open"
-  },
-  "dependencies": {
-    "todomvc-app-css": "^2.0.0",
-    "todomvc-common": "^1.0.1"
+    "build": "node ../node_modules/webpack/bin/webpack.js",
+    "watch": "node ../node_modules/webpack/bin/webpack.js -w",
+    "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
   }
 }
