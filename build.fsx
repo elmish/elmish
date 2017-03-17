@@ -34,16 +34,21 @@ let packages  =
       !! "src/*/package.json"
 
 let dotnetcliVersion = "1.0.1"
-let dotnetSDKPath = 
-    System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) </> "dotnetcore" 
-    |> FullName
+let mutable dotnetExePath = "dotnet"
 
-let dotnetExePath =
-    dotnetSDKPath </> (if isWindows then "dotnet.exe" else "dotnet")
-    |> FullName
-
+let runDotnet workingDir args =
+    printfn "CWD: %s" workingDir
+    // printfn "dotnet %s" args
+    let result =
+        ExecProcess (fun info ->
+            info.FileName <- dotnetExePath
+            info.WorkingDirectory <- workingDir
+            info.Arguments <- args) TimeSpan.MaxValue
+    if result <> 0 then failwithf "Command failed: dotnet %s" args
+    
 
 Target "InstallDotNetCore" (fun _ ->
+    let dotnetSDKPath = FullName "./dotnetsdk"
     let correctVersionInstalled = 
         try
             let processResult = 
@@ -92,22 +97,26 @@ Target "InstallDotNetCore" (fun _ ->
         System.IO.Directory.EnumerateDirectories dotnetSDKPath
         |> Seq.iter (fun path -> tracefn " - %s%c" path System.IO.Path.DirectorySeparatorChar)
 
-    let oldPath = System.Environment.GetEnvironmentVariable("PATH")
-    System.Environment.SetEnvironmentVariable("PATH", sprintf "%s%s%s" dotnetSDKPath (System.IO.Path.PathSeparator.ToString()) oldPath)
+        dotnetExePath <- dotnetSDKPath </> (if isWindows then "dotnet.exe" else "dotnet")
+
+    // let oldPath = System.Environment.GetEnvironmentVariable("PATH")
+    // System.Environment.SetEnvironmentVariable("PATH", sprintf "%s%s%s" dotnetSDKPath (System.IO.Path.PathSeparator.ToString()) oldPath)
 )
 
 
 Target "Install" (fun _ ->
     projects
     |> Seq.iter (fun s -> 
-                    let dir = IO.Path.GetDirectoryName s
-                    printf "Installing: %s\n" dir
-                    Npm (fun p ->
-                        { p with
-                            NpmFilePath = yarn
-                            Command = Install Standard
-                            WorkingDirectory = dir
-                        }))
+        let dir = IO.Path.GetDirectoryName s
+        printf "Installing: %s\n" dir
+        Npm (fun p ->
+            { p with
+                NpmFilePath = yarn
+                Command = Install Standard
+                WorkingDirectory = dir
+            })
+        runDotnet dir "restore"
+    )
 )
 
 Target "InstallSamples" (fun _ ->
@@ -131,14 +140,8 @@ Target "Clean" (fun _ ->
 Target "Build" (fun _ ->
     projects
     |> Seq.iter (fun s -> 
-                    let dir = IO.Path.GetDirectoryName s
-                    printf "Building: %s\n" dir
-                    let result =
-                        ExecProcess (fun info ->
-                            info.FileName <- dotnetExePath
-                            info.WorkingDirectory <- dir
-                            info.Arguments <- "build") TimeSpan.MaxValue
-                    if result <> 0 then failwith "Build failed")
+        let dir = IO.Path.GetDirectoryName s
+        runDotnet dir "build")
 )
 
 Target "Samples" (fun _ ->
