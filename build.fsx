@@ -157,22 +157,6 @@ Target "Samples" (fun _ ->
                         }))
 )
 
-Target "Publish-Elmish" (fun _ ->
-    Npm (fun p ->
-            { p with
-                Command = Custom "publish"
-                WorkingDirectory = "./src/elmish"
-            })
-)
-
-Target "Publish-Elmish-React" (fun _ ->
-    Npm (fun p ->
-            { p with
-                Command = Custom "publish"
-                WorkingDirectory = "./src/elmish-react"
-            })
-)
-
 Target "All" ignore
 
 // Build order

@@ -2,14 +2,7 @@
  - title: Navigation demo
  - tagline: The router sample ported from Elm
 *)
-
-
-#r "../node_modules/fable-core/Fable.Core.dll"
-#r "../node_modules/fable-react/Fable.React.dll"
-#r "../node_modules/fable-elmish/Fable.Elmish.dll"
-#r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
-#r "../node_modules/fable-powerpack/Fable.PowerPack.dll"
-#r "../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll"
+module App
 
 open Fable.Core
 open Fable.Import
@@ -18,6 +11,7 @@ open Fable.Import.Browser
 open Fable.PowerPack
 open Elmish.Browser.Navigation
 open Elmish.UrlParser
+
 
 JsInterop.importAll "whatwg-fetch"
 

@@ -1,3 +1,7 @@
+### 0.9.0-beta-1
+
+* Targeting Fable 1.x
+
 ### 0.1.2
 
 * Safely continue if the monitor is not available

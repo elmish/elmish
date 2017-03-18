@@ -1,13 +1,14 @@
 <Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-    <NodeModulesDir>node_modules</NodeModulesDir>
-    <EnableDefaultCompileItems>False</EnableDefaultCompileItems>
-    <Fable-Elmish Condition="Exists('$(NodeModulesDir)/fable-elmish/Fable.Elmish.fsproj')">$(NodeModulesDir)/fable-elmish/Fable.Elmish.fsproj</Fable-Elmish>
-    <Fable-Elmish Condition="Exists('../elmish/Fable.Elmish.fsproj')">../elmish/Fable.Elmish.fsproj</Fable-Elmish>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="$(Fable-Elmish)"/>
+  <!-- REFERENCES DURING DEVELOPMENT -->
+  <ItemGroup Condition="!$(MSBuildThisFileDirectory.Contains('node_modules'))" >
+    <ProjectReference Include="../elmish/Fable.Elmish.fsproj"/>
+  </ItemGroup>
+  <!-- REFERENCES WHEN USED AS A LIBRARY -->
+  <ItemGroup Condition="$(MSBuildThisFileDirectory.Contains('node_modules'))">  
+    <ProjectReference Include="../fable-elmish/Fable.Elmish.fsproj"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fable.Import.RemoteDev.fs" />

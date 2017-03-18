@@ -4,8 +4,8 @@ Elmish-Debugger: [Remotedev tools](https://github.com/zalmoxisus/remotedev) inte
 ## Installation
 
 ```shell
-npm install --save-dev remotedev
-npm install --save-dev fable-core fable-powerpack fable-elmish fable-elmish-debugger
+npm install --save remotedev
+dotnet fable add fable-elmish-debugger fable-elmish
 ```
 
 Add a reference to the assemblies in the package folders (e.g. `node_modules/fable-elmish/Fable.Elmish.Debugger.dll`).

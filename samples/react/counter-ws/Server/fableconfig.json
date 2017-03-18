@@ -1,7 +1,0 @@
-{
-  "projFile": "./WsServer.fsproj",
-  "sourceMaps": true,
-  "outDir": "../server_out",
-  "babelrc": true,
-  "module": "commonjs"
-}
