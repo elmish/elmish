@@ -15,11 +15,11 @@ module Program =
         let patch = Snabbdom.Globals.init modules
         // Store the VNode returned by Snabbdom
         // We init it as the selected element
-        let mutable viewState: U2<VNode, Browser.Element> = Case2 node
+        let mutable viewState: U2<VNode, Browser.Element> = U2.Case2 node
 
         let setState model dispatch =
             let vnode = program.view model dispatch
-            viewState <- patch.Invoke(viewState, vnode) |> Case1
+            viewState <- patch.Invoke(viewState, vnode) |> U2.Case1
 
         { program with setState = setState }
 
