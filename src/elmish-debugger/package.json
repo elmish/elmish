@@ -1,6 +1,6 @@
 {
   "name": "fable-elmish-debugger",
-  "version": "0.9.0-beta-1",
+  "version": "0.9.0-beta-4",
   "description": "Remote devtools debugger for Fable F# apps.",
   "repository": {
     "type": "git",
