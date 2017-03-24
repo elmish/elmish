@@ -3,5 +3,5 @@
 
 
 fable-react@^1.0.0-narumi-1:
-  version "1.0.0-narumi-1"
-  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-1.tgz#658e8a062b0ffedb3dd012964cbe961c99d67046"
+  version "1.0.0-narumi-2"
+  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-2.tgz#3d19f34d8cc9a6f169b1d72a6ec4d6f326c56af9"
