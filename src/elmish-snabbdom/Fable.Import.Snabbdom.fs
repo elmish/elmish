@@ -1,4 +1,4 @@
-module Fable.Import
+namespace Fable.Import
 
 open System
 open Fable.Core
