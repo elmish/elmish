@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
-  <!-- REFERENCES DURING DEVELOPMENT -->
+  <!-- PRIVATE REFERENCES (USED FOR ELMISH DEVELOPMENT) -->
   <ItemGroup Condition="!$(MSBuildThisFileDirectory.Contains('node_modules'))" >
     <ProjectReference Include="node_modules/fable-react/Fable.React.fsproj" />
     <ProjectReference Include="../elmish/Fable.Elmish.fsproj"/>

@@ -1,12 +1,13 @@
 {
-  "name": "fable-elmish-debugger",
-  "version": "0.9.0-beta-5",
-  "description": "Remote devtools debugger for Fable F# apps.",
+  "name": "fable-elmish-browser",
+  "version": "0.9.0-beta-1",
+  "description": "Browser extensions for fable-elmish apps.",
   "repository": {
     "type": "git",
     "url": "git://github.com/fable-compiler/fable-elmish.git"
   },
   "keywords": [
+    "Elm",
     "F#",
     "Fable",
     "React",
@@ -14,7 +15,7 @@
   ],
   "author": "Eugene Tolmachev",
   "license": "Apache-2.0",
-  "peerDependencies": {
-    "remotedev": "^0.2.5"
+  "devDependencies": {
+    "fable-powerpack": "^1.0.0-narumi-1"
   }
 }
