@@ -1,35 +1,45 @@
 var path = require("path");
 var webpack = require("webpack");
 
+function resolve(filePath) {
+  return path.join(__dirname, filePath)
+}
+
+var babelOptions = {
+  presets: [["es2015", {"modules": false}]],
+  plugins: ["transform-runtime"]
+}
+
 var cfg = {
   devtool: "source-map",
-  entry: "./out/todomvc.js",
+  entry: resolve('./todomvc.fsproj'),
   output: {
-    path: path.join(__dirname, "public"),
     publicPath: "/public",
-    filename: "bundle.js"
+    path: resolve('./public'),
+    filename: 'bundle.js',
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: "source-map-loader",
-        enforce: "pre"
+        test: /\.fs(x|proj)?$/,
+        use: {
+          loader: "fable-loader",
+          options: { babel: babelOptions }
+        }
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          plugins: ["transform-runtime"]
+        exclude: /node_modules[\\\/](?!fable-)/,
+        use: {
+          loader: 'babel-loader',
+          options: babelOptions
         },
       }
     ]
   },
   resolve: {
     modules: [
-      "node_modules", path.resolve("../node_modules/")
+      "node_modules", resolve("../node_modules/")
     ]
   }
 };
@@ -38,16 +48,16 @@ if (process.env.WEBPACK_DEV_SERVER) {
   cfg.entry = [
     "webpack-dev-server/client?http://localhost:8080",
     'webpack/hot/only-dev-server',
-    "./out"
+    resolve("./todomvc.fsproj")
   ];
   cfg.plugins = [
     new webpack.HotModuleReplacementPlugin()
   ];
-  cfg.module.rules.push({
+  cfg.module.loaders = [{
     test: /\.js$/,
     exclude: /node_modules/,
     loader: "react-hot-loader"
-  });
+  }];
   cfg.devServer = {
     hot: true,
     contentBase: "public/",

@@ -1,14 +1,10 @@
 {
   "name": "fable-elmish",
-  "version": "0.0.0",
+  "version": "0.9.0-beta-4",
   "description": "Elm-like architecture core for Fable F# apps.",
   "repository": {
     "type": "git",
     "url": "git://github.com/fable-compiler/fable-elmish.git"
-  },
-  "scripts": {
-    "build": "node ../../node_modules/fable-compiler",
-    "package": "node build.js"
   },
   "keywords": [
     "Elm",
@@ -18,5 +14,8 @@
     "Redux"
   ],
   "author": "Eugene Tolmachev",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "fable-powerpack": "^1.0.0-narumi-1"
+  }
 }

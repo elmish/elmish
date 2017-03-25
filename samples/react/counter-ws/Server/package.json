@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../../node_modules/fable-compiler",
-    "watch": "node ../../node_modules/fable-compiler -w"
+    "build": "node ../../node_modules/webpack/bin/webpack.js",
+    "watch": "node ../../node_modules/webpack/bin/webpack.js -d"
   }
 }

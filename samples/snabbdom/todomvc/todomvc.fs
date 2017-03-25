@@ -1,13 +1,9 @@
+module TodoMVC
+
 (**
  - title: Todo MVC
  - tagline: The famous todo mvc ported from elm-todomvc
 *)
-
-
-#r "../node_modules/fable-core/Fable.Core.dll"
-#r "../node_modules/fable-elmish/Fable.Elmish.dll"
-#r "../node_modules/fable-elmish-snabbdom/Fable.Elmish.Snabbdom.dll"
-#r "../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll"
 
 open Fable.Core
 open Fable.Import
@@ -137,25 +133,25 @@ let internal onEnter msg dispatch =
 let viewInput (model:string) dispatch =
   header
     [
-      Props [
+      props [
         ClassName "header"
       ]
     ]
     [
       h1
         []
-        [ unbox "todos" ]
+        [ str "todos" ]
       input
         [
-          Props [
+          props [
             ClassName "new-todo"
             Placeholder "What needs to be done?"
-            Value (U2.Case1 model)
+            Value !^model
             AutoFocus true
           ]
-          Events [
+          events [
             onEnter Add dispatch
-            OnInput ((fun ev -> ev.target?value) >> unbox >> UpdateField >> dispatch)
+            OnInput (fun ev -> !!ev.target?value |> UpdateField |> dispatch)
           ]
         ]
   ]
@@ -163,57 +159,57 @@ let viewInput (model:string) dispatch =
 let viewEntry todo dispatch =
   li
     [
-      Class [
-        Classy ("completed", todo.Completed)
-        Classy ("editing", todo.Editing)
+      classes [
+        "completed", todo.Completed
+        "editing", todo.Editing
       ]
     ]
     [
       div
         [
-          Props [
+          props [
             ClassName "view"
           ]
         ]
         [
           input
             [
-              Props [
+              props [
                 ClassName "toggle"
                 Type "checkbox"
                 Checked todo.Completed
               ]
-              Events [
+              events [
                 OnInput (fun _ -> Check (todo.Id,(not todo.Completed)) |> dispatch)
               ]
             ]
           label
             [
-              Events [
+              events [
                 OnDoubleClick (fun _ -> EditingEntry (todo.Id,true) |> dispatch)
               ]
             ]
-            [ unbox todo.Description ]
+            [ str todo.Description ]
           button
             [
-              Props [
+              props [
                 ClassName "destroy"
               ]
-              Events [
+              events [
                 OnClick (fun _-> Delete todo.Id |> dispatch)
               ]
             ] []
         ]
       input
         [
-          Props [
+          props [
             ClassName "edit"
-            DefaultValue (Case1 todo.Description)
+            DefaultValue !^todo.Description
             Name "title"
             Id ("todo-" + (string todo.Id))
           ]
-          Events [
-            OnInput (fun ev -> UpdateEntry (todo.Id, unbox ev.target?value) |> dispatch)
+          events [
+            OnInput (fun ev -> UpdateEntry (todo.Id, !!ev.target?value) |> dispatch)
             OnBlur (fun _ -> EditingEntry (todo.Id,false) |> dispatch)
             onEnter (EditingEntry (todo.Id,false)) dispatch
           ]
@@ -235,36 +231,36 @@ let viewEntries visibility entries dispatch =
 
   section
     [
-      Props [
+      props [
         ClassName "main"
       ]
-      Style [
+      style [
         Visibility cssVisibility
       ]
     ]
     [
       input
         [
-          Props [
+          props [
             ClassName "toggle-all"
             Type "checkbox"
             Name "toggle"
             Checked allCompleted
           ]
-          Events [
+          events [
             OnChange (fun _ -> CheckAll (not allCompleted) |> dispatch)
           ]
         ]
       label
         [
-          Props [
+          props [
             HtmlFor "toggle-all"
           ]
         ]
-        [ unbox "Mark all as complete" ]
+        [ str "Mark all as complete" ]
       ul
         [
-          Props [
+          props [
             ClassName "todo-list"
           ]
         ]
@@ -277,35 +273,35 @@ let viewEntries visibility entries dispatch =
 let visibilitySwap uri visibility actualVisibility dispatch =
   li
     [
-      Events [
+      events [
         OnClick (fun _ -> ChangeVisibility visibility |> dispatch)
       ]
     ]
     [
       a
         [
-          Props [
+          props [
             Href uri
           ]
-          Class [
-            Classy ("selected", visibility = actualVisibility)
+          classes [
+            "selected", visibility = actualVisibility
           ]
         ]
-        [ unbox visibility ]
+        [ str visibility ]
     ]
 
 
 let viewControlsFilters visibility dispatch =
   ul
-    [ Props [
+    [ props [
         ClassName "filters"
       ]
     ]
     [
       visibilitySwap "#/" ALL_TODOS visibility dispatch
-      unbox " "
+      str " "
       visibilitySwap "#/active" ACTIVE_TODOS visibility dispatch
-      unbox " "
+      str " "
       visibilitySwap "#/completed" COMPLETED_TODOS visibility dispatch
     ]
 
@@ -316,29 +312,29 @@ let viewControlsCount entriesLeft =
 
   span
     [
-      Props [
+      props [
         ClassName "todo-count"
       ]
     ]
     [
       strong
         []
-        [ unbox (string entriesLeft) ]
-      unbox (item + " left")
+        [ str (string entriesLeft) ]
+      str (item + " left")
     ]
 
 
 let viewControlsClear entriesCompleted dispatch =
   button
-    [ Props [
+    [ props [
         ClassName "clear-completed"
         Hidden (entriesCompleted = 0)
       ]
-      Events [
+      events [
         OnClick (fun _ -> DeleteComplete |> dispatch)
       ]
     ]
-    [ unbox ("Clear completed (" + (string entriesCompleted) + ")") ]
+    [ str ("Clear completed (" + (string entriesCompleted) + ")") ]
 
 let viewControls visibility entries dispatch =
   let entriesCompleted =
@@ -350,7 +346,7 @@ let viewControls visibility entries dispatch =
     List.length entries - entriesCompleted
 
   footer
-    [ Props [
+    [ props [
         ClassName "footer"
         Hidden (List.isEmpty entries)
       ]
@@ -365,34 +361,34 @@ let viewControls visibility entries dispatch =
 let infoFooter =
   footer
     [
-      Props [
+      props [
         ClassName "info"
       ]
     ]
     [
       p
         []
-        [ unbox "Double-click to edit a todo" ]
+        [ str "Double-click to edit a todo" ]
       p
         []
-        [ unbox "Ported by "
+        [ str "Ported by "
           a
             [
-              Props [
+              props [
                 Href "https://github.com/MangelMaxime"
               ]
             ]
-            [ unbox "Maxime Mangel" ]
+            [ str "Maxime Mangel" ]
         ]
       p []
-        [ unbox "Part of "
+        [ str "Part of "
           a
             [
-              Props [
+              props [
                 Href "http://todomvc.com"
               ]
             ]
-            [ unbox "TodoMVC" ]
+            [ str "TodoMVC" ]
         ]
     ]
 
@@ -400,13 +396,13 @@ let infoFooter =
 let view model dispatch =
   div
     [
-      Props [
+      props [
         ClassName "todomvc-wrapper"
       ]
     ]
     [
       section
-        [ Props [
+        [ props [
             ClassName "todoapp"
           ]
         ]
@@ -419,7 +415,6 @@ let view model dispatch =
     ]
 
 
-open Elmish.Debug
 open Elmish.Snabbdom
 // App
 Program.mkProgram init update view

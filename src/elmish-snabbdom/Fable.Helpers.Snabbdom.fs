@@ -7,13 +7,7 @@ open Fable.Import.Browser
 
 module Props =
 
-    [<KeyValueList>]
-    type ICSSProp =
-        interface end
-
-    [<KeyValueList>]
     type CSSProp =
-        | [<Erase>] Unsafe of string * string
         | BoxFlex of float
         | BoxFlexGroup of float
         | ColumnCount of float
@@ -287,19 +281,9 @@ module Props =
         | WrapMargin of obj
         | WrapOption of obj
         | WritingMode of obj
-        interface ICSSProp
+        static member Unsafe(key: string, value: string): CSSProp = !!(key, value)
 
-    [<KeyValueList>]
-    type IProp =
-        interface end
-
-    [<KeyValueList>]
-    type IHTMLProp =
-        inherit IProp
-
-    [<KeyValueList>]
     type Events =
-        | [<Erase>] Unsafe of string * (obj -> unit)
         | [<CompiledName("copy")>] OnCopy of (ClipboardEvent -> unit)
         | [<CompiledName("cut")>] OnCut of (ClipboardEvent -> unit)
         | [<CompiledName("paste")>] OnPaste of (ClipboardEvent -> unit)
@@ -363,11 +347,12 @@ module Props =
         | [<CompiledName("touchstart")>] OnTouchStart of (TouchEvent -> unit)
         | [<CompiledName("scroll")>] OnScroll of (UIEvent -> unit)
         | [<CompiledName("wheel")>] OnWheel of (WheelEvent -> unit)
-        interface IProp
+        static member Unsafe(key: string, handler: (obj -> unit)): Events = !!(key, handler)
 
-    [<KeyValueList>]
+    type IAttr = interface end
+    type IProp = interface end
+
     type HTMLAttr =
-        | [<Erase>] Unsafe of string * string
         | DefaultChecked of bool
         | DefaultValue of U2<string, ResizeArray<string>>
         | Accept of string
@@ -481,7 +466,7 @@ module Props =
         | SrcSet of string
         | Start of float
         | Step of U2<float, string>
-        | Style of ICSSProp list
+        | Style of CSSProp list
         | Summary of string
         | TabIndex of float
         | Target of string
@@ -512,11 +497,11 @@ module Props =
         | Results of float
         | Security of string
         | Unselectable of bool
-        interface IHTMLProp
+        interface IAttr
+        interface IProp
+        static member Unsafe(key: string, value: string): HTMLAttr = !!(key, value)
 
-    [<KeyValueList>]
     type SVGAttr =
-        | [<Erase>] Unsafe of string * string
         | ClipPath of string
         | Cx of U2<float, string>
         | Cy of U2<float, string>
@@ -572,36 +557,26 @@ module Props =
         | Y1 of U2<float, string>
         | Y2 of U2<float, string>
         | Y of U2<float, string>
-        interface IProp
+        interface IAttr
+        static member Unsafe(key: string, value: string): SVGAttr = !!(key, value)
 
-    [<KeyValueList>]
-    type IClass =
-        | [<Erase>] Classy of string * bool
-
-    [<KeyValueList>]
-    type VNodeData =
-        | Props of IProp list
-        | Attrs of IHTMLProp list
-        | Class of IClass list
-        | Style of ICSSProp list
-        | Dataset of obj
-        | [<CompiledName("on")>] Events of Events list
-        | Hero of obj
-        | AttachData of obj
-        | Hook of obj//Hooks
-        | Key of obj//Key
-        | Ns of string
-        | Fn of obj//(unit, VNode>
-        | Args of ResizeArray<obj>
+    type VNodeData = class end
+    let inline props (props: IProp list): VNodeData = !!("props", keyValueList CaseRules.LowerFirst props)
+    let inline attrs (attrs: IAttr list): VNodeData = !!("attrs", keyValueList CaseRules.LowerFirst attrs)
+    let inline classes (classes: (string*bool) list): VNodeData = !!("class", keyValueList CaseRules.None classes)
+    let inline style (style: CSSProp list): VNodeData = !!("style", keyValueList CaseRules.LowerFirst style)
+    let inline events (events: Events list): VNodeData = !!("on", keyValueList CaseRules.LowerFirst events)
+    let inline dataset (dataset: obj): VNodeData = !!("dataset", dataset)
+    let inline hero (hero: obj): VNodeData = !!("hero", hero)
+    let inline attachData (attachData: obj): VNodeData = !!("attachData", attachData)
+    let inline hook (hook: obj): VNodeData = !!("hook", hook)
+    let inline key (key: obj): VNodeData = !!("key", key)
+    let inline ns (ns: string): VNodeData = !!("ns", ns)
+    let inline fn (fn: obj): VNodeData = !!("fn", fn)
+    let inline args (args: obj[]): VNodeData = !!("args", args)
 
 open Props
-open Fable.Snabbdom.Internal
 open Fable.Import.Snabbdom
-
-type Unsafe =
-    static member Property (key: string) (value: string) = HTMLAttr.Unsafe (key, value)
-    static member Attribute (key: string) (value: string) = HTMLAttr.Unsafe (key, value)
-    static member Event (key: string) (value: obj-> unit) = Events.Unsafe (key, value)
 
 let classBaseList std classes =
     classes
@@ -610,278 +585,151 @@ let classBaseList std classes =
 
 let classList classes = classBaseList "" classes
 
-[<Emit(typeof<Emitter>, "From")>]
-let hyperscript (tag: string) (props: VNodeData list) (children: VNode list): VNode = jsNative
+[<Import("h", from="snabbdom")>]
+let createEl = obj()
 
-[<Emit(typeof<Emitter>, "Tagged", "a")>]
-let a b c = hyperscript "a" b c
-[<Emit(typeof<Emitter>, "Tagged", "abbr")>]
-let abbr b c = hyperscript "abbr" b c
-[<Emit(typeof<Emitter>, "Tagged", "address")>]
-let address b c = hyperscript "address" b c
-[<Emit(typeof<Emitter>, "Tagged", "article")>]
-let article b c = hyperscript "article" b c
-[<Emit(typeof<Emitter>, "Tagged", "aside")>]
-let aside b c = hyperscript "aside" b c
-[<Emit(typeof<Emitter>, "Tagged", "audio")>]
-let audio b c = hyperscript "audio" b c
-[<Emit(typeof<Emitter>, "Tagged", "b")>]
-let b b' c = hyperscript "b" b' c
-[<Emit(typeof<Emitter>, "Tagged", "bdi")>]
-let bdi b c = hyperscript "bdi" b c
-[<Emit(typeof<Emitter>, "Tagged", "bdo")>]
-let bdo b c = hyperscript "bdo" b c
-[<Emit(typeof<Emitter>, "Tagged", "big")>]
-let big b c = hyperscript "big" b c
-[<Emit(typeof<Emitter>, "Tagged", "blockquote")>]
-let blockquote b c = hyperscript "blockquote" b c
-[<Emit(typeof<Emitter>, "Tagged", "body")>]
-let body b c = hyperscript "body" b c
+let inline hyperscript (tag: string) (props: VNodeData list) (children: VNode list): VNode =
+    !!(createEl $ (tag, keyValueList CaseRules.None props, List.toArray children))
 
-[<Emit(typeof<Emitter>, "Tagged", "button")>]
-let button b c = hyperscript "button" b c
-[<Emit(typeof<Emitter>, "Tagged", "canvas")>]
-let canvas b c = hyperscript "canvas" b c
-[<Emit(typeof<Emitter>, "Tagged", "caption")>]
-let caption b c = hyperscript "caption" b c
-[<Emit(typeof<Emitter>, "Tagged", "cite")>]
-let cite b c = hyperscript "cite" b c
-[<Emit(typeof<Emitter>, "Tagged", "code")>]
-let code b c = hyperscript "code" b c
-[<Emit(typeof<Emitter>, "Tagged", "colgroup")>]
-let colgroup b c = hyperscript "colgroup" b c
-[<Emit(typeof<Emitter>, "Tagged", "data")>]
-let data b c = hyperscript "data" b c
-[<Emit(typeof<Emitter>, "Tagged", "datalist")>]
-let datalist b c = hyperscript "datalist" b c
-[<Emit(typeof<Emitter>, "Tagged", "dd")>]
-let dd b c = hyperscript "dd" b c
-[<Emit(typeof<Emitter>, "Tagged", "del")>]
-let del b c = hyperscript "del" b c
-[<Emit(typeof<Emitter>, "Tagged", "details")>]
-let details b c = hyperscript "details" b c
-[<Emit(typeof<Emitter>, "Tagged", "dfn")>]
-let dfn b c = hyperscript "dfn" b c
-[<Emit(typeof<Emitter>, "Tagged", "dialog")>]
-let dialog b c = hyperscript "dialog" b c
-[<Emit(typeof<Emitter>, "Tagged", "div")>]
-let div b c = hyperscript "div" b c
-[<Emit(typeof<Emitter>, "Tagged", "dl")>]
-let dl b c = hyperscript "dl" b c
-[<Emit(typeof<Emitter>, "Tagged", "dt")>]
-let dt b c = hyperscript "dt" b c
-[<Emit(typeof<Emitter>, "Tagged", "em")>]
-let em b c = hyperscript "em" b c
-[<Emit(typeof<Emitter>, "Tagged", "fieldset")>]
-let fieldset b c = hyperscript "fieldset" b c
-[<Emit(typeof<Emitter>, "Tagged", "figcaption")>]
-let figcaption b c = hyperscript "figcaption" b c
-[<Emit(typeof<Emitter>, "Tagged", "figure")>]
-let figure b c = hyperscript "figure" b c
-[<Emit(typeof<Emitter>, "Tagged", "footer")>]
-let footer b c = hyperscript "footer" b c
-[<Emit(typeof<Emitter>, "Tagged", "form")>]
-let form b c = hyperscript "form" b c
-[<Emit(typeof<Emitter>, "Tagged", "h1")>]
-let h1 b c = hyperscript "h1" b c
-[<Emit(typeof<Emitter>, "Tagged", "h2")>]
-let h2 b c = hyperscript "h2" b c
-[<Emit(typeof<Emitter>, "Tagged", "h3")>]
-let h3 b c = hyperscript "h3" b c
-[<Emit(typeof<Emitter>, "Tagged", "h4")>]
-let h4 b c = hyperscript "h4" b c
-[<Emit(typeof<Emitter>, "Tagged", "h5")>]
-let h5 b c = hyperscript "h5" b c
-[<Emit(typeof<Emitter>, "Tagged", "h6")>]
-let h6 b c = hyperscript "h6" b c
-[<Emit(typeof<Emitter>, "Tagged", "head")>]
-let head b c = hyperscript "head" b c
-[<Emit(typeof<Emitter>, "Tagged", "header")>]
-let header b c = hyperscript "header" b c
-[<Emit(typeof<Emitter>, "Tagged", "hgroup")>]
-let hgroup b c = hyperscript "hgroup" b c
-[<Emit(typeof<Emitter>, "Tagged", "html")>]
-let html b c = hyperscript "html" b c
-[<Emit(typeof<Emitter>, "Tagged", "i")>]
-let i b c = hyperscript "i" b c
-[<Emit(typeof<Emitter>, "Tagged", "iframe")>]
-let iframe b c = hyperscript "iframe" b c
-[<Emit(typeof<Emitter>, "Tagged", "ins")>]
-let ins b c = hyperscript "ins" b c
-[<Emit(typeof<Emitter>, "Tagged", "kbd")>]
-let kbd b c = hyperscript "kbd" b c
-[<Emit(typeof<Emitter>, "Tagged", "label")>]
-let label b c = hyperscript "label" b c
-[<Emit(typeof<Emitter>, "Tagged", "legend")>]
-let legend b c = hyperscript "legend" b c
-[<Emit(typeof<Emitter>, "Tagged", "li")>]
-let li b c = hyperscript "li" b c
-[<Emit(typeof<Emitter>, "Tagged", "main")>]
-let main b c = hyperscript "main" b c
-[<Emit(typeof<Emitter>, "Tagged", "map")>]
-let map b c = hyperscript "map" b c
-[<Emit(typeof<Emitter>, "Tagged", "mark")>]
-let mark b c = hyperscript "mark" b c
-[<Emit(typeof<Emitter>, "Tagged", "menu")>]
-let menu b c = hyperscript "menu" b c
-[<Emit(typeof<Emitter>, "Tagged", "meter")>]
-let meter b c = hyperscript "meter" b c
-[<Emit(typeof<Emitter>, "Tagged", "nav")>]
-let nav b c = hyperscript "nav" b c
-[<Emit(typeof<Emitter>, "Tagged", "noscript")>]
-let noscript b c = hyperscript "noscript" b c
-[<Emit(typeof<Emitter>, "Tagged", "object")>]
-let ``object`` b c = hyperscript "object" b c
-[<Emit(typeof<Emitter>, "Tagged", "ol")>]
-let ol b c = hyperscript "ol" b c
-[<Emit(typeof<Emitter>, "Tagged", "optgroup")>]
-let optgroup b c = hyperscript "optgroup" b c
-[<Emit(typeof<Emitter>, "Tagged", "option")>]
-let option b c = hyperscript "option" b c
-[<Emit(typeof<Emitter>, "Tagged", "output")>]
-let output b c = hyperscript "output" b c
-[<Emit(typeof<Emitter>, "Tagged", "p")>]
-let p b c = hyperscript "p" b c
-[<Emit(typeof<Emitter>, "Tagged", "picture")>]
-let picture b c = hyperscript "picture" b c
-[<Emit(typeof<Emitter>, "Tagged", "pre")>]
-let pre b c = hyperscript "pre" b c
-[<Emit(typeof<Emitter>, "Tagged", "progress")>]
-let progress b c = hyperscript "progress" b c
-[<Emit(typeof<Emitter>, "Tagged", "q")>]
-let q b c = hyperscript "q" b c
-[<Emit(typeof<Emitter>, "Tagged", "rp")>]
-let rp b c = hyperscript "rp" b c
-[<Emit(typeof<Emitter>, "Tagged", "rt")>]
-let rt b c = hyperscript "rt" b c
-[<Emit(typeof<Emitter>, "Tagged", "ruby")>]
-let ruby b c = hyperscript "ruby" b c
-[<Emit(typeof<Emitter>, "Tagged", "s")>]
-let s b c = hyperscript "s" b c
-[<Emit(typeof<Emitter>, "Tagged", "samp")>]
-let samp b c = hyperscript "samp" b c
-[<Emit(typeof<Emitter>, "Tagged", "script")>]
-let script b c = hyperscript "script" b c
-[<Emit(typeof<Emitter>, "Tagged", "section")>]
-let section b c = hyperscript "section" b c
-[<Emit(typeof<Emitter>, "Tagged", "select")>]
-let select b c = hyperscript "select" b c
-[<Emit(typeof<Emitter>, "Tagged", "small")>]
-let small b c = hyperscript "small" b c
-[<Emit(typeof<Emitter>, "Tagged", "span")>]
-let span b c = hyperscript "span" b c
-[<Emit(typeof<Emitter>, "Tagged", "strong")>]
-let strong b c = hyperscript "strong" b c
-[<Emit(typeof<Emitter>, "Tagged", "style")>]
-let style b c = hyperscript "style" b c
-[<Emit(typeof<Emitter>, "Tagged", "sub")>]
-let sub b c = hyperscript "sub" b c
-[<Emit(typeof<Emitter>, "Tagged", "summary")>]
-let summary b c = hyperscript "summary" b c
-[<Emit(typeof<Emitter>, "Tagged", "sup")>]
-let sup b c = hyperscript "sup" b c
-[<Emit(typeof<Emitter>, "Tagged", "table")>]
-let table b c = hyperscript "table" b c
-[<Emit(typeof<Emitter>, "Tagged", "tbody")>]
-let tbody b c = hyperscript "tbody" b c
-[<Emit(typeof<Emitter>, "Tagged", "td")>]
-let td b c = hyperscript "td" b c
-[<Emit(typeof<Emitter>, "Tagged", "textarea")>]
-let textarea b c = hyperscript "textarea" b c
-[<Emit(typeof<Emitter>, "Tagged", "tfoot")>]
-let tfoot b c = hyperscript "tfoot" b c
-[<Emit(typeof<Emitter>, "Tagged", "th")>]
-let th b c = hyperscript "th" b c
-[<Emit(typeof<Emitter>, "Tagged", "thead")>]
-let thead b c = hyperscript "thead" b c
-[<Emit(typeof<Emitter>, "Tagged", "time")>]
-let time b c = hyperscript "time" b c
-[<Emit(typeof<Emitter>, "Tagged", "title")>]
-let title b c = hyperscript "title" b c
-[<Emit(typeof<Emitter>, "Tagged", "tr")>]
-let tr b c = hyperscript "tr" b c
-[<Emit(typeof<Emitter>, "Tagged", "u")>]
-let u b c = hyperscript "u" b c
-[<Emit(typeof<Emitter>, "Tagged", "ul")>]
-let ul b c = hyperscript "ul" b c
-[<Emit(typeof<Emitter>, "Tagged", "var")>]
-let var b c = hyperscript "var" b c
-[<Emit(typeof<Emitter>, "Tagged", "video")>]
-let video b c = hyperscript "video" b c
+let inline hyperscript2 (tag: string) (props: VNodeData list): VNode =
+    !!(createEl $ (tag, keyValueList CaseRules.None props))
+
+let inline a b c = hyperscript "a" b c
+let inline abbr b c = hyperscript "abbr" b c
+let inline address b c = hyperscript "address" b c
+let inline article b c = hyperscript "article" b c
+let inline aside b c = hyperscript "aside" b c
+let inline audio b c = hyperscript "audio" b c
+let inline b b' c = hyperscript "b" b' c
+let inline bdi b c = hyperscript "bdi" b c
+let inline bdo b c = hyperscript "bdo" b c
+let inline big b c = hyperscript "big" b c
+let inline blockquote b c = hyperscript "blockquote" b c
+let inline body b c = hyperscript "body" b c
+let inline button b c = hyperscript "button" b c
+let inline canvas b c = hyperscript "canvas" b c
+let inline caption b c = hyperscript "caption" b c
+let inline cite b c = hyperscript "cite" b c
+let inline code b c = hyperscript "code" b c
+let inline colgroup b c = hyperscript "colgroup" b c
+let inline data b c = hyperscript "data" b c
+let inline datalist b c = hyperscript "datalist" b c
+let inline dd b c = hyperscript "dd" b c
+let inline del b c = hyperscript "del" b c
+let inline details b c = hyperscript "details" b c
+let inline dfn b c = hyperscript "dfn" b c
+let inline dialog b c = hyperscript "dialog" b c
+let inline div b c = hyperscript "div" b c
+let inline dl b c = hyperscript "dl" b c
+let inline dt b c = hyperscript "dt" b c
+let inline em b c = hyperscript "em" b c
+let inline fieldset b c = hyperscript "fieldset" b c
+let inline figcaption b c = hyperscript "figcaption" b c
+let inline figure b c = hyperscript "figure" b c
+let inline footer b c = hyperscript "footer" b c
+let inline form b c = hyperscript "form" b c
+let inline h1 b c = hyperscript "h1" b c
+let inline h2 b c = hyperscript "h2" b c
+let inline h3 b c = hyperscript "h3" b c
+let inline h4 b c = hyperscript "h4" b c
+let inline h5 b c = hyperscript "h5" b c
+let inline h6 b c = hyperscript "h6" b c
+let inline head b c = hyperscript "head" b c
+let inline header b c = hyperscript "header" b c
+let inline hgroup b c = hyperscript "hgroup" b c
+let inline html b c = hyperscript "html" b c
+let inline i b c = hyperscript "i" b c
+let inline iframe b c = hyperscript "iframe" b c
+let inline ins b c = hyperscript "ins" b c
+let inline kbd b c = hyperscript "kbd" b c
+let inline label b c = hyperscript "label" b c
+let inline legend b c = hyperscript "legend" b c
+let inline li b c = hyperscript "li" b c
+let inline main b c = hyperscript "main" b c
+let inline map b c = hyperscript "map" b c
+let inline mark b c = hyperscript "mark" b c
+let inline menu b c = hyperscript "menu" b c
+let inline meter b c = hyperscript "meter" b c
+let inline nav b c = hyperscript "nav" b c
+let inline noscript b c = hyperscript "noscript" b c
+let inline ``object`` b c = hyperscript "object" b c
+let inline ol b c = hyperscript "ol" b c
+let inline optgroup b c = hyperscript "optgroup" b c
+let inline option b c = hyperscript "option" b c
+let inline output b c = hyperscript "output" b c
+let inline p b c = hyperscript "p" b c
+let inline picture b c = hyperscript "picture" b c
+let inline pre b c = hyperscript "pre" b c
+let inline progress b c = hyperscript "progress" b c
+let inline q b c = hyperscript "q" b c
+let inline rp b c = hyperscript "rp" b c
+let inline rt b c = hyperscript "rt" b c
+let inline ruby b c = hyperscript "ruby" b c
+let inline s b c = hyperscript "s" b c
+let inline samp b c = hyperscript "samp" b c
+let inline script b c = hyperscript "script" b c
+let inline section b c = hyperscript "section" b c
+let inline select b c = hyperscript "select" b c
+let inline small b c = hyperscript "small" b c
+let inline span b c = hyperscript "span" b c
+let inline strong b c = hyperscript "strong" b c
+let inline style b c = hyperscript "style" b c
+let inline sub b c = hyperscript "sub" b c
+let inline summary b c = hyperscript "summary" b c
+let inline sup b c = hyperscript "sup" b c
+let inline table b c = hyperscript "table" b c
+let inline tbody b c = hyperscript "tbody" b c
+let inline td b c = hyperscript "td" b c
+let inline textarea b c = hyperscript "textarea" b c
+let inline tfoot b c = hyperscript "tfoot" b c
+let inline th b c = hyperscript "th" b c
+let inline thead b c = hyperscript "thead" b c
+let inline time b c = hyperscript "time" b c
+let inline title b c = hyperscript "title" b c
+let inline tr b c = hyperscript "tr" b c
+let inline u b c = hyperscript "u" b c
+let inline ul b c = hyperscript "ul" b c
+let inline var b c = hyperscript "var" b c
+let inline video b c = hyperscript "video" b c
 // Void Elements
-[<Emit(typeof<Emitter>, "Tagged", "area")>]
-let area (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "base")>]
-let ``base`` (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "br")>]
-let br (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "col")>]
-let col (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "embed")>]
-let embed (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "hr")>]
-let hr (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "img")>]
-let img (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "input")>]
-let input (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "keygen")>]
-let keygen (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "link")>]
-let link (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "menuitem")>]
-let menuitem (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "meta")>]
-let meta (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "param")>]
-let param (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "source")>]
-let source (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "track")>]
-let track (b: VNodeData list) : VNode = jsNative
-[<Emit(typeof<Emitter>, "Tagged", "wbr")>]
-let wbr (b: VNodeData list) : VNode = jsNative
+let inline area (b: VNodeData list) : VNode = hyperscript2 "area" b
+let inline ``base`` (b: VNodeData list) : VNode = hyperscript2 "base" b
+let inline br (b: VNodeData list) : VNode = hyperscript2 "br" b
+let inline col (b: VNodeData list) : VNode = hyperscript2 "col" b
+let inline embed (b: VNodeData list) : VNode = hyperscript2 "embed" b
+let inline hr (b: VNodeData list) : VNode = hyperscript2 "hr" b
+let inline img (b: VNodeData list) : VNode = hyperscript2 "img" b
+let inline input (b: VNodeData list) : VNode = hyperscript2 "input" b
+let inline keygen (b: VNodeData list) : VNode = hyperscript2 "keygen" b
+let inline link (b: VNodeData list) : VNode = hyperscript2 "link" b
+let inline menuitem (b: VNodeData list) : VNode = hyperscript2 "menuitem" b
+let inline meta (b: VNodeData list) : VNode = hyperscript2 "meta" b
+let inline param (b: VNodeData list) : VNode = hyperscript2 "param" b
+let inline source (b: VNodeData list) : VNode = hyperscript2 "source" b
+let inline track (b: VNodeData list) : VNode = hyperscript2 "track" b
+let inline wbr (b: VNodeData list) : VNode = hyperscript2 "wbr" b
 // SVG api
-[<Emit(typeof<Emitter>, "Tagged", "svg")>]
-let svg b c = hyperscript "svg" b c
-[<Emit(typeof<Emitter>, "Tagged", "circle")>]
-let circle b c = hyperscript "circle" b c
-[<Emit(typeof<Emitter>, "Tagged", "clipPath")>]
-let clipPath b c = hyperscript "clipPath" b c
-[<Emit(typeof<Emitter>, "Tagged", "defs")>]
-let defs b c = hyperscript "defs" b c
-[<Emit(typeof<Emitter>, "Tagged", "ellipse")>]
-let ellipse b c = hyperscript "ellipse" b c
-[<Emit(typeof<Emitter>, "Tagged", "g")>]
-let g b c = hyperscript "g" b c
-[<Emit(typeof<Emitter>, "Tagged", "image")>]
-let image b c = hyperscript "image" b c
-[<Emit(typeof<Emitter>, "Tagged", "line")>]
-let line b c = hyperscript "line" b c
-[<Emit(typeof<Emitter>, "Tagged", "linearGradient")>]
-let linearGradient b c = hyperscript "linearGradient" b c
-[<Emit(typeof<Emitter>, "Tagged", "mask")>]
-let mask b c = hyperscript "mask" b c
-[<Emit(typeof<Emitter>, "Tagged", "path")>]
-let path b c = hyperscript "path" b c
-[<Emit(typeof<Emitter>, "Tagged", "pattern")>]
-let pattern b c = hyperscript "pattern" b c
-[<Emit(typeof<Emitter>, "Tagged", "polygon")>]
-let polygon b c = hyperscript "polygon" b c
-[<Emit(typeof<Emitter>, "Tagged", "polyline")>]
-let polyline b c = hyperscript "polyline" b c
-[<Emit(typeof<Emitter>, "Tagged", "radialGradient")>]
-let radialGradient b c = hyperscript "radialGradient" b c
-[<Emit(typeof<Emitter>, "Tagged", "rect")>]
-let rect b c = hyperscript "rect" b c
-[<Emit(typeof<Emitter>, "Tagged", "stop")>]
-let stop b c = hyperscript "stop" b c
-[<Emit(typeof<Emitter>, "Tagged", "text")>]
-let text b c = hyperscript "text" b c
-[<Emit(typeof<Emitter>, "Tagged", "tspan")>]
-let tspan b c = hyperscript "tspan" b c
+let inline svg b c = hyperscript "svg" b c
+let inline circle b c = hyperscript "circle" b c
+let inline clipPath b c = hyperscript "clipPath" b c
+let inline defs b c = hyperscript "defs" b c
+let inline ellipse b c = hyperscript "ellipse" b c
+let inline g b c = hyperscript "g" b c
+let inline image b c = hyperscript "image" b c
+let inline line b c = hyperscript "line" b c
+let inline linearGradient b c = hyperscript "linearGradient" b c
+let inline mask b c = hyperscript "mask" b c
+let inline path b c = hyperscript "path" b c
+let inline pattern b c = hyperscript "pattern" b c
+let inline polygon b c = hyperscript "polygon" b c
+let inline polyline b c = hyperscript "polyline" b c
+let inline radialGradient b c = hyperscript "radialGradient" b c
+let inline rect b c = hyperscript "rect" b c
+let inline stop b c = hyperscript "stop" b c
+let inline text b c = hyperscript "text" b c
+let inline tspan b c = hyperscript "tspan" b c
 
-/// Cast a string to a VNode element (erased in runtime)
-// let [<Emit("$0")>] str (s: string): VNode = unbox s
-/// Cast an option value to a VNode element (erased in runtime)
-// let [<Emit("$0")>] opt (o: VNode option): VNode = unbox o
+/// Cast a string to a VNode
+let inline str (s: string): VNode = unbox s
+/// Cast an option value to a VNode
+let inline opt (o: VNode option): VNode = unbox o
