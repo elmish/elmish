@@ -5,6 +5,7 @@ type Result<'s, 'f> =
     | Error of 'f
 
 [<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Result =
 
     let unit (v: 't) : Result<'t, 'e> =
@@ -19,5 +20,4 @@ module Result =
         bind (f >> Ok) r
 
     let apply (a: Result<('t -> 'u), 'e>) (r: Result<'t, 'e>) : Result<'u, 'e> =
-        bind (fun f -> map f r) a 
-
+        bind (fun f -> map f r) a
