@@ -5,16 +5,14 @@ single-page applications (SPAs) where you manage browser navigation yourself.
 
 module Elmish.Browser.UrlParser
 
-
-// PARSERS
-
-
 type State<'v> =
   { visited : string list
     unvisited : string list
     args : Map<string,string>
     value : 'v }
 
+[<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module State =
   let mkState visited unvisited args value =
         { visited = visited
@@ -32,8 +30,8 @@ module State =
 type Parser<'a,'b> = State<'a> -> State<'b> list
 
 
-
 // PARSE SEGMENTS
+
 (* Create a custom path segment parser. Here is how it is used to define the
 `i32` and `str` parsers:
     i32 =
@@ -100,7 +98,6 @@ let s str : Parser<_,_> =
 
 // COMBINING PARSERS
 
-
 (* Parse a path with multiple segments.
     parsePath (s "blog" </> int32) location
     /blog/35/  ==>  Some 35
@@ -121,10 +118,8 @@ let inline (</>) (parseBefore:Parser<_,_>) (parseAfter:Parser<_,_>) =
 
 (* Transform a path parser.
     type Comment = { author : string, id : Int }
-    rawComment : Parser (string -> int -> 'a) a
     rawComment =
       s "user" </> str </> s "comments" </> i32
-    comment : Parser<Comment -> 'a,'a>
     comment =
       map Comment rawComment
     parsePath comment location
@@ -149,13 +144,12 @@ let map (subValue:'a) (parse:Parser<'a,'b>) : Parser<'b->'c,'c> =
       | Blog Int
       | User string
       | Comment string Int
-    route : Parser (Route -> a) a
     route =
       oneOf
         [ map Search  (s "search" </> string)
-        , map Blog    (s "blog" </> int32)
-        , map User    (s "user" </> string)
-        , map Comment (s "user" </> string </> "comments" </> int32)
+          map Blog    (s "blog" </> int32)
+          map User    (s "user" </> string)
+          map Comment (s "user" </> string </> "comments" </> int32)
         ]
     parsePath route location
     /search/cats           ==>  Some (Search "cats")
@@ -173,7 +167,6 @@ let oneOf parsers state =
 
 (* A parser that does not consume any path segments.
     type BlogRoute = Overview | Post int
-    blogRoute : Parser (BlogRoute -> a) a
     blogRoute =
       oneOf
         [ map Overview top
@@ -189,18 +182,16 @@ let top state=
 
 // QUERY PARAMETERS
 
-
 /// Turn query parameters like `?name=tom&age=42` into nice data.
 type QueryParser<'a,'b> = State<'a> -> State<'b> list
 
 
 (* Parse some query parameters.
     type Route = BlogList (Option string) | BlogPost Int
-    route : Parser (Route -> a) a
     route =
       oneOf
         [ map BlogList (s "blog" <?> stringParam "search")
-        , map BlogPost (s "blog" </> int32)
+          map BlogPost (s "blog" </> i32)
         ]
     parsePath route location
     /blog/              ==>  Some (BlogList None)
@@ -226,11 +217,9 @@ let customParam (key: string) (func:string option -> _) : QueryParser<_,_> =
     /blog/              ==>  Some (Overview None)
     /blog/?search=cats  ==>  Some (Overview (Some "cats"))
 *)
-//stringParam : string -> QueryParser (Option string -> a) a
 let stringParam name =
     customParam name id
 
-//intParamHelp : Option String -> Option Int
 let internal intParamHelp =
     Option.bind 
         (fun value ->
@@ -245,14 +234,12 @@ should appear first.
     /results           ==>  Some None
     /results?start=10  ==>  Some (Some 10)
 *)
-//intParam : string -> QueryParser (Option Int -> a) a
 let intParam name =
     customParam name intParamHelp
 
 
 // PARSER HELPERS
 
-//parseHelp : List (State a) -> Option a
 let rec internal parseHelp states =
     match states with
     | [] ->
@@ -266,7 +253,6 @@ let rec internal parseHelp states =
         | _ ->
             parseHelp rest
 
-//splitUrl : string -> string list
 let internal splitUrl (url:string) =
     match List.ofArray <| url.Split([|'/'|]) with
     | "" :: segments ->
@@ -283,7 +269,7 @@ let internal parse (parser:Parser<'a->'a,'a>) url args =
     |> parseHelp
 
 open Fable.Import
-//toKeyValuePair : string -> Option (string, string)
+
 let internal toKeyValuePair (segment:string) =
     match segment.Split('=') with
     | [| key; value |] ->
@@ -303,15 +289,12 @@ open Fable.Import.Browser
 (* Parse based on `location.pathname` and `location.search`. This parser
 ignores the hash entirely.
 *)
-//parsePath : Parser (a -> a) a -> Navigation.Location -> Maybe a
-let parsePath parser (location:Location) =
+let parsePath (parser:Parser<_,_>) (location:Location) =
     parse parser location.pathname (parseParams location.search)
 
 (* Parse based on `location.hash` and `location.search`. This parser
 ignores the normal path entirely.
-parse : Parser (a -> a) a -> string -> Map<string,string> -> Option a
 *)
-// parseHash : Parser (a -> a) a -> Navigation.Location -> Option a
-let parseHash parser (location:Location) =
-    parse parser (location.hash.Substring(1)) (parseParams location.search)
+let parseHash (parser:Parser<_,_>) (location:Location) =
+    parse parser (location.hash.Substring 1) (parseParams location.search)
 

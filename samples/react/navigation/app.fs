@@ -10,13 +10,13 @@ open Elmish
 open Fable.Import.Browser
 open Fable.PowerPack
 open Elmish.Browser.Navigation
-open Elmish.UrlParser
+open Elmish.Browser.UrlParser
 
 
 JsInterop.importAll "whatwg-fetch"
 
 // Types
-type Page = Home | Blog of int | Search of string
+type Page = Home | Blog of int | Search of string option
 
 type Model =
   { page : Page
@@ -25,19 +25,17 @@ type Model =
 
 let toHash = 
     function
-    | Home -> "#home"
     | Blog id -> "#blog/" + (string id)
-    | Search query -> "#search/" + query
+    | Search (Some query) -> "/?search=" + query
+    | _ -> "#home"
 
-/// The URL is turned into a Result.
+/// The URL is turned into a Page option.
 let pageParser : Parser<Page->_,_> =
   oneOf
-    [ format Home (s "home")
-      format Blog (s "blog" </> i32)
-      format Search (s "search" </> str) ]
+    [ map Home (s "home")
+      map Blog (s "blog" </> i32)
+      map Search (top <?> stringParam "search") ]
 
-let hashParser (location:Location) =
-  UrlParser.parse id pageParser (location.hash.Substring 1)
 
 type Msg = 
   | Query of string
@@ -57,19 +55,19 @@ let get query =
 (* If the URL is valid, we just update our model or issue a command. 
 If it is not a valid URL, we modify the URL to whatever makes sense.
 *)
-let urlUpdate (result:Result<Page,string>) model =
+let urlUpdate (result:Option<Page>) model =
   match result with
-  | Error e ->
-      Browser.console.error("Error parsing url:", e)  
-      ( model, Navigation.modifyUrl (toHash model.page) )
-
-  | Ok (Search query as page) ->
+  | Some (Search (Some query) as page) ->
       { model with page = page; query = query },
          if Map.containsKey query model.cache then [] 
          else Cmd.ofPromise get query (fun r -> FetchSuccess (query,r)) (fun ex -> FetchFailure (query,ex)) 
 
-  | Ok page ->
+  | Some page ->
       { model with page = page; query = "" }, []
+
+  | None ->
+      Browser.console.error("Error parsing url")  
+      ( model, Navigation.modifyUrl (toHash model.page) )
 
 let init result =
   urlUpdate result { page = Home; query = ""; cache = Map.empty }
@@ -86,7 +84,7 @@ let update msg model =
       { model with query = query }, []
 
   | Enter ->
-      let newPage = Search model.query
+      let newPage = Search (Some model.query)
       { model with page = newPage }, Navigation.newUrl (toHash newPage)
 
   | FetchFailure (query,_) ->
@@ -138,7 +136,7 @@ let viewPage model dispatch =
       [ words 20 "This is blog post number"
         words 100 (string id) ]
 
-  | Search query ->
+  | Search (Some query) ->
       match Map.tryFind query model.cache with
       | Some [] ->
           [ unbox ("No results found for " + query + ". Need a valid zip code like 90210.") ]
@@ -146,6 +144,9 @@ let viewPage model dispatch =
           [ words 20 ("Zip code " + query + " is in " + location + "!") ]
       | _ ->
           [ unbox "..." ]
+  
+  | Search (None) ->
+          [ unbox "Invalid query" ]
 
 open Fable.Core.JsInterop
 
@@ -174,7 +175,7 @@ open Elmish.Debug
 
 // App
 Program.mkProgram init update view
-|> Program.toNavigable hashParser urlUpdate
+|> Program.toNavigable (parseHash pageParser) urlUpdate
 |> Program.withDebugger
 |> Program.withReact "elmish-app"
 |> Program.run 

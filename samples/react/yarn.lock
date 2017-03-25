@@ -1144,17 +1144,21 @@ fable-core@^1.0.0-narumi-8:
   version "1.0.0-narumi-8"
   resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-8.tgz#dff875fdbe0d0af051595b799ba62b1d46162ad2"
 
-fable-elmish-debugger@^0.9.0-beta-4:
-  version "0.9.0-beta-4"
-  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.9.0-beta-4.tgz#ac1e5d58ef3996680ec61d5639889ac53243eed7"
+fable-elmish-browser@^0.9.0-beta-2:
+  version "0.9.0-beta-2"
+  resolved "https://registry.yarnpkg.com/fable-elmish-browser/-/fable-elmish-browser-0.9.0-beta-2.tgz#a16dfa7c65c3979b58367e31901b9b241ffdbc52"
+
+fable-elmish-debugger@^0.9.0-beta-5:
+  version "0.9.0-beta-5"
+  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.9.0-beta-5.tgz#a3c98468d01675ff03f7332d7849f03b47f28ab0"
 
 fable-elmish-react@^0.9.0-beta-4:
   version "0.9.0-beta-4"
   resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.9.0-beta-4.tgz#62a0e76ecf606f592b1384ee81ca2a098b52590f"
 
-fable-elmish@^0.9.0-beta-4:
-  version "0.9.0-beta-4"
-  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.9.0-beta-4.tgz#edace352b85ca79a9e4a959941e02e32bfd332e5"
+fable-elmish@^0.9.0-beta-5:
+  version "0.9.0-beta-5"
+  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.9.0-beta-5.tgz#b311d1186e4d69c24b81611043ef13156a22f21e"
 
 fable-loader@^1.0.0-narumi-8:
   version "1.0.0-narumi-8"

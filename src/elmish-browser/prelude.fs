@@ -2,6 +2,7 @@ namespace Elmish.Browser
 
 
 [<RequireQualifiedAccess>]
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Option =
 
     let tuple a b =
