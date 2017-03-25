@@ -1,4 +1,5 @@
-/// This library is primarily about treating the address bar as an input to your program. 
+(* This port of the Elm library is about treating the address bar as an input to your program. 
+*)
 namespace Elmish.Browser.Navigation
 
 open Fable.Import.Browser
