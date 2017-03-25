@@ -3,7 +3,7 @@ It is designed to be used with Browser.Navigation module to help folks create
 single-page applications (SPAs) where you manage browser navigation yourself.
 *)
 
-module Elmish.UrlParser
+module Elmish.Browser.UrlParser
 
 
 // PARSERS
