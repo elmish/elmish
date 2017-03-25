@@ -11,8 +11,8 @@ module Debugger =
         | Secure of address:string * port:int
 
     let connect =
-        let inline getCase cmd : obj = createObj ["type" ==> unbox cmd?Case
-                                                  "fields" ==> cmd?Fields]
+        let inline getCase cmd : obj = createObj ["type" ==> unbox cmd?tag
+                                                  "fields" ==> cmd?fields]
 
         function
         | ViaExtension -> { Options.remote = false; hostname = "localhost"; port = 8000; secure = false; getActionType = Some getCase }
