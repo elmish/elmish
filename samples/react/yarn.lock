@@ -1144,29 +1144,29 @@ fable-core@^1.0.0-narumi-8:
   version "1.0.0-narumi-8"
   resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-8.tgz#dff875fdbe0d0af051595b799ba62b1d46162ad2"
 
-fable-elmish-debugger@^0.9.0-beta-1:
-  version "0.9.0-beta-1"
-  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.9.0-beta-1.tgz#201caf95343cd384afb658740bef51e0ad62c4e1"
+fable-elmish-debugger@^0.9.0-beta-4:
+  version "0.9.0-beta-4"
+  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.9.0-beta-4.tgz#ac1e5d58ef3996680ec61d5639889ac53243eed7"
 
-fable-elmish-react@^0.9.0-beta-2:
-  version "0.9.0-beta-2"
-  resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.9.0-beta-2.tgz#46c0da74a2023747acdf6c78704dec92e7f474a3"
+fable-elmish-react@^0.9.0-beta-4:
+  version "0.9.0-beta-4"
+  resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.9.0-beta-4.tgz#62a0e76ecf606f592b1384ee81ca2a098b52590f"
 
-fable-elmish@^0.9.0-beta-2:
-  version "0.9.0-beta-2"
-  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.9.0-beta-2.tgz#fed91beeb889d1fbe840e041fc06ed39c9100cb3"
+fable-elmish@^0.9.0-beta-4:
+  version "0.9.0-beta-4"
+  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.9.0-beta-4.tgz#edace352b85ca79a9e4a959941e02e32bfd332e5"
 
 fable-loader@^1.0.0-narumi-8:
   version "1.0.0-narumi-8"
   resolved "https://registry.yarnpkg.com/fable-loader/-/fable-loader-1.0.0-narumi-8.tgz#a912c73ebebcbc3c5635eceb1f5931064f211842"
 
-fable-powerpack@^1.0.0-narumi-1:
-  version "1.0.0-narumi-1"
-  resolved "https://registry.yarnpkg.com/fable-powerpack/-/fable-powerpack-1.0.0-narumi-1.tgz#7563021873ca3929c50c88b7f8443339c627981d"
+fable-powerpack@^1.0.0-narumi-2:
+  version "1.0.0-narumi-2"
+  resolved "https://registry.yarnpkg.com/fable-powerpack/-/fable-powerpack-1.0.0-narumi-2.tgz#6ac3dc1a05bc4736d407d8f28b9abab8e1e83e43"
 
-fable-react@^1.0.0-narumi-1:
-  version "1.0.0-narumi-1"
-  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-1.tgz#658e8a062b0ffedb3dd012964cbe961c99d67046"
+fable-react@^1.0.0-narumi-2:
+  version "1.0.0-narumi-2"
+  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-2.tgz#3d19f34d8cc9a6f169b1d72a6ec4d6f326c56af9"
 
 faye-websocket@^0.10.0:
   version "0.10.0"

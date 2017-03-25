@@ -3,15 +3,13 @@
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../node_modules/fable-powerpack/Fable.PowerPack.fsproj" />
+    <ProjectReference Include="../node_modules/fable-powerpack/Fable.PowerPack.fsproj" />
+    <ProjectReference Include="../node_modules/fable-elmish/Fable.Elmish.fsproj" />
+    <ProjectReference Include="../node_modules/fable-elmish-react/Fable.Elmish.React.fsproj" />
+    <ProjectReference Include="../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Messages.fs">
-      <Link>Messages.fs</Link>
-    </Compile>
-    <Compile Include="../node_modules/fable-import-ws/Fable.Import.Ws.fs" />
-    <Compile Include="../node_modules/fable-import-ws/Fable.Helpers.Ws.fs" />
-    <Compile Include="Server.fs" />
+    <Compile Include="app.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />

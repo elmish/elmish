@@ -25,7 +25,7 @@ module Components =
 [<AutoOpen>]
 module Common =
     /// Avoid rendering the view unless the model has changed.
-    /// equal: function the compare the previous and the new states
+    /// equal: function to compare the previous and the new states
     /// view: function to render the model
     /// state: new state to render
     let lazyViewWith (equal:'model->'model->bool)
@@ -38,7 +38,7 @@ module Common =
             []
 
     /// Avoid rendering the view unless the model has changed.
-    /// equal: function the compare the previous and the new states
+    /// equal: function to compare the previous and the new states
     /// view: function to render the model using the dispatch
     /// state: new state to render
     /// dispatch: dispatch function
@@ -53,7 +53,7 @@ module Common =
             []
 
     /// Avoid rendering the view unless the model has changed.
-    /// equal: function the compare the previous and the new model (a tuple of two states)
+    /// equal: function to compare the previous and the new model (a tuple of two states)
     /// view: function to render the model using the dispatch
     /// state1: new state to render
     /// state2: new state to render

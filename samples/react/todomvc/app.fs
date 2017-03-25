@@ -3,12 +3,7 @@
  - tagline: The famous todo mvc ported from elm-todomvc
 *)
 
-
-#r "../node_modules/fable-core/Fable.Core.dll"
-#r "../node_modules/fable-react/Fable.React.dll"
-#r "../node_modules/fable-elmish/Fable.Elmish.dll"
-#r "../node_modules/fable-elmish-react/Fable.Elmish.React.dll"
-#r "../node_modules/fable-elmish-debugger/Fable.Elmish.Debugger.dll"
+module App
 
 open Fable.Core
 open Fable.Import
@@ -166,7 +161,7 @@ let viewInput (model:string) dispatch =
         R.input [
             ClassName "new-todo"
             Placeholder "What needs to be done?"
-            Value (U2.Case1 model)
+            DefaultValue (U2.Case1 model)
             onEnter Add dispatch
             OnChange ((fun (ev:React.FormEvent) -> ev.target?value) >> unbox >> UpdateField >> dispatch)
             AutoFocus true
@@ -316,5 +311,5 @@ open Elmish.Debug
 // App
 Program.mkProgram (S.load >> init) updateWithStorage view
 |> Program.withReact "todoapp"
-|> Program.withDebugger
+|> Program.withConsoleTrace
 |> Program.run
