@@ -1140,9 +1140,9 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
-fable-core@^1.0.0-narumi-8:
-  version "1.0.0-narumi-8"
-  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-8.tgz#dff875fdbe0d0af051595b799ba62b1d46162ad2"
+fable-core@^1.0.0-narumi-901:
+  version "1.0.0-narumi-901"
+  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-901.tgz#b77ac952e00fab4e78151c518041e45e28471103"
 
 fable-elmish-browser@^0.9.0-beta-2:
   version "0.9.0-beta-2"

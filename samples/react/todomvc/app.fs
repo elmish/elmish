@@ -157,13 +157,13 @@ let internal onEnter msg dispatch =
 
 let viewInput (model:string) dispatch =
     R.header [ ClassName "header" ] [
-        R.h1 [] [ unbox "todos" ]
+        R.h1 [] [ R.str "todos" ]
         R.input [
             ClassName "new-todo"
             Placeholder "What needs to be done?"
-            DefaultValue (U2.Case1 model)
+            Value !^model
             onEnter Add dispatch
-            OnChange ((fun (ev:React.FormEvent) -> ev.target?value) >> unbox >> UpdateField >> dispatch)
+            OnChange (fun (ev:React.FormEvent) -> !!ev.target?value |> UpdateField |> dispatch)
             AutoFocus true
         ] []
     ]
@@ -186,7 +186,7 @@ let viewEntry todo dispatch =
             []
           R.label
             [ OnDoubleClick (fun _ -> EditingEntry (todo.id,true) |> dispatch) ]
-            [ unbox todo.description ]
+            [ R.str todo.description ]
           R.button
             [ ClassName "destroy"
               OnClick (fun _-> Delete todo.id |> dispatch) ]
@@ -194,10 +194,10 @@ let viewEntry todo dispatch =
         ]
       R.input
         [ ClassName "edit"
-          DefaultValue (U2.Case1 todo.description)
+          DefaultValue !^todo.description
           Name "title"
           Id ("todo-" + (string todo.id))
-          OnInput (fun ev -> UpdateEntry (todo.id, unbox ev.target?value) |> dispatch)
+          OnInput (fun ev -> UpdateEntry (todo.id, !!ev.target?value) |> dispatch)
           OnBlur (fun _ -> EditingEntry (todo.id,false) |> dispatch)
           onEnter (EditingEntry (todo.id,false)) dispatch ]
         []
@@ -228,7 +228,7 @@ let viewEntries visibility entries dispatch =
           []
         R.label
           [ HtmlFor "toggle-all" ]
-          [ unbox "Mark all as complete" ]
+          [ R.str "Mark all as complete" ]
         R.ul
           [ ClassName "todo-list" ]
           (entries
@@ -241,15 +241,15 @@ let visibilitySwap uri visibility actualVisibility dispatch =
     [ OnClick (fun _ -> ChangeVisibility visibility |> dispatch) ]
     [ R.a [ Href uri
             classList ["selected", visibility = actualVisibility] ]
-          [ unbox visibility ] ]
+          [ R.str visibility ] ]
 
 let viewControlsFilters visibility dispatch =
   R.ul
     [ ClassName "filters" ]
     [ visibilitySwap "#/" ALL_TODOS visibility dispatch
-      unbox " "
+      R.str " "
       visibilitySwap "#/active" ACTIVE_TODOS visibility dispatch
-      unbox " "
+      R.str " "
       visibilitySwap "#/completed" COMPLETED_TODOS visibility dispatch ]
 
 let viewControlsCount entriesLeft =
@@ -258,15 +258,15 @@ let viewControlsCount entriesLeft =
 
   R.span
       [ ClassName "todo-count" ]
-      [ R.strong [] [ unbox (string entriesLeft) ]
-        unbox (item + " left") ]
+      [ R.strong [] [ R.str (string entriesLeft) ]
+        R.str (item + " left") ]
 
 let viewControlsClear entriesCompleted dispatch =
   R.button
     [ ClassName "clear-completed"
       Hidden (entriesCompleted = 0)
       OnClick (fun _ -> DeleteComplete |> dispatch)]
-    [ unbox ("Clear completed (" + (string entriesCompleted) + ")") ]
+    [ R.str ("Clear completed (" + (string entriesCompleted) + ")") ]
 
 let viewControls visibility entries dispatch =
   let entriesCompleted =
@@ -288,13 +288,13 @@ let viewControls visibility entries dispatch =
 let infoFooter =
   R.footer [ ClassName "info" ]
     [ R.p []
-        [ unbox "Double-click to edit a todo" ]
+        [ R.str "Double-click to edit a todo" ]
       R.p []
-        [ unbox "Ported from Elm by "
-          R.a [ Href "https://github.com/et1975" ] [ unbox "Eugene Tolmachev" ]]
+        [ R.str "Ported from Elm by "
+          R.a [ Href "https://github.com/et1975" ] [ R.str "Eugene Tolmachev" ]]
       R.p []
-        [ unbox "Part of "
-          R.a [ Href "http://todomvc.com" ] [ unbox "TodoMVC" ]]
+        [ R.str "Part of "
+          R.a [ Href "http://todomvc.com" ] [ R.str "TodoMVC" ]]
     ]
 
 let view model dispatch =
