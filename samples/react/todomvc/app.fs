@@ -150,7 +150,7 @@ open Elmish.React
 let internal onEnter msg dispatch =
     function
     | (ev:React.KeyboardEvent) when ev.keyCode = ENTER_KEY ->
-        ev.preventDefault()
+        ev.target?value <- ""
         dispatch msg
     | _ -> ()
     |> OnKeyDown
@@ -161,7 +161,7 @@ let viewInput (model:string) dispatch =
         R.input [
             ClassName "new-todo"
             Placeholder "What needs to be done?"
-            Value !^model
+            DefaultValue !^model
             onEnter Add dispatch
             OnChange (fun (ev:React.FormEvent) -> !!ev.target?value |> UpdateField |> dispatch)
             AutoFocus true

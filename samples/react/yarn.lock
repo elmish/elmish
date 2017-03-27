@@ -1141,8 +1141,8 @@ extsprintf@1.0.2:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
 fable-core@^1.0.0-narumi-901:
-  version "1.0.0-narumi-901"
-  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-901.tgz#b77ac952e00fab4e78151c518041e45e28471103"
+  version "1.0.0-narumi-905"
+  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-905.tgz#af2facf1bc3df8b752177a38767aeb07678e9b4f"
 
 fable-elmish-browser@^0.9.0-beta-2:
   version "0.9.0-beta-2"
@@ -1160,9 +1160,9 @@ fable-elmish@^0.9.0-beta-5:
   version "0.9.0-beta-5"
   resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.9.0-beta-5.tgz#b311d1186e4d69c24b81611043ef13156a22f21e"
 
-fable-loader@^1.0.0-narumi-8:
-  version "1.0.0-narumi-8"
-  resolved "https://registry.yarnpkg.com/fable-loader/-/fable-loader-1.0.0-narumi-8.tgz#a912c73ebebcbc3c5635eceb1f5931064f211842"
+fable-loader@^1.0.0-narumi-905:
+  version "1.0.0-narumi-905"
+  resolved "https://registry.yarnpkg.com/fable-loader/-/fable-loader-1.0.0-narumi-905.tgz#5fe71901e4533a333d1799b7aeaa67c14b4be490"
 
 fable-powerpack@^1.0.0-narumi-2:
   version "1.0.0-narumi-2"

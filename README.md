@@ -58,27 +58,32 @@ The views delegate portions of the model to the appropriate child views to produ
 Extras
 =======
 
+## Elmish-Browser: browser-specific features, like working with address bar.
+`dotnet fable add fable-elmish-browser`
+
+For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-browser/README.md)
+
 ## Elmish-React: boilerplate to get the React/Native root components registered and start the dispatch loop.
-`npm install --save-dev fable-elmish-react`
+`dotnet fable add fable-elmish-react`
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-react/README.md)
 
 ## Elmish-Snabbdom: boilerplate to get the Snabbdom virtual DOM registered and start the dispatch loop.
-`npm install --save-dev fable-elmish-snabbdom`
+`dotnet fable add fable-elmish-snabbdom`
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-snabddom/README.md)
 
 
 ## Elmish-Debugger: RemoteDev tools integration adds support for time-travelling debugger and import/export.
-`npm install --save-dev fable-elmish-debugger`
+`dotnet fable add fable-elmish-debugger`
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-debugger/README.md)
 
 
 Building Elmish
 =======
-
-Make sure you have `yarn` installed (`yarn` is to `npm` like `paket` is to `nuget`) and it's in the PATH.
+As part of Fable 1.x ecosystem, elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core).
+We also use `yarn`, it can be installed as your usual OS package or via `npm`, make sure it's in the PATH.
 > `npm install -g yarn`
 
 Then run fake:

@@ -51,6 +51,15 @@ module Cmd =
                 x |> (ofError >> dispatch)
         [bind]
 
+    /// Command to evaluate a simple function and map the error (in case of exception)
+    let attemptFunc (task: 'a -> unit) (arg: 'a) (ofError: _ -> 'msg) : Cmd<'msg> =
+        let bind dispatch =
+            try
+                task arg
+            with x ->
+                x |> (ofError >> dispatch)
+        [bind]
+
     /// Command to call the subscriber
     let ofSub (sub: Sub<'msg>) : Cmd<'msg> =
         [sub]
