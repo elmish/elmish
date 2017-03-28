@@ -1,14 +1,16 @@
 <Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
-  <!-- PRIVATE REFERENCES (USED FOR ELMISH DEVELOPMENT) -->
   </PropertyGroup>
+  <!-- PRIVATE REFERENCES (USED FOR ELMISH DEVELOPMENT) -->
   <ItemGroup Condition="!$(MSBuildThisFileDirectory.Contains('node_modules'))" >
+    <ProjectReference Include="../elmish/node_modules/fable-powerpack/Fable.PowerPack.fsproj" />
     <ProjectReference Include="../elmish/Fable.Elmish.fsproj" />
   </ItemGroup>
   <!-- PUBLIC REFERENCES (WHEN USED AS A LIBRARY) -->
   <ItemGroup Condition="$(MSBuildThisFileDirectory.Contains('node_modules'))">  
     <ProjectReference Include="../fable-elmish/Fable.Elmish.fsproj" />
+    <ProjectReference Include="../fable-powerpack/Fable.PowerPack.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="prelude.fs" />

@@ -15,9 +15,12 @@ dotnet fable add fable-powerpack fable-elmish fable-elmish-browser.
 In addition to providing query parsing capabilities, this port from Elm/url-parser makes a few changes to the API:
 - `format` has been renamed `map`
 - `Result` return type has been replaced with `Option`
-
+- `parseHash` is already provided, just pass your parser as its arg
+- new `parsePath` works with entire url, not just the hash portion
 
 If you've been using `Result` type for other purposes, it is now available in F# 4.1 Core and is still available from Fable-PowerPack.
+
+
 ## Routing: Combinators for parsing browser's url into a route
 Usage:
 ```fsharp

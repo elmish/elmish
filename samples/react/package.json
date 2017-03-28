@@ -1,8 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "fable-core": "^1.0.0-narumi-901",
     "babel-runtime": "^6.23.0",
+    "fable-core": "^1.0.0-narumi-905",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
     "remotedev": "^0.2.4",
@@ -19,7 +19,7 @@
     "fable-elmish-react": "^0.9.0-beta-4",
     "fable-loader": "^1.0.0-narumi-905",
     "fable-powerpack": "^1.0.0-narumi-2",
-    "fable-react": "^1.0.0-narumi-2",
+    "fable-react": "^1.0.0-narumi-4",
     "fs-extra": "^1.0.0",
     "react-hot-loader": "^1.3.0",
     "webpack": "^2.2.1",

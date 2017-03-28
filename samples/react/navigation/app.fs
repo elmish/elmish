@@ -26,11 +26,15 @@ type Model =
 let toHash = 
     function
     | Blog id -> "#blog/" + (string id)
-    | Search (Some query) -> "/?search=" + query
+    | Search (Some query) -> "?search=" + query
     | _ -> "#home"
 
 /// The URL is turned into a Page option.
 let pageParser : Parser<Page->_,_> =
+  let top s = 
+    Browser.console.log(s)
+    top s
+    
   oneOf
     [ map Home (s "home")
       map Blog (s "blog" </> i32)
@@ -52,6 +56,7 @@ let get query =
         let! r = Fable.PowerPack.Fetch.fetchAs<ZipResponse> ("http://api.zippopotam.us/us/" + query) []
         return r |> fun r -> r.places |> List.map (fun p -> p.``place name`` + ", " + p.state)
     }
+
 (* If the URL is valid, we just update our model or issue a command. 
 If it is not a valid URL, we modify the URL to whatever makes sense.
 *)
@@ -105,18 +110,17 @@ open Fable.Helpers.React.Props
 let viewLink page description =
   a [ Style [ Padding "0 20px" ]
       Href (toHash page) ] 
-    [ unbox description]
+    [ str description]
 
 let internal centerStyle direction =
     Style [ Display "flex"
             FlexDirection direction
             AlignItems "center"
             unbox("justifyContent", "center")
-            Padding "20px 0"
-    ]
+            Padding "20px 0" ]
 
 let words size message =
-  span [ Style [ unbox("fontSize", size |> sprintf "%dpx") ] ] [ unbox message ]
+  span [ Style [ unbox("fontSize", size |> sprintf "%dpx") ] ] [ str message ]
 
 let internal onEnter msg dispatch =
     function 
@@ -130,7 +134,7 @@ let viewPage model dispatch =
   match model.page with
   | Home ->
       [ words 60 "Welcome!"
-        unbox "Play with the links and search bar above. (Press ENTER to trigger the zip code search.)" ]
+        str "Play with the links and search bar above. (Press ENTER to trigger the zip code search.)" ]
 
   | Blog id ->
       [ words 20 "This is blog post number"
@@ -139,14 +143,14 @@ let viewPage model dispatch =
   | Search (Some query) ->
       match Map.tryFind query model.cache with
       | Some [] ->
-          [ unbox ("No results found for " + query + ". Need a valid zip code like 90210.") ]
+          [ str ("No results found for " + query + ". Need a valid zip code like 90210.") ]
       | Some (location :: _) ->
           [ words 20 ("Zip code " + query + " is in " + location + "!") ]
       | _ ->
-          [ unbox "..." ]
+          [ str "..." ]
   
   | Search (None) ->
-          [ unbox "Invalid query" ]
+          [ str "Invalid query" ]
 
 open Fable.Core.JsInterop
 
@@ -162,8 +166,7 @@ let view model dispatch =
               Value (U2.Case1 model.query)
               onEnter Enter dispatch
               OnInput (fun ev -> Query (unbox ev.target?value) |> dispatch)
-              Style [ CSSProp.Width "200px"; Margin "0 20px" ]
-            ]
+              Style [ CSSProp.Width "200px"; Margin "0 20px" ] ]
             []
         ]
       hr [] []
@@ -176,6 +179,6 @@ open Elmish.Debug
 // App
 Program.mkProgram init update view
 |> Program.toNavigable (parseHash pageParser) urlUpdate
-|> Program.withDebugger
+|> Program.withConsoleTrace
 |> Program.withReact "elmish-app"
 |> Program.run 

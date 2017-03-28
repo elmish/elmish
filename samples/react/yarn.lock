@@ -1140,7 +1140,7 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
-fable-core@^1.0.0-narumi-901:
+fable-core@^1.0.0-narumi-905:
   version "1.0.0-narumi-905"
   resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-905.tgz#af2facf1bc3df8b752177a38767aeb07678e9b4f"
 
@@ -1168,9 +1168,9 @@ fable-powerpack@^1.0.0-narumi-2:
   version "1.0.0-narumi-2"
   resolved "https://registry.yarnpkg.com/fable-powerpack/-/fable-powerpack-1.0.0-narumi-2.tgz#6ac3dc1a05bc4736d407d8f28b9abab8e1e83e43"
 
-fable-react@^1.0.0-narumi-2:
-  version "1.0.0-narumi-2"
-  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-2.tgz#3d19f34d8cc9a6f169b1d72a6ec4d6f326c56af9"
+fable-react@^1.0.0-narumi-4:
+  version "1.0.0-narumi-4"
+  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-4.tgz#258d21c53d9d32de42ecbbf0c26e6f31c804cecd"
 
 faye-websocket@^0.10.0:
   version "0.10.0"

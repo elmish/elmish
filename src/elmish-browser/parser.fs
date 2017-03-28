@@ -5,6 +5,8 @@ single-page applications (SPAs) where you manage browser navigation yourself.
 
 module Elmish.Browser.UrlParser
 
+open Fable.PowerPack.Result
+
 type State<'v> =
   { visited : string list
     unvisited : string list
@@ -198,7 +200,7 @@ type QueryParser<'a,'b> = State<'a> -> State<'b> list
     /blog/?search=cats  ==>  Some (BlogList (Some "cats"))
     /blog/42            ==>  Some (BlogPost 42)
 *)
-let inline (<?>) (parser:Parser<_,_>) (queryParser:QueryParser<_,_>) =
+let inline (<?>) (parser:Parser<_,_>) (queryParser:QueryParser<_,_>) : Parser<_,_> =
     fun state ->
         List.collect queryParser (parser state)
 
@@ -277,7 +279,6 @@ let internal toKeyValuePair (segment:string) =
     | _ -> None
 
 
-// parseParams : string -> Map<string,string>
 let internal parseParams (querystring:string) =
     querystring.Substring(1).Split('&')
     |> Seq.map toKeyValuePair
