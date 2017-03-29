@@ -26,6 +26,14 @@ Program.mkProgram init update view
 |> Program.run
 ```
 
+## Side-effects: schedule a command transforming the results of a function into a message
+Usage:
+```fsharp
+open Elmish
+
+Cmd.ofFunc someFunction arg ofSuccess ofError
+```
+
 ## Async: schedule a command transforming the results of an `async<_>` function
 Usage:
 ```fsharp

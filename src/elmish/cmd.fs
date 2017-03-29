@@ -55,6 +55,17 @@ module Cmd =
                 x |> (ofError >> dispatch)
         [bind]
 
+    /// Command to evaluate a simple function and map the success to a message
+    /// discarding any possible error
+    let performFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) : Cmd<'msg> =
+        let bind dispatch =
+            try
+                task arg
+                |> (ofSuccess >> dispatch)
+            with x ->
+                ()
+        [bind]
+
     /// Command to evaluate a simple function and map the error (in case of exception)
     let attemptFunc (task: 'a -> unit) (arg: 'a) (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =

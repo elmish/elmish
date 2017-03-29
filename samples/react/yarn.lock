@@ -1140,13 +1140,13 @@ extsprintf@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.0.2.tgz#e1080e0658e300b06294990cc70e1502235fd550"
 
-fable-core@^1.0.0-narumi-905:
-  version "1.0.0-narumi-905"
-  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-905.tgz#af2facf1bc3df8b752177a38767aeb07678e9b4f"
+fable-core@^1.0.0-narumi-906:
+  version "1.0.0-narumi-906"
+  resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-906.tgz#0c1503c5e036134e3d52e00ab5be66c7336d052b"
 
-fable-elmish-browser@^0.9.0-beta-2:
-  version "0.9.0-beta-2"
-  resolved "https://registry.yarnpkg.com/fable-elmish-browser/-/fable-elmish-browser-0.9.0-beta-2.tgz#a16dfa7c65c3979b58367e31901b9b241ffdbc52"
+fable-elmish-browser@^0.9.0-beta-3:
+  version "0.9.0-beta-3"
+  resolved "https://registry.yarnpkg.com/fable-elmish-browser/-/fable-elmish-browser-0.9.0-beta-3.tgz#4a29ec3351312e4d8509d62da412cb115b7d7b7b"
 
 fable-elmish-debugger@^0.9.0-beta-5:
   version "0.9.0-beta-5"
@@ -1156,17 +1156,17 @@ fable-elmish-react@^0.9.0-beta-4:
   version "0.9.0-beta-4"
   resolved "https://registry.yarnpkg.com/fable-elmish-react/-/fable-elmish-react-0.9.0-beta-4.tgz#62a0e76ecf606f592b1384ee81ca2a098b52590f"
 
-fable-elmish@^0.9.0-beta-5:
-  version "0.9.0-beta-5"
-  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.9.0-beta-5.tgz#b311d1186e4d69c24b81611043ef13156a22f21e"
+fable-elmish@^0.9.0-beta-6:
+  version "0.9.0-beta-6"
+  resolved "https://registry.yarnpkg.com/fable-elmish/-/fable-elmish-0.9.0-beta-6.tgz#abcb30b331344d728322a9929d12b570bfbcfd75"
 
 fable-loader@^1.0.0-narumi-905:
   version "1.0.0-narumi-905"
   resolved "https://registry.yarnpkg.com/fable-loader/-/fable-loader-1.0.0-narumi-905.tgz#5fe71901e4533a333d1799b7aeaa67c14b4be490"
 
-fable-powerpack@^1.0.0-narumi-2:
-  version "1.0.0-narumi-2"
-  resolved "https://registry.yarnpkg.com/fable-powerpack/-/fable-powerpack-1.0.0-narumi-2.tgz#6ac3dc1a05bc4736d407d8f28b9abab8e1e83e43"
+fable-powerpack@^1.0.0-narumi-3:
+  version "1.0.0-narumi-3"
+  resolved "https://registry.yarnpkg.com/fable-powerpack/-/fable-powerpack-1.0.0-narumi-3.tgz#172c6a1b99972262bb8ad329094e3eebca895459"
 
 fable-react@^1.0.0-narumi-4:
   version "1.0.0-narumi-4"

@@ -5,8 +5,6 @@ single-page applications (SPAs) where you manage browser navigation yourself.
 
 module Elmish.Browser.UrlParser
 
-open Fable.PowerPack.Result
-
 type State<'v> =
   { visited : string list
     unvisited : string list
