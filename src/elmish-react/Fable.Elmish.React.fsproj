@@ -5,7 +5,7 @@
   <!-- PRIVATE REFERENCES (USED FOR ELMISH DEVELOPMENT) -->
   <ItemGroup Condition="!$(MSBuildThisFileDirectory.Contains('node_modules'))" >
     <ProjectReference Include="node_modules/fable-react/Fable.React.fsproj" />
-    <ProjectReference Include="../elmish/Fable.Elmish.fsproj"/>
+    <ProjectReference Include="../fable-elmish/Fable.Elmish.fsproj"/>
   </ItemGroup>
   <!-- REFERENCES WHEN USED AS A LIBRARY -->
   <ItemGroup Condition="$(MSBuildThisFileDirectory.Contains('node_modules'))">  
