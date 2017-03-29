@@ -27,7 +27,8 @@ module RemoteDev =
           port : int
           hostname : string
           secure : bool
-          getActionType : (obj->obj) option }
+          getActionType : (obj->obj) option
+          serialize : obj }
     
     type Action = 
         { ``type``: string
