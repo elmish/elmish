@@ -11,7 +11,7 @@ module Debugger =
         match FSharpValue.GetUnionFields(x, typeof<'a>) with
         | case, _ -> case.Name
 
-    let [<PassGenericsAttribute>] inline private getCase cmd : obj =
+    let inline private getCase cmd : obj =
         createObj ["type" ==> duName cmd
                    "msg" ==> cmd]
 
