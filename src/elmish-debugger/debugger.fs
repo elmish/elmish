@@ -11,7 +11,7 @@ module Debugger =
         match FSharpValue.GetUnionFields(x, typeof<'a>) with
         | case, _ -> case.Name
 
-    let [<PassGenericsAttribute>] private getCase cmd : obj =
+    let [<PassGenericsAttribute>] inline private getCase cmd : obj =
         createObj ["type" ==> duName cmd
                    "msg" ==> cmd]
 
@@ -23,10 +23,12 @@ module Debugger =
     let connect =
         let serialize = createObj ["replacer" ==> fun _ v -> deflate v]
 
+        let fallback = { Options.remote = true; hostname = "remotedev.io"; port = 443; secure = true; getActionType = Some getCase; serialize = serialize }
+
         function
-        | ViaExtension -> { Options.remote = false; hostname = "localhost"; port = 8000; secure = false; getActionType = Some getCase; serialize = serialize }
-        | Remote (address,port) -> { Options.remote = true; hostname = address; port = port; secure = false; getActionType = None; serialize = serialize }
-        | Secure (address,port) -> { Options.remote = true; hostname = address; port = port; secure = true; getActionType = None; serialize = serialize }
+        | ViaExtension -> { fallback with remote = false; hostname = "localhost"; port = 8000; secure = false }
+        | Remote (address,port) -> { fallback with hostname = address; port = port; secure = false; getActionType = None }
+        | Secure (address,port) -> { fallback with hostname = address; port = port; getActionType = None }
         >> connectViaExtension
 
 [<RequireQualifiedAccess>]
@@ -42,8 +44,8 @@ module Program =
             let (model,cmd) = program.init a
             // simple looking one liner to do a recursive deflate
             // needed otherwise extension gets F# obj
-            let decoded = model |> toJson |> parse
-            connection.init (decoded, None)
+            let deflated = model |> toJson |> parse
+            connection.init (deflated, None)
             model,cmd
 
         let update msg model : 'model * Cmd<'msg> =
