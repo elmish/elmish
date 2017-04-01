@@ -5,30 +5,47 @@ open Fable.Core
 
 [<RequireQualifiedAccess>]
 module Debugger =
+    open FSharp.Reflection
+
+    let inline private duName (x:'a) = 
+        match FSharpValue.GetUnionFields(x, typeof<'a>) with
+        | case, _ -> case.Name
+
+    let inline private getCase cmd : obj =
+        createObj ["type" ==> duName cmd
+                   "msg" ==> cmd]
+
     type ConnectionOptions =
         | ViaExtension
         | Remote of address:string * port:int
         | Secure of address:string * port:int
 
     let connect =
-        let inline getCase cmd : obj = createObj ["type" ==> unbox cmd?tag
-                                                  "fields" ==> cmd?fields]
+        let serialize = createObj ["replacer" ==> fun _ v -> deflate v]
+
+        let fallback = { Options.remote = true; hostname = "remotedev.io"; port = 443; secure = true; getActionType = Some getCase; serialize = serialize }
 
         function
-        | ViaExtension -> { Options.remote = false; hostname = "localhost"; port = 8000; secure = false; getActionType = Some getCase }
-        | Remote (address,port) -> { Options.remote = true; hostname = address; port = port; secure = false; getActionType = None }
-        | Secure (address,port) -> { Options.remote = true; hostname = address; port = port; secure = true; getActionType = None }
+        | ViaExtension -> { fallback with remote = false; hostname = "localhost"; port = 8000; secure = false }
+        | Remote (address,port) -> { fallback with hostname = address; port = port; secure = false; getActionType = None }
+        | Secure (address,port) -> { fallback with hostname = address; port = port; getActionType = None }
         >> connectViaExtension
 
 [<RequireQualifiedAccess>]
 module Program =
     open Elmish
 
+    [<Emit("JSON.parse($0)")>]
+    let private parse str : obj = jsNative
+
     [<PassGenericsAttribute>]
     let withDebuggerUsing (connection:Connection) (program : Program<'a,'model,'msg,'view>) : Program<'a,'model,'msg,'view> =
         let init a =
             let (model,cmd) = program.init a
-            connection.init (model, None)
+            // simple looking one liner to do a recursive deflate
+            // needed otherwise extension gets F# obj
+            let deflated = model |> toJson |> parse
+            connection.init (deflated, None)
             model,cmd
 
         let update msg model : 'model * Cmd<'msg> =
