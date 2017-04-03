@@ -32,7 +32,8 @@ module Home =
                 Type "text"
                 Placeholder "Type your name"
                 Value (U2.Case1 model)
-                OnInput (fun ev -> !!ev.target?value |> ChangeStr |> dispatch )
+                AutoFocus true
+                OnChange (fun ev -> !!ev.target?value |> ChangeStr |> dispatch )
               ] [ ]
           ]
         br [] [ ]
