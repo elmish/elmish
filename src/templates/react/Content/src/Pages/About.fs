@@ -1,0 +1,18 @@
+namespace FableElmishReactTemplate
+
+module About =
+
+  open Fable.Helpers.React
+  open Fable.Helpers.React.Props
+
+  let view =
+    div
+      [ ClassName "content"
+      ]
+      [ h1
+          [ ]
+          [ str "About page" ]
+        p
+          [ ]
+          [ str "This template is a simple application build with Fable + Elmish + React."]
+      ]

@@ -1,0 +1,15 @@
+{
+  "author": "Maxime Mangel",
+  "classifications": [ "Fable" ],
+  "name": "Simple elmish application using Snabbdom as a renderer",
+  "tags": {
+    "language": "F#",
+    "type": "project"
+  },
+  "identity": "Fable.Template.Elmish.Snabbdom",
+  "groupIdentity": "Fable.Elmish",
+  "shortName": "Fable.Elmish.Snabbdom",
+  "sourceName": "FableElmishReactTemplate",
+  // This allows using the `-n` option to create a new directory
+  "preferNameDirectory": true
+}
