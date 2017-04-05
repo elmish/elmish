@@ -77,7 +77,7 @@ let str state =
     /42/     ==>  Some 42
 *)
 let i32 state =
-    custom "i32" (int >> Ok) state
+    custom "i32" (System.Int32.Parse >> Ok) state
 
 
 (* Parse a segment of the path if it matches a given string.

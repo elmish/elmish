@@ -32,7 +32,6 @@ let toHash =
 /// The URL is turned into a Page option.
 let pageParser : Parser<Page->_,_> =
   let top s = 
-    Browser.console.log(s)
     top s
     
   oneOf
@@ -179,6 +178,6 @@ open Elmish.Debug
 // App
 Program.mkProgram init update view
 |> Program.toNavigable (parseHash pageParser) urlUpdate
-|> Program.withConsoleTrace
 |> Program.withReact "elmish-app"
+|> Program.withDebugger
 |> Program.run 

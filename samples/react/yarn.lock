@@ -1148,9 +1148,9 @@ fable-elmish-browser@^0.9.0-beta-3:
   version "0.9.0-beta-3"
   resolved "https://registry.yarnpkg.com/fable-elmish-browser/-/fable-elmish-browser-0.9.0-beta-3.tgz#4a29ec3351312e4d8509d62da412cb115b7d7b7b"
 
-fable-elmish-debugger@^0.9.0-beta-5:
-  version "0.9.0-beta-5"
-  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.9.0-beta-5.tgz#a3c98468d01675ff03f7332d7849f03b47f28ab0"
+fable-elmish-debugger@^0.9.0-beta-6:
+  version "0.9.0-beta-6"
+  resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.9.0-beta-6.tgz#e6ca8a702e6c87d976defa2e0c6dc5c60b16255f"
 
 fable-elmish-react@^0.9.0-beta-4:
   version "0.9.0-beta-4"
