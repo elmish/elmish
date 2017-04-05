@@ -4,7 +4,7 @@
         <id>Fable.Template.Elmish.React</id>
         <version>0.1.0</version>
         <description>Simple elmish application using React as a renderer</description>
-        <authors>Alfonso Garcia-Caro,Maxime Mangel</authors>
+        <authors>Maxime Mangel</authors>
         <language>en-US</language>
         <projectUrl>https://github.com/fable-compiler/fable-elmish</projectUrl>
         <licenseUrl>https://github.com/fable-compiler/fable-elmish/blob/master/LICENSE.md</licenseUrl>

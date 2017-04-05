@@ -7,8 +7,8 @@
     "type": "project"
   },
   "identity": "Fable.Template.Elmish.React",
-  "groupIdentity": "Fable.Elmish",
-  "shortName": "FableElmishReact",
+  "groupIdentity": "Fable",
+  "shortName": "fable-elmish-react",
   "sourceName": "FableTemplateElmishReact",
   // This allows using the `-n` option to create a new directory
   "preferNameDirectory": true
