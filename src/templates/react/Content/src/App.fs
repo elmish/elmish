@@ -11,10 +11,7 @@ open FableElmishReactTemplate.Common
 
 module App =
 
-  [<Emit("require('../sass/main.sass');")>]
-  let requireStyle () = ()
-
-  requireStyle()
+  importAll "../sass/main.sass"
 
   type SubModels =
     {
