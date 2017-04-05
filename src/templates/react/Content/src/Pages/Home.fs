@@ -39,5 +39,5 @@ module Home =
         br [] [ ]
         span
           []
-          [ unbox (sprintf "Hello %s" model) ]
+          [ str (sprintf "Hello %s" model) ]
       ]

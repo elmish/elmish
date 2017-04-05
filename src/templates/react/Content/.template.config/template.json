@@ -1,7 +1,7 @@
 {
   "author": "Maxime Mangel",
   "classifications": [ "Fable" ],
-  "name": "Simple elmish application using React as a renderer",
+  "name": "Fable.Elmish.React App",
   "tags": {
     "language": "F#",
     "type": "project"

@@ -20,7 +20,7 @@ module Navbar =
           ]
         span
           [ ]
-          [ unbox txt ]
+          [ str txt ]
       ]
 
   let navButtons =
@@ -42,7 +42,7 @@ module Navbar =
           [ h1
               [ ClassName "nav-item is-brand title is-4"
               ]
-              [ unbox "Elmish" ]
+              [ str "Elmish" ]
           ]
         navButtons
       ]
