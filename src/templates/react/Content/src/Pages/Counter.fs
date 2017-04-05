@@ -43,7 +43,7 @@ module Counter =
         div
           [ ClassName "column is-narrow"
             Style
-              [ CSSProp.Width (U2.Case2 "170px") ]
+              [ CSSProp.Width "170px" ]
           ]
           [ str (sprintf "Counter value: %i" model) ]
         simpleButton "+1" Increment dispatch

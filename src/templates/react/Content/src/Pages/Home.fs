@@ -31,7 +31,7 @@ module Home =
               [ ClassName "input"
                 Type "text"
                 Placeholder "Type your name"
-                DefaultValue (U2.Case1 model)
+                DefaultValue !^model
                 AutoFocus true
                 OnChange (fun ev -> !!ev.target?value |> ChangeStr |> dispatch )
               ] [ ]
