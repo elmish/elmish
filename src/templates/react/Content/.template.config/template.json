@@ -1,7 +1,7 @@
 {
   "author": "Maxime Mangel",
   "classifications": [ "Fable" ],
-  "name": "Simple elmish application using React as a renderer",
+  "name": "Fable.Elmish.React App",
   "tags": {
     "language": "F#",
     "type": "project"
@@ -9,7 +9,7 @@
   "identity": "Fable.Template.Elmish.React",
   "groupIdentity": "Fable",
   "shortName": "fable-elmish-react",
-  "sourceName": "FableTemplateElmishReact",
+  "sourceName": "FableElmishReactTemplate",
   // This allows using the `-n` option to create a new directory
   "preferNameDirectory": true
 }
