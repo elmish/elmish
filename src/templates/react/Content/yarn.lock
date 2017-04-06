@@ -1383,11 +1383,11 @@ fable-core@1.0.0-narumi-906:
   version "1.0.0-narumi-906"
   resolved "https://registry.yarnpkg.com/fable-core/-/fable-core-1.0.0-narumi-906.tgz#0c1503c5e036134e3d52e00ab5be66c7336d052b"
 
-fable-elmish-browser@^0.9.0-beta-3:
-  version "0.9.0-beta-3"
-  resolved "https://registry.yarnpkg.com/fable-elmish-browser/-/fable-elmish-browser-0.9.0-beta-3.tgz#4a29ec3351312e4d8509d62da412cb115b7d7b7b"
+fable-elmish-browser@next:
+  version "0.9.0-beta-5"
+  resolved "https://registry.yarnpkg.com/fable-elmish-browser/-/fable-elmish-browser-0.9.0-beta-5.tgz#4d764d508c9707a4fb945f9e14e760cf465812e7"
 
-fable-elmish-debugger@^0.9.0-beta-6:
+fable-elmish-debugger@next:
   version "0.9.0-beta-6"
   resolved "https://registry.yarnpkg.com/fable-elmish-debugger/-/fable-elmish-debugger-0.9.0-beta-6.tgz#e6ca8a702e6c87d976defa2e0c6dc5c60b16255f"
 

@@ -3,11 +3,23 @@
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src/Common.fs" />
-    <Compile Include="src/Navbar.fs" />
-    <Compile Include="src/Pages/About.fs" />
-    <Compile Include="src/Pages/Counter.fs" />
-    <Compile Include="src/Pages/Home.fs" />
+    <!-- Global to the app -->
+    <Compile Include="src/Global.fs" />
+    <!-- About -->
+    <Compile Include="src/About/View.fs" />
+    <!-- Counter -->
+    <Compile Include="src/Counter/Types.fs" />
+    <Compile Include="src/Counter/State.fs" />
+    <Compile Include="src/Counter/View.fs" />
+    <!-- Home -->
+    <Compile Include="src/Home/Types.fs" />
+    <Compile Include="src/Home/State.fs" />
+    <Compile Include="src/Home/View.fs" />
+    <!-- Navbar -->
+    <Compile Include="src/Navbar/View.fs" />
+    <!-- App -->
+    <Compile Include="src/Types.fs" />
+    <Compile Include="src/State.fs" />
     <Compile Include="src/App.fs" />
   </ItemGroup>
   <ItemGroup>
