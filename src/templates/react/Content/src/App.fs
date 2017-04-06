@@ -23,14 +23,14 @@ let menuItem label page currentPage dispatch =
       [ a
           [ classList [ "is-active", page = currentPage ]
             Href (toHash page) ]
-          [ unbox label ] ]
+          [ str label ] ]
 
 let menu currentPage dispatch =
   aside
     [ ClassName "menu" ]
     [ p
         [ ClassName "menu-label" ]
-        [ unbox "General" ]
+        [ str "General" ]
       ul
         [ ClassName "menu-list" ]
         [ menuItem "Home" Home currentPage dispatch

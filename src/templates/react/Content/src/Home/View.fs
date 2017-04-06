@@ -21,4 +21,4 @@ let root model dispatch =
       br [ ] [ ]
       span
         [ ]
-        [ unbox (sprintf "Hello %s" model) ] ]
+        [ str (sprintf "Hello %s" model) ] ]

@@ -14,7 +14,7 @@ let navButton classy href faClass txt =
             [ ] ]
       span
         [ ]
-        [ unbox txt ] ]
+        [ str txt ] ]
 
 let navButtons =
   span
@@ -30,5 +30,5 @@ let root =
         [ ClassName "nav-left" ]
         [ h1
             [ ClassName "nav-item is-brand title is-4" ]
-            [ unbox "Elmish" ] ]
+            [ str "Elmish" ] ]
       navButtons ]
