@@ -32,7 +32,7 @@ module Counter =
           [ ClassName "button"
             OnClick (fun _ -> action |> dispatch)
           ]
-          [ unbox txt ]
+          [ str txt ]
       ]
 
   let view model dispatch =
@@ -43,9 +43,9 @@ module Counter =
         div
           [ ClassName "column is-narrow"
             Style
-              [ CSSProp.Width (U2.Case2 "170px") ]
+              [ CSSProp.Width "170px" ]
           ]
-          [ unbox (sprintf "Counter value: %i" model) ]
+          [ str (sprintf "Counter value: %i" model) ]
         simpleButton "+1" Increment dispatch
         simpleButton "-1" Decrement dispatch
         simpleButton "Reset" Reset dispatch

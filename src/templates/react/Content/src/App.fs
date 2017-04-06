@@ -76,7 +76,7 @@ module App =
             [ classList [ "is-active", page = currentPage ]
               OnClick (fun _ -> NavigateTo page |> dispatch)
             ]
-            [ unbox label ]
+            [ str label ]
         ]
 
   let menu currentPage dispatch =
@@ -86,7 +86,7 @@ module App =
       [ p
           [ ClassName "menu-label"
           ]
-          [ unbox "General" ]
+          [ str "General" ]
         ul
           [ ClassName "menu-list"
           ]
