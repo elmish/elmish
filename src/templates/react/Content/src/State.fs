@@ -18,29 +18,21 @@ let urlUpdate (result: Option<Page>) model =
   match result with
   | None ->
     console.error("Error parsing url")
-    ( model,Navigation.modifyUrl (toHash model.currentPage) )
+    model,Navigation.modifyUrl (toHash model.currentPage)
   | Some page ->
-      match page with
-      | Counter ->
-          let (counter, counterCmd) = State.Counter.init ()
-          { model with
-              currentPage = page
-              counter = counter }, Cmd.map CounterMsg counterCmd
-      | Home ->
-          let (home, homeCmd) = State.Home.init ()
-          { model with
-              currentPage = page
-              home = home }, Cmd.map HomeMsg homeCmd
-      | _ -> { model with currentPage = page }, []
+      { model with currentPage = page }, []
 
-let initialModel = {
-    currentPage = Home
-    counter = 0
-    home = ""
-  }
-
-let initApp result =
-  urlUpdate result initialModel
+let init result =
+  let (counter, counterCmd) = State.Counter.init()
+  let (home, homeCmd) = State.Home.init()
+  let (model, cmd) =
+    urlUpdate result
+      { currentPage = Home
+        counter = counter
+        home = home }
+  model, Cmd.batch [ cmd
+                     Cmd.map CounterMsg counterCmd
+                     Cmd.map HomeMsg homeCmd ]
 
 let update msg model =
   match msg with

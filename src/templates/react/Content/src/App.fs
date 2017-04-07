@@ -69,7 +69,7 @@ open Elmish.React
 open Elmish.Debug
 
 // App
-Program.mkProgram initApp update root
+Program.mkProgram init update root
 |> Program.toNavigable (parseHash pageParser) urlUpdate
 |> Program.withReact "elmish-app"
 |> Program.withDebugger
