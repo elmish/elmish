@@ -1,7 +1,7 @@
 Elmish-browser: browser extras for Elmish apps.
 =======
 
-Elmish-browser implements routing and navigation for elmish apps targeting browser (React and Snabbdom) renderers. 
+Elmish-browser implements routing and navigation for elmish apps targeting browser (React) renderers.
 
 ## Installation
 
