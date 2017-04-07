@@ -68,9 +68,6 @@ For more information see the [readme](https://github.com/fable-compiler/fable-el
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-react/README.md)
 
-## Elmish-Snabbdom: boilerplate to get the Snabbdom virtual DOM registered and start the dispatch loop.
-`dotnet fable add fable-elmish-snabbdom`
-
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-snabddom/README.md)
 
 
