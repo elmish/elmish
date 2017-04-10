@@ -10,6 +10,10 @@ var babelOptions = {
   plugins: ["transform-runtime"]
 }
 
+var isProduction = process.env.NODE_ENV === "production";
+console.log(process.env.NODE_ENV);
+console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
+
 module.exports = {
   devtool: "source-map",
   entry: resolve('./FableElmishReactTemplate.fsproj'),
@@ -27,7 +31,10 @@ module.exports = {
         test: /\.fs(x|proj)?$/,
         use: {
           loader: "fable-loader",
-          options: { babel: babelOptions }
+          options: {
+            babel: babelOptions,
+            define: isProduction ? [] : ["DEBUG"]
+          }
         }
       },
       {
