@@ -10,7 +10,7 @@ var babelOptions = {
   plugins: ["transform-runtime"]
 }
 
-var isProduction = process.env.NODE_ENV === "production";
+var isProduction = process.argv.indexOf("-p") >= 0;
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
 module.exports = {

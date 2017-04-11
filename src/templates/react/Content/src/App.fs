@@ -66,9 +66,7 @@ let root model dispatch =
                     [ pageHtml model.currentPage ] ] ] ] ]
 
 open Elmish.React
-#if DEBUG
 open Elmish.Debug
-#endif
 
 // App
 Program.mkProgram init update root
