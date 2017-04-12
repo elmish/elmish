@@ -1,9 +1,4 @@
-module App
-
-(**
- - title: Counter
- - tagline: The famous Increment/Decrement ported from Elm
-*)
+module Counter
 
 open Fable.Core
 open Fable.Import
