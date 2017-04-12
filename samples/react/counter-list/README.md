@@ -2,6 +2,7 @@ This is a port of [Elm's counter list example](https://github.com/debois/elm-par
 ========
 
 This is a simple demo of [Elmish](https://github.com/fable-compiler/fable-elmish).
+It show how to use the [counter sample](https://github.com/fable-compiler/fable-elmish/tree/master/samples/react/counter) as a component for reuse.
 
 
 ## Build and running the sample
