@@ -1,11 +1,11 @@
-module State.App
+module App.State
 
 open Elmish
 open Elmish.Browser.Navigation
 open Elmish.Browser.UrlParser
 open Fable.Import.Browser
 open Global
-open Types.App
+open Types
 
 let pageParser: Parser<Page->Page,Page> =
   oneOf [
@@ -23,8 +23,8 @@ let urlUpdate (result: Option<Page>) model =
       { model with currentPage = page }, []
 
 let init result =
-  let (counter, counterCmd) = State.Counter.init()
-  let (home, homeCmd) = State.Home.init()
+  let (counter, counterCmd) = Counter.State.init()
+  let (home, homeCmd) = Home.State.init()
   let (model, cmd) =
     urlUpdate result
       { currentPage = Home
@@ -37,8 +37,8 @@ let init result =
 let update msg model =
   match msg with
   | CounterMsg msg ->
-      let (counter, counterCmd) = State.Counter.update msg model.counter
+      let (counter, counterCmd) = Counter.State.update msg model.counter
       { model with counter = counter }, Cmd.map CounterMsg counterCmd
   | HomeMsg msg ->
-      let (home, homeCmd) = State.Home.update msg model.home
+      let (home, homeCmd) = Home.State.update msg model.home
       { model with home = home }, Cmd.map HomeMsg homeCmd

@@ -1,7 +1,7 @@
-module State.Home
+module Home.State
 
 open Elmish
-open Types.Home
+open Types
 
 let init () : Model * Cmd<Msg> =
   "", []

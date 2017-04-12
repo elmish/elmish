@@ -5,8 +5,8 @@
   <ItemGroup>
     <!-- Global to the app -->
     <Compile Include="src/Global.fs" />
-    <!-- About -->
-    <Compile Include="src/About/View.fs" />
+    <!-- Info -->
+    <Compile Include="src/Info/View.fs" />
     <!-- Counter -->
     <Compile Include="src/Counter/Types.fs" />
     <Compile Include="src/Counter/State.fs" />

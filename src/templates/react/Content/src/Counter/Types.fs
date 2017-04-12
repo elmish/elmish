@@ -1,4 +1,4 @@
-module Types.Counter
+module Counter.Types
 
 type Model = int
 

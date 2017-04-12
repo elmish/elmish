@@ -1,7 +1,7 @@
-module State.Counter
+module Counter.State
 
 open Elmish
-open Types.Counter
+open Types
 
 let init () : Model * Cmd<Msg> =
   0, []
