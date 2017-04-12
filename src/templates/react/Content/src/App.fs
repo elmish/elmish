@@ -1,4 +1,4 @@
-module App
+module App.View
 
 open Elmish
 open Elmish.Browser.Navigation
@@ -7,8 +7,8 @@ open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import
 open Fable.Import.Browser
-open Types.App
-open State.App
+open Types
+open App.State
 open Global
 open Global.Helpers
 
@@ -41,9 +41,9 @@ let root model dispatch =
 
   let pageHtml =
     function
-    | Page.About -> Views.About.root
-    | Counter -> Views.Counter.root model.counter (CounterMsg >> dispatch)
-    | Home -> Views.Home.root model.home (HomeMsg >> dispatch)
+    | Page.About -> Info.View.root
+    | Counter -> Counter.View.root model.counter (CounterMsg >> dispatch)
+    | Home -> Home.View.root model.home (HomeMsg >> dispatch)
 
   div
     []
@@ -51,7 +51,7 @@ let root model dispatch =
         [ ClassName "navbar-bg" ]
         [ div
             [ ClassName "container" ]
-            [ Views.Navbar.root ] ]
+            [ Navbar.View.root ] ]
       div
         [ ClassName "section" ]
         [ div

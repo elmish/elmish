@@ -1,9 +1,9 @@
-module Views.Counter
+module Counter.View
 
 open Fable.Core
 open Fable.Helpers.React
 open Fable.Helpers.React.Props
-open Types.Counter
+open Types
 
 let simpleButton txt action dispatch =
   div

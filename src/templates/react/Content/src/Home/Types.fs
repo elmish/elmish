@@ -1,4 +1,4 @@
-module Types.Home
+module Home.Types
 
 type Model = string
 
