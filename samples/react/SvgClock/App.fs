@@ -60,15 +60,15 @@ let view (CurrentTime time) dispatch =
       [ circle 
           [ Cx (!^ "50"); Cy (!^ "50"); R (!^ "45"); Fill "#0B79CE" ] 
           []
-        // Seconds
-        clockHand (Second time.Second) "#023963" "1" 40.0 
-        handTop time.Second "#023963" 40.0 60.0
-        // Minutes
-        clockHand (Minute time.Minute) "white" "2" 35.0
-        handTop time.Minute "white" 35.0 60.0
         // Hours
         clockHand (Hour time.Hour) "lightgreen" "2" 25.0
         handTop time.Hour "lightgreen" 25.0 12.0
+        // Minutes
+        clockHand (Minute time.Minute) "white" "2" 35.0
+        handTop time.Minute "white" 35.0 60.0
+        // Seconds
+        clockHand (Second time.Second) "#023963" "1" 40.0 
+        handTop time.Second "#023963" 40.0 60.0
         // circle in the center
         circle 
           [ Cx (!^ "50"); Cy (!^ "50"); R (!^ "3"); Fill "#0B79CE"; Stroke "#023963"; StrokeWidth (!^ "1")  ] 
