@@ -29,3 +29,5 @@ samples/react-native/navigation/windows/
 # Ignore production files generated from webpack
 **/public/bundle.js
 **/public/bundle.js.map
+
+*.nupkg
