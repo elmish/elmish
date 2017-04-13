@@ -40,10 +40,7 @@ module Program =
     let withDebuggerUsing (connection:Connection) (program : Program<'a,'model,'msg,'view>) : Program<'a,'model,'msg,'view> =
         let init a =
             let (model,cmd) = program.init a
-            // simple looking one liner to do a recursive deflate
-            // needed otherwise extension gets F# obj
-            let deflated = model |> toJson |> JS.JSON.parse
-            connection.init (deflated, None)
+            connection.init (deflate model, None)
             model,cmd
 
         let update msg model : 'model * Cmd<'msg> =

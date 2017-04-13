@@ -69,7 +69,7 @@ messages are fed into the `update` function as they occur, letting us react
 to them.
 *)
 type Msg =
-    | NoOp
+    | Failure of string
     | UpdateField of string
     | EditingEntry of int*bool
     | UpdateEntry of int*string
@@ -85,7 +85,8 @@ type Msg =
 // How we update our Model on a given Msg?
 let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
     match msg with
-    | NoOp ->
+    | Failure err ->
+        Fable.Import.Browser.console.error(err)
         model, []
 
     | Add ->
@@ -130,13 +131,12 @@ let update (msg:Msg) (model:Model) : Model*Cmd<Msg>=
         { model with visibility = visibility }, []
 
 let setStorage (model:Model) : Cmd<Msg> =
-    let noop _ = NoOp
-    Cmd.ofFunc S.save model noop noop // TODO
+    Cmd.attemptFunc S.save model (string >> Failure)
 
 let updateWithStorage (msg:Msg) (model:Model) =
   match msg with
-  // If the Msg is NoOp we don't need to store the model in the storage
-  | NoOp -> model, []
+  // If the Msg is Failure we know the model hasn't changed
+  | Failure _ -> model, []
   | _ ->
     let (newModel, cmds) = update msg model
     newModel, Cmd.batch [ setStorage newModel; cmds ]
