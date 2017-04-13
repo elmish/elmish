@@ -36,7 +36,7 @@ let view model dispatch =
 
   R.div []
       [ R.button [ OnClick (fun _ -> dispatch Decrement) ] [ R.str "-" ]
-        R.div [] [ R.str (string model) ]
+        R.div [] [ R.str (sprintf "%A" model) ]
         R.button [ OnClick (fun _ -> dispatch Increment) ] [ R.str "+" ] ]
 
 open Elmish.React
