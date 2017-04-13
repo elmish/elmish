@@ -68,9 +68,6 @@ For more information see the [readme](https://github.com/fable-compiler/fable-el
 
 For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-react/README.md)
 
-For more information see the [readme](https://github.com/fable-compiler/fable-elmish/blob/master/src/elmish-snabddom/README.md)
-
-
 ## Elmish-Debugger: RemoteDev tools integration adds support for time-travelling debugger and import/export.
 `dotnet fable add fable-elmish-debugger`
 
