@@ -34,7 +34,7 @@ module Debugger =
 [<RequireQualifiedAccess>]
 module Program =
     open Elmish
-    open Fable.Import.JS
+    open Fable.Import
 
     [<PassGenericsAttribute>]
     let withDebuggerUsing (connection:Connection) (program : Program<'a,'model,'msg,'view>) : Program<'a,'model,'msg,'view> =
@@ -42,7 +42,7 @@ module Program =
             let (model,cmd) = program.init a
             // simple looking one liner to do a recursive deflate
             // needed otherwise extension gets F# obj
-            let deflated = model |> toJson |> JSON.parse
+            let deflated = model |> toJson |> JS.JSON.parse
             connection.init (deflated, None)
             model,cmd
 
