@@ -28,11 +28,9 @@ let init() : Model =
 // UPDATE
 
 let update (msg:Msg) (model:Model) =
-
     match msg with
     | Insert ->
-        let newCounter = Counter.init()
-        { Counters = newCounter :: model.Counters }
+        { Counters = Counter.init() :: model.Counters }
 
     | Remove ->
         { Counters = List.tail model.Counters }
