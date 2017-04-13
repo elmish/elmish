@@ -2,6 +2,7 @@ module App
 
 open System
 open Fable.Import.Browser
+open Fable.Core
 open Fable.Core.JsInterop
 
 // Types
@@ -12,18 +13,17 @@ type Messages = Tick of DateTime
 open Elmish
 open Elmish.React
 
-
-let tickTime() = async {
-    do! Async.Sleep 1000
-    return DateTime.Now
-}
-
-let tickCommand = Cmd.ofAsync tickTime () Tick (fun _ -> Tick (DateTime.Now))
 // State
-
-let initialState() = CurrentTime DateTime.Now, tickCommand
-let update (Tick next) (CurrentTime time) = CurrentTime next, tickCommand
+let initialState() = CurrentTime DateTime.Now, Cmd.none
+let update (Tick next) (CurrentTime time) = CurrentTime next, Cmd.none
     
+let timerTick dispatch =
+    window.setInterval(fun _ -> 
+        dispatch (Tick DateTime.Now)
+    , 1000) |> ignore
+
+
+let subscription _ = Cmd.ofSub timerTick
 
 // View
 type Time = 
@@ -80,6 +80,6 @@ let view (CurrentTime time) dispatch =
 
 // App
 Program.mkProgram initialState update view
+|> Program.withSubscription subscription 
 |> Program.withReact "elmish-app"
-|> Program.withConsoleTrace
 |> Program.run
