@@ -17,8 +17,8 @@ let root model dispatch =
               Placeholder "Type your name"
               DefaultValue !^model
               AutoFocus true
-              OnChange (fun ev -> !!ev.target?value |> ChangeStr |> dispatch ) ] [ ] ]
-      br [ ] [ ]
+              OnChange (fun ev -> !!ev.target?value |> ChangeStr |> dispatch ) ] ]
+      br [ ]
       span
         [ ]
         [ str (sprintf "Hello %s" model) ] ]
