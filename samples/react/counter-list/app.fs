@@ -36,14 +36,13 @@ let update (msg:Msg) (model:Model) =
         { Counters = List.tail model.Counters }
 
     | Modify (id, counterMsg) ->
-        { model with
-            Counters =
-                model.Counters
-                |> List.mapi (fun i counterModel -> 
-                    if i = id then
-                        Counter.update counterMsg counterModel
-                    else
-                        counterModel) }
+        { Counters =
+            model.Counters
+            |> List.mapi (fun i counterModel -> 
+                if i = id then
+                    Counter.update counterMsg counterModel
+                else
+                    counterModel) }
 
 open Fable.Core.JsInterop
 open Fable.Helpers.React.Props
