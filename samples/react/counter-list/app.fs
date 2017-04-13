@@ -56,7 +56,9 @@ module R = Fable.Helpers.React
 let view model dispatch =
     let counterDispatch i msg = dispatch (Modify (i, msg))
 
-    let counters = List.mapi (fun i c -> Counter.view c (counterDispatch i)) model.Counters
+    let counters = 
+        model.Counters
+        |> List.mapi (fun i c -> Counter.view c (counterDispatch i))
     
     R.div [] [ 
         yield R.button [ OnClick (fun _ -> dispatch Remove) ] [ R.str "Remove" ]
