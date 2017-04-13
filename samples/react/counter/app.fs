@@ -40,9 +40,13 @@ let view model dispatch =
         R.button [ OnClick (fun _ -> dispatch Increment) ] [ R.str "+" ] ]
 
 open Elmish.React
+open Elmish.Debug
 
 // App
 Program.mkSimple init update view
 |> Program.withConsoleTrace
 |> Program.withReact "elmish-app"
+#if DEBUG
+|> Program.withDebugger
+#endif
 |> Program.run
