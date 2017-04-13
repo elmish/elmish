@@ -54,17 +54,13 @@ module R = Fable.Helpers.React
 // VIEW (rendered with React)
 
 let view model dispatch =
-    let remove = R.button [ OnClick (fun _ -> dispatch Remove) ] [ R.str "Remove" ]
-
-    let insert = R.button [ OnClick (fun _ -> dispatch Insert) ] [ R.str "Add" ]
-
     let counterDispatch i msg = dispatch (Modify (i, msg))
 
     let counters = List.mapi (fun i c -> Counter.view c (counterDispatch i)) model.Counters
     
     R.div [] [ 
-        yield remove
-        yield insert 
+        yield R.button [ OnClick (fun _ -> dispatch Remove) ] [ R.str "Remove" ]
+        yield R.button [ OnClick (fun _ -> dispatch Insert) ] [ R.str "Add" ] 
         yield! counters ]
 
 open Elmish.React
