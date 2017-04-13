@@ -34,7 +34,7 @@ let cardSelected id (cards: Card list) =
 let gameCleared (model: Model) =  
     List.forall (fun card -> card.MatchFound) model.Cards
 
-let rec update action model  =
+let update action model  =
     match action with
     | StartNewGame -> initialModel()
     | SelectCard index -> 
