@@ -33,7 +33,10 @@ let update (msg:Msg) (model:Model) =
         { Counters = Counter.init() :: model.Counters }
 
     | Remove ->
-        { Counters = List.tail model.Counters }
+        { Counters = 
+            match model.Counters with
+            | [] -> []
+            | x :: rest -> rest }
 
     | Modify (id, counterMsg) ->
         { Counters =
