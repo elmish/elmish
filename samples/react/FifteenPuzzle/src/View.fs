@@ -32,7 +32,7 @@ let slotView (slot: Slot) freePos dispatch =
       [  ]
   elif inCorrectPosition slot then
     div 
-      [ redSlotStyle ; OnClick (fun _ -> dispatch (SelectSlot slot)) ]
+      [ orangeSlotStyle ; OnClick (fun _ -> dispatch (SelectSlot slot)) ]
       [ str slotTag ]
   else
     div 

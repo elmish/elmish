@@ -12,13 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Calc  -->
     <Compile Include="src/Types.fs" />
     <Compile Include="src/State.fs" />
     <Compile Include="src/Styles.fs" />
     <Compile Include="src/View.fs" />
     <Compile Include="src/App.fs" />
-    
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
