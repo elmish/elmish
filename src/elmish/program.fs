@@ -17,8 +17,9 @@ type Program<'arg, 'model, 'msg, 'view> = {
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
     open Fable.Core.JsInterop
+    open Fable.Import
 
-    let internal onError (text: string, ex: exn) = Fable.Import.Browser.console.error (text,ex)
+    let internal onError (text: string, ex: exn) = Browser.console.error (text,ex)
 
     /// Typical program, produces new commands as part of init() and update() as well as the new model.
     let mkProgram 
@@ -52,8 +53,9 @@ module Program =
 
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
+        let inline toPlain o = toJson o |> JS.JSON.parse
         let trace text msg model =
-            Fable.Import.Browser.console.log (text, deflate model, deflate msg)
+            Browser.console.log (text, toPlain model, toPlain msg)
             program.update msg model
         { program with update = trace "Updating:"}
 
