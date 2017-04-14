@@ -22,7 +22,7 @@ let baseStyle (color: string) =
     ]
 
 let greenSlotStyle = baseStyle "lightgreen"
-let redSlotStyle = baseStyle "orange"
+let orangeSlotStyle = baseStyle "orange"
 let freeSlotStyle = baseStyle "white"     
 
 let puzzleStyle = 
