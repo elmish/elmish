@@ -77,8 +77,7 @@ let update action model  =
                       then { card with Selected = true; MatchFound = true }
                       else card
                  )
-            let model' = { model with Cards = cards; FirstSelection = None; SecondSelection = None }
-            update action model'
+            { model with Cards = cards; FirstSelection = None; SecondSelection = None }
         | Some id, Some id' -> 
             let cards = 
                 model.Cards 
@@ -89,8 +88,7 @@ let update action model  =
                       then { card with Selected = true }
                       else card
                  )
-            let model' = { model with Cards = cards; FirstSelection = None; SecondSelection = None }
-            update action model' 
+            { model with Cards = cards; FirstSelection = None; SecondSelection = None }
         | _, _ -> failwith "Cannot happen :)"
     | NoOp -> model
 
