@@ -2,6 +2,6 @@
 # yarn lockfile v1
 
 
-fable-react@^1.0.0-narumi-4:
-  version "1.0.0-narumi-4"
-  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-4.tgz#258d21c53d9d32de42ecbbf0c26e6f31c804cecd"
+fable-react@next:
+  version "1.0.0-narumi-5"
+  resolved "https://registry.yarnpkg.com/fable-react/-/fable-react-1.0.0-narumi-5.tgz#3b1078db0605d59ac139e6c51e52943b1bb006c9"
