@@ -74,7 +74,6 @@ Program.mkProgram init update root
 |> Program.withReact "elmish-app"
 //-:cnd
 #if DEBUG
-|> Program.withConsoleTrace
 |> Program.withDebugger
 #endif
 //+:cnd
