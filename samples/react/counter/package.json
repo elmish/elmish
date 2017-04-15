@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../node_modules/webpack/bin/webpack.js",
+    "build": "node ../node_modules/webpack/bin/webpack.js -p",
     "watch": "node ../node_modules/webpack/bin/webpack.js -w",
     "start": "node ../node_modules/webpack-dev-server/bin/webpack-dev-server.js"
   }

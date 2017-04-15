@@ -6,9 +6,12 @@ function resolve(filePath) {
 }
 
 var babelOptions = {
-  presets: [["es2015", {"modules": false}]],
+  presets: [["es2015", { "modules": false }]],
   plugins: ["transform-runtime"]
 }
+
+var isProduction = process.argv.indexOf("-p") >= 0;
+console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
 var cfg = {
   devtool: "source-map",
@@ -24,7 +27,10 @@ var cfg = {
         test: /\.fs(x|proj)?$/,
         use: {
           loader: "fable-loader",
-          options: { babel: babelOptions }
+          options: {
+            babel: babelOptions,
+            define: isProduction ? [] : ["DEBUG"]
+          }
         }
       },
       {
