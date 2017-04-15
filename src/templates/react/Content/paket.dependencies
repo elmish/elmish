@@ -1,0 +1,5 @@
+source https://api.nuget.org/v3/index.json
+
+nuget Fable.Core prerelease
+nuget FSharp.Core >= 4.1.0 redirects:force
+nuget FSharp.NET.Sdk >= 1.0.0
