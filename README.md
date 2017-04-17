@@ -2,11 +2,14 @@ Elmish: Elm-like abstractions for F# applications targeting Fable.
 =======
 
 [![npm version](https://badge.fury.io/js/fable-elmish.svg)](https://badge.fury.io/js/fable-elmish)
-[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-
-[![https://ci./blob/masterappveyor.com/api/projects/status/fdb2fxf2h9bd719r?svg=true)](https://ci.appveyor.com/project/et1975/fable-elmish)
-[![Mono Build Status](https://travis-ci.org/fable-elmish Status")](https:///blob/mastertravis-ci.org/fable-elmish core abstractions that can/blob/master be used to build applications following [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
+[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-compiler/Fable)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/fdb2fxf2h9bd719r?svg=true)](https://ci.appveyor.com/project/et1975/fable-elmish)
+[![Mono Build Status](https://travis-ci.org/fable-elmish/elmish.svg "Mono Build Status")](https://travis-ci.org/fable-elmish/elmish)
+
+
+Elmish implements core abstractions that can be used to build applications following [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
 The library however does not model any "view" and is intended for use in conjuction with a DOM/renderer, like React/ReactNative or VirtualDOM.
-For those familiar with Redux, the [Fable](https://github.com/-cations may find Elmish a/blob/master more natural fit than Redux allowing one to stay completely in idiomatic F#.
+For those familiar with Redux, the [Fable](https://github.com/fable-compiler) applications targeting React or ReactNative may find Elmish a more natural fit than Redux allowing one to stay completely in idiomatic F#.
 
 Elmish abstractions have been carefully designed to resemble Elm's "look and feel" and anyone familiar with post-Signal Elm terminology will find themselves right at home.
 
@@ -80,5 +83,7 @@ We also use `yarn`, it can be installed as your usual OS package or via `npm`, m
 Then run fake:
 > `./build.sh` or `build`
 
-And/or build samples:
-> `build Samples`
+
+Contributing
+=======
+Please have a look at the [guidelines](https://github.com/fable-elmish/debugger/blob/master/.github/CONTRIBUTING.md).
