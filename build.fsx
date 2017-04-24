@@ -6,6 +6,7 @@ open System
 open System.IO
 open Fake
 open Fake.NpmHelper
+open Fake.ReleaseNotesHelper
 
 let yarn = 
     if EnvironmentHelper.isWindows then "yarn.cmd" else "yarn"
@@ -24,6 +25,13 @@ let projects  =
 // Artifact packages
 let packages  =
       !! "src/package.json"
+
+let toPackage  =
+      !! "src/*.fsproj"
+      ++ "src/*.fs"
+      ++ "src/package.json"
+      ++ "README.md"
+      ++ "RELEASE_NOTES.md"
 
 let dotnetcliVersion = "1.0.1"
 let mutable dotnetExePath = "dotnet"
@@ -124,12 +132,36 @@ Target "Build" (fun _ ->
         runDotnet dir "build")
 )
 
+let release = LoadReleaseNotes "RELEASE_NOTES.md"
+
+Target "Version" (fun _ ->
+    Npm (fun p ->
+    { p with
+        NpmFilePath = yarn
+        Command = Custom (sprintf "version --new-version %s" (string release.SemVer))
+        WorkingDirectory = "src"
+    })
+)
+
+Target "Publish" (fun _ ->
+    toPackage |> CopyFiles buildDir
+    let tag = getBuildParam "--tag" 
+    printf "Publishing %s...\n" tag
+    let tagArg = match tag with "" -> "" | _ -> sprintf "--tag %s" tag
+    Npm (fun p ->
+    { p with
+        Command = Custom (sprintf "publish %s" tagArg)
+        WorkingDirectory = buildDir
+    })
+)
 
 // Build order
 "Clean"
   ==> "InstallDotNetCore"
   ==> "Install"
   ==> "Build"
+  ==> "Version"
+  ==> "Publish"
   
 // start build
 RunTargetOrDefault "Build"

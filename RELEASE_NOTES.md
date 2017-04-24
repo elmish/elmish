@@ -1,3 +1,7 @@
+### 0.9.0-beta-7
+
+* standalone package repo
+
 ### 0.9.0-beta-5
 
 * BREAKING: Moved browser-specific stuff (navigation, urlparser) to fable-elmish-browser

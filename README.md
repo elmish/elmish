@@ -86,4 +86,4 @@ Then run fake:
 
 Contributing
 =======
-Please have a look at the [guidelines](https://github.com/fable-elmish/debugger/blob/master/.github/CONTRIBUTING.md).
+Please have a look at the [guidelines](https://github.com/fable-elmish/elmish/blob/master/.github/CONTRIBUTING.md).
