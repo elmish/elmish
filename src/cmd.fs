@@ -25,7 +25,7 @@ module Cmd =
         cmd |> List.map (fun g -> (fun dispatch -> f >> dispatch) >> g)
 
     /// Aggregate multiple commands
-    let batch (cmds: Cmd<'msg> seq) : Cmd<'msg> =
+    let batch (cmds: #seq<Cmd<'msg>>) : Cmd<'msg> =
         cmds
         |> Seq.toList
         |> List.concat
