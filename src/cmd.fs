@@ -27,7 +27,6 @@ module Cmd =
     /// Aggregate multiple commands
     let batch (cmds: #seq<Cmd<'msg>>) : Cmd<'msg> =
         cmds
-        |> Seq.toList
         |> List.concat
 
     /// Map a cmd and batch it with the rest of cmds
