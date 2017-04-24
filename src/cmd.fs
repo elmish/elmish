@@ -25,8 +25,10 @@ module Cmd =
         cmd |> List.map (fun g -> (fun dispatch -> f >> dispatch) >> g)
 
     /// Aggregate multiple commands
-    let batch (cmds: Cmd<'msg> list) : Cmd<'msg> =
-        List.collect id cmds
+    let batch (cmds: Cmd<'msg> seq) : Cmd<'msg> =
+        cmds
+        |> Seq.toList
+        |> List.concat
 
     /// Map a cmd and batch it with the rest of cmds
     let mapCons (cmds:Cmd<'msg> list) (f:'a -> 'msg) (cmd:Cmd<'a>) : Cmd<'msg> =
