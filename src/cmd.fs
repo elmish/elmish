@@ -26,12 +26,7 @@ module Cmd =
 
     /// Aggregate multiple commands
     let batch (cmds: #seq<Cmd<'msg>>) : Cmd<'msg> =
-        cmds
-        |> List.concat
-
-    /// Map a cmd and batch it with the rest of cmds
-    let mapCons (cmds:Cmd<'msg> list) (f:'a -> 'msg) (cmd:Cmd<'a>) : Cmd<'msg> =
-        (map f cmd)::cmds |> batch
+        cmds |> List.concat
 
     /// Command that will evaluate an async block and map the result
     /// into success or error (of exception)

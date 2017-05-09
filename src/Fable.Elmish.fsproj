@@ -11,7 +11,6 @@
     <ProjectReference Include="../fable-powerpack/Fable.PowerPack.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="prelude.fs" />
     <Compile Include="cmd.fs" />
     <Compile Include="program.fs" />
   </ItemGroup>
