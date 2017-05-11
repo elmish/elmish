@@ -7,6 +7,7 @@ open System.IO
 open Fake
 open Fake.NpmHelper
 open Fake.ReleaseNotesHelper
+open Fake.Git
 
 let yarn = 
     if EnvironmentHelper.isWindows then "yarn.cmd" else "yarn"
@@ -155,6 +156,185 @@ Target "Publish" (fun _ ->
     })
 )
 
+
+// --------------------------------------------------------------------------------------
+// Generate the documentation
+let gitName = "elmish"
+let gitOwner = "fable-elmish"
+let gitHome = sprintf "https://github.com/%s" gitOwner
+
+// Generate the documentation
+// --------------------------------------------------------------------------------------
+
+
+let fakePath = "packages" </> "FAKE" </> "tools" </> "FAKE.exe"
+let fakeStartInfo script workingDirectory args fsiargs environmentVars =
+    (fun (info: System.Diagnostics.ProcessStartInfo) ->
+        info.FileName <- System.IO.Path.GetFullPath fakePath
+        info.Arguments <- sprintf "%s --fsiargs -d:FAKE %s \"%s\"" args fsiargs script
+        info.WorkingDirectory <- workingDirectory
+        let setVar k v =
+            info.EnvironmentVariables.[k] <- v
+        for (k, v) in environmentVars do
+            setVar k v
+        setVar "MSBuild" msBuildExe
+        setVar "GIT" Git.CommandHelper.gitPath
+        setVar "FSI" fsiPath)
+
+let commandToolPath = "bin" </> "fsformatting.exe"
+let commandToolStartInfo workingDirectory environmentVars args =
+    (fun (info: System.Diagnostics.ProcessStartInfo) ->
+        info.FileName <- System.IO.Path.GetFullPath commandToolPath
+        info.Arguments <- args
+        info.WorkingDirectory <- workingDirectory
+        let setVar k v =
+            info.EnvironmentVariables.[k] <- v
+        for (k, v) in environmentVars do
+            setVar k v
+        setVar "MSBuild" msBuildExe
+        setVar "GIT" Git.CommandHelper.gitPath
+        setVar "FSI" fsiPath)
+
+/// Run the given buildscript with FAKE.exe
+let executeWithOutput configStartInfo =
+    let exitCode =
+        ExecProcessWithLambdas
+            configStartInfo
+            TimeSpan.MaxValue false ignore ignore
+    System.Threading.Thread.Sleep 1000
+    exitCode
+
+let executeWithRedirect errorF messageF configStartInfo =
+    let exitCode =
+        ExecProcessWithLambdas
+            configStartInfo
+            TimeSpan.MaxValue true errorF messageF
+    System.Threading.Thread.Sleep 1000
+    exitCode
+
+let executeHelper executer traceMsg failMessage configStartInfo =
+    trace traceMsg
+    let exit = executer configStartInfo
+    if exit <> 0 then
+        failwith failMessage
+    ()
+
+let execute = executeHelper executeWithOutput
+
+// Documentation
+let buildDocumentationCommandTool args =
+  execute
+    "Building documentation (CommandTool), this could take some time, please wait..."
+    "generating documentation failed"
+    (commandToolStartInfo "." [] args)
+
+let createArg argName arguments =
+    (arguments : string seq)
+    |> fun files -> String.Join("\" \"", files)
+    |> fun e -> if String.IsNullOrWhiteSpace e then ""
+                else sprintf "--%s \"%s\"" argName e
+
+let commandToolMetadataFormatArgument dllFiles outDir layoutRoots libDirs parameters sourceRepo =
+    let dllFilesArg = createArg "dllfiles" dllFiles
+    let layoutRootsArgs = createArg "layoutRoots" layoutRoots
+    let libDirArgs = createArg "libDirs" libDirs
+
+    let parametersArg =
+        parameters
+        |> Seq.collect (fun (key, value) -> [key; value])
+        |> createArg "parameters"
+
+    let reproAndFolderArg =
+        match sourceRepo with
+        | Some (repo, folder) -> sprintf "--sourceRepo \"%s\" --sourceFolder \"%s\"" repo folder
+        | _ -> ""
+
+    sprintf "metadataFormat --generate %s %s %s %s %s %s"
+        dllFilesArg (createArg "outDir" [outDir]) layoutRootsArgs libDirArgs parametersArg
+        reproAndFolderArg
+
+let commandToolLiterateArgument inDir outDir layoutRoots parameters =
+    let inDirArg = createArg "inputDirectory" [ inDir ]
+    let outDirArg = createArg "outputDirectory" [ outDir ]
+
+    let layoutRootsArgs = createArg "layoutRoots" layoutRoots
+
+    let replacementsArgs =
+        parameters
+        |> Seq.collect (fun (key, value) -> [key; value])
+        |> createArg "replacements"
+
+    sprintf "literate --processDirectory %s %s %s %s" inDirArg outDirArg layoutRootsArgs replacementsArgs
+
+// Documentation
+let buildDocumentationTarget fsiargs target =
+    execute
+      (sprintf "Building documentation (%s), this could take some time, please wait..." target)
+      "generating reference documentation failed"
+      (fakeStartInfo "generate.fsx" "docs/tools" "" fsiargs ["target", target])
+
+
+Target "GenerateDocs" (fun _ ->
+    buildDocumentationTarget "--define:RELEASE --define:REFERENCE --define:HELP" "Default")
+
+Target "WatchDocs" (fun _ ->
+    buildDocumentationTarget "--define:WATCH" "Default")
+
+let createIndexFsx lang =
+    let content = """(*** hide ***)
+// This block of code is omitted in the generated HTML documentation. Use
+// it to define helpers that you do not want to show in the documentation.
+#I "../../../src/bin/Debug"
+
+(**
+Elmish
+=========================
+*)
+"""
+    let targetDir = "docs/content" </> lang
+    let targetFile = targetDir </> "index.fsx"
+    ensureDirectory targetDir
+    System.IO.File.WriteAllText(targetFile, System.String.Format(content, lang))
+
+Target "AddLangDocs" (fun _ ->
+    let args = System.Environment.GetCommandLineArgs()
+    if args.Length < 4 then
+        failwith "Language not specified."
+
+    args.[3..]
+    |> Seq.iter (fun lang ->
+        if lang.Length <> 2 && lang.Length <> 3 then
+            failwithf "Language must be 2 or 3 characters (ex. 'de', 'fr', 'ja', 'gsw', etc.): %s" lang
+
+        let templateFileName = "template.cshtml"
+        let templateDir = "docs/tools/templates"
+        let langTemplateDir = templateDir </> lang
+        let langTemplateFileName = langTemplateDir </> templateFileName
+
+        if System.IO.File.Exists(langTemplateFileName) then
+            failwithf "Documents for specified language '%s' have already been added." lang
+
+        ensureDirectory langTemplateDir
+        Copy langTemplateDir [ templateDir </> templateFileName ]
+
+        createIndexFsx lang)
+)
+
+// --------------------------------------------------------------------------------------
+// Release Scripts
+
+Target "ReleaseDocs" (fun _ ->
+    let tempDocsDir = "temp/gh-pages"
+    CleanDir tempDocsDir
+    Repository.cloneSingleBranch "" (gitHome + "/" + gitName + ".git") "gh-pages" tempDocsDir
+
+    CopyRecursive "docs/output" tempDocsDir true |> tracefn "%A"
+    StageAll tempDocsDir
+    Git.Commit.Commit tempDocsDir (sprintf "Update generated documentation for version %s" release.NugetVersion)
+    Branches.push tempDocsDir
+)
+
+
 // Build order
 "Clean"
   ==> "InstallDotNetCore"
@@ -162,6 +342,15 @@ Target "Publish" (fun _ ->
   ==> "Build"
   ==> "Version"
   ==> "Publish"
+
+
+"Clean"
+  ==> "WatchDocs"
+
+"Clean"
+  ==> "GenerateDocs"
+  ==> "ReleaseDocs"
+
   
 // start build
 RunTargetOrDefault "Build"

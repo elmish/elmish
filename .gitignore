@@ -7,9 +7,6 @@
 **/node_modules/
 **/npm/
 npm-debug.log
-samples/**/public
-
-.vscode/
 
 # F#
 .fake/
@@ -21,12 +18,7 @@ out
 
 # git
 *.orig
-samples/react-native/navigation/windows/
 
 .vs
 
-# Ignore production files generated from webpack
-**/public/bundle.js
-**/public/bundle.js.map
-
-*.nupkg
+docs/output
