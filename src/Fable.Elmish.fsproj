@@ -1,6 +1,6 @@
 <Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Version>0.9.0-beta-007</Version>
+    <Version>0.9.0-beta-008</Version>
     <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
@@ -14,8 +14,9 @@
     <PackageReference Include="Fable.PowerPack" Version="1.0.0-narumi-*" />
     <DotNetCliToolReference Include="dotnet-fable" Version="1.0.0-narumi-*" />
   </ItemGroup>
-  <!-- Add source files to package -->
+  <!-- Add source files to "fable" folder in Nuget package -->
   <ItemGroup>
-    <Content Include="*.fsproj; *.fs" PackagePath="Content\" />
+    <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
+    <!--<Content Include="src\" PackagePath="fable\src\" />-->
   </ItemGroup>
 </Project>
