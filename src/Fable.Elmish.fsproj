@@ -19,4 +19,5 @@
     <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
     <!--<Content Include="src\" PackagePath="fable\src\" />-->
   </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
