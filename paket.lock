@@ -7,8 +7,6 @@ NUGET
       Fable.Core (>= 1.0.0-narumi-915) - framework: >= net463, >= netstandard16
       FSharp.Core (>= 4.1.17) - framework: >= net463, >= netstandard16
       NETStandard.Library (>= 1.6.1) - framework: >= net463, >= netstandard16
-    FAKE (4.48)
-    FSharp.Compiler.Service (2.0.0.6)
     FSharp.Core (4.1.17) - content: none, redirects: force
       System.Collections (>= 4.0.11) - framework: >= netstandard16
       System.Console (>= 4.0) - framework: >= netstandard16
@@ -34,11 +32,6 @@ NUGET
       System.Threading.ThreadPool (>= 4.0.10) - framework: >= netstandard16
       System.Threading.Timer (>= 4.0.1) - framework: >= netstandard16
       System.ValueTuple (>= 4.3) - framework: >= net10, netstandard10, netstandard11, netstandard12, netstandard13, netstandard14, netstandard15
-    FSharp.Formatting (3.0.0-beta01)
-      FSharp.Compiler.Service (2.0.0.6)
-      FSharpVSPowerTools.Core (>= 2.3 < 2.4)
-    FSharpVSPowerTools.Core (2.3)
-      FSharp.Compiler.Service (>= 2.0.0.3)
     Microsoft.NETCore.Platforms (1.1) - framework: >= net10, >= netstandard10, netstandard13
     Microsoft.NETCore.Targets (1.1) - content: none, redirects: force, framework: >= net10, >= netstandard10, netstandard13
     Microsoft.Win32.Primitives (4.3) - framework: >= net463, >= netstandard16
@@ -576,3 +569,23 @@ NUGET
       System.Text.Encoding (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Threading (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Xml.ReaderWriter (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
+
+GROUP Build
+FRAMEWORK: NET46
+NUGET
+  remote: https://www.nuget.org/api/v2
+    FAKE (4.61.2)
+    FSharp.Compiler.Service (2.0.0.6)
+    FSharp.Core (4.1.17) - content: none, redirects: force
+      System.ValueTuple (>= 4.3)
+    FSharp.Formatting (2.14.4)
+      FSharp.Compiler.Service (2.0.0.6)
+      FSharpVSPowerTools.Core (>= 2.3 < 2.4)
+    FSharpVSPowerTools.Core (2.3)
+      FSharp.Compiler.Service (>= 2.0.0.3)
+    Octokit (0.24)
+    System.ValueTuple (4.3.1) - content: none, redirects: force
+GITHUB
+  remote: fsharp/FAKE
+    modules/Octokit/Octokit.fsx (43917109af4ef38194d8993215c3e7c862b19d36)
+      Octokit (>= 0.20)

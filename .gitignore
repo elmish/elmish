@@ -22,3 +22,6 @@ out
 .vs
 
 docs/output
+docs/temp
+
+Meta.props

@@ -1,7 +1,15 @@
 source https://nuget.org/api/v2
 
 nuget FSharp.Core  redirects:force, content:none
-nuget FAKE
-nuget FSharp.Formatting 3.0.0-beta01
 nuget Fable.Core
 nuget Fable.PowerPack
+
+group Build
+framework: net46
+
+    source https://nuget.org/api/v2
+    nuget FSharp.Core  redirects:force, content:none
+    nuget FAKE
+    nuget FSharp.Formatting
+
+    github fsharp/FAKE modules/Octokit/Octokit.fsx

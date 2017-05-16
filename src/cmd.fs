@@ -4,8 +4,10 @@ open System
 
 /// Dispatch - feed new message into the processing loop
 type Dispatch<'msg> = 'msg -> unit
-/// Subscriber - return immediately, but may schedule dispatch of a message at any time
+
+/// Subscription - return immediately, but may schedule dispatch of a message at any time
 type Sub<'msg> = Dispatch<'msg> -> unit
+
 /// Cmd - container for subscriptions that may produce messages
 type Cmd<'msg> = Sub<'msg> list
 
@@ -30,7 +32,10 @@ module Cmd =
 
     /// Command that will evaluate an async block and map the result
     /// into success or error (of exception)
-    let ofAsync (task: 'a -> Async<_>) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
+    let ofAsync (task: 'a -> Async<_>) 
+                (arg: 'a) 
+                (ofSuccess: _ -> 'msg) 
+                (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             async {
                 let! r = task arg |> Async.Catch
@@ -78,7 +83,10 @@ module Cmd =
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
-    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>) (arg:'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
+    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>) 
+                  (arg:'a) 
+                  (ofSuccess: _ -> 'msg) 
+                  (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             task arg
             |> Promise.map (ofSuccess >> dispatch)
