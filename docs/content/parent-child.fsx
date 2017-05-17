@@ -3,7 +3,7 @@
 // it to define helpers that you do not want to show in the documentation.
 #I "../../src/bin/Debug/netstandard1.6"
 
-(** The parent-child composition
+(** Parent-child composition
 ---------
 This is an example of nesting logic, where each child looks like an individual app.
 It knows nothing about what contains it or how it's run, and that's a good thing.
@@ -68,13 +68,13 @@ let init() =
 We batch the commands together to produce a single command for our entire container.
 
 Note that even though we've implemented the counter as not issuing any commands, 
-in a real application we still may want to map the commands to facilitate encapsulation - if at any point the child does emit some messages, we'll be in position to handle them correctly.
+in a real application we still may want to map the commands to facilitate encapsulation - if at any point the child does emit some messages, we'll be in a position to handle them correctly.
 
 And finally our update function:
 *)
 
 
-let update msg model : Model*Cmd<Msg>=
+let update msg model : Model * Cmd<Msg> =
   match msg with
   | Reset -> 
     let top, topCmd = Counter.init()
@@ -84,11 +84,11 @@ let update msg model : Model*Cmd<Msg>=
     Cmd.batch [ Cmd.map Top topCmd
                 Cmd.map Bottom bottomCmd ]
   | Top msg' ->
-    let res,cmd = Counter.update msg' model.top
+    let res, cmd = Counter.update msg' model.top
     { model with top = res }, Cmd.map Top cmd
 
   | Bottom msg' ->
-    let res,cmd = Counter.update msg' model.bottom
+    let res, cmd = Counter.update msg' model.bottom
     { model with bottom = res }, Cmd.map Bottom cmd
 
 
@@ -100,7 +100,7 @@ This may seem like a lot of work, but what we've done is recruited the compiler 
 *)
 
 (** 
-And finally, we execute this as Elmish program:
+And finally, we execute this as an Elmish program:
 
 *)
 

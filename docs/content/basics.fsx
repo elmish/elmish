@@ -5,7 +5,7 @@
 
 (** The basics
 ---------
-This is a most basic example of an Elmish app, it prints current state in the Console.
+This is a very basic example of an Elmish app - it simply prints the current state in the Console.
 First, let's import our dependencies. In a real application, these imports will be in your project file and/or `paket.references`.
 *)
 
@@ -13,7 +13,7 @@ First, let's import our dependencies. In a real application, these imports will 
 
 
 (** 
-Let's define our `Model` and `Msg` types, `Model` will hold the current state and `Msg` will tell us the nature of the change that we need to apply to the current state.
+Let's define our `Model` and `Msg` types. `Model` will hold the current state and `Msg` will tell us the nature of the change that we need to apply to the current state.
 *)
 
 type Model =
@@ -26,18 +26,17 @@ type Msg =
 
 (** 
 Now we define the `init` function that will produce initial state once the program starts running.
-It can take any arguments, but we'll just use `unit`. We'll need `Cmd` type, so we'll open Elmish for that:
+It can take any arguments, but we'll just use `unit`. We'll need the [`Cmd`](cmd.html) type, so we'll open Elmish for that:
 *)
 open Elmish
-
 
 let init () =
     { x = 0 }, Cmd.ofMsg Increment
 
 (** 
-Notice that we return a tuple, the first field of the tuple tells the program the initial state, and the second - the command to issue `Increment` message.
+Notice that we return a tuple. The first field of the tuple tells the program the initial state. The second field holds the command to issue an `Increment` message.
 
-The `update` function will receive the current state, the change required by the `Msg` and produce new state and potentially new command(s).
+The `update` function will receive the change required by `Msg`, and the current state. It will produce a new state and potentially new command(s).
 
 *)
 
