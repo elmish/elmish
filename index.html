@@ -5,8 +5,8 @@
     <title>Elmish
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Elm-like Cmd and Program modules"/>
-    <meta name="author" content="fable-elmish"/>
+    <meta name="description" content="Elm-like Cmd and Program modules for Fable apps"/>
+    <meta name="author" content="Eugene Tolmachev"/>
 
     <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
     <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
@@ -39,78 +39,78 @@
 <p><code>-ish</code> <br />
 a suffix used to convey the sense of “having some characteristics of”</p>
 </blockquote>
-<p>Elmish implements core abstractions that can be used to build Fable applications following <a href="http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html">“model view update”</a> style of architecture, as made famous by Elm.</p>
-<p>The goal of the architecture is to provide solid UI-independent core to build the rest of the functionality around.
-Elm architecture operates using following concepts, as they translate to Elmish:</p>
+<p>Elmish implements core abstractions that can be used to build Fable applications following the <a href="http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html">“model view update”</a> style of architecture, as made famous by Elm.</p>
+<p>The goal of the architecture is to provide a solid UI-independent core to build the rest of the functionality around.
+Elm architecture operates using the following concepts, as they translate to Elmish:</p>
 <ul>
 <li>
-<p>Model <br />
-This is a snapshot of your applications state, defined as an immutable data structure.</p>
+<p><strong>Model</strong> <br />
+This is a snapshot of your application's state, defined as an immutable data structure.</p>
 </li>
 <li>
-<p>Message <br />
-This an event representing a change (delta) in state of your applications, defined as a discriminated union.</p>
+<p><strong>Message</strong> <br />
+This an event representing a change (delta) in the state of your application, defined as a discriminated union.</p>
 </li>
 <li>
-<p>Init <br />
-This is a pure function that produces inital state of your application and, optionally, message(s) to process.</p>
+<p><strong>Init</strong> <br />
+This is a pure function that produces the inital state of your application and, optionally, message(s) to process.</p>
 </li>
 <li>
-<p>Update <br />
-This is a pure function that produces new state of your application given the previous state and, optionally, new message(s) to process.</p>
+<p><strong>Update</strong> <br />
+This is a pure function that produces a new state of your application given the previous state and, optionally, new message(s) to process.</p>
 </li>
 <li>
-<p>View <br />
-This is a pure function that produces new UI layout/content given the current state, defined as a F# function that uses a renderer (such as React) to declaratively build a UI.</p>
+<p><strong>View</strong> <br />
+This is a pure function that produces a new UI layout/content given the current state, defined as an F# function that uses a renderer (such as React) to declaratively build a UI.</p>
 </li>
 <li>
-<p>Program <br />
-This is an opaque data structure that combines all of the above + a <code>setState</code> function to produce a view from the model.
-See <code>Program</code> module for more details.</p>
+<p><strong>Program</strong> <br />
+This is an opaque data structure that combines all of the above plus a <code>setState</code> function to produce a view from the model.
+See the <a href="program.html"><code>Program</code></a> module for more details.</p>
 </li>
 </ul>
 <h2><a name="Dispatch-loop" class="anchor" href="#Dispatch-loop">Dispatch loop</a></h2>
 <p><img src="https://www.elm-tutorial.org/en/02-elm-arch/04-flow.png" alt="flow" /></p>
-<p>Once started, Program runs a dispatch loop, producing new Model given the current state and an input Message.</p>
+<p>Once started, Program runs a dispatch loop, producing a new Model given the current state and an input Message.</p>
 <h2><a name="Parent-child-composition-and-user-interaction" class="anchor" href="#Parent-child-composition-and-user-interaction">Parent-child composition and user interaction</a></h2>
-<p>Parent-child hierarchy is made explicit by wrapping model and message types of the child with one's of the parent.</p>
+<p>Parent-child hierarchy is made explicit by wrapping model and message types of the child with those of the parent.</p>
 <p><img src="https://www.elm-tutorial.org/en-v01/02-elm-arch/06-composing_001.png" alt="flow" /></p>
 <ol>
 <li>User clicks on the increase button</li>
-<li>Widget.view dispatches an Increase message.</li>
-<li>Main.view has augemented the <code>dispatch</code> so the message becomes (WidgetMsg Increase) as it is sent along to program</li>
-<li>program calls Main.update with this message and the main model</li>
-<li>As the message was tagged with WidgetMsg, Main.update delegates the update to Widget.update, sending along the way the widgetModel part of the main model</li>
-<li>Widget.update modifies the model according to the given message, in this case Increase. And returns the modified widgetModel plus a command</li>
-<li>Main.update returns the updated main model to program</li>
-<li>program then renders the view again passing the updated main model</li>
+<li><code>Widget.view</code> dispatches an <code>Increase</code> message</li>
+<li><code>Main.view</code> has augemented the <code>dispatch</code> so the message becomes <code>WidgetMsg Increase</code> as it is sent along to <code>program</code></li>
+<li><code>program</code> calls <code>Main.update</code> with this message and <code>mainModel</code></li>
+<li>As the message was tagged with <code>WidgetMsg</code>, <code>Main.update</code> delegates the update to <code>Widget.update</code>, sending along the way the <code>widgetModel</code> part of <code>mainModel</code></li>
+<li><code>Widget.update</code> modifies the model according to the given message, in this case <code>Increase</code>, and returns the modified <code>widgetModel</code> plus a command</li>
+<li><code>Main.update</code> returns the updated <code>mainModel</code> to <code>program</code></li>
+<li><code>program</code> then renders the view again passing the updated <code>mainModel</code></li>
 </ol>
 <h2><a name="Tasks-and-side-effects" class="anchor" href="#Tasks-and-side-effects">Tasks and side-effects</a></h2>
-<p>Tasks, like reading a database or making a Web API call, are performed using <code>async</code> and <code>promise</code> blocks or just a plain functions.
+<p>Tasks such as reading a database or making a Web API call are performed using <code>async</code> and <code>promise</code> blocks or just plain functions.
 These operations may return immediately but complete (or fail) at some later time.
-To feed the results back into the dispatch loop, instead of executing the operations directly, we instruct elmish to do it for us by wrapping the instruction in a command.</p>
+To feed the results back into the dispatch loop, instead of executing the operations directly, we instruct Elmish to do it for us by wrapping the instruction in a command.</p>
 <h2><a name="Commands" class="anchor" href="#Commands">Commands</a></h2>
 <p>Commands are carriers of instructions, which you issue from the <code>init</code> and <code>update</code> functions.
-Once evaluated a command may produce one or more new messages, mapping success or failure as instructed ahead of time.
-Just like with any message dispatch, in case of Parent-Child composition, child commands need to be mapped to parent's type:</p>
+Once evaluated, a command may produce one or more new messages, mapping success or failure as instructed ahead of time.
+As with any message dispatch, in the case of Parent-Child composition, child commands need to be mapped to the parent's type:</p>
 <p><img src="https://www.elm-tutorial.org/en-v01/03-subs-cmds/02-commands.png" alt="cmd" /></p>
-<p>Here we collect commands from three different levels. At the end we send all these commands to program to run.</p>
-<p>See <code>Cmd</code> module for ways to construct, map and batch commands.</p>
+<p>Here we collect commands from three different levels. At the end we send all these commands to <code>program</code> to run.</p>
+<p>See the <a href="cmd.html"><code>Cmd</code></a> module for ways to construct, map and batch commands.</p>
 <h2><a name="Subscriptions" class="anchor" href="#Subscriptions">Subscriptions</a></h2>
 <p>Most of the messages (changes in the state) will originate within your code, but some will come from the outside, for example from a timer or a websocket.
-These sources can be tapped into with subscriptions, defined as a F# functions that can dispatch new messages as they happen.
-Just like <code>init</code> function, subscriptions will be called only once - with the initial model. If you need the current state, then you can construct one-off subscribers via the <code>Cmd</code> module.</p>
-<p>See <code>Program</code> module for details.</p>
+These sources can be tapped into with subscriptions, defined as F# functions that can dispatch new messages as they happen.
+Just like the <code>init</code> function, subscriptions will be called only once - with the initial model. If you need the current state, you can construct one-off subscribers via the <a href="cmd.html"><code>Cmd</code></a> module.</p>
+<p>See the <a href="program.html"><code>Program</code></a> module for details.</p>
 <h2><a name="View" class="anchor" href="#View">View</a></h2>
 <p>The core is independent of any particular technolgy, instead relying on a renderer library to implement <code>setState</code> in any way seen fit.
-In fact, an elmish app can run entirely without a UI!</p>
-<p>At the moment, there are two UI technologies the rendering has been implemented for: React and React Native.
+In fact, an Elmish app can run entirely without a UI!</p>
+<p>At the moment, there are two UI technologies for which rendering has been implemented: React and React Native.
 For details please see <a href="https://fable-elmish.github.io/react">fable-elmish-react</a>.</p>
 <h2><a name="Observing-the-state-changes" class="anchor" href="#Observing-the-state-changes">Observing the state changes</a></h2>
 <p>Every message going through the dispatch loop can be traced, along with the current state of the app.
 For more advanced debugging capabilities please see <a href="https://fable-elmish.github.io/debugger">fable-elmish-debugger</a>.</p>
 <h2><a name="Interacting-with-a-browser" class="anchor" href="#Interacting-with-a-browser">Interacting with a browser</a></h2>
-<p>Larger elmish applications for the browser may benefit from advanced features like routing and explicit navigation control.
+<p>Larger Elmish applications for the browser may benefit from advanced features like routing and explicit navigation control.
 For information about these features please see <a href="https://fable-elmish.github.io/browser">fable-elmish-browser</a>.</p>
 
 
@@ -120,8 +120,9 @@ For information about these features please see <a href="https://fable-elmish.gi
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">elmish</li>
             <li><a href="https://github.com/fable-elmish/elmish">Source Code on GitHub</a></li>
-            <li class="nav-header">Samples</li>
+            <li class="nav-header">Step by step</li>
             <li><a href="https://fable-elmish.github.io/elmish/basics.html">The basics</a></li>
+            <li><a href="https://fable-elmish.github.io/elmish/parent-child.html">Parent-child</a></li>
             <li class="nav-header">Modules</li>
             <li><a href="https://fable-elmish.github.io/elmish/cmd.html">Cmd</a></li>
             <li><a href="https://fable-elmish.github.io/elmish/program.html">Program</a></li>

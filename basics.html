@@ -4,8 +4,8 @@
     <meta charset="utf-8"/>
     <title>basics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Elm-like Cmd and Program modules"/>
-    <meta name="author" content="fable-elmish"/>
+    <meta name="description" content="Elm-like Cmd and Program modules for Fable apps"/>
+    <meta name="author" content="Eugene Tolmachev"/>
 
     <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
     <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
@@ -34,7 +34,7 @@
         <div class="span9" id="main">
           
 <h2><a name="The-basics" class="anchor" href="#The-basics">The basics</a></h2>
-<p>This is a most basic example of an Elmish app, it prints current state in the Console.
+<p>This is a very basic example of an Elmish app - it simply prints the current state in the Console.
 First, let's import our dependencies. In a real application, these imports will be in your project file and/or <code>paket.references</code>.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -42,7 +42,7 @@ First, let's import our dependencies. In a real application, these imports will 
 </code></pre></td>
 </tr>
 </table>
-<p>Let's define our <code>Model</code> and <code>Msg</code> types, <code>Model</code> will hold the current state and <code>Msg</code> will tell us the nature of the change that we need to apply to the current state.</p>
+<p>Let's define our <code>Model</code> and <code>Msg</code> types. <code>Model</code> will hold the current state and <code>Msg</code> will tell us the nature of the change that we need to apply to the current state.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
@@ -60,23 +60,21 @@ First, let's import our dependencies. In a real application, these imports will 
 </tr>
 </table>
 <p>Now we define the <code>init</code> function that will produce initial state once the program starts running.
-It can take any arguments, but we'll just use <code>unit</code>. We'll need <code>Cmd</code> type, so we'll open Elmish for that:</p>
+It can take any arguments, but we'll just use <code>unit</code>. We'll need the <a href="cmd.html"><code>Cmd</code></a> type, so we'll open Elmish for that:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
-<span class="l">5: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">Elmish</span>
-
 
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="f">init</span> () <span class="o">=</span>
     { <span onmouseout="hideTip(event, 'fs2', 9)" onmouseover="showTip(event, 'fs2', 9)" class="i">x</span> <span class="o">=</span> <span class="n">0</span> }, <span onmouseout="hideTip(event, 'fs9', 10)" onmouseover="showTip(event, 'fs9', 10)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 11)" onmouseover="showTip(event, 'fs10', 11)" class="f">ofMsg</span> <span onmouseout="hideTip(event, 'fs5', 12)" onmouseover="showTip(event, 'fs5', 12)" class="p">Increment</span>
 </code></pre></td>
 </tr>
 </table>
-<p>Notice that we return a tuple, the first field of the tuple tells the program the initial state, and the second - the command to issue <code>Increment</code> message.</p>
-<p>The <code>update</code> function will receive the current state, the change required by the <code>Msg</code> and produce new state and potentially new command(s).</p>
+<p>Notice that we return a tuple. The first field of the tuple tells the program the initial state. The second field holds the command to issue an <code>Increment</code> message.</p>
+<p>The <code>update</code> function will receive the change required by <code>Msg</code>, and the current state. It will produce a new state and potentially new command(s).</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
