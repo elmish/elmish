@@ -5,10 +5,11 @@
 
 (** Elmish
 ======================
+>`-ish` <br />
+>  a suffix used to convey the sense of “having some characteristics of”
+
 Elmish implements core abstractions that can be used to build Fable applications following [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
 
->`-ish`
->  a suffix used to convey the sense of “having some characteristics of”
 
 The goal of the architecture is to provide solid UI-independent core to build the rest of the functionality around.
 Elm architecture operates using following concepts, as they translate to Elmish:
@@ -69,7 +70,7 @@ Commands are carriers of instructions, which you issue from the `init` and `upda
 Once evaluated a command may produce one or more new messages, mapping success or failure as instructed ahead of time. 
 Just like with any message dispatch, in case of Parent-Child composition, child commands need to be mapped to parent's type: 
 
-[!cmd](https://www.elm-tutorial.org/en-v01/03-subs-cmds/02-commands.png)
+![cmd](https://www.elm-tutorial.org/en-v01/03-subs-cmds/02-commands.png)
 
 Here we collect commands from three different levels. At the end we send all these commands to program to run.
 

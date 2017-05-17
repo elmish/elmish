@@ -3,13 +3,6 @@
 // (the generated documentation is stored in the 'docs/output' directory)
 // --------------------------------------------------------------------------------------
 
-// Binaries that have XML documentation (in a corresponding generated XML file)
-// Any binary output / copied to bin/projectName/projectName.dll will
-// automatically be added as a binary to generate API docs for.
-// for binaries output to root bin folder please add the filename only to the 
-// referenceBinaries list below in order to generate documentation for the binaries.
-// (This is the original behaviour of ProjectScaffold prior to multi project support)
-let referenceBinaries = ["Fable.Elmish.dll"]
 // Web site location for the generated documentation
 let website = "https://fable-elmish.github.io/elmish"
 

@@ -1,11 +1,18 @@
 ﻿(*** hide ***)
-#I "../../src/bin/Debug"
+#I "../../src/bin/Debug/netstandard1.6"
 #r "Fable.Core.dll"
 #r "Fable.PowerPack.dll"
 #r "Fable.Elmish.dll"
 
 (**
 *)
+(**
+Program
+---------
+Core abstractions for creating and running the dispatch loop.
+
+*)
+
 namespace Elmish
 
 open System

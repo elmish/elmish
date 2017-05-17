@@ -1,3 +1,10 @@
+(**
+Program
+---------
+Core abstractions for creating and running the dispatch loop.
+
+*)
+
 namespace Elmish
 
 open System
