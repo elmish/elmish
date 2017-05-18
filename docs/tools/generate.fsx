@@ -11,8 +11,8 @@ let githubLink = "https://github.com/fable-elmish/elmish"
 // Specify more information about your project
 let info =
   [ "project-name", "elmish"
-    "project-author", "fable-elmish"
-    "project-summary", "Elm-like Cmd and Program modules"
+    "project-author", "Eugene Tolmachev"
+    "project-summary", "Elm-like Cmd and Program modules for Fable apps"
     "project-github", githubLink
     "project-nuget", "http://nuget.org/packages/Fable.Elmish" ]
 

@@ -1,7 +1,8 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../src/bin/Debug"
+#I "../../src/bin/Debug/netstandard1.6"
+#r "Fable.Elmish.dll"
 
 (** Elmish
 ======================
@@ -40,6 +41,9 @@ Dispatch loop
 
 Once started, Program runs a dispatch loop, producing a new Model given the current state and an input Message.
 
+See the [`basics example`](basics.html) for details.
+
+
 
 Parent-child composition and user interaction
 ---------------
@@ -55,6 +59,9 @@ Parent-child hierarchy is made explicit by wrapping model and message types of t
 6. `Widget.update` modifies the model according to the given message, in this case `Increase`, and returns the modified `widgetModel` plus a command
 7. `Main.update` returns the updated `mainModel` to `program`
 8. `program` then renders the view again passing the updated `mainModel`
+
+See the [`example`](parent-child.html) for details.
+
 
 
 Tasks and side-effects
@@ -81,9 +88,8 @@ Subscriptions
 ---------------
 Most of the messages (changes in the state) will originate within your code, but some will come from the outside, for example from a timer or a websocket.
 These sources can be tapped into with subscriptions, defined as F# functions that can dispatch new messages as they happen. 
-Just like the `init` function, subscriptions will be called only once - with the initial model. If you need the current state, you can construct one-off subscribers via the [`Cmd`](cmd.html) module.
 
-See the [`Program`](program.html) module for details.
+See the [subscriptions example](subscriptions.html) for details.
 
 
 View
@@ -92,19 +98,35 @@ The core is independent of any particular technolgy, instead relying on a render
 In fact, an Elmish app can run entirely without a UI!
 
 At the moment, there are two UI technologies for which rendering has been implemented: React and React Native.
+
 For details please see [fable-elmish-react](https://fable-elmish.github.io/react).
-
-
-Observing the state changes
----------------
-Every message going through the dispatch loop can be traced, along with the current state of the app.
-For more advanced debugging capabilities please see [fable-elmish-debugger](https://fable-elmish.github.io/debugger).
 
 
 Interacting with a browser
 ---------------
 Larger Elmish applications for the browser may benefit from advanced features like routing and explicit navigation control.
+
 For information about these features please see [fable-elmish-browser](https://fable-elmish.github.io/browser).
+
+
+Observing the state changes
+---------------
+Every message going through the dispatch loop can be traced, along with the current state of the app.
+Just augument the program instance with a trace function:
+
+*)
+open Elmish
+
+Program.mkSimple init update view
+|> Program.withConsoleTrace
+|> Program.run
+
+
+(**
+
+And start seeing the state and messages as updates happen in the browser developer console.
+
+For more advanced debugging capabilities please see [fable-elmish-debugger](https://fable-elmish.github.io/debugger).
 *)
 
 
