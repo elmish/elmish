@@ -35,8 +35,18 @@ Elm architecture operates using the following concepts, as they translate to Elm
   See the [`Program`](program.html) module for more details.
 
 
-Dispatch loop
+### Installation
+
+```shell
+paket add nuget Fable.Elmish
+```
+
+
+Concepts
 ---------------
+
+## Dispatch loop
+
 ![flow](https://www.elm-tutorial.org/en/02-elm-arch/04-flow.png)
 
 Once started, Program runs a dispatch loop, producing a new Model given the current state and an input Message.
@@ -45,8 +55,8 @@ See the [`basics example`](basics.html) for details.
 
 
 
-Parent-child composition and user interaction
----------------
+### Parent-child composition and user interaction
+
 Parent-child hierarchy is made explicit by wrapping model and message types of the child with those of the parent.
 
 ![flow](https://www.elm-tutorial.org/en-v01/02-elm-arch/06-composing_001.png)
@@ -64,15 +74,15 @@ See the [`example`](parent-child.html) for details.
 
 
 
-Tasks and side-effects
----------------
+### Tasks and side-effects
+
 Tasks such as reading a database or making a Web API call are performed using `async` and `promise` blocks or just plain functions.
 These operations may return immediately but complete (or fail) at some later time.
 To feed the results back into the dispatch loop, instead of executing the operations directly, we instruct Elmish to do it for us by wrapping the instruction in a command.
 
 
-Commands
----------------
+### Commands
+
 Commands are carriers of instructions, which you issue from the `init` and `update` functions.
 Once evaluated, a command may produce one or more new messages, mapping success or failure as instructed ahead of time. 
 As with any message dispatch, in the case of Parent-Child composition, child commands need to be mapped to the parent's type: 
@@ -84,16 +94,16 @@ Here we collect commands from three different levels. At the end we send all the
 See the [`Cmd`](cmd.html) module for ways to construct, map and batch commands.
 
 
-Subscriptions
----------------
+### Subscriptions
+
 Most of the messages (changes in the state) will originate within your code, but some will come from the outside, for example from a timer or a websocket.
 These sources can be tapped into with subscriptions, defined as F# functions that can dispatch new messages as they happen. 
 
 See the [subscriptions example](subscriptions.html) for details.
 
 
-View
----------------
+### View
+
 The core is independent of any particular technolgy, instead relying on a renderer library to implement `setState` in any way seen fit.
 In fact, an Elmish app can run entirely without a UI!
 
@@ -102,15 +112,15 @@ At the moment, there are two UI technologies for which rendering has been implem
 For details please see [fable-elmish-react](https://fable-elmish.github.io/react).
 
 
-Interacting with a browser
----------------
+### Interacting with a browser
+
 Larger Elmish applications for the browser may benefit from advanced features like routing and explicit navigation control.
 
 For information about these features please see [fable-elmish-browser](https://fable-elmish.github.io/browser).
 
 
-Observing the state changes
----------------
+### Observing the state changes
+
 Every message going through the dispatch loop can be traced, along with the current state of the app.
 Just augument the program instance with a trace function:
 

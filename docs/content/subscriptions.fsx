@@ -2,17 +2,13 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 #I "../../src/bin/Debug/netstandard1.6"
+#r "Fable.Elmish.dll"
 
 (** Working with external sources of events
 ---------
-Sometimes we have a nice source of events that doesn't depend on the current state of the model, like a timer.
+Sometimes we have a source of events that doesn't depend on the current state of the model, like a timer.
 We can setup forwarding of those events to be processed by our `update` function like any other change.
-*)
 
-#r "Fable.Elmish.dll"
-
-
-(** 
 Let's define our `Model` and `Msg` types. `Model` will hold the current state and `Msg` will tell us the nature of the change that we need to apply to the current state.
 *)
 
@@ -30,7 +26,6 @@ type Msg =
 Now we define the `init` function that will produce initial state once the program starts running.
 It can take any arguments, but we'll just use `unit`. We'll need the [`Cmd`](cmd.html) type, so we'll open Elmish for that:
 *)
-open Elmish
 
 let init () =
     { current = DateTime.Now }
@@ -48,8 +43,11 @@ let update msg model =
         { model with current = current }
 
 (** 
+
 Now lets define our timer subscription:
+
 *)
+open Elmish
 
 let timer initial =
   Cmd.ofSub (fun dispatch -> 

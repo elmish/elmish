@@ -2,20 +2,17 @@
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
 #I "../../src/bin/Debug/netstandard1.6"
+#r "Fable.Elmish.dll"
 
 (** Parent-child composition
 ---------
 This is an example of nesting logic, where each child looks like an individual app.
-It knows nothing about what contains it or how it's run, and that's a good thing.
-*)
+It knows nothing about what contains it or how it's run, and that's a good thing, as it allows for great flexibility in how things are put together.
 
-#r "Fable.Elmish.dll"
-open Elmish
-
-
-(** 
 Let's define our `Counter` module to hold child logic:
 *)
+
+open Elmish
 
 module Counter =
 
