@@ -66,11 +66,17 @@ This is an opaque data structure that combines all of the above plus a <code>set
 See the <a href="program.html"><code>Program</code></a> module for more details.</p>
 </li>
 </ul>
+<h3><a name="Installation" class="anchor" href="#Installation">Installation</a></h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="shell">paket add nuget Fable.Elmish
+</code></pre></td></tr></table>
+<h2><a name="Concepts" class="anchor" href="#Concepts">Concepts</a></h2>
 <h2><a name="Dispatch-loop" class="anchor" href="#Dispatch-loop">Dispatch loop</a></h2>
 <p><img src="https://www.elm-tutorial.org/en/02-elm-arch/04-flow.png" alt="flow" /></p>
 <p>Once started, Program runs a dispatch loop, producing a new Model given the current state and an input Message.</p>
 <p>See the <a href="basics.html"><code>basics example</code></a> for details.</p>
-<h2><a name="Parent-child-composition-and-user-interaction" class="anchor" href="#Parent-child-composition-and-user-interaction">Parent-child composition and user interaction</a></h2>
+<h3><a name="Parent-child-composition-and-user-interaction" class="anchor" href="#Parent-child-composition-and-user-interaction">Parent-child composition and user interaction</a></h3>
 <p>Parent-child hierarchy is made explicit by wrapping model and message types of the child with those of the parent.</p>
 <p><img src="https://www.elm-tutorial.org/en-v01/02-elm-arch/06-composing_001.png" alt="flow" /></p>
 <ol>
@@ -84,30 +90,30 @@ See the <a href="program.html"><code>Program</code></a> module for more details.
 <li><code>program</code> then renders the view again passing the updated <code>mainModel</code></li>
 </ol>
 <p>See the <a href="parent-child.html"><code>example</code></a> for details.</p>
-<h2><a name="Tasks-and-side-effects" class="anchor" href="#Tasks-and-side-effects">Tasks and side-effects</a></h2>
+<h3><a name="Tasks-and-side-effects" class="anchor" href="#Tasks-and-side-effects">Tasks and side-effects</a></h3>
 <p>Tasks such as reading a database or making a Web API call are performed using <code>async</code> and <code>promise</code> blocks or just plain functions.
 These operations may return immediately but complete (or fail) at some later time.
 To feed the results back into the dispatch loop, instead of executing the operations directly, we instruct Elmish to do it for us by wrapping the instruction in a command.</p>
-<h2><a name="Commands" class="anchor" href="#Commands">Commands</a></h2>
+<h3><a name="Commands" class="anchor" href="#Commands">Commands</a></h3>
 <p>Commands are carriers of instructions, which you issue from the <code>init</code> and <code>update</code> functions.
 Once evaluated, a command may produce one or more new messages, mapping success or failure as instructed ahead of time.
 As with any message dispatch, in the case of Parent-Child composition, child commands need to be mapped to the parent's type:</p>
 <p><img src="https://www.elm-tutorial.org/en-v01/03-subs-cmds/02-commands.png" alt="cmd" /></p>
 <p>Here we collect commands from three different levels. At the end we send all these commands to <code>program</code> to run.</p>
 <p>See the <a href="cmd.html"><code>Cmd</code></a> module for ways to construct, map and batch commands.</p>
-<h2><a name="Subscriptions" class="anchor" href="#Subscriptions">Subscriptions</a></h2>
+<h3><a name="Subscriptions" class="anchor" href="#Subscriptions">Subscriptions</a></h3>
 <p>Most of the messages (changes in the state) will originate within your code, but some will come from the outside, for example from a timer or a websocket.
 These sources can be tapped into with subscriptions, defined as F# functions that can dispatch new messages as they happen.</p>
 <p>See the <a href="subscriptions.html">subscriptions example</a> for details.</p>
-<h2><a name="View" class="anchor" href="#View">View</a></h2>
+<h3><a name="View" class="anchor" href="#View">View</a></h3>
 <p>The core is independent of any particular technolgy, instead relying on a renderer library to implement <code>setState</code> in any way seen fit.
 In fact, an Elmish app can run entirely without a UI!</p>
 <p>At the moment, there are two UI technologies for which rendering has been implemented: React and React Native.</p>
 <p>For details please see <a href="https://fable-elmish.github.io/react">fable-elmish-react</a>.</p>
-<h2><a name="Interacting-with-a-browser" class="anchor" href="#Interacting-with-a-browser">Interacting with a browser</a></h2>
+<h3><a name="Interacting-with-a-browser" class="anchor" href="#Interacting-with-a-browser">Interacting with a browser</a></h3>
 <p>Larger Elmish applications for the browser may benefit from advanced features like routing and explicit navigation control.</p>
 <p>For information about these features please see <a href="https://fable-elmish.github.io/browser">fable-elmish-browser</a>.</p>
-<h2><a name="Observing-the-state-changes" class="anchor" href="#Observing-the-state-changes">Observing the state changes</a></h2>
+<h3><a name="Observing-the-state-changes" class="anchor" href="#Observing-the-state-changes">Observing the state changes</a></h3>
 <p>Every message going through the dispatch loop can be traced, along with the current state of the app.
 Just augument the program instance with a trace function:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
