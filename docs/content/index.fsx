@@ -45,7 +45,7 @@ paket add nuget Fable.Elmish
 Concepts
 ---------------
 
-## Dispatch loop
+### Dispatch loop
 
 ![flow](https://www.elm-tutorial.org/en/02-elm-arch/04-flow.png)
 
