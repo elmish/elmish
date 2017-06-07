@@ -14,7 +14,6 @@ Let's define our `Model` and `Msg` types. `Model` will hold the current state an
 
 open System
 
-
 type Model =
     { current : DateTime }
 
@@ -27,8 +26,10 @@ Now we define the `init` function that will produce initial state once the progr
 It can take any arguments, but we'll just use `unit`. We'll need the [`Cmd`](cmd.html) type, so we'll open Elmish for that:
 *)
 
+open Elmish
+
 let init () =
-    { current = DateTime.Now }
+    { current = DateTime.Now }, Cmd.ofMsg Increment
 
 (** 
 Notice that we return a tuple. The first field of the tuple tells the program the initial state. The second field holds the command to issue an `Increment` message.
