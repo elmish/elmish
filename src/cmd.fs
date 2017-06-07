@@ -29,6 +29,10 @@ module Cmd =
     let ofMsg (msg:'msg) : Cmd<'msg> =
         [fun dispatch -> dispatch msg]
 
+    /// Command to issue a sequence of messages
+    let ofMsgs (msgs: #seq<'msg>) : Cmd<'msg> =
+        [for msg in msgs -> (fun dispatch -> dispatch msg)]
+
     /// When emitting the message, map to another type
     let map (f: 'a -> 'msg) (cmd: Cmd<'a>) : Cmd<'msg> =
         cmd |> List.map (fun g -> (fun dispatch -> f >> dispatch) >> g)
