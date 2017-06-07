@@ -62,7 +62,7 @@ Program.mkSimple init update (fun model _ -> printf "%A\n" model)
 
 
 (** 
-In this example program initialization will call our subsciber (once) with inital `Model` state, passing the `dispatch` function to be called whenever an even occurs.
+In this example program initialization will call our subscriber (once) with inital `Model` state, passing the `dispatch` function to be called whenever an even occurs.
 However, any time you need to issue a message (for example from a callback) you can use `Cmd.ofSub`.
 *)
 
