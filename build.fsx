@@ -16,7 +16,7 @@ let projects  =
 
 
 let dotnetcliVersion = "1.0.1"
-let mutable dotnetExePath = "dotnet"
+let mutable dotnetExePath = "./dotnetsdk/dotnet"
 
 let runDotnet workingDir args =
     printfn "CWD: %s" workingDir
