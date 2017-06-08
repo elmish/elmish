@@ -23,19 +23,11 @@ type Msg =
 
 
 (** 
-Now we define the `init` function that will produce initial state once the program starts running.
-It can take any arguments, but we'll just use `unit`. We'll need the [`Cmd`](cmd.html) type, so we'll open Elmish for that:
+This time we'll define the "simple" version of `init` and `update` functions, that don't produce commands:
 *)
 
 let init () =
     { current = DateTime.Now }
-
-(** 
-Notice that we return a tuple. The first field of the tuple tells the program the initial state. The second field holds the command to issue an `Increment` message.
-
-The `update` function will receive the change required by `Msg`, and the current state. It will produce a new state and potentially new command(s).
-
-*)
 
 let update msg model =
     match msg with
@@ -43,6 +35,8 @@ let update msg model =
         { model with current = current }
 
 (** 
+
+Note that "simple" is not a requirement and is just a matter of convenience for the purpose of the example!
 
 Now lets define our timer subscription:
 
