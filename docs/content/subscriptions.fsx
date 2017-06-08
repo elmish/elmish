@@ -14,7 +14,6 @@ Let's define our `Model` and `Msg` types. `Model` will hold the current state an
 
 open System
 
-
 type Model =
     { current : DateTime }
 
@@ -26,8 +25,10 @@ type Msg =
 This time we'll define the "simple" version of `init` and `update` functions, that don't produce commands:
 *)
 
+open Elmish
+
 let init () =
-    { current = DateTime.Now }
+    { current = DateTime.Now }, Cmd.ofMsg Increment
 
 let update msg model =
     match msg with
