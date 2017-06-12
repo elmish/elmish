@@ -64,16 +64,12 @@ module Program =
         let traceInit (arg:'arg) =
             let initModel,cmd = program.init arg
             Browser.console.log ("New model:", toPlain initModel)
-            if cmd <> Cmd.none then
-                Browser.console.log ("New command:", toPlain cmd)
             initModel,cmd
 
         let traceUpdate msg model =
             Browser.console.log ("New message:", toPlain msg)
             let newModel,cmd = program.update msg model
             Browser.console.log ("Updated:", toPlain newModel)
-            if cmd <> Cmd.none then
-                Browser.console.log ("New command:", toPlain cmd)
             newModel,cmd
 
         { program with
