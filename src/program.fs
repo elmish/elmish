@@ -61,10 +61,24 @@ module Program =
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
         let inline toPlain o = toJson o |> JS.JSON.parse
-        let trace text msg model =
-            Browser.console.log (text, toPlain model, toPlain msg)
-            program.update msg model
-        { program with update = trace "Updating:"}
+        let traceInit (arg:'arg) =
+            let initModel,cmd = program.init arg
+            Browser.console.log ("New model:", toPlain initModel)
+            if cmd <> Cmd.none then
+                Browser.console.log ("New command:", toPlain cmd)
+            initModel,cmd
+
+        let traceUpdate msg model =
+            Browser.console.log ("New message:", toPlain msg)
+            let newModel,cmd = program.update msg model
+            Browser.console.log ("Updated:", toPlain newModel)
+            if cmd <> Cmd.none then
+                Browser.console.log ("New command:", toPlain cmd)
+            newModel,cmd
+
+        { program with
+            init = traceInit 
+            update = traceUpdate }
 
     /// Trace all the messages as they update the model
     let withTrace trace (program: Program<'arg, 'model, 'msg, 'view>) =
