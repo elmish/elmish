@@ -1,3 +1,8 @@
+### 0.9.0
+
+* Releasing using fable 1.x "stable"
+* Console tracing from @forki
+
 ### 0.9.0-beta-9
 
 * Paket!

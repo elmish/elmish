@@ -42,13 +42,14 @@ Now lets define our timer subscription:
 
 *)
 open Elmish
+open Fable.Import.Browser
 
 let timer initial =
-  Cmd.ofSub (fun dispatch -> 
-    let t = new Timers.Timer 1000.
-    t.Elapsed.Subscribe(fun _ -> dispatch (Time DateTime.Now)) |> ignore
-    t.Enabled <- true)
-
+    let sub dispatch = 
+        window.setInterval(fun _ -> 
+            dispatch (Tick DateTime.Now)
+            , 1000) |> ignore
+    Cmd.ofSub sub
 
 Program.mkSimple init update (fun model _ -> printf "%A\n" model)
 |> Program.withSubscription timer
