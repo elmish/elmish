@@ -1,3 +1,8 @@
+### 0.9.1
+
+* packaging fix: Console.WriteLine replaced with console, as commited
+* Fable 1.1.3 dependency
+
 ### 0.9.0
 
 * Releasing using fable 1.x "stable"
