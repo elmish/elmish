@@ -19,7 +19,7 @@ type Model =
     { current : DateTime }
 
 type Msg = 
-    | Time of DateTime
+    | Tick of DateTime
 
 
 (** 
@@ -31,7 +31,7 @@ let init () =
 
 let update msg model =
     match msg with
-    | Time current ->
+    | Tick current ->
         { model with current = current }
 
 (** 
@@ -61,3 +61,75 @@ In this example program initialization will call our subscriber (once) with init
 However, any time you need to issue a message (for example from a callback) you can use `Cmd.ofSub`.
 *)
 
+(** 
+### Aggregating multiple subscribers
+If you need to aggregate multiple subscriptions follow the same pattern as when implementing `init`, `update`, and `view` functions - delegate to child components to setup their own subscriptions.
+
+For example:
+*)
+
+module Second =
+    type Msg =
+        | Second of int
+    
+    type Model = int
+
+    let subscribe initial =
+        let sub dispatch = 
+            window.setInterval(fun _ -> 
+                dispatch (Second DateTime.Now.Second)
+                , 1000) |> ignore
+        Cmd.ofSub sub
+
+    let init () =
+        0
+
+    let update (Second seconds) model =
+        seconds
+
+module Hour =
+    type Msg =
+        | Hour of int
+
+    type Model = int
+
+    let init () =
+        0
+
+    let update (Hour hours) model =
+        hours
+
+    let subscribe initial =
+        let sub dispatch = 
+            window.setInterval(fun _ -> 
+                dispatch (Hour DateTime.Now.Hour)
+                , 1000*60) |> ignore
+        Cmd.ofSub sub
+
+module App =
+    type Model =
+        { seconds : Second.Model
+          hours : Hour.Model }
+
+    type Msg = 
+        | SecondMsg of Second.Msg
+        | HourMsg of Hour.Msg
+
+    let init () =
+        { seconds = Second.init()
+          hours = Hour.init() }
+
+    let update msg model =
+        match msg with
+        | HourMsg msg -> 
+            { model with hours = Hour.update msg model.hours }
+        | SecondMsg msg -> 
+            { model with seconds = Second.update msg model.seconds }
+
+    let subscription model =
+        Cmd.batch [ Cmd.map HourMsg (Hour.subscribe model.hours)
+                    Cmd.map SecondMsg (Second.subscribe model.seconds) ]
+
+    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    |> Program.withSubscription subscription
+    |> Program.run

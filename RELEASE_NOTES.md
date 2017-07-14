@@ -1,3 +1,8 @@
+### 0.9.2
+
+* `withErrorHandler` modifier 
+* cumulative `withSubscription`
+
 ### 0.9.1
 
 * packaging fix: Console.WriteLine replaced with console, as commited

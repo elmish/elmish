@@ -28,7 +28,7 @@ module Program =
 
     let internal onError (text: string, ex: exn) = console.error (text,ex)
 
-    /// Typical program, produces new commands as part of init() and update() as well as the new model.
+    /// Typical program, new commands are produced by `init` and `update` along with the new state.
     let mkProgram 
         (init : 'arg -> 'model * Cmd<'msg>) 
         (update : 'msg -> 'model -> 'model * Cmd<'msg>)
@@ -40,8 +40,7 @@ module Program =
           subscribe = fun _ -> Cmd.none
           onError = onError }
 
-    /// Simple program that produces only new model in init() and update().
-    /// Good for tutorials
+    /// Simple program that produces only new state with `init` and `update`.
     let mkSimple 
         (init : 'arg -> 'model) 
         (update : 'msg -> 'model -> 'model)
@@ -54,22 +53,25 @@ module Program =
           onError = onError }
 
     /// Subscribe to external source of events.
-    /// The subscriptions are called once - with the initial model, but can call dispatch whenever they need.
+    /// The subscription is called once - with the initial model, but can dispatch new messages at any time.
     let withSubscription (subscribe : 'model -> Cmd<'msg>) (program: Program<'arg, 'model, 'msg, 'view>) =
-        { program with subscribe = subscribe }
+        let sub model =
+            Cmd.batch [ program.subscribe model
+                        subscribe model ]
+        { program with subscribe = sub }
 
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
         let inline toPlain o = toJson o |> JSON.parse
         let traceInit (arg:'arg) =
             let initModel,cmd = program.init arg
-            console.log ("New model:", toPlain initModel)
+            console.log ("Initial state:", toPlain initModel)
             initModel,cmd
 
         let traceUpdate msg model =
             console.log ("New message:", toPlain msg)
             let newModel,cmd = program.update msg model
-            console.log ("Updated:", toPlain newModel)
+            console.log ("Updated state:", toPlain newModel)
             newModel,cmd
 
         { program with
@@ -80,6 +82,11 @@ module Program =
     let withTrace trace (program: Program<'arg, 'model, 'msg, 'view>) =
         { program
             with update = fun msg model -> trace msg model; program.update msg model}
+
+    /// Handle dispatch loop exceptions
+    let withErrorHandler onError (program: Program<'arg, 'model, 'msg, 'view>) =
+        { program
+            with onError = onError }
 
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
