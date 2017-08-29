@@ -1,3 +1,7 @@
+### 1.0.0
+
+* dotnet 2.0 SDK build
+
 ### 0.9.2
 
 * `withErrorHandler` modifier 
