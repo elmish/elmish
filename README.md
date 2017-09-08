@@ -17,7 +17,7 @@ See the [docs site](https://fable-elmish.github.io/elmish/) for more information
 
 Using Elmish
 ------
-v0.9 release of Elmish targets Fable 1.x and uses `dotnet` SDK and can be installed with `paket`:
+v0.9 and above releases of Elmish target Fable 1.x and use `dotnet` SDK and can be installed with `paket`:
 
 `paket add nuget Fable.Elmish -i`
 
