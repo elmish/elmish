@@ -29,10 +29,10 @@ module Counter =
     let update msg model =
         match msg with
         | Increment -> 
-            { model with count = model.count + 1 }, [] // [] is synonymous with Cmd.none
+            { model with count = model.count + 1 }, Cmd.none
         
         | Decrement -> 
-            { model with count = model.count - 1 }, []
+            { model with count = model.count - 1 }, Cmd.none
 
 
 (** 
