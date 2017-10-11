@@ -2,6 +2,9 @@
   <!-- Prevent dotnet template engine to parse this file -->
   <!--/-:cnd:noEmit-->
   <PropertyGroup>
+    <!-- make MSBuild track this file for incremental builds. -->
+    <!-- ref https://blogs.msdn.microsoft.com/msbuild/2005/09/26/how-to-ensure-changes-to-a-custom-target-file-prompt-a-rebuild/ -->
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <!-- Mark that this target file has been loaded.  -->
     <IsPaketRestoreTargetsFileLoaded>true</IsPaketRestoreTargetsFileLoaded>
     <PaketToolsPath>$(MSBuildThisFileDirectory)</PaketToolsPath>
@@ -32,6 +35,7 @@
     <!-- Step 1 Check if lockfile is properly restored -->
     <PropertyGroup>
       <PaketRestoreRequired>true</PaketRestoreRequired>
+      <NoWarn>$(NoWarn);NU1603</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="Exists('$(PaketRestoreCacheFile)') ">
@@ -80,7 +84,7 @@
     </PropertyGroup>
 
     <!-- Step 3 Restore project specific stuff if required -->
-    <Warning Condition=" '$(PaketRestoreRequired)' == 'true' "  Text="Detected a change ('$(PaketRestoreRequiredReason)') in the project file '$(MSBuildProjectFullPath)', calling paket restore" />
+    <Message Condition=" '$(PaketRestoreRequired)' == 'true' " Importance="low" Text="Detected a change ('$(PaketRestoreRequiredReason)') in the project file '$(MSBuildProjectFullPath)', calling paket restore" />
     <Exec Command='$(PaketCommand) restore --project "$(MSBuildProjectFullPath)"' Condition=" '$(PaketRestoreRequired)' == 'true' " ContinueOnError="false" />
 
     <!-- This shouldn't actually happen, but just to be sure. -->
