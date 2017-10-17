@@ -97,14 +97,16 @@ module Program =
             let rec loop (state:'model) =
                 async {
                     let! msg = mb.Receive()
-                    try
-                        let (model',cmd') = program.update msg state
-                        program.setState model' mb.Post
-                        cmd' |> List.iter (fun sub -> sub mb.Post)
-                        return! loop model'
-                    with ex ->
-                        program.onError ("Unable to process a message:", ex)
-                        return! loop state
+                    let newState =
+                        try
+                            let (model',cmd') = program.update msg state
+                            program.setState model' mb.Post
+                            cmd' |> List.iter (fun sub -> sub mb.Post)
+                            model'
+                        with ex ->
+                            program.onError ("Unable to process a message:", ex)
+                            state
+                    return! loop newState
                 }
             loop model
         )
