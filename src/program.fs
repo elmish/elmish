@@ -23,10 +23,11 @@ type Program<'arg, 'model, 'msg, 'view> = {
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
-    open Fable.Core.JsInterop
-    open Fable.Import.JS
+    let internal onError (text: string, ex: exn) =
+        Console.Error.WriteLine("{0} {1}", text, ex)
 
-    let internal onError (text: string, ex: exn) = console.error (text,ex)
+    let internal write text (o : #obj) =
+        Console.WriteLine("{0}: {1}", text, o)
 
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
     let mkProgram
@@ -62,16 +63,15 @@ module Program =
 
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
-        let inline toPlain o = toJson o |> JSON.parse
         let traceInit (arg:'arg) =
             let initModel,cmd = program.init arg
-            console.log ("Initial state:", toPlain initModel)
+            write "Initial state" initModel
             initModel,cmd
 
         let traceUpdate msg model =
-            console.log ("New message:", toPlain msg)
+            write "New message" msg
             let newModel,cmd = program.update msg model
-            console.log ("Updated state:", toPlain newModel)
+            write "Updated state" newModel
             newModel,cmd
 
         { program with
