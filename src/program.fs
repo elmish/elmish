@@ -29,8 +29,8 @@ module Program =
     let internal onError (text: string, ex: exn) = console.error (text,ex)
 
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
-    let mkProgram 
-        (init : 'arg -> 'model * Cmd<'msg>) 
+    let mkProgram
+        (init : 'arg -> 'model * Cmd<'msg>)
         (update : 'msg -> 'model -> 'model * Cmd<'msg>)
         (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init
@@ -41,8 +41,8 @@ module Program =
           onError = onError }
 
     /// Simple program that produces only new state with `init` and `update`.
-    let mkSimple 
-        (init : 'arg -> 'model) 
+    let mkSimple
+        (init : 'arg -> 'model)
         (update : 'msg -> 'model -> 'model)
         (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init >> fun state -> state,Cmd.none
@@ -75,7 +75,7 @@ module Program =
             newModel,cmd
 
         { program with
-            init = traceInit 
+            init = traceInit
             update = traceUpdate }
 
     /// Trace all the messages as they update the model

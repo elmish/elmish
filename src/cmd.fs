@@ -90,9 +90,9 @@ module Cmd =
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
-    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>) 
-                  (arg:'a) 
-                  (ofSuccess: _ -> 'msg) 
+    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>)
+                  (arg:'a)
+                  (ofSuccess: _ -> 'msg)
                   (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             task arg
