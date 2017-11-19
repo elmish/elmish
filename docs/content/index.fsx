@@ -25,10 +25,10 @@ Elm architecture operates using the following concepts, as they translate to Elm
   This is a carrier of instructions, that when evaluated may produce one or more messages.
 
 * **Init** <br />
-  This is a pure function that produces the inital state of your application and, optionally, commands(s) to process.
+  This is a pure function that produces the inital state of your application and, optionally, commands to process.
 
 * **Update** <br />
-  This is a pure function that produces a new state of your application given the previous state and, optionally, new commands(s) to process.
+  This is a pure function that produces a new state of your application given the previous state and, optionally, new commands to process.
 
 * **View** <br />
   This is a pure function that produces a new UI layout/content given the current state, defined as an F# function that uses a renderer (such as React) to declaratively build a UI.
@@ -93,8 +93,8 @@ As with any message dispatch, in the case of Parent-Child composition, child com
 ![cmd](https://www.elm-tutorial.org/en-v01/03-subs-cmds/02-commands.png)
 
 1. `Program` calls the `Main.update` with a message
-2. `Main.update` does itsown update and/or delegates to `Child.update`
-3. `Child.update` does itsown update and/or delegates to `GrandChild.update`
+2. `Main.update` does its own update and/or delegates to `Child.update`
+3. `Child.update` does its own update and/or delegates to `GrandChild.update`
 4. `GrandChild.update` returns with its model and `Cmd` (of GrandChild message type)
 5. `Child.update` processes GrandChild's model and maps its `Cmd` into `Cmd` of Child's message type and batches it with its own `Cmd`, if any
 6. `Main.update` processes Child's model and maps its `Cmd` into `Cmd` of Main's message type and batches it with its own `Cmd`, if any
