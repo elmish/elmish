@@ -54,11 +54,11 @@ This is a carrier of instructions, that when evaluated may produce one or more m
 </li>
 <li>
 <p><strong>Init</strong> <br />
-This is a pure function that produces the inital state of your application and, optionally, commands(s) to process.</p>
+This is a pure function that produces the inital state of your application and, optionally, commands to process.</p>
 </li>
 <li>
 <p><strong>Update</strong> <br />
-This is a pure function that produces a new state of your application given the previous state and, optionally, new commands(s) to process.</p>
+This is a pure function that produces a new state of your application given the previous state and, optionally, new commands to process.</p>
 </li>
 <li>
 <p><strong>View</strong> <br />
@@ -105,8 +105,8 @@ As with any message dispatch, in the case of Parent-Child composition, child com
 <p><img src="https://www.elm-tutorial.org/en-v01/03-subs-cmds/02-commands.png" alt="cmd" /></p>
 <ol>
 <li><code>Program</code> calls the <code>Main.update</code> with a message</li>
-<li><code>Main.update</code> does itsown update and/or delegates to <code>Child.update</code></li>
-<li><code>Child.update</code> does itsown update and/or delegates to <code>GrandChild.update</code></li>
+<li><code>Main.update</code> does its own update and/or delegates to <code>Child.update</code></li>
+<li><code>Child.update</code> does its own update and/or delegates to <code>GrandChild.update</code></li>
 <li><code>GrandChild.update</code> returns with its model and <code>Cmd</code> (of GrandChild message type)</li>
 <li><code>Child.update</code> processes GrandChild's model and maps its <code>Cmd</code> into <code>Cmd</code> of Child's message type and batches it with its own <code>Cmd</code>, if any</li>
 <li><code>Main.update</code> processes Child's model and maps its <code>Cmd</code> into <code>Cmd</code> of Main's message type and batches it with its own <code>Cmd</code>, if any</li>
