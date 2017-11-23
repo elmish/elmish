@@ -105,20 +105,27 @@ module Program =
             let rec loop (state:'model) =
                 async {
                     let! msg = mb.Receive()
-                    try
-                        let (model',cmd') = program.update msg state
-                        program.setState model' mb.Post
-                        cmd' |> List.iter (fun sub -> sub mb.Post)
-                        return! loop model'
-                    with ex ->
-                        program.onError ("Unable to process a message:", ex)
-                        return! loop state
+                    let newState =
+                        try
+                            let (model',cmd') = program.update msg state
+                            program.setState model' mb.Post
+                            cmd' |> List.iter (fun sub -> sub mb.Post)
+                            model'
+                        with ex ->
+                            program.onError ("Unable to process a message:", ex)
+                            state
+                    return! loop newState
                 }
             loop model
         )
         program.setState model inbox.Post
-        program.subscribe model
-        @ cmd |> List.iter (fun sub -> sub inbox.Post)
+        let sub = 
+            try 
+                program.subscribe model 
+            with ex ->
+                program.onError ("Unable to subscribe:", ex)
+                Cmd.none
+        sub @ cmd |> List.iter (fun sub -> sub inbox.Post)
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program

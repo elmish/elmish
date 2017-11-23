@@ -1,3 +1,7 @@
+### 1.0.1
+
+* handle exceptions raising from initial subscription
+
 ### 1.0.0
 
 * dotnet 2.0 SDK build
