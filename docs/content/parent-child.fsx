@@ -1,5 +1,5 @@
 (*** hide ***)
-// This block of code is omitted in the generated HTML documentation. Use 
+// This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
 #I "../../src/bin/Debug/netstandard1.6"
 #r "Fable.Elmish.dll"
@@ -28,14 +28,14 @@ module Counter =
 
     let update msg model =
         match msg with
-        | Increment -> 
+        | Increment ->
             { model with count = model.count + 1 }, Cmd.none
-        
-        | Decrement -> 
+
+        | Decrement ->
             { model with count = model.count - 1 }, Cmd.none
 
 
-(** 
+(**
 Now we'll define types to hold two counters `top` and `bottom`, and message cases for each counter instance:
 *)
 
@@ -48,7 +48,7 @@ type Msg =
   | Top of Counter.Msg
   | Bottom of Counter.Msg
 
-(** 
+(**
 And our initialization logic, where we ask for two counters to be initialized:
 *)
 
@@ -56,15 +56,15 @@ let init() =
     let top, topCmd = Counter.init()
     let bottom, bottomCmd = Counter.init()
     { top = top
-      bottom = bottom }, 
+      bottom = bottom },
     Cmd.batch [ Cmd.map Top topCmd
                 Cmd.map Bottom bottomCmd ]
 
-(** 
+(**
 `Cmd.map` is used to "elevate" the Counter message into the container type, using corresponding `Top`/`Bottom` case constructors as the mapping function.
 We batch the commands together to produce a single command for our entire container.
 
-Note that even though we've implemented the counter as not issuing any commands, 
+Note that even though we've implemented the counter as not issuing any commands,
 in a real application we still may want to map the commands to facilitate encapsulation - if at any point the child does emit some messages, we'll be in a position to handle them correctly.
 
 And finally our update function:
@@ -73,11 +73,11 @@ And finally our update function:
 
 let update msg model : Model * Cmd<Msg> =
   match msg with
-  | Reset -> 
+  | Reset ->
     let top, topCmd = Counter.init()
     let bottom, bottomCmd = Counter.init()
     { top = top
-      bottom = bottom }, 
+      bottom = bottom },
     Cmd.batch [ Cmd.map Top topCmd
                 Cmd.map Bottom bottomCmd ]
   | Top msg' ->
@@ -89,19 +89,19 @@ let update msg model : Model * Cmd<Msg> =
     { model with bottom = res }, Cmd.map Bottom cmd
 
 
-(** 
+(**
 Here we see how pattern matching is used to extract counter message from `Top` and `Bottom` cases into `msg'` and it's routed to the appropriate child.
 And again, we map the command issued by the child back to the container `Msg` type.
 
 This may seem like a lot of work, but what we've done is recruited the compiler to make sure that our parent-child relationship is correctly established!
 *)
 
-(** 
+(**
 And finally, we execute this as an Elmish program:
 
 *)
 
-Program.mkProgram init update (fun model _ -> printf "%A\n" model)
+Program.mkProgram init update (fun _ model -> printf "%A\n" model)
 |> Program.run
 
 
