@@ -29,8 +29,8 @@ module Program =
     let internal onError (text: string, ex: exn) = console.error (text,ex)
     let internal logOnConsole(text: string, o: obj) = console.log(text, toJson o |> JSON.parse)
 
-    [<Emit("undefined")>]
-    let private undefined<'a> (): 'a = failwith "JS Only"
+    [<Emit("$0==$1")>]
+    let private weakEqual a b = jsNative
 #elseif NETSTANDARD2_0
     let internal onError (text: string, ex: exn) = System.Diagnostics.Trace.TraceError("{0}: {1}", text, ex)
     let internal logOnConsole(text: string, o: obj) = printfn "%s: %A" text o
@@ -108,7 +108,7 @@ module Program =
     type private CachedValue<'a>() =
         [<DefaultValue>] val mutable Value:'a
         member this.SetValue(generator: unit ->'a) =
-            if obj.ReferenceEquals(this.Value, undefined<'a>()) then
+            if weakEqual this.Value null then
                 this.Value <- generator ()
 #else
     type private CachedValue<'a>() =
