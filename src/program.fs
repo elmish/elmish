@@ -21,11 +21,23 @@ type Program<'arg, 'model, 'msg, 'view> = {
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
+#if FABLE
     open Fable.Core
     open Fable.Core.JsInterop
     open Fable.Import.JS
 
     let internal onError (text: string, ex: exn) = console.error (text,ex)
+    let internal logOnConsole(text: string, o: obj) = console.log(text, toJson o |> JSON.parse)
+
+    [<Emit("undefined")>]
+    let private undefined<'a> (): 'a = failwith "JS Only"
+#elseif NETSTANDARD2_0
+    let internal onError (text: string, ex: exn) = System.Diagnostics.Trace.TraceError("{0}: {1}", text, ex)
+    let internal logOnConsole(text: string, o: obj) = printfn "%s: %A" text o
+#else
+    let internal onError (text: string, ex: exn) = System.Console.Error.WriteLine("{0}: {1}", text, ex)
+    let internal logOnConsole(text: string, o: obj) = printfn "%s: %A" text o
+#endif
 
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
     let mkProgram
@@ -67,16 +79,15 @@ module Program =
 
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
-        let inline toPlain o = toJson o |> JSON.parse
         let traceInit (arg:'arg) =
             let initModel,cmd = program.init arg
-            console.log ("Initial state:", toPlain initModel)
+            logOnConsole ("Initial state:", initModel)
             initModel,cmd
 
         let traceUpdate msg model =
-            console.log ("New message:", toPlain msg)
+            logOnConsole ("New message:", msg)
             let newModel,cmd = program.update msg model
-            console.log ("Updated state:", toPlain newModel)
+            logOnConsole ("Updated state:", newModel)
             newModel,cmd
 
         { program with
@@ -93,24 +104,38 @@ module Program =
         { program
             with onError = onError }
 
-    [<Emit("undefined")>]
-    let private undefined<'a> (): 'a = failwith "JS Only"
+#if FABLE
+    type private CachedValue<'a>() =
+        [<DefaultValue>] val mutable Value:'a
+        member this.SetValue(generator: unit ->'a) =
+            if obj.ReferenceEquals(this.Value, undefined<'a>()) then
+                this.Value <- generator ()
+#else
+    type private CachedValue<'a>() =
+        let lockObject = obj()
+        [<DefaultValue>] val mutable Value:'a
+        member this.SetValue(generator: unit ->'a) =
+            lock lockObject (fun () ->
+                if (obj.ReferenceEquals(this.Value, Unchecked.defaultof<'a>)) then
+                    this.Value <- generator ()
+            )
+#endif
 
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
-        let mutable setState = undefined()
+        let setStateCache = CachedValue<'model -> unit>()
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
-            setState <- program.setState mb.Post
+            setStateCache.SetValue(fun () -> program.setState mb.Post)
             let rec loop (state:'model) =
                 async {
                     let! msg = mb.Receive()
                     let newState =
                         try
                             let (model',cmd') = program.update msg state
-                            setState model'
+                            setStateCache.Value model'
                             cmd' |> List.iter (fun sub -> sub mb.Post)
                             model'
                         with ex ->
@@ -120,7 +145,8 @@ module Program =
                 }
             loop model
         )
-        setState model
+        setStateCache.SetValue(fun () -> program.setState inbox.Post)
+        setStateCache.Value model
         let sub =
             try
                 program.subscribe model
