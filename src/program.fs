@@ -7,15 +7,13 @@ Core abstractions for creating and running the dispatch loop.
 
 namespace Elmish
 
-open System
-
 /// Program type captures various aspects of program behavior
 type Program<'arg, 'model, 'msg, 'view> = {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
-    view : 'model -> Dispatch<'msg> -> 'view
-    setState : 'model -> Dispatch<'msg> -> unit
+    view : Dispatch<'msg> -> 'model -> 'view
+    setState : Dispatch<'msg> -> 'model -> unit
     onError : (string*exn) -> unit
 }
 
@@ -23,32 +21,39 @@ type Program<'arg, 'model, 'msg, 'view> = {
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
+    open Fable.Core
     open Fable.Core.JsInterop
     open Fable.Import.JS
 
     let internal onError (text: string, ex: exn) = console.error (text,ex)
 
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
-    let mkProgram 
-        (init : 'arg -> 'model * Cmd<'msg>) 
+    let mkProgram
+        (init : 'arg -> 'model * Cmd<'msg>)
         (update : 'msg -> 'model -> 'model * Cmd<'msg>)
-        (view : 'model -> Dispatch<'msg> -> 'view) =
+        (view : Dispatch<'msg> -> 'model -> 'view) =
         { init = init
           update = update
           view = view
-          setState = fun model -> view model >> ignore
+          setState = fun dispatch ->
+            let viewWithDispatch = view dispatch
+            fun model ->
+                viewWithDispatch model |> ignore
           subscribe = fun _ -> Cmd.none
           onError = onError }
 
     /// Simple program that produces only new state with `init` and `update`.
-    let mkSimple 
-        (init : 'arg -> 'model) 
+    let mkSimple
+        (init : 'arg -> 'model)
         (update : 'msg -> 'model -> 'model)
-        (view : 'model -> Dispatch<'msg> -> 'view) =
+        (view : Dispatch<'msg> -> 'model -> 'view) =
         { init = init >> fun state -> state,Cmd.none
           update = fun msg -> update msg >> fun state -> state,Cmd.none
           view = view
-          setState = fun model -> view model >> ignore
+          setState = fun dispatch ->
+            let viewWithDispatch = view dispatch
+            fun model ->
+                viewWithDispatch model |> ignore
           subscribe = fun _ -> Cmd.none
           onError = onError }
 
@@ -75,7 +80,7 @@ module Program =
             newModel,cmd
 
         { program with
-            init = traceInit 
+            init = traceInit
             update = traceUpdate }
 
     /// Trace all the messages as they update the model
@@ -88,19 +93,24 @@ module Program =
         { program
             with onError = onError }
 
+    [<Emit("undefined")>]
+    let private undefined<'a> (): 'a = failwith "JS Only"
+
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
+        let mutable setState = undefined()
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
+            setState <- program.setState mb.Post
             let rec loop (state:'model) =
                 async {
                     let! msg = mb.Receive()
                     let newState =
                         try
                             let (model',cmd') = program.update msg state
-                            program.setState model' mb.Post
+                            setState model'
                             cmd' |> List.iter (fun sub -> sub mb.Post)
                             model'
                         with ex ->
@@ -110,10 +120,10 @@ module Program =
                 }
             loop model
         )
-        program.setState model inbox.Post
-        let sub = 
-            try 
-                program.subscribe model 
+        setState model
+        let sub =
+            try
+                program.subscribe model
             with ex ->
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
@@ -121,4 +131,3 @@ module Program =
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program
-
