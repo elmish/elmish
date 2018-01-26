@@ -31,12 +31,14 @@ module Program =
 
     [<Emit("$0==$1")>]
     let private weakEqual a b = jsNative
-#elseif NETSTANDARD2_0
+#else
+#if NETSTANDARD2_0
     let internal onError (text: string, ex: exn) = System.Diagnostics.Trace.TraceError("{0}: {1}", text, ex)
     let internal logOnConsole(text: string, o: obj) = printfn "%s: %A" text o
 #else
     let internal onError (text: string, ex: exn) = System.Console.Error.WriteLine("{0}: {1}", text, ex)
     let internal logOnConsole(text: string, o: obj) = printfn "%s: %A" text o
+#endif
 #endif
 
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
