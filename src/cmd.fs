@@ -85,7 +85,7 @@ module Cmd =
     let ofSub (sub: Sub<'msg>) : Cmd<'msg> =
         [sub]
 
-#if FABLE
+#if FABLE_COMPILER
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
