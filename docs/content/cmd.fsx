@@ -15,8 +15,6 @@ Core abstractions for dispatching messages in Elmish.
 
 namespace Elmish
 
-open System
-
 /// Dispatch - feed new message into the processing loop
 type Dispatch<'msg> = 'msg -> unit
 
@@ -47,9 +45,9 @@ module Cmd =
 
     /// Command that will evaluate an async block and map the result
     /// into success or error (of exception)
-    let ofAsync (task: 'a -> Async<_>) 
-                (arg: 'a) 
-                (ofSuccess: _ -> 'msg) 
+    let ofAsync (task: 'a -> Async<_>)
+                (arg: 'a)
+                (ofSuccess: _ -> 'msg)
                 (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             async {
@@ -98,9 +96,9 @@ module Cmd =
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
-    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>) 
-                  (arg:'a) 
-                  (ofSuccess: _ -> 'msg) 
+    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>)
+                  (arg:'a)
+                  (ofSuccess: _ -> 'msg)
                   (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             task arg

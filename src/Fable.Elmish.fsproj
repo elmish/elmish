@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DefineConstants>$(DefineConstants);FABLE_COMPILER</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="cmd.fs" />
