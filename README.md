@@ -4,7 +4,8 @@ Elmish: Elm-like abstractions for F# applications targeting Fable.
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-compiler/Fable)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/c8k7a67evgci6ama?svg=true)](https://ci.appveyor.com/project/et1975/elmish)
 [![Mono Build Status](https://travis-ci.org/fable-elmish/elmish.svg "Mono Build Status")](https://travis-ci.org/fable-elmish/elmish)
-[![NuGet version](https://badge.fury.io/nu/Fable.Elmish.svg)](https://badge.fury.io/nu/Fable.Elmish)
+[![Fable package]](https://badge.fury.io/nu/Fable.Elmish.svg)](https://badge.fury.io/nu/Fable.Elmish)
+[![NetCore package](https://badge.fury.io/nu/Elmish.svg)](https://badge.fury.io/nu/Elmish)
 
 Elmish implements core abstractions that can be used to build applications following the [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
 The library however does not model any "view" and is intended for use in conjuction with a DOM/renderer, like React/ReactNative or VirtualDOM.
@@ -18,10 +19,12 @@ See the [docs site](https://fable-elmish.github.io/elmish/) for more information
 
 Using Elmish
 ------
-v0.9 and above releases of Elmish target Fable 1.x and use `dotnet` SDK and can be installed with `paket`:
+v2.x releases of Elmish target both Fable 1.x and netstandard2.0 and can be installed with `paket`:
 
-`paket add nuget Fable.Elmish -i`
+* `paket add nuget Fable.Elmish -i` for Fable package or 
+* `paket add nuget Elmish -i` for NetStandard2.0
 
+For v1.x release information please see the [v1.x branch](https://github.com/fable-elmish/elmish/tree/v1.x)
 For v0.8 release information please see the [v0.8.x branch](https://github.com/fable-elmish/elmish/tree/v0.8.x)
 
 

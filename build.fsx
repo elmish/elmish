@@ -13,6 +13,7 @@ open Fake.Git
 // Filesets
 let projects  =
       !! "src/**.fsproj"
+      ++ "netstandard/**.fsproj"
 
 
 let dotnetcliVersion = "2.0.0"
@@ -30,6 +31,8 @@ Target "InstallDotNetCore" (fun _ ->
 Target "Clean" (fun _ ->
     CleanDir "src/obj"
     CleanDir "src/bin"
+    CleanDir "netstandard/obj"
+    CleanDir "netstandard/bin"
 )
 
 Target "Install" (fun _ ->
@@ -52,7 +55,6 @@ let release = LoadReleaseNotes "RELEASE_NOTES.md"
 Target "Meta" (fun _ ->
     [ "<Project xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">"
       "<PropertyGroup>"
-      "<Description>Elmish core for Fable apps</Description>"
       "<PackageProjectUrl>https://github.com/fable-elmish/elmish</PackageProjectUrl>"
       "<PackageLicenseUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/LICENSE.md</PackageLicenseUrl>"
       "<PackageIconUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
@@ -70,11 +72,14 @@ Target "Meta" (fun _ ->
 
 Target "Package" (fun _ ->
     runDotnet "src" "pack"
+    runDotnet "netstandard" "pack"
 )
 
 Target "PublishNuget" (fun _ ->
     let args = sprintf "nuget push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (environVar "nugetkey")
     runDotnet "src/bin/Debug" args
+    let args = sprintf "nuget push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (environVar "nugetkey")
+    runDotnet "netstandard/bin/Debug" args
 )
 
 

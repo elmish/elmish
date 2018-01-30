@@ -21,25 +21,6 @@ type Program<'arg, 'model, 'msg, 'view> = {
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
-#if FABLE
-    open Fable.Core
-    open Fable.Core.JsInterop
-    open Fable.Import.JS
-
-    let internal onError (text: string, ex: exn) = console.error (text,ex)
-    let internal logOnConsole(text: string, o: obj) = console.log(text, toJson o |> JSON.parse)
-
-    [<Emit("$0==$1")>]
-    let private weakEqual a b = jsNative
-#else
-#if NETSTANDARD2_0
-    let internal onError (text: string, ex: exn) = System.Diagnostics.Trace.TraceError("{0}: {1}", text, ex)
-    let internal logOnConsole(text: string, o: obj) = printfn "%s: %A" text o
-#else
-    let internal onError (text: string, ex: exn) = System.Console.Error.WriteLine("{0}: {1}", text, ex)
-    let internal logOnConsole(text: string, o: obj) = printfn "%s: %A" text o
-#endif
-#endif
 
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
     let mkProgram
@@ -54,7 +35,7 @@ module Program =
             fun model ->
                 viewWithDispatch model |> ignore
           subscribe = fun _ -> Cmd.none
-          onError = onError }
+          onError = Log.onError }
 
     /// Simple program that produces only new state with `init` and `update`.
     let mkSimple
@@ -69,7 +50,7 @@ module Program =
             fun model ->
                 viewWithDispatch model |> ignore
           subscribe = fun _ -> Cmd.none
-          onError = onError }
+          onError = Log.onError }
 
     /// Subscribe to external source of events.
     /// The subscription is called once - with the initial model, but can dispatch new messages at any time.
@@ -83,13 +64,13 @@ module Program =
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
         let traceInit (arg:'arg) =
             let initModel,cmd = program.init arg
-            logOnConsole ("Initial state:", initModel)
+            Log.toConsole ("Initial state:", initModel)
             initModel,cmd
 
         let traceUpdate msg model =
-            logOnConsole ("New message:", msg)
+            Log.toConsole ("New message:", msg)
             let newModel,cmd = program.update msg model
-            logOnConsole ("Updated state:", newModel)
+            Log.toConsole ("Updated state:", newModel)
             newModel,cmd
 
         { program with
@@ -106,38 +87,21 @@ module Program =
         { program
             with onError = onError }
 
-#if FABLE
-    type private CachedValue<'a>() =
-        [<DefaultValue>] val mutable Value:'a
-        member this.SetValue(generator: unit ->'a) =
-            if weakEqual this.Value null then
-                this.Value <- generator ()
-#else
-    type private CachedValue<'a>() =
-        let lockObject = obj()
-        [<DefaultValue>] val mutable Value:'a
-        member this.SetValue(generator: unit ->'a) =
-            lock lockObject (fun () ->
-                if (obj.ReferenceEquals(this.Value, Unchecked.defaultof<'a>)) then
-                    this.Value <- generator ()
-            )
-#endif
-
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
-        let setStateCache = CachedValue<'model -> unit>()
+        let setState = Memo.once()
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
-            setStateCache.SetValue(fun () -> program.setState mb.Post)
+            let setState = setState (fun () -> program.setState mb.Post)
             let rec loop (state:'model) =
                 async {
                     let! msg = mb.Receive()
                     let newState =
                         try
                             let (model',cmd') = program.update msg state
-                            setStateCache.Value model'
+                            setState model'
                             cmd' |> List.iter (fun sub -> sub mb.Post)
                             model'
                         with ex ->
@@ -147,8 +111,7 @@ module Program =
                 }
             loop model
         )
-        setStateCache.SetValue(fun () -> program.setState inbox.Post)
-        setStateCache.Value model
+        setState (fun () -> program.setState inbox.Post) model
         let sub =
             try
                 program.subscribe model

@@ -1,3 +1,7 @@
+### 2.0.0-beta-1
+
+* BREAKING: Optimized for views that diff on callbacks (views can now benefit from caching dispatch-derived callback properties)
+
 ### 1.0.1
 
 * handle exceptions raising from initial subscription
