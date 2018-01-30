@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
-#I "../../src/bin/Debug/netstandard1.6"
+#I "../../src/bin/Debug/netstandard2.0"
 #r "Fable.Elmish.dll"
 
 (** Parent-child composition
@@ -26,8 +26,7 @@ module Counter =
         | Increment
         | Decrement
 
-    let update msg model =
-        match msg with
+    let update model = function
         | Increment ->
             { model with count = model.count + 1 }, Cmd.none
 
@@ -71,8 +70,7 @@ And finally our update function:
 *)
 
 
-let update msg model : Model * Cmd<Msg> =
-  match msg with
+let update model : Model * Cmd<Msg> = function
   | Reset ->
     let top, topCmd = Counter.init()
     let bottom, bottomCmd = Counter.init()

@@ -10,7 +10,7 @@ namespace Elmish
 /// Program type captures various aspects of program behavior
 type Program<'arg, 'model, 'msg, 'view> = {
     init : 'arg -> 'model * Cmd<'msg>
-    update : 'msg -> 'model -> 'model * Cmd<'msg>
+    update : 'model -> 'msg -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
     view : Dispatch<'msg> -> 'model -> 'view
     setState : Dispatch<'msg> -> 'model -> unit
@@ -25,7 +25,7 @@ module Program =
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
     let mkProgram
         (init : 'arg -> 'model * Cmd<'msg>)
-        (update : 'msg -> 'model -> 'model * Cmd<'msg>)
+        (update : 'model -> 'msg -> 'model * Cmd<'msg>)
         (view : Dispatch<'msg> -> 'model -> 'view) =
         { init = init
           update = update
@@ -40,7 +40,7 @@ module Program =
     /// Simple program that produces only new state with `init` and `update`.
     let mkSimple
         (init : 'arg -> 'model)
-        (update : 'msg -> 'model -> 'model)
+        (update : 'model -> 'msg -> 'model)
         (view : Dispatch<'msg> -> 'model -> 'view) =
         { init = init >> fun state -> state,Cmd.none
           update = fun msg -> update msg >> fun state -> state,Cmd.none
@@ -100,7 +100,7 @@ module Program =
                     let! msg = mb.Receive()
                     let newState =
                         try
-                            let (model',cmd') = program.update msg state
+                            let (model',cmd') = program.update state msg
                             setState model'
                             cmd' |> List.iter (fun sub -> sub mb.Post)
                             model'

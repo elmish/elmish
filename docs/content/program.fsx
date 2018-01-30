@@ -1,5 +1,5 @@
 ﻿(*** hide ***)
-#I "../../src/bin/Debug/netstandard1.6"
+#I "../../src/bin/Debug/netstandard2.0"
 #r "Fable.Core.dll"
 #r "Fable.PowerPack.dll"
 #r "Fable.Elmish.dll"
@@ -18,7 +18,7 @@ namespace Elmish
 /// Program type captures various aspects of program behavior
 type Program<'arg, 'model, 'msg, 'view> = {
     init : 'arg -> 'model * Cmd<'msg>
-    update : 'msg -> 'model -> 'model * Cmd<'msg>
+    update : 'model -> 'msg -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
     view : Dispatch<'msg> -> 'model -> 'view
     setState : Dispatch<'msg> -> 'model -> unit
@@ -29,16 +29,11 @@ type Program<'arg, 'model, 'msg, 'view> = {
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
-    open Fable.Core
-    open Fable.Core.JsInterop
-    open Fable.Import.JS
-
-    let internal onError (text: string, ex: exn) = console.error (text,ex)
 
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
     let mkProgram
         (init : 'arg -> 'model * Cmd<'msg>)
-        (update : 'msg -> 'model -> 'model * Cmd<'msg>)
+        (update : 'model -> 'msg -> 'model * Cmd<'msg>)
         (view : Dispatch<'msg> -> 'model -> 'view) =
         { init = init
           update = update
@@ -48,12 +43,12 @@ module Program =
             fun model ->
                 viewWithDispatch model |> ignore
           subscribe = fun _ -> Cmd.none
-          onError = onError }
+          onError = Log.onError }
 
     /// Simple program that produces only new state with `init` and `update`.
     let mkSimple
         (init : 'arg -> 'model)
-        (update : 'msg -> 'model -> 'model)
+        (update : 'model -> 'msg -> 'model)
         (view : Dispatch<'msg> -> 'model -> 'view) =
         { init = init >> fun state -> state,Cmd.none
           update = fun msg -> update msg >> fun state -> state,Cmd.none
@@ -63,7 +58,7 @@ module Program =
             fun model ->
                 viewWithDispatch model |> ignore
           subscribe = fun _ -> Cmd.none
-          onError = onError }
+          onError = Log.onError }
 
     /// Subscribe to external source of events.
     /// The subscription is called once - with the initial model, but can dispatch new messages at any time.
@@ -75,16 +70,15 @@ module Program =
 
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
-        let inline toPlain o = toJson o |> JSON.parse
         let traceInit (arg:'arg) =
             let initModel,cmd = program.init arg
-            console.log ("Initial state:", toPlain initModel)
+            Log.toConsole ("Initial state:", initModel)
             initModel,cmd
 
         let traceUpdate msg model =
-            console.log ("New message:", toPlain msg)
+            Log.toConsole ("New message:", msg)
             let newModel,cmd = program.update msg model
-            console.log ("Updated state:", toPlain newModel)
+            Log.toConsole ("Updated state:", newModel)
             newModel,cmd
 
         { program with
@@ -101,23 +95,20 @@ module Program =
         { program
             with onError = onError }
 
-    [<Emit("undefined")>]
-    let private undefined<'a> (): 'a = failwith "JS Only"
-
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
-        let mutable setState = undefined()
+        let setState = Memo.once()
         let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
-            setState <- program.setState mb.Post
+            let setState = setState (fun () -> program.setState mb.Post)
             let rec loop (state:'model) =
                 async {
                     let! msg = mb.Receive()
                     let newState =
                         try
-                            let (model',cmd') = program.update msg state
+                            let (model',cmd') = program.update state msg
                             setState model'
                             cmd' |> List.iter (fun sub -> sub mb.Post)
                             model'
@@ -128,7 +119,7 @@ module Program =
                 }
             loop model
         )
-        setState model
+        setState (fun () -> program.setState inbox.Post) model
         let sub =
             try
                 program.subscribe model

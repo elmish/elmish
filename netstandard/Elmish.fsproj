@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\Meta.props" />
   <PropertyGroup>
-    <Description>Elmish core for NetStandard apps</Description>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Elmish core for .NET apps</Description>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

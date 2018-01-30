@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
-#I "../../src/bin/Debug/netstandard1.6"
+#I "../../src/bin/Debug/netstandard2.0"
 #r "Fable.Elmish.dll"
 
 (** Working with external sources of events
@@ -23,14 +23,13 @@ type Msg =
 
 
 (**
-This time we'll define the "simple" version of `init` and `update` functions, that don't produce commands:
+This time we'll define the "simple" (that don't produce commands) version of `init` and `update` functions:
 *)
 
 let init () =
     { current = DateTime.Now }
 
-let update msg model =
-    match msg with
+let update model = function
     | Tick current ->
         { model with current = current }
 
@@ -84,7 +83,7 @@ module Second =
     let init () =
         0
 
-    let update (Second seconds) model =
+    let update model (Second seconds) =
         seconds
 
 module Hour =
@@ -96,7 +95,7 @@ module Hour =
     let init () =
         0
 
-    let update (Hour hours) model =
+    let update model (Hour hours) =
         hours
 
     let subscribe initial =
@@ -119,12 +118,11 @@ module App =
         { seconds = Second.init()
           hours = Hour.init() }
 
-    let update msg model =
-        match msg with
+    let update model = function
         | HourMsg msg ->
-            { model with hours = Hour.update msg model.hours }
+            { model with hours = Hour.update model.hours msg }
         | SecondMsg msg ->
-            { model with seconds = Second.update msg model.seconds }
+            { model with seconds = Second.update model.seconds msg }
 
     let subscription model =
         Cmd.batch [ Cmd.map HourMsg (Hour.subscribe model.hours)

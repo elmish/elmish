@@ -1,7 +1,7 @@
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use 
 // it to define helpers that you do not want to show in the documentation.
-#I "../../src/bin/Debug/netstandard1.6"
+#I "../../src/bin/Debug/netstandard2.0"
 #r "Fable.Elmish.dll"
 
 (** Elmish
@@ -9,7 +9,7 @@
 >`-ish` <br />
 >  a suffix used to convey the sense of “having some characteristics of”
 
-Elmish implements core abstractions that can be used to build Fable applications following the [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
+Elmish implements core abstractions that can be used to build applications following the [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
 
 
 The goal of the architecture is to provide a solid UI-independent core to build the rest of the functionality around.
