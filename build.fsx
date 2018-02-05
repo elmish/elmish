@@ -16,7 +16,7 @@ let projects  =
       ++ "netstandard/**.fsproj"
 
 
-let dotnetcliVersion = "2.0.0"
+let dotnetcliVersion = DotNetCli.GetDotNetSDKVersionFromGlobalJson()
 
 let mutable dotnetExePath = "dotnet"
 
@@ -37,7 +37,7 @@ Target "Clean" (fun _ ->
 
 Target "Install" (fun _ ->
     projects
-    |> Seq.iter (fun s -> 
+    |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
         runDotnet dir "restore"
     )
@@ -45,7 +45,7 @@ Target "Install" (fun _ ->
 
 Target "Build" (fun _ ->
     projects
-    |> Seq.iter (fun s -> 
+    |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
         runDotnet dir "build")
 )
@@ -60,7 +60,7 @@ Target "Meta" (fun _ ->
       "<PackageIconUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
       "<RepositoryUrl>https://github.com/fable-elmish/elmish.git</RepositoryUrl>"
       "<PackageTags>fable;elm;fsharp</PackageTags>"
-      "<Authors>Eugene Tolmachev</Authors>" 
+      "<Authors>Eugene Tolmachev</Authors>"
       sprintf "<Version>%s</Version>" (string release.SemVer)
       "</PropertyGroup>"
       "</Project>"]
@@ -113,7 +113,7 @@ let executeFAKEWithOutput workingDirectory script fsiargs envArgs =
     exitCode
 
 let copyFiles() =
-    let header = 
+    let header =
         splitStr "\n" """(*** hide ***)
 #I "../../src/bin/Debug/netstandard2.0"
 #r "Fable.Core.dll"
@@ -125,8 +125,8 @@ let copyFiles() =
 
     !!"src/*.fs"
     |> Seq.map (fun fn -> ReadFile fn |> Seq.append header, fn)
-    |> Seq.iter (fun (lines,fn) -> 
-        let fsx = Path.Combine("docs/content",Path.ChangeExtension(fn |> Path.GetFileName, "fsx")) 
+    |> Seq.iter (fun (lines,fn) ->
+        let fsx = Path.Combine("docs/content",Path.ChangeExtension(fn |> Path.GetFileName, "fsx"))
         lines |> WriteFile fsx)
 
 // Documentation
@@ -231,7 +231,7 @@ Target "Publish" DoNothing
         "Package"
         "PublishNuget"
         "ReleaseDocs" ]
-  
-  
+
+
 // start build
 RunTargetOrDefault "Build"
