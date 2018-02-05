@@ -2,7 +2,7 @@
   <Import Project="..\Meta.props" />
   <PropertyGroup>
     <Description>Elmish core for .NET apps</Description>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>

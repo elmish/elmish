@@ -115,7 +115,7 @@ let executeFAKEWithOutput workingDirectory script fsiargs envArgs =
 let copyFiles() =
     let header =
         splitStr "\n" """(*** hide ***)
-#I "../../src/bin/Debug/netstandard2.0"
+#I "../../src/bin/Release/netstandard2.0"
 #r "Fable.Core.dll"
 #r "Fable.PowerPack.dll"
 #r "Fable.Elmish.dll"
