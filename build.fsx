@@ -47,7 +47,7 @@ Target "Build" (fun _ ->
     projects
     |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
-        runDotnet dir "build")
+        runDotnet dir "build -c Release /p:SourceLinkCreate=true")
 )
 
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
@@ -71,15 +71,15 @@ Target "Meta" (fun _ ->
 // Build a NuGet package
 
 Target "Package" (fun _ ->
-    runDotnet "src" "pack"
-    runDotnet "netstandard" "pack"
+    runDotnet "src" "pack -c Release"
+    runDotnet "netstandard" "pack -c Release"
 )
 
 Target "PublishNuget" (fun _ ->
     let args = sprintf "nuget push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (environVar "nugetkey")
-    runDotnet "src/bin/Debug" args
+    runDotnet "src/bin/Release" args
     let args = sprintf "nuget push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (environVar "nugetkey")
-    runDotnet "netstandard/bin/Debug" args
+    runDotnet "netstandard/bin/Release" args
 )
 
 
