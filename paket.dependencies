@@ -3,6 +3,7 @@ source https://nuget.org/api/v2
 nuget FSharp.Core  redirects:force, content:none
 nuget Fable.Core
 nuget Fable.PowerPack
+nuget SourceLink.Create.CommandLine copy_local: true
 
 group Build
 framework: net46
