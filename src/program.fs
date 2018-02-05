@@ -67,9 +67,9 @@ module Program =
             Log.toConsole ("Initial state:", initModel)
             initModel,cmd
 
-        let traceUpdate msg model =
+        let traceUpdate model msg =
             Log.toConsole ("New message:", msg)
-            let newModel,cmd = program.update msg model
+            let newModel,cmd = program.update model msg
             Log.toConsole ("Updated state:", newModel)
             newModel,cmd
 
@@ -80,7 +80,7 @@ module Program =
     /// Trace all the messages as they update the model
     let withTrace trace (program: Program<'arg, 'model, 'msg, 'view>) =
         { program
-            with update = fun msg model -> trace msg model; program.update msg model}
+            with update = fun model msg -> trace msg model; program.update model msg}
 
     /// Handle dispatch loop exceptions
     let withErrorHandler onError (program: Program<'arg, 'model, 'msg, 'view>) =
