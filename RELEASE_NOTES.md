@@ -1,4 +1,4 @@
-### 2.0.0-beta-1
+### 2.0.0-beta-2
 
 * BREAKING: Optimized for views that diff on callbacks (views can now benefit from caching dispatch-derived callback properties)
 
