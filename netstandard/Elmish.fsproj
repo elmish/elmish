@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\Meta.props" />
   <PropertyGroup>
     <Description>Elmish core for .NET apps</Description>
-    <TargetFrameworks>netstandard2.0;netstandard1.6;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.6;net461</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -11,4 +10,5 @@
     <Compile Include="../src/program.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
+  <Import Project="netfx.props" />
 </Project>

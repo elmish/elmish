@@ -59,12 +59,13 @@ Target "Meta" (fun _ ->
       "<PackageLicenseUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/LICENSE.md</PackageLicenseUrl>"
       "<PackageIconUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
       "<RepositoryUrl>https://github.com/fable-elmish/elmish.git</RepositoryUrl>"
+      sprintf "<PackageReleaseNotes>%s</PackageReleaseNotes>" (List.head release.Notes)
       "<PackageTags>fable;elm;fsharp</PackageTags>"
       "<Authors>Eugene Tolmachev</Authors>"
       sprintf "<Version>%s</Version>" (string release.SemVer)
       "</PropertyGroup>"
       "</Project>"]
-    |> WriteToFile false "Meta.props"
+    |> WriteToFile false "Directory.Build.props"
 )
 
 // --------------------------------------------------------------------------------------

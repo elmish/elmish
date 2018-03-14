@@ -24,6 +24,6 @@ out
 docs/output
 docs/temp
 
-Meta.props
+Directory.Build.props
 temp
 paket-files
