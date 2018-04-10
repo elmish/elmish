@@ -75,8 +75,8 @@ module Second =
 
     let subscribe initial =
         let sub dispatch =
-            window.setInterval(fun _ ->
-                dispatch (Second DateTime.Now.Second)
+            window.setInterval((fun _ ->
+                dispatch (Second DateTime.Now.Second))
                 , 1000) |> ignore
         Cmd.ofSub sub
 
