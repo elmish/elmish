@@ -3,7 +3,7 @@ Elmish: Elm-like abstractions for F# applications targeting Fable.
 
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-compiler/Fable)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/c8k7a67evgci6ama?svg=true)](https://ci.appveyor.com/project/et1975/elmish)
-[![Mono Build Status](https://travis-ci.org/fable-elmish/elmish.svg "Mono Build Status")](https://travis-ci.org/fable-elmish/elmish)
+[![Mono Build Status](https://travis-ci.org/elmish/elmish.svg "Mono Build Status")](https://travis-ci.org/elmish/elmish)
 [![Fable package](https://badge.fury.io/nu/Fable.Elmish.svg)](https://badge.fury.io/nu/Fable.Elmish)
 [![NetCore package](https://badge.fury.io/nu/Elmish.svg)](https://badge.fury.io/nu/Elmish)
 
@@ -14,7 +14,7 @@ Those familiar with Redux may find Elmish a more natural fit when targeting Reac
 
 Elmish abstractions have been carefully designed to resemble Elm's "look and feel" and anyone familiar with post-Signal Elm terminology will find themselves right at home.
 
-See the [docs site](https://fable-elmish.github.io/elmish/) for more information.
+See the [docs site](https://elmish.github.io/elmish/) for more information.
 
 
 Using Elmish
@@ -24,8 +24,8 @@ v2.x releases of Elmish target both Fable 1.x and netstandard2.0 and can be inst
 * `paket add nuget Fable.Elmish -i` for Fable package or 
 * `paket add nuget Elmish -i` for NetStandard2.0
 
-For v1.x release information please see the [v1.x branch](https://github.com/fable-elmish/elmish/tree/v1.x)
-For v0.8 release information please see the [v0.8.x branch](https://github.com/fable-elmish/elmish/tree/v0.8.x)
+For v1.x release information please see the [v1.x branch](https://github.com/elmish/elmish/tree/v1.x)
+For v0.8 release information please see the [v0.8.x branch](https://github.com/elmish/elmish/tree/v0.8.x)
 
 
 Building Elmish
@@ -39,4 +39,4 @@ Just run fake:
 
 Contributing
 ------
-Please have a look at the [guidelines](https://github.com/fable-elmish/elmish/blob/master/.github/CONTRIBUTING.md).
+Please have a look at the [guidelines](https://github.com/elmish/elmish/blob/master/.github/CONTRIBUTING.md).

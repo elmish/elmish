@@ -55,10 +55,10 @@ let release = LoadReleaseNotes "RELEASE_NOTES.md"
 Target "Meta" (fun _ ->
     [ "<Project xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">"
       "<PropertyGroup>"
-      "<PackageProjectUrl>https://github.com/fable-elmish/elmish</PackageProjectUrl>"
-      "<PackageLicenseUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/LICENSE.md</PackageLicenseUrl>"
-      "<PackageIconUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
-      "<RepositoryUrl>https://github.com/fable-elmish/elmish.git</RepositoryUrl>"
+      "<PackageProjectUrl>https://github.com/elmish/elmish</PackageProjectUrl>"
+      "<PackageLicenseUrl>https://raw.githubusercontent.com/elmish/elmish/master/LICENSE.md</PackageLicenseUrl>"
+      "<PackageIconUrl>https://raw.githubusercontent.com/elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
+      "<RepositoryUrl>https://github.com/elmish/elmish.git</RepositoryUrl>"
       sprintf "<PackageReleaseNotes>%s</PackageReleaseNotes>" (List.head release.Notes)
       "<PackageTags>fable;elm;fsharp</PackageTags>"
       "<Authors>Eugene Tolmachev</Authors>"
@@ -87,7 +87,7 @@ Target "PublishNuget" (fun _ ->
 // --------------------------------------------------------------------------------------
 // Generate the documentation
 let gitName = "elmish"
-let gitOwner = "fable-elmish"
+let gitOwner = "elmish"
 let gitHome = sprintf "https://github.com/%s" gitOwner
 
 let fakePath = "packages" </> "build" </> "FAKE" </> "tools" </> "FAKE.exe"

@@ -35,7 +35,7 @@
 
 ### 0.9.0-beta-5
 
-* BREAKING: Moved browser-specific stuff (navigation, urlparser) to fable-elmish-browser
+* BREAKING: Moved browser-specific stuff (navigation, urlparser) to elmish-browser
 
 ### 0.8.2
 

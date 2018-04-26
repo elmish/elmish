@@ -13,7 +13,7 @@ Please provide the expected and actual results.
 
 ### Related information 
 
-* fable-elmish version:
+* elmish version:
 * fable-compiler version:
 * fable-core version:
 * Operating system:
