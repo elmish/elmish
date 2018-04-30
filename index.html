@@ -5,7 +5,7 @@
     <title>Elmish
 </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Elm-like Cmd and Program modules for Fable apps"/>
+    <meta name="description" content="Elm-like Cmd and Program modules for F# apps"/>
     <meta name="author" content="Eugene Tolmachev"/>
 
     <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
@@ -13,19 +13,19 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="https://fable-elmish.github.io/elmish/content/style_light.css" />
-    <script type="text/javascript" src="https://fable-elmish.github.io/elmish/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://elmish.github.io/elmish/content/style_light.css" />
+    <script type="text/javascript" src="https://elmish.github.io/elmish/content/tips.js"></script>
     <style>span.l { display: none }</style>
   </head>
   <body>
     <div class="container">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li><a href="https://fable-elmish.github.io">fable-elmish</a></li>
+          <li><a href="https://elmish.github.io">elmish</a></li>
           <li><a href="http://fable.io">fable</a></li>
           <li><a href="http://fsharp.org">fsharp.org</a></li>
         </ul>
-        <h3 class="muted"><a href="https://fable-elmish.github.io/elmish/index.html">elmish</a></h3>
+        <h3 class="muted"><a href="https://elmish.github.io/elmish/index.html">elmish</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -121,10 +121,10 @@ These sources can be tapped into with subscriptions, defined as F# functions tha
 <p>The core is independent of any particular technolgy, instead relying on a renderer library to implement <code>setState</code> in any way seen fit.
 In fact, an Elmish app can run entirely without a UI!</p>
 <p>At the moment, there are two UI technologies for which rendering has been implemented: React and React Native.</p>
-<p>For details please see <a href="https://fable-elmish.github.io/react">fable-elmish-react</a>.</p>
+<p>For details please see <a href="https://elmish.github.io/react">elmish-react</a>.</p>
 <h3><a name="Interacting-with-a-browser" class="anchor" href="#Interacting-with-a-browser">Interacting with a browser</a></h3>
 <p>Larger Elmish applications for the browser may benefit from advanced features like routing and explicit navigation control.</p>
-<p>For information about these features please see <a href="https://fable-elmish.github.io/browser">fable-elmish-browser</a>.</p>
+<p>For information about these features please see <a href="https://elmish.github.io/browser">elmish-browser</a>.</p>
 <h3><a name="Observing-the-state-changes" class="anchor" href="#Observing-the-state-changes">Observing the state changes</a></h3>
 <p>Every message going through the dispatch loop can be traced, along with the current state of the app.
 Just augument the program instance with a trace function:</p>
@@ -134,36 +134,32 @@ Just augument the program instance with a trace function:</p>
 <span class="l">4: </span>
 <span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">Elmish</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Elmish</span>
 
-<span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="f">mkSimple</span> <span class="i">init</span> <span class="i">update</span> <span class="i">view</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="f">withConsoleTrace</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs2', 6)" onmouseover="showTip(event, 'fs2', 6)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="f">run</span>
+<span class="i">Program</span><span class="o">.</span><span class="i">mkSimple</span> <span class="i">init</span> <span class="i">update</span> <span class="i">view</span>
+<span class="o">|&gt;</span> <span class="i">Program</span><span class="o">.</span><span class="i">withConsoleTrace</span>
+<span class="o">|&gt;</span> <span class="i">Program</span><span class="o">.</span><span class="i">run</span>
 </code></pre></td>
 </tr>
 </table>
 <p>And start seeing the state and messages as updates happen in the browser developer console.</p>
-<p>For more advanced debugging capabilities please see <a href="https://fable-elmish.github.io/debugger">fable-elmish-debugger</a>.</p>
+<p>For more advanced debugging capabilities please see <a href="https://elmish.github.io/debugger">elmish-debugger</a>.</p>
 
-<div class="tip" id="fs1">namespace Elmish</div>
-<div class="tip" id="fs2">Multiple items<br />module Program<br /><br />from Elmish<br /><br />--------------------<br />type Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt; =<br />&#160;&#160;{init: &#39;arg -&gt; &#39;model * Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;update: &#39;msg -&gt; &#39;model -&gt; &#39;model * Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;subscribe: &#39;model -&gt; Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;view: &#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; &#39;view;<br />&#160;&#160;&#160;setState: &#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; unit;<br />&#160;&#160;&#160;onError: string * exn -&gt; unit;}<br /><br />Full name: Elmish.Program&lt;_,_,_,_&gt;</div>
-<div class="tip" id="fs3">val mkSimple : init:(&#39;arg -&gt; &#39;model) -&gt; update:(&#39;msg -&gt; &#39;model -&gt; &#39;model) -&gt; view:(&#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; &#39;view) -&gt; Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt;<br /><br />Full name: Elmish.Program.mkSimple</div>
-<div class="tip" id="fs4">val withConsoleTrace : program:Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt; -&gt; Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt;<br /><br />Full name: Elmish.Program.withConsoleTrace</div>
-<div class="tip" id="fs5">val run : program:Program&lt;unit,&#39;model,&#39;msg,&#39;view&gt; -&gt; unit<br /><br />Full name: Elmish.Program.run</div>
 
         </div>
         <div class="span3">
-          <img src="https://fable-elmish.github.io/elmish/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="https://elmish.github.io/elmish/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">elmish</li>
-            <li><a href="https://github.com/fable-elmish/elmish">Source Code on GitHub</a></li>
+            <li><a href="https://github.com/elmish/elmish">Source Code on GitHub</a></li>
             <li class="nav-header">Step by step</li>
-            <li><a href="https://fable-elmish.github.io/elmish/basics.html">The basics</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/parent-child.html">Parent-child</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/subscriptions.html">Subscriptions</a></li>
+            <li><a href="https://elmish.github.io/elmish/basics.html">The basics</a></li>
+            <li><a href="https://elmish.github.io/elmish/parent-child.html">Parent-child</a></li>
+            <li><a href="https://elmish.github.io/elmish/subscriptions.html">Subscriptions</a></li>
             <li class="nav-header">Modules</li>
-            <li><a href="https://fable-elmish.github.io/elmish/cmd.html">Cmd</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/program.html">Program</a></li>
+            <li><a href="https://elmish.github.io/elmish/prelude.html">Prelude</a></li>
+            <li><a href="https://elmish.github.io/elmish/cmd.html">Cmd</a></li>
+            <li><a href="https://elmish.github.io/elmish/program.html">Program</a></li>
           </ul>
         </div>
       </div>

@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>parent-child</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Elm-like Cmd and Program modules for Fable apps"/>
+    <meta name="description" content="Elm-like Cmd and Program modules for F# apps"/>
     <meta name="author" content="Eugene Tolmachev"/>
 
     <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
@@ -12,19 +12,19 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="https://fable-elmish.github.io/elmish/content/style_light.css" />
-    <script type="text/javascript" src="https://fable-elmish.github.io/elmish/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://elmish.github.io/elmish/content/style_light.css" />
+    <script type="text/javascript" src="https://elmish.github.io/elmish/content/tips.js"></script>
     <style>span.l { display: none }</style>
   </head>
   <body>
     <div class="container">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li><a href="https://fable-elmish.github.io">fable-elmish</a></li>
+          <li><a href="https://elmish.github.io">elmish</a></li>
           <li><a href="http://fable.io">fable</a></li>
           <li><a href="http://fsharp.org">fsharp.org</a></li>
         </ul>
-        <h3 class="muted"><a href="https://fable-elmish.github.io/elmish/index.html">elmish</a></h3>
+        <h3 class="muted"><a href="https://elmish.github.io/elmish/index.html">elmish</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -56,27 +56,27 @@ It knows nothing about what contains it or how it's run, and that's a good thing
 <span class="l">20: </span>
 <span class="l">21: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">Elmish</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Elmish</span>
 
 <span class="k">module</span> <span class="t">Counter</span> <span class="o">=</span>
 
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="t">Model</span> <span class="o">=</span>
-        { <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">count</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="t">int</span> }
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="t">Model</span> <span class="o">=</span>
+        { <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">count</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="t">int</span> }
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="f">init</span>() <span class="o">=</span>
-        { <span class="i">count</span> <span class="o">=</span> <span class="n">0</span> }, <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">none</span> <span class="c">// no initial command</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="f">init</span>() <span class="o">=</span>
+        { <span class="i">count</span> <span class="o">=</span> <span class="n">0</span> }, <span class="i">Cmd</span><span class="o">.</span><span class="i">none</span> <span class="c">// no initial command</span>
 
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="t">Msg</span> <span class="o">=</span>
-        | <span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="p">Increment</span>
-        | <span onmouseout="hideTip(event, 'fs10', 10)" onmouseover="showTip(event, 'fs10', 10)" class="p">Decrement</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="t">Msg</span> <span class="o">=</span>
+        | <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="p">Increment</span>
+        | <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="p">Decrement</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 11)" onmouseover="showTip(event, 'fs11', 11)" class="f">update</span> <span onmouseout="hideTip(event, 'fs12', 12)" onmouseover="showTip(event, 'fs12', 12)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs13', 13)" onmouseover="showTip(event, 'fs13', 13)" class="i">model</span> <span class="o">=</span>
-        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs12', 14)" onmouseover="showTip(event, 'fs12', 14)" class="i">msg</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs9', 15)" onmouseover="showTip(event, 'fs9', 15)" class="p">Increment</span> <span class="k">-&gt;</span> 
-            { <span onmouseout="hideTip(event, 'fs13', 16)" onmouseover="showTip(event, 'fs13', 16)" class="i">model</span> <span class="k">with</span> <span class="i">count</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 17)" onmouseover="showTip(event, 'fs13', 17)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 18)" onmouseover="showTip(event, 'fs3', 18)" class="i">count</span> <span class="o">+</span> <span class="n">1</span> }, <span onmouseout="hideTip(event, 'fs6', 19)" onmouseover="showTip(event, 'fs6', 19)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 20)" onmouseover="showTip(event, 'fs7', 20)" class="i">none</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="f">update</span> <span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs10', 10)" onmouseover="showTip(event, 'fs10', 10)" class="i">model</span> <span class="o">=</span>
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs9', 11)" onmouseover="showTip(event, 'fs9', 11)" class="i">msg</span> <span class="k">with</span>
+        | <span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="p">Increment</span> <span class="k">-&gt;</span> 
+            { <span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="i">model</span> <span class="k">with</span> <span class="i">count</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 15)" onmouseover="showTip(event, 'fs2', 15)" class="i">count</span> <span class="o">+</span> <span class="n">1</span> }, <span class="i">Cmd</span><span class="o">.</span><span class="i">none</span>
         
-        | <span onmouseout="hideTip(event, 'fs10', 21)" onmouseover="showTip(event, 'fs10', 21)" class="p">Decrement</span> <span class="k">-&gt;</span> 
-            { <span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="i">model</span> <span class="k">with</span> <span class="i">count</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 23)" onmouseover="showTip(event, 'fs13', 23)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs3', 24)" onmouseover="showTip(event, 'fs3', 24)" class="i">count</span> <span class="o">-</span> <span class="n">1</span> }, <span onmouseout="hideTip(event, 'fs6', 25)" onmouseover="showTip(event, 'fs6', 25)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 26)" onmouseover="showTip(event, 'fs7', 26)" class="i">none</span>
+        | <span onmouseout="hideTip(event, 'fs7', 16)" onmouseover="showTip(event, 'fs7', 16)" class="p">Decrement</span> <span class="k">-&gt;</span> 
+            { <span onmouseout="hideTip(event, 'fs10', 17)" onmouseover="showTip(event, 'fs10', 17)" class="i">model</span> <span class="k">with</span> <span class="i">count</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs10', 18)" onmouseover="showTip(event, 'fs10', 18)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 19)" onmouseover="showTip(event, 'fs2', 19)" class="i">count</span> <span class="o">-</span> <span class="n">1</span> }, <span class="i">Cmd</span><span class="o">.</span><span class="i">none</span>
 </code></pre></td>
 </tr>
 </table>
@@ -90,14 +90,14 @@ It knows nothing about what contains it or how it's run, and that's a good thing
 <span class="l">7: </span>
 <span class="l">8: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs14', 27)" onmouseover="showTip(event, 'fs14', 27)" class="t">Model</span> <span class="o">=</span>
-  { <span onmouseout="hideTip(event, 'fs15', 28)" onmouseover="showTip(event, 'fs15', 28)" class="i">top</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs16', 29)" onmouseover="showTip(event, 'fs16', 29)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 30)" onmouseover="showTip(event, 'fs2', 30)" class="t">Model</span>
-    <span onmouseout="hideTip(event, 'fs17', 31)" onmouseover="showTip(event, 'fs17', 31)" class="i">bottom</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs16', 32)" onmouseover="showTip(event, 'fs16', 32)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 33)" onmouseover="showTip(event, 'fs2', 33)" class="t">Model</span> }
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs11', 20)" onmouseover="showTip(event, 'fs11', 20)" class="t">Model</span> <span class="o">=</span>
+  { <span onmouseout="hideTip(event, 'fs12', 21)" onmouseover="showTip(event, 'fs12', 21)" class="i">top</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs1', 23)" onmouseover="showTip(event, 'fs1', 23)" class="t">Model</span>
+    <span onmouseout="hideTip(event, 'fs14', 24)" onmouseover="showTip(event, 'fs14', 24)" class="i">bottom</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs13', 25)" onmouseover="showTip(event, 'fs13', 25)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs1', 26)" onmouseover="showTip(event, 'fs1', 26)" class="t">Model</span> }
 
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="t">Msg</span> <span class="o">=</span>
-  | <span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="p">Reset</span>
-  | <span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="p">Top</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs16', 37)" onmouseover="showTip(event, 'fs16', 37)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 38)" onmouseover="showTip(event, 'fs8', 38)" class="t">Msg</span>
-  | <span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="p">Bottom</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs16', 40)" onmouseover="showTip(event, 'fs16', 40)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 41)" onmouseover="showTip(event, 'fs8', 41)" class="t">Msg</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs15', 27)" onmouseover="showTip(event, 'fs15', 27)" class="t">Msg</span> <span class="o">=</span>
+  | <span onmouseout="hideTip(event, 'fs16', 28)" onmouseover="showTip(event, 'fs16', 28)" class="p">Reset</span>
+  | <span onmouseout="hideTip(event, 'fs17', 29)" onmouseover="showTip(event, 'fs17', 29)" class="p">Top</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs13', 30)" onmouseover="showTip(event, 'fs13', 30)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 31)" onmouseover="showTip(event, 'fs5', 31)" class="t">Msg</span>
+  | <span onmouseout="hideTip(event, 'fs18', 32)" onmouseover="showTip(event, 'fs18', 32)" class="p">Bottom</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs13', 33)" onmouseover="showTip(event, 'fs13', 33)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs5', 34)" onmouseover="showTip(event, 'fs5', 34)" class="t">Msg</span>
 </code></pre></td>
 </tr>
 </table>
@@ -110,13 +110,13 @@ It knows nothing about what contains it or how it's run, and that's a good thing
 <span class="l">6: </span>
 <span class="l">7: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 42)" onmouseover="showTip(event, 'fs22', 42)" class="f">init</span>() <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 43)" onmouseover="showTip(event, 'fs23', 43)" class="i">top</span>, <span onmouseout="hideTip(event, 'fs24', 44)" onmouseover="showTip(event, 'fs24', 44)" class="i">topCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 45)" onmouseover="showTip(event, 'fs16', 45)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 46)" onmouseover="showTip(event, 'fs25', 46)" class="f">init</span>()
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 47)" onmouseover="showTip(event, 'fs26', 47)" class="i">bottom</span>, <span onmouseout="hideTip(event, 'fs27', 48)" onmouseover="showTip(event, 'fs27', 48)" class="i">bottomCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 49)" onmouseover="showTip(event, 'fs16', 49)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 50)" onmouseover="showTip(event, 'fs25', 50)" class="f">init</span>()
-    { <span onmouseout="hideTip(event, 'fs23', 51)" onmouseover="showTip(event, 'fs23', 51)" class="i">top</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs23', 52)" onmouseover="showTip(event, 'fs23', 52)" class="i">top</span>
-      <span onmouseout="hideTip(event, 'fs26', 53)" onmouseover="showTip(event, 'fs26', 53)" class="i">bottom</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs26', 54)" onmouseover="showTip(event, 'fs26', 54)" class="i">bottom</span> }, 
-    <span onmouseout="hideTip(event, 'fs6', 55)" onmouseover="showTip(event, 'fs6', 55)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs28', 56)" onmouseover="showTip(event, 'fs28', 56)" class="f">batch</span> [ <span onmouseout="hideTip(event, 'fs6', 57)" onmouseover="showTip(event, 'fs6', 57)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 58)" onmouseover="showTip(event, 'fs29', 58)" class="f">map</span> <span onmouseout="hideTip(event, 'fs20', 59)" onmouseover="showTip(event, 'fs20', 59)" class="p">Top</span> <span onmouseout="hideTip(event, 'fs24', 60)" onmouseover="showTip(event, 'fs24', 60)" class="i">topCmd</span>
-                <span onmouseout="hideTip(event, 'fs6', 61)" onmouseover="showTip(event, 'fs6', 61)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 62)" onmouseover="showTip(event, 'fs29', 62)" class="f">map</span> <span onmouseout="hideTip(event, 'fs21', 63)" onmouseover="showTip(event, 'fs21', 63)" class="p">Bottom</span> <span onmouseout="hideTip(event, 'fs27', 64)" onmouseover="showTip(event, 'fs27', 64)" class="i">bottomCmd</span> ]
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="f">init</span>() <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="i">top</span>, <span onmouseout="hideTip(event, 'fs21', 37)" onmouseover="showTip(event, 'fs21', 37)" class="i">topCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 38)" onmouseover="showTip(event, 'fs13', 38)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 39)" onmouseover="showTip(event, 'fs22', 39)" class="f">init</span>()
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 40)" onmouseover="showTip(event, 'fs23', 40)" class="i">bottom</span>, <span onmouseout="hideTip(event, 'fs24', 41)" onmouseover="showTip(event, 'fs24', 41)" class="i">bottomCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 42)" onmouseover="showTip(event, 'fs13', 42)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 43)" onmouseover="showTip(event, 'fs22', 43)" class="f">init</span>()
+    { <span onmouseout="hideTip(event, 'fs20', 44)" onmouseover="showTip(event, 'fs20', 44)" class="i">top</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 45)" onmouseover="showTip(event, 'fs20', 45)" class="i">top</span>
+      <span onmouseout="hideTip(event, 'fs23', 46)" onmouseover="showTip(event, 'fs23', 46)" class="i">bottom</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs23', 47)" onmouseover="showTip(event, 'fs23', 47)" class="i">bottom</span> }, 
+    <span class="i">Cmd</span><span class="o">.</span><span class="i">batch</span> [ <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs17', 48)" onmouseover="showTip(event, 'fs17', 48)" class="i">Top</span> <span onmouseout="hideTip(event, 'fs21', 49)" onmouseover="showTip(event, 'fs21', 49)" class="i">topCmd</span>
+                <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs18', 50)" onmouseover="showTip(event, 'fs18', 50)" class="i">Bottom</span> <span onmouseout="hideTip(event, 'fs24', 51)" onmouseover="showTip(event, 'fs24', 51)" class="i">bottomCmd</span> ]
 </code></pre></td>
 </tr>
 </table>
@@ -142,22 +142,22 @@ in a real application we still may want to map the commands to facilitate encaps
 <span class="l">15: </span>
 <span class="l">16: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 65)" onmouseover="showTip(event, 'fs30', 65)" class="f">update</span> <span onmouseout="hideTip(event, 'fs12', 66)" onmouseover="showTip(event, 'fs12', 66)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs13', 67)" onmouseover="showTip(event, 'fs13', 67)" class="i">model</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs14', 68)" onmouseover="showTip(event, 'fs14', 68)" class="t">Model</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs6', 69)" onmouseover="showTip(event, 'fs6', 69)" class="t">Cmd</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs18', 70)" onmouseover="showTip(event, 'fs18', 70)" class="t">Msg</span><span class="o">&gt;</span> <span class="o">=</span>
-  <span class="k">match</span> <span onmouseout="hideTip(event, 'fs12', 71)" onmouseover="showTip(event, 'fs12', 71)" class="i">msg</span> <span class="k">with</span>
-  | <span onmouseout="hideTip(event, 'fs19', 72)" onmouseover="showTip(event, 'fs19', 72)" class="p">Reset</span> <span class="k">-&gt;</span> 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 73)" onmouseover="showTip(event, 'fs23', 73)" class="i">top</span>, <span onmouseout="hideTip(event, 'fs24', 74)" onmouseover="showTip(event, 'fs24', 74)" class="i">topCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 75)" onmouseover="showTip(event, 'fs16', 75)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 76)" onmouseover="showTip(event, 'fs25', 76)" class="f">init</span>()
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 77)" onmouseover="showTip(event, 'fs26', 77)" class="i">bottom</span>, <span onmouseout="hideTip(event, 'fs27', 78)" onmouseover="showTip(event, 'fs27', 78)" class="i">bottomCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 79)" onmouseover="showTip(event, 'fs16', 79)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 80)" onmouseover="showTip(event, 'fs25', 80)" class="f">init</span>()
-    { <span onmouseout="hideTip(event, 'fs23', 81)" onmouseover="showTip(event, 'fs23', 81)" class="i">top</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs23', 82)" onmouseover="showTip(event, 'fs23', 82)" class="i">top</span>
-      <span onmouseout="hideTip(event, 'fs26', 83)" onmouseover="showTip(event, 'fs26', 83)" class="i">bottom</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs26', 84)" onmouseover="showTip(event, 'fs26', 84)" class="i">bottom</span> }, 
-    <span onmouseout="hideTip(event, 'fs6', 85)" onmouseover="showTip(event, 'fs6', 85)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs28', 86)" onmouseover="showTip(event, 'fs28', 86)" class="f">batch</span> [ <span onmouseout="hideTip(event, 'fs6', 87)" onmouseover="showTip(event, 'fs6', 87)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 88)" onmouseover="showTip(event, 'fs29', 88)" class="f">map</span> <span onmouseout="hideTip(event, 'fs20', 89)" onmouseover="showTip(event, 'fs20', 89)" class="p">Top</span> <span onmouseout="hideTip(event, 'fs24', 90)" onmouseover="showTip(event, 'fs24', 90)" class="i">topCmd</span>
-                <span onmouseout="hideTip(event, 'fs6', 91)" onmouseover="showTip(event, 'fs6', 91)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 92)" onmouseover="showTip(event, 'fs29', 92)" class="f">map</span> <span onmouseout="hideTip(event, 'fs21', 93)" onmouseover="showTip(event, 'fs21', 93)" class="p">Bottom</span> <span onmouseout="hideTip(event, 'fs27', 94)" onmouseover="showTip(event, 'fs27', 94)" class="i">bottomCmd</span> ]
-  | <span onmouseout="hideTip(event, 'fs20', 95)" onmouseover="showTip(event, 'fs20', 95)" class="p">Top</span> <span onmouseout="hideTip(event, 'fs31', 96)" onmouseover="showTip(event, 'fs31', 96)" class="i">msg&#39;</span> <span class="k">-&gt;</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 97)" onmouseover="showTip(event, 'fs32', 97)" class="i">res</span>, <span onmouseout="hideTip(event, 'fs33', 98)" onmouseover="showTip(event, 'fs33', 98)" class="i">cmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 99)" onmouseover="showTip(event, 'fs16', 99)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs34', 100)" onmouseover="showTip(event, 'fs34', 100)" class="f">update</span> <span onmouseout="hideTip(event, 'fs31', 101)" onmouseover="showTip(event, 'fs31', 101)" class="i">msg&#39;</span> <span onmouseout="hideTip(event, 'fs13', 102)" onmouseover="showTip(event, 'fs13', 102)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs15', 103)" onmouseover="showTip(event, 'fs15', 103)" class="i">top</span>
-    { <span onmouseout="hideTip(event, 'fs13', 104)" onmouseover="showTip(event, 'fs13', 104)" class="i">model</span> <span class="k">with</span> <span class="i">top</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 105)" onmouseover="showTip(event, 'fs32', 105)" class="i">res</span> }, <span onmouseout="hideTip(event, 'fs6', 106)" onmouseover="showTip(event, 'fs6', 106)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 107)" onmouseover="showTip(event, 'fs29', 107)" class="f">map</span> <span onmouseout="hideTip(event, 'fs20', 108)" onmouseover="showTip(event, 'fs20', 108)" class="p">Top</span> <span onmouseout="hideTip(event, 'fs33', 109)" onmouseover="showTip(event, 'fs33', 109)" class="i">cmd</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 52)" onmouseover="showTip(event, 'fs25', 52)" class="f">update</span> <span onmouseout="hideTip(event, 'fs9', 53)" onmouseover="showTip(event, 'fs9', 53)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs10', 54)" onmouseover="showTip(event, 'fs10', 54)" class="i">model</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs11', 55)" onmouseover="showTip(event, 'fs11', 55)" class="t">Model</span> <span class="o">*</span> <span class="i">Cmd</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs15', 56)" onmouseover="showTip(event, 'fs15', 56)" class="i">Msg</span><span class="o">&gt;</span> <span class="o">=</span>
+  <span class="k">match</span> <span onmouseout="hideTip(event, 'fs9', 57)" onmouseover="showTip(event, 'fs9', 57)" class="i">msg</span> <span class="k">with</span>
+  | <span onmouseout="hideTip(event, 'fs16', 58)" onmouseover="showTip(event, 'fs16', 58)" class="p">Reset</span> <span class="k">-&gt;</span> 
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 59)" onmouseover="showTip(event, 'fs20', 59)" class="i">top</span>, <span onmouseout="hideTip(event, 'fs21', 60)" onmouseover="showTip(event, 'fs21', 60)" class="i">topCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 61)" onmouseover="showTip(event, 'fs13', 61)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 62)" onmouseover="showTip(event, 'fs22', 62)" class="f">init</span>()
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 63)" onmouseover="showTip(event, 'fs23', 63)" class="i">bottom</span>, <span onmouseout="hideTip(event, 'fs24', 64)" onmouseover="showTip(event, 'fs24', 64)" class="i">bottomCmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 65)" onmouseover="showTip(event, 'fs13', 65)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 66)" onmouseover="showTip(event, 'fs22', 66)" class="f">init</span>()
+    { <span onmouseout="hideTip(event, 'fs20', 67)" onmouseover="showTip(event, 'fs20', 67)" class="i">top</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 68)" onmouseover="showTip(event, 'fs20', 68)" class="i">top</span>
+      <span onmouseout="hideTip(event, 'fs23', 69)" onmouseover="showTip(event, 'fs23', 69)" class="i">bottom</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs23', 70)" onmouseover="showTip(event, 'fs23', 70)" class="i">bottom</span> }, 
+    <span class="i">Cmd</span><span class="o">.</span><span class="i">batch</span> [ <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs17', 71)" onmouseover="showTip(event, 'fs17', 71)" class="i">Top</span> <span onmouseout="hideTip(event, 'fs21', 72)" onmouseover="showTip(event, 'fs21', 72)" class="i">topCmd</span>
+                <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs18', 73)" onmouseover="showTip(event, 'fs18', 73)" class="i">Bottom</span> <span onmouseout="hideTip(event, 'fs24', 74)" onmouseover="showTip(event, 'fs24', 74)" class="i">bottomCmd</span> ]
+  | <span onmouseout="hideTip(event, 'fs17', 75)" onmouseover="showTip(event, 'fs17', 75)" class="p">Top</span> <span onmouseout="hideTip(event, 'fs26', 76)" onmouseover="showTip(event, 'fs26', 76)" class="i">msg&#39;</span> <span class="k">-&gt;</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 77)" onmouseover="showTip(event, 'fs27', 77)" class="i">res</span>, <span onmouseout="hideTip(event, 'fs28', 78)" onmouseover="showTip(event, 'fs28', 78)" class="i">cmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 79)" onmouseover="showTip(event, 'fs13', 79)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 80)" onmouseover="showTip(event, 'fs29', 80)" class="f">update</span> <span onmouseout="hideTip(event, 'fs26', 81)" onmouseover="showTip(event, 'fs26', 81)" class="i">msg&#39;</span> <span onmouseout="hideTip(event, 'fs10', 82)" onmouseover="showTip(event, 'fs10', 82)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 83)" onmouseover="showTip(event, 'fs12', 83)" class="i">top</span>
+    { <span onmouseout="hideTip(event, 'fs10', 84)" onmouseover="showTip(event, 'fs10', 84)" class="i">model</span> <span class="k">with</span> <span class="i">top</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 85)" onmouseover="showTip(event, 'fs27', 85)" class="i">res</span> }, <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs17', 86)" onmouseover="showTip(event, 'fs17', 86)" class="i">Top</span> <span onmouseout="hideTip(event, 'fs28', 87)" onmouseover="showTip(event, 'fs28', 87)" class="i">cmd</span>
 
-  | <span onmouseout="hideTip(event, 'fs21', 110)" onmouseover="showTip(event, 'fs21', 110)" class="p">Bottom</span> <span onmouseout="hideTip(event, 'fs31', 111)" onmouseover="showTip(event, 'fs31', 111)" class="i">msg&#39;</span> <span class="k">-&gt;</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 112)" onmouseover="showTip(event, 'fs32', 112)" class="i">res</span>, <span onmouseout="hideTip(event, 'fs33', 113)" onmouseover="showTip(event, 'fs33', 113)" class="i">cmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs16', 114)" onmouseover="showTip(event, 'fs16', 114)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs34', 115)" onmouseover="showTip(event, 'fs34', 115)" class="f">update</span> <span onmouseout="hideTip(event, 'fs31', 116)" onmouseover="showTip(event, 'fs31', 116)" class="i">msg&#39;</span> <span onmouseout="hideTip(event, 'fs13', 117)" onmouseover="showTip(event, 'fs13', 117)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs17', 118)" onmouseover="showTip(event, 'fs17', 118)" class="i">bottom</span>
-    { <span onmouseout="hideTip(event, 'fs13', 119)" onmouseover="showTip(event, 'fs13', 119)" class="i">model</span> <span class="k">with</span> <span class="i">bottom</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs32', 120)" onmouseover="showTip(event, 'fs32', 120)" class="i">res</span> }, <span onmouseout="hideTip(event, 'fs6', 121)" onmouseover="showTip(event, 'fs6', 121)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 122)" onmouseover="showTip(event, 'fs29', 122)" class="f">map</span> <span onmouseout="hideTip(event, 'fs21', 123)" onmouseover="showTip(event, 'fs21', 123)" class="p">Bottom</span> <span onmouseout="hideTip(event, 'fs33', 124)" onmouseover="showTip(event, 'fs33', 124)" class="i">cmd</span>
+  | <span onmouseout="hideTip(event, 'fs18', 88)" onmouseover="showTip(event, 'fs18', 88)" class="p">Bottom</span> <span onmouseout="hideTip(event, 'fs26', 89)" onmouseover="showTip(event, 'fs26', 89)" class="i">msg&#39;</span> <span class="k">-&gt;</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 90)" onmouseover="showTip(event, 'fs27', 90)" class="i">res</span>, <span onmouseout="hideTip(event, 'fs28', 91)" onmouseover="showTip(event, 'fs28', 91)" class="i">cmd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs13', 92)" onmouseover="showTip(event, 'fs13', 92)" class="t">Counter</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 93)" onmouseover="showTip(event, 'fs29', 93)" class="f">update</span> <span onmouseout="hideTip(event, 'fs26', 94)" onmouseover="showTip(event, 'fs26', 94)" class="i">msg&#39;</span> <span onmouseout="hideTip(event, 'fs10', 95)" onmouseover="showTip(event, 'fs10', 95)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs14', 96)" onmouseover="showTip(event, 'fs14', 96)" class="i">bottom</span>
+    { <span onmouseout="hideTip(event, 'fs10', 97)" onmouseover="showTip(event, 'fs10', 97)" class="i">model</span> <span class="k">with</span> <span class="i">bottom</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs27', 98)" onmouseover="showTip(event, 'fs27', 98)" class="i">res</span> }, <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs18', 99)" onmouseover="showTip(event, 'fs18', 99)" class="i">Bottom</span> <span onmouseout="hideTip(event, 'fs28', 100)" onmouseover="showTip(event, 'fs28', 100)" class="i">cmd</span>
 </code></pre></td>
 </tr>
 </table>
@@ -168,64 +168,57 @@ And again, we map the command issued by the child back to the container <code>Ms
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs35', 125)" onmouseover="showTip(event, 'fs35', 125)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs36', 126)" onmouseover="showTip(event, 'fs36', 126)" class="f">mkProgram</span> <span onmouseout="hideTip(event, 'fs22', 127)" onmouseover="showTip(event, 'fs22', 127)" class="f">init</span> <span onmouseout="hideTip(event, 'fs30', 128)" onmouseover="showTip(event, 'fs30', 128)" class="f">update</span> (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs13', 129)" onmouseover="showTip(event, 'fs13', 129)" class="i">model</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs37', 130)" onmouseover="showTip(event, 'fs37', 130)" class="f">printf</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s"></span><span class="e">\n</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs13', 131)" onmouseover="showTip(event, 'fs13', 131)" class="i">model</span>)
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs35', 132)" onmouseover="showTip(event, 'fs35', 132)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs38', 133)" onmouseover="showTip(event, 'fs38', 133)" class="f">run</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Program</span><span class="o">.</span><span class="i">mkProgram</span> <span onmouseout="hideTip(event, 'fs19', 101)" onmouseover="showTip(event, 'fs19', 101)" class="i">init</span> <span onmouseout="hideTip(event, 'fs25', 102)" onmouseover="showTip(event, 'fs25', 102)" class="i">update</span> (<span class="k">fun</span> <span class="i">model</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs30', 103)" onmouseover="showTip(event, 'fs30', 103)" class="i">printf</span> <span class="s">&quot;%A</span><span class="e">\n</span><span class="s">&quot;</span> <span class="i">model</span>)
+<span class="o">|&gt;</span> <span class="i">Program</span><span class="o">.</span><span class="i">run</span>
 </code></pre></td>
 </tr>
 </table>
 
-<div class="tip" id="fs1">namespace Elmish</div>
-<div class="tip" id="fs2">type Model =<br />&#160;&#160;{count: int;}<br /><br />Full name: Parent-child.Counter.Model</div>
-<div class="tip" id="fs3">Model.count: int</div>
-<div class="tip" id="fs4">Multiple items<br />val int : value:&#39;T -&gt; int (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.int<br /><br />--------------------<br />type int = int32<br /><br />Full name: Microsoft.FSharp.Core.int<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; = int<br /><br />Full name: Microsoft.FSharp.Core.int&lt;_&gt;</div>
-<div class="tip" id="fs5">val init : unit -&gt; Model * Cmd&lt;&#39;a&gt;<br /><br />Full name: Parent-child.Counter.init</div>
-<div class="tip" id="fs6">Multiple items<br />module Cmd<br /><br />from Elmish<br /><br />--------------------<br />type Cmd&lt;&#39;msg&gt; = Sub&lt;&#39;msg&gt; list<br /><br />Full name: Elmish.Cmd&lt;_&gt;</div>
-<div class="tip" id="fs7">val none : Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.none</div>
-<div class="tip" id="fs8">type Msg =<br />&#160;&#160;| Increment<br />&#160;&#160;| Decrement<br /><br />Full name: Parent-child.Counter.Msg</div>
-<div class="tip" id="fs9">union case Msg.Increment: Msg</div>
-<div class="tip" id="fs10">union case Msg.Decrement: Msg</div>
-<div class="tip" id="fs11">val update : msg:Msg -&gt; model:Model -&gt; Model * Cmd&lt;&#39;a&gt;<br /><br />Full name: Parent-child.Counter.update</div>
-<div class="tip" id="fs12">val msg : Msg</div>
-<div class="tip" id="fs13">val model : Model</div>
-<div class="tip" id="fs14">type Model =<br />&#160;&#160;{top: Model;<br />&#160;&#160;&#160;bottom: Model;}<br /><br />Full name: Parent-child.Model</div>
-<div class="tip" id="fs15">Model.top: Counter.Model</div>
-<div class="tip" id="fs16">module Counter<br /><br />from Parent-child</div>
-<div class="tip" id="fs17">Model.bottom: Counter.Model</div>
-<div class="tip" id="fs18">type Msg =<br />&#160;&#160;| Reset<br />&#160;&#160;| Top of Msg<br />&#160;&#160;| Bottom of Msg<br /><br />Full name: Parent-child.Msg</div>
-<div class="tip" id="fs19">union case Msg.Reset: Msg</div>
-<div class="tip" id="fs20">union case Msg.Top: Counter.Msg -&gt; Msg</div>
-<div class="tip" id="fs21">union case Msg.Bottom: Counter.Msg -&gt; Msg</div>
-<div class="tip" id="fs22">val init : unit -&gt; Model * Cmd&lt;Msg&gt;<br /><br />Full name: Parent-child.init</div>
-<div class="tip" id="fs23">val top : Counter.Model</div>
-<div class="tip" id="fs24">val topCmd : Cmd&lt;Counter.Msg&gt;</div>
-<div class="tip" id="fs25">val init : unit -&gt; Counter.Model * Cmd&lt;&#39;a&gt;<br /><br />Full name: Parent-child.Counter.init</div>
-<div class="tip" id="fs26">val bottom : Counter.Model</div>
-<div class="tip" id="fs27">val bottomCmd : Cmd&lt;Counter.Msg&gt;</div>
-<div class="tip" id="fs28">val batch : cmds:#seq&lt;Cmd&lt;&#39;msg&gt;&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.batch</div>
-<div class="tip" id="fs29">val map : f:(&#39;a -&gt; &#39;msg) -&gt; cmd:Cmd&lt;&#39;a&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.map</div>
-<div class="tip" id="fs30">val update : msg:Msg -&gt; model:Model -&gt; Model * Cmd&lt;Msg&gt;<br /><br />Full name: Parent-child.update</div>
-<div class="tip" id="fs31">val msg&#39; : Counter.Msg</div>
-<div class="tip" id="fs32">val res : Counter.Model</div>
-<div class="tip" id="fs33">val cmd : Cmd&lt;Counter.Msg&gt;</div>
-<div class="tip" id="fs34">val update : msg:Counter.Msg -&gt; model:Counter.Model -&gt; Counter.Model * Cmd&lt;&#39;a&gt;<br /><br />Full name: Parent-child.Counter.update</div>
-<div class="tip" id="fs35">Multiple items<br />module Program<br /><br />from Elmish<br /><br />--------------------<br />type Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt; =<br />&#160;&#160;{init: &#39;arg -&gt; &#39;model * Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;update: &#39;msg -&gt; &#39;model -&gt; &#39;model * Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;subscribe: &#39;model -&gt; Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;view: &#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; &#39;view;<br />&#160;&#160;&#160;setState: &#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; unit;<br />&#160;&#160;&#160;onError: string * exn -&gt; unit;}<br /><br />Full name: Elmish.Program&lt;_,_,_,_&gt;</div>
-<div class="tip" id="fs36">val mkProgram : init:(&#39;arg -&gt; &#39;model * Cmd&lt;&#39;msg&gt;) -&gt; update:(&#39;msg -&gt; &#39;model -&gt; &#39;model * Cmd&lt;&#39;msg&gt;) -&gt; view:(&#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; &#39;view) -&gt; Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt;<br /><br />Full name: Elmish.Program.mkProgram</div>
-<div class="tip" id="fs37">val printf : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printf</div>
-<div class="tip" id="fs38">val run : program:Program&lt;unit,&#39;model,&#39;msg,&#39;view&gt; -&gt; unit<br /><br />Full name: Elmish.Program.run</div>
+<div class="tip" id="fs1">type Model =<br />&#160;&#160;{count: int;}<br /><br />Full name: Parent-child.Counter.Model</div>
+<div class="tip" id="fs2">Model.count: int</div>
+<div class="tip" id="fs3">Multiple items<br />val int : value:&#39;T -&gt; int (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.int<br /><br />--------------------<br />type int = int32<br /><br />Full name: Microsoft.FSharp.Core.int<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; = int<br /><br />Full name: Microsoft.FSharp.Core.int&lt;_&gt;</div>
+<div class="tip" id="fs4">val init : unit -&gt; Model * &#39;a<br /><br />Full name: Parent-child.Counter.init</div>
+<div class="tip" id="fs5">type Msg =<br />&#160;&#160;| Increment<br />&#160;&#160;| Decrement<br /><br />Full name: Parent-child.Counter.Msg</div>
+<div class="tip" id="fs6">union case Msg.Increment: Msg</div>
+<div class="tip" id="fs7">union case Msg.Decrement: Msg</div>
+<div class="tip" id="fs8">val update : msg:Msg -&gt; model:Model -&gt; Model * &#39;a<br /><br />Full name: Parent-child.Counter.update</div>
+<div class="tip" id="fs9">val msg : Msg</div>
+<div class="tip" id="fs10">val model : Model</div>
+<div class="tip" id="fs11">type Model =<br />&#160;&#160;{top: Model;<br />&#160;&#160;&#160;bottom: Model;}<br /><br />Full name: Parent-child.Model</div>
+<div class="tip" id="fs12">Model.top: Counter.Model</div>
+<div class="tip" id="fs13">module Counter<br /><br />from Parent-child</div>
+<div class="tip" id="fs14">Model.bottom: Counter.Model</div>
+<div class="tip" id="fs15">type Msg =<br />&#160;&#160;| Reset<br />&#160;&#160;| Top of Msg<br />&#160;&#160;| Bottom of Msg<br /><br />Full name: Parent-child.Msg</div>
+<div class="tip" id="fs16">union case Msg.Reset: Msg</div>
+<div class="tip" id="fs17">union case Msg.Top: Counter.Msg -&gt; Msg</div>
+<div class="tip" id="fs18">union case Msg.Bottom: Counter.Msg -&gt; Msg</div>
+<div class="tip" id="fs19">val init : unit -&gt; Model * &#39;a<br /><br />Full name: Parent-child.init</div>
+<div class="tip" id="fs20">val top : Counter.Model</div>
+<div class="tip" id="fs21">val topCmd : obj</div>
+<div class="tip" id="fs22">val init : unit -&gt; Counter.Model * &#39;a<br /><br />Full name: Parent-child.Counter.init</div>
+<div class="tip" id="fs23">val bottom : Counter.Model</div>
+<div class="tip" id="fs24">val bottomCmd : obj</div>
+<div class="tip" id="fs25">val update : msg:Msg -&gt; model:Model -&gt; Model * &#39;a<br /><br />Full name: Parent-child.update</div>
+<div class="tip" id="fs26">val msg&#39; : Counter.Msg</div>
+<div class="tip" id="fs27">val res : Counter.Model</div>
+<div class="tip" id="fs28">val cmd : obj</div>
+<div class="tip" id="fs29">val update : msg:Counter.Msg -&gt; model:Counter.Model -&gt; Counter.Model * &#39;a<br /><br />Full name: Parent-child.Counter.update</div>
+<div class="tip" id="fs30">val printf : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printf</div>
 
         </div>
         <div class="span3">
-          <img src="https://fable-elmish.github.io/elmish/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="https://elmish.github.io/elmish/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">elmish</li>
-            <li><a href="https://github.com/fable-elmish/elmish">Source Code on GitHub</a></li>
+            <li><a href="https://github.com/elmish/elmish">Source Code on GitHub</a></li>
             <li class="nav-header">Step by step</li>
-            <li><a href="https://fable-elmish.github.io/elmish/basics.html">The basics</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/parent-child.html">Parent-child</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/subscriptions.html">Subscriptions</a></li>
+            <li><a href="https://elmish.github.io/elmish/basics.html">The basics</a></li>
+            <li><a href="https://elmish.github.io/elmish/parent-child.html">Parent-child</a></li>
+            <li><a href="https://elmish.github.io/elmish/subscriptions.html">Subscriptions</a></li>
             <li class="nav-header">Modules</li>
-            <li><a href="https://fable-elmish.github.io/elmish/cmd.html">Cmd</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/program.html">Program</a></li>
+            <li><a href="https://elmish.github.io/elmish/prelude.html">Prelude</a></li>
+            <li><a href="https://elmish.github.io/elmish/cmd.html">Cmd</a></li>
+            <li><a href="https://elmish.github.io/elmish/program.html">Program</a></li>
           </ul>
         </div>
       </div>

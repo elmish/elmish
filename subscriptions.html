@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <title>subscriptions</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="Elm-like Cmd and Program modules for Fable apps"/>
+    <meta name="description" content="Elm-like Cmd and Program modules for F# apps"/>
     <meta name="author" content="Eugene Tolmachev"/>
 
     <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
@@ -12,19 +12,19 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="https://fable-elmish.github.io/elmish/content/style_light.css" />
-    <script type="text/javascript" src="https://fable-elmish.github.io/elmish/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://elmish.github.io/elmish/content/style_light.css" />
+    <script type="text/javascript" src="https://elmish.github.io/elmish/content/tips.js"></script>
     <style>span.l { display: none }</style>
   </head>
   <body>
     <div class="container">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li><a href="https://fable-elmish.github.io">fable-elmish</a></li>
+          <li><a href="https://elmish.github.io">elmish</a></li>
           <li><a href="http://fable.io">fable</a></li>
           <li><a href="http://fsharp.org">fsharp.org</a></li>
         </ul>
-        <h3 class="muted"><a href="https://fable-elmish.github.io/elmish/index.html">elmish</a></h3>
+        <h3 class="muted"><a href="https://elmish.github.io/elmish/index.html">elmish</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -89,19 +89,19 @@ We can setup forwarding of those events to be processed by our <code>update</cod
 <span class="l">12: </span>
 <span class="l">13: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="i">Elmish</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Elmish</span>
 <span class="k">open</span> <span class="i">Fable</span><span class="o">.</span><span class="i">Import</span><span class="o">.</span><span class="i">Browser</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="f">timer</span> <span onmouseout="hideTip(event, 'fs15', 22)" onmouseover="showTip(event, 'fs15', 22)" class="i">initial</span> <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 23)" onmouseover="showTip(event, 'fs16', 23)" class="f">sub</span> <span onmouseout="hideTip(event, 'fs17', 24)" onmouseover="showTip(event, 'fs17', 24)" class="i">dispatch</span> <span class="o">=</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 20)" onmouseover="showTip(event, 'fs13', 20)" class="f">timer</span> <span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="i">initial</span> <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 22)" onmouseover="showTip(event, 'fs15', 22)" class="f">sub</span> <span onmouseout="hideTip(event, 'fs16', 23)" onmouseover="showTip(event, 'fs16', 23)" class="i">dispatch</span> <span class="o">=</span> 
         <span class="i">window</span><span class="o">.</span><span class="i">setInterval</span>(<span class="k">fun</span> _ <span class="k">-&gt;</span> 
-            <span onmouseout="hideTip(event, 'fs17', 25)" onmouseover="showTip(event, 'fs17', 25)" class="i">dispatch</span> (<span onmouseout="hideTip(event, 'fs6', 26)" onmouseover="showTip(event, 'fs6', 26)" class="i">Tick</span> <span onmouseout="hideTip(event, 'fs4', 27)" onmouseover="showTip(event, 'fs4', 27)" class="i">DateTime</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 28)" onmouseover="showTip(event, 'fs8', 28)" class="i">Now</span>)
-            , <span class="n">1000</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs18', 29)" onmouseover="showTip(event, 'fs18', 29)" class="f">ignore</span>
-    <span onmouseout="hideTip(event, 'fs19', 30)" onmouseover="showTip(event, 'fs19', 30)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 31)" onmouseover="showTip(event, 'fs20', 31)" class="f">ofSub</span> <span onmouseout="hideTip(event, 'fs16', 32)" onmouseover="showTip(event, 'fs16', 32)" class="f">sub</span>
+            <span onmouseout="hideTip(event, 'fs16', 24)" onmouseover="showTip(event, 'fs16', 24)" class="i">dispatch</span> (<span onmouseout="hideTip(event, 'fs6', 25)" onmouseover="showTip(event, 'fs6', 25)" class="i">Tick</span> <span onmouseout="hideTip(event, 'fs4', 26)" onmouseover="showTip(event, 'fs4', 26)" class="i">DateTime</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 27)" onmouseover="showTip(event, 'fs8', 27)" class="i">Now</span>)
+            , <span class="n">1000</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 28)" onmouseover="showTip(event, 'fs17', 28)" class="f">ignore</span>
+    <span class="i">Cmd</span><span class="o">.</span><span class="i">ofSub</span> <span onmouseout="hideTip(event, 'fs15', 29)" onmouseover="showTip(event, 'fs15', 29)" class="i">sub</span>
 
-<span onmouseout="hideTip(event, 'fs21', 33)" onmouseover="showTip(event, 'fs21', 33)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 34)" onmouseover="showTip(event, 'fs22', 34)" class="f">mkSimple</span> <span onmouseout="hideTip(event, 'fs7', 35)" onmouseover="showTip(event, 'fs7', 35)" class="f">init</span> <span onmouseout="hideTip(event, 'fs9', 36)" onmouseover="showTip(event, 'fs9', 36)" class="f">update</span> (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs11', 37)" onmouseover="showTip(event, 'fs11', 37)" class="i">model</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs23', 38)" onmouseover="showTip(event, 'fs23', 38)" class="f">printf</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s"></span><span class="e">\n</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs11', 39)" onmouseover="showTip(event, 'fs11', 39)" class="i">model</span>)
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 40)" onmouseover="showTip(event, 'fs21', 40)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs24', 41)" onmouseover="showTip(event, 'fs24', 41)" class="f">withSubscription</span> <span onmouseout="hideTip(event, 'fs14', 42)" onmouseover="showTip(event, 'fs14', 42)" class="f">timer</span>
-<span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 43)" onmouseover="showTip(event, 'fs21', 43)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 44)" onmouseover="showTip(event, 'fs25', 44)" class="f">run</span>
+<span class="i">Program</span><span class="o">.</span><span class="i">mkSimple</span> <span onmouseout="hideTip(event, 'fs7', 30)" onmouseover="showTip(event, 'fs7', 30)" class="i">init</span> <span onmouseout="hideTip(event, 'fs9', 31)" onmouseover="showTip(event, 'fs9', 31)" class="i">update</span> (<span class="k">fun</span> <span class="i">model</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs18', 32)" onmouseover="showTip(event, 'fs18', 32)" class="i">printf</span> <span class="s">&quot;%A</span><span class="e">\n</span><span class="s">&quot;</span> <span class="i">model</span>)
+<span class="o">|&gt;</span> <span class="i">Program</span><span class="o">.</span><span class="i">withSubscription</span> <span onmouseout="hideTip(event, 'fs13', 33)" onmouseover="showTip(event, 'fs13', 33)" class="i">timer</span>
+<span class="o">|&gt;</span> <span class="i">Program</span><span class="o">.</span><span class="i">run</span>
 </code></pre></td>
 </tr>
 </table>
@@ -177,70 +177,70 @@ However, any time you need to issue a message (for example from a callback) you 
 <span class="l">65: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">module</span> <span class="t">Second</span> <span class="o">=</span>
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs26', 45)" onmouseover="showTip(event, 'fs26', 45)" class="t">Msg</span> <span class="o">=</span>
-        | <span onmouseout="hideTip(event, 'fs27', 46)" onmouseover="showTip(event, 'fs27', 46)" class="p">Second</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs28', 47)" onmouseover="showTip(event, 'fs28', 47)" class="t">int</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs19', 34)" onmouseover="showTip(event, 'fs19', 34)" class="t">Msg</span> <span class="o">=</span>
+        | <span onmouseout="hideTip(event, 'fs20', 35)" onmouseover="showTip(event, 'fs20', 35)" class="p">Second</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="t">int</span>
     
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs29', 48)" onmouseover="showTip(event, 'fs29', 48)" class="t">Model</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 49)" onmouseover="showTip(event, 'fs28', 49)" class="t">int</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="t">Model</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 38)" onmouseover="showTip(event, 'fs21', 38)" class="t">int</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 50)" onmouseover="showTip(event, 'fs30', 50)" class="f">subscribe</span> <span onmouseout="hideTip(event, 'fs15', 51)" onmouseover="showTip(event, 'fs15', 51)" class="i">initial</span> <span class="o">=</span>
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 52)" onmouseover="showTip(event, 'fs16', 52)" class="f">sub</span> <span onmouseout="hideTip(event, 'fs17', 53)" onmouseover="showTip(event, 'fs17', 53)" class="i">dispatch</span> <span class="o">=</span> 
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 39)" onmouseover="showTip(event, 'fs23', 39)" class="f">subscribe</span> <span onmouseout="hideTip(event, 'fs14', 40)" onmouseover="showTip(event, 'fs14', 40)" class="i">initial</span> <span class="o">=</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 41)" onmouseover="showTip(event, 'fs15', 41)" class="f">sub</span> <span onmouseout="hideTip(event, 'fs16', 42)" onmouseover="showTip(event, 'fs16', 42)" class="i">dispatch</span> <span class="o">=</span> 
             <span class="i">window</span><span class="o">.</span><span class="i">setInterval</span>(<span class="k">fun</span> _ <span class="k">-&gt;</span> 
-                <span onmouseout="hideTip(event, 'fs17', 54)" onmouseover="showTip(event, 'fs17', 54)" class="i">dispatch</span> (<span onmouseout="hideTip(event, 'fs27', 55)" onmouseover="showTip(event, 'fs27', 55)" class="i">Second</span> <span onmouseout="hideTip(event, 'fs4', 56)" onmouseover="showTip(event, 'fs4', 56)" class="i">DateTime</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 57)" onmouseover="showTip(event, 'fs8', 57)" class="i">Now</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs31', 58)" onmouseover="showTip(event, 'fs31', 58)" class="i">Second</span>)
-                , <span class="n">1000</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs18', 59)" onmouseover="showTip(event, 'fs18', 59)" class="f">ignore</span>
-        <span onmouseout="hideTip(event, 'fs19', 60)" onmouseover="showTip(event, 'fs19', 60)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 61)" onmouseover="showTip(event, 'fs20', 61)" class="f">ofSub</span> <span onmouseout="hideTip(event, 'fs16', 62)" onmouseover="showTip(event, 'fs16', 62)" class="f">sub</span>
+                <span onmouseout="hideTip(event, 'fs16', 43)" onmouseover="showTip(event, 'fs16', 43)" class="i">dispatch</span> (<span onmouseout="hideTip(event, 'fs20', 44)" onmouseover="showTip(event, 'fs20', 44)" class="i">Second</span> <span onmouseout="hideTip(event, 'fs4', 45)" onmouseover="showTip(event, 'fs4', 45)" class="i">DateTime</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 46)" onmouseover="showTip(event, 'fs8', 46)" class="i">Now</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs24', 47)" onmouseover="showTip(event, 'fs24', 47)" class="i">Second</span>)
+                , <span class="n">1000</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 48)" onmouseover="showTip(event, 'fs17', 48)" class="f">ignore</span>
+        <span class="i">Cmd</span><span class="o">.</span><span class="i">ofSub</span> <span onmouseout="hideTip(event, 'fs15', 49)" onmouseover="showTip(event, 'fs15', 49)" class="i">sub</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 63)" onmouseover="showTip(event, 'fs32', 63)" class="f">init</span> () <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 50)" onmouseover="showTip(event, 'fs25', 50)" class="f">init</span> () <span class="o">=</span>
         <span class="n">0</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 64)" onmouseover="showTip(event, 'fs33', 64)" class="f">update</span> (<span onmouseout="hideTip(event, 'fs27', 65)" onmouseover="showTip(event, 'fs27', 65)" class="p">Second</span> <span onmouseout="hideTip(event, 'fs34', 66)" onmouseover="showTip(event, 'fs34', 66)" class="i">seconds</span>) <span onmouseout="hideTip(event, 'fs35', 67)" onmouseover="showTip(event, 'fs35', 67)" class="i">model</span> <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 51)" onmouseover="showTip(event, 'fs26', 51)" class="f">update</span> (<span onmouseout="hideTip(event, 'fs20', 52)" onmouseover="showTip(event, 'fs20', 52)" class="p">Second</span> <span onmouseout="hideTip(event, 'fs27', 53)" onmouseover="showTip(event, 'fs27', 53)" class="i">seconds</span>) <span onmouseout="hideTip(event, 'fs28', 54)" onmouseover="showTip(event, 'fs28', 54)" class="i">model</span> <span class="o">=</span>
         <span class="i">seconds</span>
 
 <span class="k">module</span> <span class="t">Hour</span> <span class="o">=</span>
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs36', 68)" onmouseover="showTip(event, 'fs36', 68)" class="t">Msg</span> <span class="o">=</span>
-        | <span onmouseout="hideTip(event, 'fs37', 69)" onmouseover="showTip(event, 'fs37', 69)" class="p">Hour</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs28', 70)" onmouseover="showTip(event, 'fs28', 70)" class="t">int</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs29', 55)" onmouseover="showTip(event, 'fs29', 55)" class="t">Msg</span> <span class="o">=</span>
+        | <span onmouseout="hideTip(event, 'fs30', 56)" onmouseover="showTip(event, 'fs30', 56)" class="p">Hour</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs21', 57)" onmouseover="showTip(event, 'fs21', 57)" class="t">int</span>
 
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs38', 71)" onmouseover="showTip(event, 'fs38', 71)" class="t">Model</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 72)" onmouseover="showTip(event, 'fs28', 72)" class="t">int</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs31', 58)" onmouseover="showTip(event, 'fs31', 58)" class="t">Model</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs21', 59)" onmouseover="showTip(event, 'fs21', 59)" class="t">int</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 73)" onmouseover="showTip(event, 'fs39', 73)" class="f">init</span> () <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 60)" onmouseover="showTip(event, 'fs32', 60)" class="f">init</span> () <span class="o">=</span>
         <span class="n">0</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 74)" onmouseover="showTip(event, 'fs40', 74)" class="f">update</span> (<span onmouseout="hideTip(event, 'fs37', 75)" onmouseover="showTip(event, 'fs37', 75)" class="p">Hour</span> <span onmouseout="hideTip(event, 'fs41', 76)" onmouseover="showTip(event, 'fs41', 76)" class="i">hours</span>) <span onmouseout="hideTip(event, 'fs35', 77)" onmouseover="showTip(event, 'fs35', 77)" class="i">model</span> <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 61)" onmouseover="showTip(event, 'fs33', 61)" class="f">update</span> (<span onmouseout="hideTip(event, 'fs30', 62)" onmouseover="showTip(event, 'fs30', 62)" class="p">Hour</span> <span onmouseout="hideTip(event, 'fs34', 63)" onmouseover="showTip(event, 'fs34', 63)" class="i">hours</span>) <span onmouseout="hideTip(event, 'fs28', 64)" onmouseover="showTip(event, 'fs28', 64)" class="i">model</span> <span class="o">=</span>
         <span class="i">hours</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 78)" onmouseover="showTip(event, 'fs42', 78)" class="f">subscribe</span> <span onmouseout="hideTip(event, 'fs15', 79)" onmouseover="showTip(event, 'fs15', 79)" class="i">initial</span> <span class="o">=</span>
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 80)" onmouseover="showTip(event, 'fs16', 80)" class="f">sub</span> <span onmouseout="hideTip(event, 'fs17', 81)" onmouseover="showTip(event, 'fs17', 81)" class="i">dispatch</span> <span class="o">=</span> 
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 65)" onmouseover="showTip(event, 'fs35', 65)" class="f">subscribe</span> <span onmouseout="hideTip(event, 'fs14', 66)" onmouseover="showTip(event, 'fs14', 66)" class="i">initial</span> <span class="o">=</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 67)" onmouseover="showTip(event, 'fs15', 67)" class="f">sub</span> <span onmouseout="hideTip(event, 'fs16', 68)" onmouseover="showTip(event, 'fs16', 68)" class="i">dispatch</span> <span class="o">=</span> 
             <span class="i">window</span><span class="o">.</span><span class="i">setInterval</span>(<span class="k">fun</span> _ <span class="k">-&gt;</span> 
-                <span onmouseout="hideTip(event, 'fs17', 82)" onmouseover="showTip(event, 'fs17', 82)" class="i">dispatch</span> (<span onmouseout="hideTip(event, 'fs37', 83)" onmouseover="showTip(event, 'fs37', 83)" class="i">Hour</span> <span onmouseout="hideTip(event, 'fs4', 84)" onmouseover="showTip(event, 'fs4', 84)" class="i">DateTime</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 85)" onmouseover="showTip(event, 'fs8', 85)" class="i">Now</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs43', 86)" onmouseover="showTip(event, 'fs43', 86)" class="i">Hour</span>)
-                , <span class="n">1000</span><span class="o">*</span><span class="n">60</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs18', 87)" onmouseover="showTip(event, 'fs18', 87)" class="f">ignore</span>
-        <span onmouseout="hideTip(event, 'fs19', 88)" onmouseover="showTip(event, 'fs19', 88)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 89)" onmouseover="showTip(event, 'fs20', 89)" class="f">ofSub</span> <span onmouseout="hideTip(event, 'fs16', 90)" onmouseover="showTip(event, 'fs16', 90)" class="f">sub</span>
+                <span onmouseout="hideTip(event, 'fs16', 69)" onmouseover="showTip(event, 'fs16', 69)" class="i">dispatch</span> (<span onmouseout="hideTip(event, 'fs30', 70)" onmouseover="showTip(event, 'fs30', 70)" class="i">Hour</span> <span onmouseout="hideTip(event, 'fs4', 71)" onmouseover="showTip(event, 'fs4', 71)" class="i">DateTime</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 72)" onmouseover="showTip(event, 'fs8', 72)" class="i">Now</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs36', 73)" onmouseover="showTip(event, 'fs36', 73)" class="i">Hour</span>)
+                , <span class="n">1000</span><span class="o">*</span><span class="n">60</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs17', 74)" onmouseover="showTip(event, 'fs17', 74)" class="f">ignore</span>
+        <span class="i">Cmd</span><span class="o">.</span><span class="i">ofSub</span> <span onmouseout="hideTip(event, 'fs15', 75)" onmouseover="showTip(event, 'fs15', 75)" class="i">sub</span>
 
-<span class="k">module</span> <span onmouseout="hideTip(event, 'fs44', 91)" onmouseover="showTip(event, 'fs44', 91)" class="t">App</span> <span class="o">=</span>
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs45', 92)" onmouseover="showTip(event, 'fs45', 92)" class="t">Model</span> <span class="o">=</span>
-        { <span onmouseout="hideTip(event, 'fs46', 93)" onmouseover="showTip(event, 'fs46', 93)" class="i">seconds</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs47', 94)" onmouseover="showTip(event, 'fs47', 94)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 95)" onmouseover="showTip(event, 'fs29', 95)" class="t">Model</span>
-          <span onmouseout="hideTip(event, 'fs48', 96)" onmouseover="showTip(event, 'fs48', 96)" class="i">hours</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs49', 97)" onmouseover="showTip(event, 'fs49', 97)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs38', 98)" onmouseover="showTip(event, 'fs38', 98)" class="t">Model</span> }
+<span class="k">module</span> <span onmouseout="hideTip(event, 'fs37', 76)" onmouseover="showTip(event, 'fs37', 76)" class="t">App</span> <span class="o">=</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs38', 77)" onmouseover="showTip(event, 'fs38', 77)" class="t">Model</span> <span class="o">=</span>
+        { <span onmouseout="hideTip(event, 'fs39', 78)" onmouseover="showTip(event, 'fs39', 78)" class="i">seconds</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs40', 79)" onmouseover="showTip(event, 'fs40', 79)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 80)" onmouseover="showTip(event, 'fs22', 80)" class="t">Model</span>
+          <span onmouseout="hideTip(event, 'fs41', 81)" onmouseover="showTip(event, 'fs41', 81)" class="i">hours</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs42', 82)" onmouseover="showTip(event, 'fs42', 82)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs31', 83)" onmouseover="showTip(event, 'fs31', 83)" class="t">Model</span> }
 
-    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs50', 99)" onmouseover="showTip(event, 'fs50', 99)" class="t">Msg</span> <span class="o">=</span> 
-        | <span onmouseout="hideTip(event, 'fs51', 100)" onmouseover="showTip(event, 'fs51', 100)" class="p">SecondMsg</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs47', 101)" onmouseover="showTip(event, 'fs47', 101)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs26', 102)" onmouseover="showTip(event, 'fs26', 102)" class="t">Msg</span>
-        | <span onmouseout="hideTip(event, 'fs52', 103)" onmouseover="showTip(event, 'fs52', 103)" class="p">HourMsg</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs49', 104)" onmouseover="showTip(event, 'fs49', 104)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs36', 105)" onmouseover="showTip(event, 'fs36', 105)" class="t">Msg</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs43', 84)" onmouseover="showTip(event, 'fs43', 84)" class="t">Msg</span> <span class="o">=</span> 
+        | <span onmouseout="hideTip(event, 'fs44', 85)" onmouseover="showTip(event, 'fs44', 85)" class="p">SecondMsg</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs40', 86)" onmouseover="showTip(event, 'fs40', 86)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs19', 87)" onmouseover="showTip(event, 'fs19', 87)" class="t">Msg</span>
+        | <span onmouseout="hideTip(event, 'fs45', 88)" onmouseover="showTip(event, 'fs45', 88)" class="p">HourMsg</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs42', 89)" onmouseover="showTip(event, 'fs42', 89)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs29', 90)" onmouseover="showTip(event, 'fs29', 90)" class="t">Msg</span>
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 106)" onmouseover="showTip(event, 'fs53', 106)" class="f">init</span> () <span class="o">=</span>
-        { <span class="i">seconds</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs47', 107)" onmouseover="showTip(event, 'fs47', 107)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs32', 108)" onmouseover="showTip(event, 'fs32', 108)" class="f">init</span>()
-          <span class="i">hours</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs49', 109)" onmouseover="showTip(event, 'fs49', 109)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs39', 110)" onmouseover="showTip(event, 'fs39', 110)" class="f">init</span>() }
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 91)" onmouseover="showTip(event, 'fs46', 91)" class="f">init</span> () <span class="o">=</span>
+        { <span class="i">seconds</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs40', 92)" onmouseover="showTip(event, 'fs40', 92)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 93)" onmouseover="showTip(event, 'fs25', 93)" class="f">init</span>()
+          <span class="i">hours</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 94)" onmouseover="showTip(event, 'fs42', 94)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs32', 95)" onmouseover="showTip(event, 'fs32', 95)" class="f">init</span>() }
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 111)" onmouseover="showTip(event, 'fs54', 111)" class="f">update</span> <span onmouseout="hideTip(event, 'fs10', 112)" onmouseover="showTip(event, 'fs10', 112)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs11', 113)" onmouseover="showTip(event, 'fs11', 113)" class="i">model</span> <span class="o">=</span>
-        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs10', 114)" onmouseover="showTip(event, 'fs10', 114)" class="i">msg</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs52', 115)" onmouseover="showTip(event, 'fs52', 115)" class="p">HourMsg</span> <span onmouseout="hideTip(event, 'fs55', 116)" onmouseover="showTip(event, 'fs55', 116)" class="i">msg</span> <span class="k">-&gt;</span> 
-            { <span onmouseout="hideTip(event, 'fs11', 117)" onmouseover="showTip(event, 'fs11', 117)" class="i">model</span> <span class="k">with</span> <span class="i">hours</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs49', 118)" onmouseover="showTip(event, 'fs49', 118)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs56', 119)" onmouseover="showTip(event, 'fs56', 119)" class="f">update</span> <span onmouseout="hideTip(event, 'fs55', 120)" onmouseover="showTip(event, 'fs55', 120)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs11', 121)" onmouseover="showTip(event, 'fs11', 121)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs48', 122)" onmouseover="showTip(event, 'fs48', 122)" class="i">hours</span> }
-        | <span onmouseout="hideTip(event, 'fs51', 123)" onmouseover="showTip(event, 'fs51', 123)" class="p">SecondMsg</span> <span onmouseout="hideTip(event, 'fs57', 124)" onmouseover="showTip(event, 'fs57', 124)" class="i">msg</span> <span class="k">-&gt;</span> 
-            { <span onmouseout="hideTip(event, 'fs11', 125)" onmouseover="showTip(event, 'fs11', 125)" class="i">model</span> <span class="k">with</span> <span class="i">seconds</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs47', 126)" onmouseover="showTip(event, 'fs47', 126)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs58', 127)" onmouseover="showTip(event, 'fs58', 127)" class="f">update</span> <span onmouseout="hideTip(event, 'fs57', 128)" onmouseover="showTip(event, 'fs57', 128)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs11', 129)" onmouseover="showTip(event, 'fs11', 129)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs46', 130)" onmouseover="showTip(event, 'fs46', 130)" class="i">seconds</span> }
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 96)" onmouseover="showTip(event, 'fs47', 96)" class="f">update</span> <span onmouseout="hideTip(event, 'fs10', 97)" onmouseover="showTip(event, 'fs10', 97)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs11', 98)" onmouseover="showTip(event, 'fs11', 98)" class="i">model</span> <span class="o">=</span>
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs10', 99)" onmouseover="showTip(event, 'fs10', 99)" class="i">msg</span> <span class="k">with</span>
+        | <span onmouseout="hideTip(event, 'fs45', 100)" onmouseover="showTip(event, 'fs45', 100)" class="p">HourMsg</span> <span onmouseout="hideTip(event, 'fs48', 101)" onmouseover="showTip(event, 'fs48', 101)" class="i">msg</span> <span class="k">-&gt;</span> 
+            { <span onmouseout="hideTip(event, 'fs11', 102)" onmouseover="showTip(event, 'fs11', 102)" class="i">model</span> <span class="k">with</span> <span class="i">hours</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 103)" onmouseover="showTip(event, 'fs42', 103)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs49', 104)" onmouseover="showTip(event, 'fs49', 104)" class="f">update</span> <span onmouseout="hideTip(event, 'fs48', 105)" onmouseover="showTip(event, 'fs48', 105)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs11', 106)" onmouseover="showTip(event, 'fs11', 106)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs41', 107)" onmouseover="showTip(event, 'fs41', 107)" class="i">hours</span> }
+        | <span onmouseout="hideTip(event, 'fs44', 108)" onmouseover="showTip(event, 'fs44', 108)" class="p">SecondMsg</span> <span onmouseout="hideTip(event, 'fs50', 109)" onmouseover="showTip(event, 'fs50', 109)" class="i">msg</span> <span class="k">-&gt;</span> 
+            { <span onmouseout="hideTip(event, 'fs11', 110)" onmouseover="showTip(event, 'fs11', 110)" class="i">model</span> <span class="k">with</span> <span class="i">seconds</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs40', 111)" onmouseover="showTip(event, 'fs40', 111)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs51', 112)" onmouseover="showTip(event, 'fs51', 112)" class="f">update</span> <span onmouseout="hideTip(event, 'fs50', 113)" onmouseover="showTip(event, 'fs50', 113)" class="i">msg</span> <span onmouseout="hideTip(event, 'fs11', 114)" onmouseover="showTip(event, 'fs11', 114)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs39', 115)" onmouseover="showTip(event, 'fs39', 115)" class="i">seconds</span> }
 
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs59', 131)" onmouseover="showTip(event, 'fs59', 131)" class="f">subscription</span> <span onmouseout="hideTip(event, 'fs11', 132)" onmouseover="showTip(event, 'fs11', 132)" class="i">model</span> <span class="o">=</span>
-        <span onmouseout="hideTip(event, 'fs19', 133)" onmouseover="showTip(event, 'fs19', 133)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs60', 134)" onmouseover="showTip(event, 'fs60', 134)" class="f">batch</span> [ <span onmouseout="hideTip(event, 'fs19', 135)" onmouseover="showTip(event, 'fs19', 135)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs61', 136)" onmouseover="showTip(event, 'fs61', 136)" class="f">map</span> <span onmouseout="hideTip(event, 'fs52', 137)" onmouseover="showTip(event, 'fs52', 137)" class="p">HourMsg</span> (<span onmouseout="hideTip(event, 'fs49', 138)" onmouseover="showTip(event, 'fs49', 138)" class="t">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs42', 139)" onmouseover="showTip(event, 'fs42', 139)" class="f">subscribe</span> <span onmouseout="hideTip(event, 'fs11', 140)" onmouseover="showTip(event, 'fs11', 140)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs48', 141)" onmouseover="showTip(event, 'fs48', 141)" class="i">hours</span>)
-                    <span onmouseout="hideTip(event, 'fs19', 142)" onmouseover="showTip(event, 'fs19', 142)" class="t">Cmd</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs61', 143)" onmouseover="showTip(event, 'fs61', 143)" class="f">map</span> <span onmouseout="hideTip(event, 'fs51', 144)" onmouseover="showTip(event, 'fs51', 144)" class="p">SecondMsg</span> (<span onmouseout="hideTip(event, 'fs47', 145)" onmouseover="showTip(event, 'fs47', 145)" class="t">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs30', 146)" onmouseover="showTip(event, 'fs30', 146)" class="f">subscribe</span> <span onmouseout="hideTip(event, 'fs11', 147)" onmouseover="showTip(event, 'fs11', 147)" class="i">model</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs46', 148)" onmouseover="showTip(event, 'fs46', 148)" class="i">seconds</span>) ]
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs52', 116)" onmouseover="showTip(event, 'fs52', 116)" class="f">subscription</span> <span onmouseout="hideTip(event, 'fs28', 117)" onmouseover="showTip(event, 'fs28', 117)" class="i">model</span> <span class="o">=</span>
+        <span class="i">Cmd</span><span class="o">.</span><span class="i">batch</span> [ <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs45', 118)" onmouseover="showTip(event, 'fs45', 118)" class="i">HourMsg</span> (<span onmouseout="hideTip(event, 'fs42', 119)" onmouseover="showTip(event, 'fs42', 119)" class="i">Hour</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs35', 120)" onmouseover="showTip(event, 'fs35', 120)" class="i">subscribe</span> <span onmouseout="hideTip(event, 'fs28', 121)" onmouseover="showTip(event, 'fs28', 121)" class="i">model</span><span class="o">.</span><span class="i">hours</span>)
+                    <span class="i">Cmd</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs44', 122)" onmouseover="showTip(event, 'fs44', 122)" class="i">SecondMsg</span> (<span onmouseout="hideTip(event, 'fs40', 123)" onmouseover="showTip(event, 'fs40', 123)" class="i">Second</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs23', 124)" onmouseover="showTip(event, 'fs23', 124)" class="i">subscribe</span> <span onmouseout="hideTip(event, 'fs28', 125)" onmouseover="showTip(event, 'fs28', 125)" class="i">model</span><span class="o">.</span><span class="i">seconds</span>) ]
 
-    <span onmouseout="hideTip(event, 'fs21', 149)" onmouseover="showTip(event, 'fs21', 149)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 150)" onmouseover="showTip(event, 'fs22', 150)" class="f">mkSimple</span> <span onmouseout="hideTip(event, 'fs53', 151)" onmouseover="showTip(event, 'fs53', 151)" class="f">init</span> <span onmouseout="hideTip(event, 'fs54', 152)" onmouseover="showTip(event, 'fs54', 152)" class="f">update</span> (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs11', 153)" onmouseover="showTip(event, 'fs11', 153)" class="i">model</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs23', 154)" onmouseover="showTip(event, 'fs23', 154)" class="f">printf</span> <span class="s">&quot;</span><span class="pf">%A</span><span class="s"></span><span class="e">\n</span><span class="s">&quot;</span> <span onmouseout="hideTip(event, 'fs11', 155)" onmouseover="showTip(event, 'fs11', 155)" class="i">model</span>)
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 156)" onmouseover="showTip(event, 'fs21', 156)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs24', 157)" onmouseover="showTip(event, 'fs24', 157)" class="f">withSubscription</span> <span onmouseout="hideTip(event, 'fs59', 158)" onmouseover="showTip(event, 'fs59', 158)" class="f">subscription</span>
-    <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 159)" onmouseover="showTip(event, 'fs21', 159)" class="t">Program</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs25', 160)" onmouseover="showTip(event, 'fs25', 160)" class="f">run</span>
+    <span class="i">Program</span><span class="o">.</span><span class="i">mkSimple</span> <span onmouseout="hideTip(event, 'fs46', 126)" onmouseover="showTip(event, 'fs46', 126)" class="i">init</span> <span onmouseout="hideTip(event, 'fs47', 127)" onmouseover="showTip(event, 'fs47', 127)" class="i">update</span> (<span class="k">fun</span> <span class="i">model</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs18', 128)" onmouseover="showTip(event, 'fs18', 128)" class="i">printf</span> <span class="s">&quot;%A</span><span class="e">\n</span><span class="s">&quot;</span> <span class="i">model</span>)
+    <span class="o">|&gt;</span> <span class="i">Program</span><span class="o">.</span><span class="i">withSubscription</span> <span onmouseout="hideTip(event, 'fs52', 129)" onmouseover="showTip(event, 'fs52', 129)" class="i">subscription</span>
+    <span class="o">|&gt;</span> <span class="i">Program</span><span class="o">.</span><span class="i">run</span>
 </code></pre></td>
 </tr>
 </table>
@@ -257,69 +257,61 @@ However, any time you need to issue a message (for example from a callback) you 
 <div class="tip" id="fs10">val msg : Msg</div>
 <div class="tip" id="fs11">val model : Model</div>
 <div class="tip" id="fs12">val current : DateTime</div>
-<div class="tip" id="fs13">namespace Elmish</div>
-<div class="tip" id="fs14">val timer : initial:&#39;a -&gt; Cmd&lt;&#39;b&gt;<br /><br />Full name: Subscriptions.timer</div>
-<div class="tip" id="fs15">val initial : &#39;a</div>
-<div class="tip" id="fs16">val sub : (&#39;c -&gt; unit)</div>
-<div class="tip" id="fs17">val dispatch : &#39;c</div>
-<div class="tip" id="fs18">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
-<div class="tip" id="fs19">Multiple items<br />module Cmd<br /><br />from Elmish<br /><br />--------------------<br />type Cmd&lt;&#39;msg&gt; = Sub&lt;&#39;msg&gt; list<br /><br />Full name: Elmish.Cmd&lt;_&gt;</div>
-<div class="tip" id="fs20">val ofSub : sub:Sub&lt;&#39;msg&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.ofSub</div>
-<div class="tip" id="fs21">Multiple items<br />module Program<br /><br />from Elmish<br /><br />--------------------<br />type Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt; =<br />&#160;&#160;{init: &#39;arg -&gt; &#39;model * Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;update: &#39;msg -&gt; &#39;model -&gt; &#39;model * Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;subscribe: &#39;model -&gt; Cmd&lt;&#39;msg&gt;;<br />&#160;&#160;&#160;view: &#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; &#39;view;<br />&#160;&#160;&#160;setState: &#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; unit;<br />&#160;&#160;&#160;onError: string * exn -&gt; unit;}<br /><br />Full name: Elmish.Program&lt;_,_,_,_&gt;</div>
-<div class="tip" id="fs22">val mkSimple : init:(&#39;arg -&gt; &#39;model) -&gt; update:(&#39;msg -&gt; &#39;model -&gt; &#39;model) -&gt; view:(&#39;model -&gt; Dispatch&lt;&#39;msg&gt; -&gt; &#39;view) -&gt; Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt;<br /><br />Full name: Elmish.Program.mkSimple</div>
-<div class="tip" id="fs23">val printf : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printf</div>
-<div class="tip" id="fs24">val withSubscription : subscribe:(&#39;model -&gt; Cmd&lt;&#39;msg&gt;) -&gt; program:Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt; -&gt; Program&lt;&#39;arg,&#39;model,&#39;msg,&#39;view&gt;<br /><br />Full name: Elmish.Program.withSubscription</div>
-<div class="tip" id="fs25">val run : program:Program&lt;unit,&#39;model,&#39;msg,&#39;view&gt; -&gt; unit<br /><br />Full name: Elmish.Program.run</div>
-<div class="tip" id="fs26">type Msg = | Second of int<br /><br />Full name: Subscriptions.Second.Msg</div>
-<div class="tip" id="fs27">union case Msg.Second: int -&gt; Msg</div>
-<div class="tip" id="fs28">Multiple items<br />val int : value:&#39;T -&gt; int (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.int<br /><br />--------------------<br />type int = int32<br /><br />Full name: Microsoft.FSharp.Core.int<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; = int<br /><br />Full name: Microsoft.FSharp.Core.int&lt;_&gt;</div>
-<div class="tip" id="fs29">type Model = int<br /><br />Full name: Subscriptions.Second.Model</div>
-<div class="tip" id="fs30">val subscribe : initial:&#39;a -&gt; Cmd&lt;&#39;b&gt;<br /><br />Full name: Subscriptions.Second.subscribe</div>
-<div class="tip" id="fs31">property DateTime.Second: int</div>
-<div class="tip" id="fs32">val init : unit -&gt; int<br /><br />Full name: Subscriptions.Second.init</div>
-<div class="tip" id="fs33">val update : Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Second.update</div>
-<div class="tip" id="fs34">val seconds : int</div>
-<div class="tip" id="fs35">val model : &#39;a</div>
-<div class="tip" id="fs36">type Msg = | Hour of int<br /><br />Full name: Subscriptions.Hour.Msg</div>
-<div class="tip" id="fs37">union case Msg.Hour: int -&gt; Msg</div>
-<div class="tip" id="fs38">type Model = int<br /><br />Full name: Subscriptions.Hour.Model</div>
-<div class="tip" id="fs39">val init : unit -&gt; int<br /><br />Full name: Subscriptions.Hour.init</div>
-<div class="tip" id="fs40">val update : Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Hour.update</div>
-<div class="tip" id="fs41">val hours : int</div>
-<div class="tip" id="fs42">val subscribe : initial:&#39;a -&gt; Cmd&lt;&#39;b&gt;<br /><br />Full name: Subscriptions.Hour.subscribe</div>
-<div class="tip" id="fs43">property DateTime.Hour: int</div>
-<div class="tip" id="fs44">module App<br /><br />from Subscriptions</div>
-<div class="tip" id="fs45">type Model =<br />&#160;&#160;{seconds: Model;<br />&#160;&#160;&#160;hours: Model;}<br /><br />Full name: Subscriptions.App.Model</div>
-<div class="tip" id="fs46">Model.seconds: Second.Model</div>
-<div class="tip" id="fs47">module Second<br /><br />from Subscriptions</div>
-<div class="tip" id="fs48">Model.hours: Hour.Model</div>
-<div class="tip" id="fs49">module Hour<br /><br />from Subscriptions</div>
-<div class="tip" id="fs50">type Msg =<br />&#160;&#160;| SecondMsg of Msg<br />&#160;&#160;| HourMsg of Msg<br /><br />Full name: Subscriptions.App.Msg</div>
-<div class="tip" id="fs51">union case Msg.SecondMsg: Second.Msg -&gt; Msg</div>
-<div class="tip" id="fs52">union case Msg.HourMsg: Hour.Msg -&gt; Msg</div>
-<div class="tip" id="fs53">val init : unit -&gt; Model<br /><br />Full name: Subscriptions.App.init</div>
-<div class="tip" id="fs54">val update : msg:Msg -&gt; model:Model -&gt; Model<br /><br />Full name: Subscriptions.App.update</div>
-<div class="tip" id="fs55">val msg : Hour.Msg</div>
-<div class="tip" id="fs56">val update : Hour.Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Hour.update</div>
-<div class="tip" id="fs57">val msg : Second.Msg</div>
-<div class="tip" id="fs58">val update : Second.Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Second.update</div>
-<div class="tip" id="fs59">val subscription : model:Model -&gt; Cmd&lt;Msg&gt;<br /><br />Full name: Subscriptions.App.subscription</div>
-<div class="tip" id="fs60">val batch : cmds:#seq&lt;Cmd&lt;&#39;msg&gt;&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.batch</div>
-<div class="tip" id="fs61">val map : f:(&#39;a -&gt; &#39;msg) -&gt; cmd:Cmd&lt;&#39;a&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.map</div>
+<div class="tip" id="fs13">val timer : initial:&#39;a -&gt; &#39;b<br /><br />Full name: Subscriptions.timer</div>
+<div class="tip" id="fs14">val initial : &#39;a</div>
+<div class="tip" id="fs15">val sub : (&#39;c -&gt; unit)</div>
+<div class="tip" id="fs16">val dispatch : &#39;c</div>
+<div class="tip" id="fs17">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
+<div class="tip" id="fs18">val printf : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printf</div>
+<div class="tip" id="fs19">type Msg = | Second of int<br /><br />Full name: Subscriptions.Second.Msg</div>
+<div class="tip" id="fs20">union case Msg.Second: int -&gt; Msg</div>
+<div class="tip" id="fs21">Multiple items<br />val int : value:&#39;T -&gt; int (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.int<br /><br />--------------------<br />type int = int32<br /><br />Full name: Microsoft.FSharp.Core.int<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; = int<br /><br />Full name: Microsoft.FSharp.Core.int&lt;_&gt;</div>
+<div class="tip" id="fs22">type Model = int<br /><br />Full name: Subscriptions.Second.Model</div>
+<div class="tip" id="fs23">val subscribe : initial:&#39;a -&gt; &#39;b<br /><br />Full name: Subscriptions.Second.subscribe</div>
+<div class="tip" id="fs24">property DateTime.Second: int</div>
+<div class="tip" id="fs25">val init : unit -&gt; int<br /><br />Full name: Subscriptions.Second.init</div>
+<div class="tip" id="fs26">val update : Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Second.update</div>
+<div class="tip" id="fs27">val seconds : int</div>
+<div class="tip" id="fs28">val model : &#39;a</div>
+<div class="tip" id="fs29">type Msg = | Hour of int<br /><br />Full name: Subscriptions.Hour.Msg</div>
+<div class="tip" id="fs30">union case Msg.Hour: int -&gt; Msg</div>
+<div class="tip" id="fs31">type Model = int<br /><br />Full name: Subscriptions.Hour.Model</div>
+<div class="tip" id="fs32">val init : unit -&gt; int<br /><br />Full name: Subscriptions.Hour.init</div>
+<div class="tip" id="fs33">val update : Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Hour.update</div>
+<div class="tip" id="fs34">val hours : int</div>
+<div class="tip" id="fs35">val subscribe : initial:&#39;a -&gt; &#39;b<br /><br />Full name: Subscriptions.Hour.subscribe</div>
+<div class="tip" id="fs36">property DateTime.Hour: int</div>
+<div class="tip" id="fs37">module App<br /><br />from Subscriptions</div>
+<div class="tip" id="fs38">type Model =<br />&#160;&#160;{seconds: Model;<br />&#160;&#160;&#160;hours: Model;}<br /><br />Full name: Subscriptions.App.Model</div>
+<div class="tip" id="fs39">Model.seconds: Second.Model</div>
+<div class="tip" id="fs40">module Second<br /><br />from Subscriptions</div>
+<div class="tip" id="fs41">Model.hours: Hour.Model</div>
+<div class="tip" id="fs42">module Hour<br /><br />from Subscriptions</div>
+<div class="tip" id="fs43">type Msg =<br />&#160;&#160;| SecondMsg of Msg<br />&#160;&#160;| HourMsg of Msg<br /><br />Full name: Subscriptions.App.Msg</div>
+<div class="tip" id="fs44">union case Msg.SecondMsg: Second.Msg -&gt; Msg</div>
+<div class="tip" id="fs45">union case Msg.HourMsg: Hour.Msg -&gt; Msg</div>
+<div class="tip" id="fs46">val init : unit -&gt; Model<br /><br />Full name: Subscriptions.App.init</div>
+<div class="tip" id="fs47">val update : msg:Msg -&gt; model:Model -&gt; Model<br /><br />Full name: Subscriptions.App.update</div>
+<div class="tip" id="fs48">val msg : Hour.Msg</div>
+<div class="tip" id="fs49">val update : Hour.Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Hour.update</div>
+<div class="tip" id="fs50">val msg : Second.Msg</div>
+<div class="tip" id="fs51">val update : Second.Msg -&gt; model:&#39;a -&gt; int<br /><br />Full name: Subscriptions.Second.update</div>
+<div class="tip" id="fs52">val subscription : model:&#39;a -&gt; &#39;b<br /><br />Full name: Subscriptions.App.subscription</div>
 
         </div>
         <div class="span3">
-          <img src="https://fable-elmish.github.io/elmish/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="https://elmish.github.io/elmish/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">elmish</li>
-            <li><a href="https://github.com/fable-elmish/elmish">Source Code on GitHub</a></li>
+            <li><a href="https://github.com/elmish/elmish">Source Code on GitHub</a></li>
             <li class="nav-header">Step by step</li>
-            <li><a href="https://fable-elmish.github.io/elmish/basics.html">The basics</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/parent-child.html">Parent-child</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/subscriptions.html">Subscriptions</a></li>
+            <li><a href="https://elmish.github.io/elmish/basics.html">The basics</a></li>
+            <li><a href="https://elmish.github.io/elmish/parent-child.html">Parent-child</a></li>
+            <li><a href="https://elmish.github.io/elmish/subscriptions.html">Subscriptions</a></li>
             <li class="nav-header">Modules</li>
-            <li><a href="https://fable-elmish.github.io/elmish/cmd.html">Cmd</a></li>
-            <li><a href="https://fable-elmish.github.io/elmish/program.html">Program</a></li>
+            <li><a href="https://elmish.github.io/elmish/prelude.html">Prelude</a></li>
+            <li><a href="https://elmish.github.io/elmish/cmd.html">Cmd</a></li>
+            <li><a href="https://elmish.github.io/elmish/program.html">Program</a></li>
           </ul>
         </div>
       </div>
