@@ -2,7 +2,7 @@
 
 First of all - thanks for taking the time to contribute!
 
-With that in mind, fable-elmish is a young project and as such while we welcome the contributions from non-member there are certain things we'd like to get more right than fast. To make everyone's experience as enjoyable as possible please keep the following things in mind:
+With that in mind, elmish is a young project and as such while we welcome the contributions from non-member there are certain things we'd like to get more right than fast. To make everyone's experience as enjoyable as possible please keep the following things in mind:
 
 * Unless it's a trivial fix, consider opening an issue first to discuss it with the team.
 * If you are just looking for something to take on, check the *help wanted" labeled items

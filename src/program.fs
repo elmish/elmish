@@ -23,11 +23,6 @@ type Program<'arg, 'model, 'msg, 'view> = {
 [<RequireQualifiedAccess>]
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
-    open Fable.Core.JsInterop
-    open Fable.Import.JS
-
-    let internal onError (text: string, ex: exn) = console.error (text,ex)
-
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
     let mkProgram 
         (init : 'arg -> 'model * Cmd<'msg>) 
@@ -38,7 +33,7 @@ module Program =
           view = view
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
-          onError = onError }
+          onError = Log.onError }
 
     /// Simple program that produces only new state with `init` and `update`.
     let mkSimple 
@@ -50,7 +45,7 @@ module Program =
           view = view
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
-          onError = onError }
+          onError = Log.onError }
 
     /// Subscribe to external source of events.
     /// The subscription is called once - with the initial model, but can dispatch new messages at any time.
@@ -62,16 +57,15 @@ module Program =
 
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
-        let inline toPlain o = toJson o |> JSON.parse
         let traceInit (arg:'arg) =
             let initModel,cmd = program.init arg
-            console.log ("Initial state:", toPlain initModel)
+            Log.toConsole ("Initial state:", initModel)
             initModel,cmd
 
         let traceUpdate msg model =
-            console.log ("New message:", toPlain msg)
+            Log.toConsole ("New message:", msg)
             let newModel,cmd = program.update msg model
-            console.log ("Updated state:", toPlain newModel)
+            Log.toConsole ("Updated state:", newModel)
             newModel,cmd
 
         { program with

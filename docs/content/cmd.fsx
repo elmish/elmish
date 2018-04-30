@@ -1,5 +1,5 @@
 ﻿(*** hide ***)
-#I "../../src/bin/Debug/netstandard1.6"
+#I "../../src/bin/Release/netstandard2.0"
 #r "Fable.Core.dll"
 #r "Fable.PowerPack.dll"
 #r "Fable.Elmish.dll"
@@ -95,6 +95,7 @@ module Cmd =
     let ofSub (sub: Sub<'msg>) : Cmd<'msg> =
         [sub]
 
+#if FABLE_COMPILER
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
@@ -108,3 +109,4 @@ module Cmd =
             |> Promise.catch (ofError >> dispatch)
             |> ignore
         [bind]
+#endif

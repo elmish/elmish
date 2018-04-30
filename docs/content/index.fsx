@@ -119,14 +119,14 @@ In fact, an Elmish app can run entirely without a UI!
 
 At the moment, there are two UI technologies for which rendering has been implemented: React and React Native.
 
-For details please see [fable-elmish-react](https://fable-elmish.github.io/react).
+For details please see [elmish-react](https://elmish.github.io/react).
 
 
 ### Interacting with a browser
 
 Larger Elmish applications for the browser may benefit from advanced features like routing and explicit navigation control.
 
-For information about these features please see [fable-elmish-browser](https://fable-elmish.github.io/browser).
+For information about these features please see [elmish-browser](https://elmish.github.io/browser).
 
 
 ### Observing the state changes
@@ -146,7 +146,7 @@ Program.mkSimple init update view
 
 And start seeing the state and messages as updates happen in the browser developer console.
 
-For more advanced debugging capabilities please see [fable-elmish-debugger](https://fable-elmish.github.io/debugger).
+For more advanced debugging capabilities please see [elmish-debugger](https://elmish.github.io/debugger).
 *)
 
 

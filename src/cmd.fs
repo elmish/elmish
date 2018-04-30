@@ -87,6 +87,7 @@ module Cmd =
     let ofSub (sub: Sub<'msg>) : Cmd<'msg> =
         [sub]
 
+#if FABLE_COMPILER
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
@@ -100,3 +101,4 @@ module Cmd =
             |> Promise.catch (ofError >> dispatch)
             |> ignore
         [bind]
+#endif

@@ -4,15 +4,15 @@
 // --------------------------------------------------------------------------------------
 
 // Web site location for the generated documentation
-let website = "https://fable-elmish.github.io/elmish"
+let website = "https://elmish.github.io/elmish"
 
-let githubLink = "https://github.com/fable-elmish/elmish"
+let githubLink = "https://github.com/elmish/elmish"
 
 // Specify more information about your project
 let info =
   [ "project-name", "elmish"
     "project-author", "Eugene Tolmachev"
-    "project-summary", "Elm-like Cmd and Program modules for Fable apps"
+    "project-summary", "Elm-like Cmd and Program modules for F# apps"
     "project-github", githubLink
     "project-nuget", "http://nuget.org/packages/Fable.Elmish" ]
 

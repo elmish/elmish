@@ -13,9 +13,10 @@ open Fake.Git
 // Filesets
 let projects  =
       !! "src/**.fsproj"
+      ++ "netstandard/**.fsproj"
 
 
-let dotnetcliVersion = "2.0.0"
+let dotnetcliVersion = DotNetCli.GetDotNetSDKVersionFromGlobalJson()
 
 let mutable dotnetExePath = "dotnet"
 
@@ -30,11 +31,13 @@ Target "InstallDotNetCore" (fun _ ->
 Target "Clean" (fun _ ->
     CleanDir "src/obj"
     CleanDir "src/bin"
+    CleanDir "netstandard/obj"
+    CleanDir "netstandard/bin"
 )
 
 Target "Install" (fun _ ->
     projects
-    |> Seq.iter (fun s -> 
+    |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
         runDotnet dir "restore"
     )
@@ -42,9 +45,9 @@ Target "Install" (fun _ ->
 
 Target "Build" (fun _ ->
     projects
-    |> Seq.iter (fun s -> 
+    |> Seq.iter (fun s ->
         let dir = IO.Path.GetDirectoryName s
-        runDotnet dir "build")
+        runDotnet dir "build -c Release /p:SourceLinkCreate=true")
 )
 
 let release = LoadReleaseNotes "RELEASE_NOTES.md"
@@ -52,36 +55,39 @@ let release = LoadReleaseNotes "RELEASE_NOTES.md"
 Target "Meta" (fun _ ->
     [ "<Project xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">"
       "<PropertyGroup>"
-      "<Description>Elmish core for Fable apps</Description>"
-      "<PackageProjectUrl>https://github.com/fable-elmish/elmish</PackageProjectUrl>"
-      "<PackageLicenseUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/LICENSE.md</PackageLicenseUrl>"
-      "<PackageIconUrl>https://raw.githubusercontent.com/fable-elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
-      "<RepositoryUrl>https://github.com/fable-elmish/elmish.git</RepositoryUrl>"
+      "<PackageProjectUrl>https://github.com/elmish/elmish</PackageProjectUrl>"
+      "<PackageLicenseUrl>https://raw.githubusercontent.com/elmish/elmish/master/LICENSE.md</PackageLicenseUrl>"
+      "<PackageIconUrl>https://raw.githubusercontent.com/elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
+      "<RepositoryUrl>https://github.com/elmish/elmish.git</RepositoryUrl>"
+      sprintf "<PackageReleaseNotes>%s</PackageReleaseNotes>" (List.head release.Notes)
       "<PackageTags>fable;elm;fsharp</PackageTags>"
-      "<Authors>Eugene Tolmachev</Authors>" 
+      "<Authors>Eugene Tolmachev</Authors>"
       sprintf "<Version>%s</Version>" (string release.SemVer)
       "</PropertyGroup>"
       "</Project>"]
-    |> WriteToFile false "Meta.props"
+    |> WriteToFile false "Directory.Build.props"
 )
 
 // --------------------------------------------------------------------------------------
 // Build a NuGet package
 
 Target "Package" (fun _ ->
-    runDotnet "src" "pack"
+    runDotnet "src" "pack -c Release"
+    runDotnet "netstandard" "pack -c Release"
 )
 
 Target "PublishNuget" (fun _ ->
     let args = sprintf "nuget push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (environVar "nugetkey")
-    runDotnet "src/bin/Debug" args
+    runDotnet "src/bin/Release" args
+    let args = sprintf "nuget push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (environVar "nugetkey")
+    runDotnet "netstandard/bin/Release" args
 )
 
 
 // --------------------------------------------------------------------------------------
 // Generate the documentation
 let gitName = "elmish"
-let gitOwner = "fable-elmish"
+let gitOwner = "elmish"
 let gitHome = sprintf "https://github.com/%s" gitOwner
 
 let fakePath = "packages" </> "build" </> "FAKE" </> "tools" </> "FAKE.exe"
@@ -108,9 +114,9 @@ let executeFAKEWithOutput workingDirectory script fsiargs envArgs =
     exitCode
 
 let copyFiles() =
-    let header = 
+    let header =
         splitStr "\n" """(*** hide ***)
-#I "../../src/bin/Debug/netstandard1.6"
+#I "../../src/bin/Release/netstandard2.0"
 #r "Fable.Core.dll"
 #r "Fable.PowerPack.dll"
 #r "Fable.Elmish.dll"
@@ -120,8 +126,8 @@ let copyFiles() =
 
     !!"src/*.fs"
     |> Seq.map (fun fn -> ReadFile fn |> Seq.append header, fn)
-    |> Seq.iter (fun (lines,fn) -> 
-        let fsx = Path.Combine("docs/content",Path.ChangeExtension(fn |> Path.GetFileName, "fsx")) 
+    |> Seq.iter (fun (lines,fn) ->
+        let fsx = Path.Combine("docs/content",Path.ChangeExtension(fn |> Path.GetFileName, "fsx"))
         lines |> WriteFile fsx)
 
 // Documentation
@@ -226,7 +232,7 @@ Target "Publish" DoNothing
         "Package"
         "PublishNuget"
         "ReleaseDocs" ]
-  
-  
+
+
 // start build
 RunTargetOrDefault "Build"

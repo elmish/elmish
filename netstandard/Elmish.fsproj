@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Elmish core for .NET apps</Description>
+    <TargetFrameworks>netstandard2.0;netstandard1.6;net461</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../src/prelude.fs" />
+    <Compile Include="../src/cmd.fs" />
+    <Compile Include="../src/program.fs" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+  <Import Project="netfx.props" />
+</Project>
