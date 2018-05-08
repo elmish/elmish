@@ -1,3 +1,7 @@
+### 1.0.3
+
+* re-releasing with azure-functions compatible FSharp.Core dependency
+
 ### 1.0.2
 
 * backporting CLR (platform) support
