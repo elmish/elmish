@@ -209,8 +209,7 @@ Target.create "ReleaseDocs" (fun _ ->
     Branches.push tempDocsDir
 )
 
-#load "./paket-files/Build/fsharp/FAKE/modules/Octokit/Octokit.fsx"
-open Octokit
+#load "./paket-files/build/fsharp/FAKE/modules/Octokit/Octokit.fsx"
 
 Target.create "Release" (fun _ ->
     let user =
