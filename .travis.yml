@@ -1,6 +1,7 @@
 language: csharp
 
 sudo: false  # use the new container-based Travis infrastructure
+dotnet: 2.1.4
 dist: trusty
 
 addons:
@@ -19,4 +20,4 @@ cache:
   yarn: true
 
 script:
-  - ./build.sh Package
+  - ./build.sh Build
