@@ -1,8 +1,8 @@
 source https://nuget.org/api/v2
 
 nuget FSharp.Core  redirects:force, content:none, >= 4.2.3
-nuget Fable.Core
-nuget Fable.PowerPack
+nuget Fable.Core prerelease
+nuget Fable.PowerPack prerelease
 nuget SourceLink.Create.CommandLine copy_local: true
 
 group Build

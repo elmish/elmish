@@ -18,16 +18,20 @@ See the [docs site](https://elmish.github.io/elmish/) for more information.
 
 Using Elmish
 ------
-v0.9 and above releases of Elmish target Fable 1.x and use `dotnet` SDK and can be installed with `paket`:
+v2.0 and above releases of Fable.Elmish target Fable 2.x and use `dotnet` SDK and can be installed with `paket`:
 
 `paket add nuget Fable.Elmish -i`
 
-For v0.8 release information please see the [v0.8.x branch](https://github.com/elmish/elmish/tree/v0.8.x)
+If targeting CLR, please use Elmish package:
+`paket add nuget Elmish -i`
+
+For v1.x release information please see the [v1.x branch](https://github.com/elmish/elmish/tree/v1.x)
+
 
 
 Building Elmish
 ------
-As part of Fable 1.x ecosystem, elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core).
+As part of Fable 2.x ecosystem, elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core).
 Unless the SDK is installed and is in the path the build will download and install it locally:
 
 Just run fake:

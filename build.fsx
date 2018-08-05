@@ -89,7 +89,6 @@ Target.create "Package" (fun _ ->
         DotNet.pack (fun a ->
             let c =
                 { a.Common with
-                    CustomParams = Some "-c Release"
                     WorkingDirectory = dir }
             { a with Common = c }
         ) s
@@ -97,14 +96,14 @@ Target.create "Package" (fun _ ->
 )
 
 Target.create "PublishNuget" (fun _ ->
-    let args = sprintf "nuget push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
-    let result = DotNet.exec (fun a -> a |> withWorkDir "src/bin/Release") "run" args
-    if (not result.OK) then failwith (List.reduce (+) result.Errors)
+    let args = sprintf "push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
+    let result = DotNet.exec (fun a -> a |> withWorkDir "src/bin/Release") "nuget" args
+    if (not result.OK) then failwithf "%A" result.Errors
 
-    let args = sprintf "nuget push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
-    let result = DotNet.exec (fun a -> a |> withWorkDir "src/bin/Release") "run" args
+    let args = sprintf "push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
+    let result = DotNet.exec (fun a -> a |> withWorkDir "netstandard/bin/Release") "nuget" args
     if (not result.OK) then
-        failwith (result.Errors |> List.map (fun s -> s + ";") |> List.reduce (+))
+        failwithf "%A" result.Errors
 )
 
 

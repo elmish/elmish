@@ -1,3 +1,7 @@
+### 2.0.0-beta-4
+
+* re-releasing v1.x for Fable2
+
 ### 1.0.3
 
 * re-releasing with azure-functions compatible FSharp.Core dependency
