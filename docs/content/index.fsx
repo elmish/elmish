@@ -19,7 +19,7 @@ Elm architecture operates using the following concepts, as they translate to Elm
   This is a snapshot of your application's state, defined as an immutable data structure.
 
 * **Message** <br />
-  This an event representing a change (delta) in the state of your application, defined as a discriminated union.
+  This is an event representing a change (delta) in the state of your application, defined as a discriminated union.
 
 * **Command** <br />
   This is a carrier of instructions, that when evaluated may produce one or more messages.
@@ -66,7 +66,7 @@ Parent-child hierarchy is made explicit by wrapping model and message types of t
 
 1. User clicks on the increase button
 2. `Widget.view` dispatches an `Increase` message
-3. `Main.view` has augemented the `dispatch` so the message becomes `WidgetMsg Increase` as it is sent along to `program`
+3. `Main.view` has augmented the `dispatch` so the message becomes `WidgetMsg Increase` as it is sent along to `program`
 4. `program` calls `Main.update` with this message and `mainModel`
 5. As the message was tagged with `WidgetMsg`, `Main.update` delegates the update to `Widget.update`, sending along the way the `widgetModel` part of `mainModel`
 6. `Widget.update` modifies the model according to the given message, in this case `Increase`, and returns the modified `widgetModel` plus a command
@@ -132,7 +132,7 @@ For information about these features please see [elmish-browser](https://elmish.
 ### Observing the state changes
 
 Every message going through the dispatch loop can be traced, along with the current state of the app.
-Just augument the program instance with a trace function:
+Just augment the program instance with a trace function:
 
 *)
 open Elmish
