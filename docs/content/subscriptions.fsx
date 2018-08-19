@@ -38,7 +38,7 @@ let update msg model =
 
 Note that "simple" is not a requirement and is just a matter of convenience for the purpose of the example!
 
-Now lets define our timer subscription:
+Now let's define our timer subscription:
 
 *)
 open Elmish
