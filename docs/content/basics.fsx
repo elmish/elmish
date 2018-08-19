@@ -26,7 +26,7 @@ type Msg =
 
 (** 
 Now we define the `init` function that will produce initial state once the program starts running.
-It can take any arguments, but we'll just use `unit`. We'll need the [`Cmd`](cmd.html) type, so we'll open Elmish for that:
+It can take any argument, but we'll just use `unit`. We'll need the [`Cmd`](cmd.html) type, so we'll open Elmish for that:
 *)
 open Elmish
 
