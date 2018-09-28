@@ -87,11 +87,9 @@ Target.create "Package" (fun _ ->
     |> Seq.iter (fun s ->
         let dir = Path.GetDirectoryName s
         DotNet.pack (fun a ->
-            let c =
-                { a.Common with
-                    CustomParams = Some "-c Release"
-                    WorkingDirectory = dir }
-            { a with Common = c }
+            { a with
+                Configuration = DotNet.BuildConfiguration.Release
+                Common = { a.Common with WorkingDirectory = dir } }
         ) s
     )
 )
