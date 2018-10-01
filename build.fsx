@@ -87,21 +87,29 @@ Target.create "Package" (fun _ ->
     |> Seq.iter (fun s ->
         let dir = Path.GetDirectoryName s
         DotNet.pack (fun a ->
-            let c =
-                { a.Common with
-                    WorkingDirectory = dir }
-            { a with Common = c }
+            a.WithCommon
+                (fun c ->
+                    c |> withWorkDir dir
+                )
         ) s
     )
 )
 
 Target.create "PublishNuget" (fun _ ->
+    let exec dir =
+        DotNet.exec (fun a ->
+            a.WithCommon
+                (fun c ->
+                    c |> withWorkDir dir
+                )
+        )
+
     let args = sprintf "push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
-    let result = DotNet.exec (fun a -> a |> withWorkDir "src/bin/Release") "nuget" args
+    let result = exec "src/bin/Release" "nuget" args
     if (not result.OK) then failwithf "%A" result.Errors
 
     let args = sprintf "push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
-    let result = DotNet.exec (fun a -> a |> withWorkDir "netstandard/bin/Release") "nuget" args
+    let result = exec "netstandard/bin/Release" "nuget" args
     if (not result.OK) then
         failwithf "%A" result.Errors
 )
