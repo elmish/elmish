@@ -1,3 +1,7 @@
+### 2.0.0
+
+* Stable release
+
 ### 2.0.0-beta-4
 
 * re-releasing v1.x for Fable2
@@ -20,7 +24,7 @@
 
 ### 0.9.2
 
-* `withErrorHandler` modifier 
+* `withErrorHandler` modifier
 * cumulative `withSubscription`
 
 ### 0.9.1
