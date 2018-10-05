@@ -27,3 +27,4 @@ docs/temp
 Directory.Build.props
 temp
 paket-files
+.ionide

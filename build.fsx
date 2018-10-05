@@ -23,9 +23,7 @@ let projects  =
     ++ "netstandard/**.fsproj"
 
 
-// let dotnetcliVersion = DotNet.getSDKVersionFromGlobalJson()
-
-let baseOptions = lazy DotNet.install DotNet.Release_2_1_4
+let baseOptions = lazy DotNet.install (fun o -> { o with Version = DotNet.CliVersion.GlobalJson})
 let withWorkDir workingDir =
     DotNet.Options.lift baseOptions.Value
     >> DotNet.Options.withWorkingDirectory workingDir
