@@ -21,6 +21,10 @@ type Cmd<'msg> = Sub<'msg> list
 /// Cmd module for creating and manipulating commands
 [<RequireQualifiedAccess>]
 module Cmd =
+    /// Execute the commands using the supplied dispatcher
+    let internal exec (dispatch:Dispatch<'msg>) (cmd:Cmd<'msg>)=
+        cmd |> List.iter (fun sub -> sub dispatch)
+
     /// None - no commands, also known as `[]`
     let none : Cmd<'msg> =
         []

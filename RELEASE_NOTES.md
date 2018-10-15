@@ -1,3 +1,7 @@
+### 2.0.1
+
+* Adding `Cmd.exec`
+
 ### 2.0.0
 
 * Stable release
