@@ -111,7 +111,7 @@ module Program =
             with ex ->
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
-        sub @ cmd |> List.iter (fun sub -> sub inbox.Post)
+        sub @ cmd |> Cmd.exec inbox.Post
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program

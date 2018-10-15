@@ -37,6 +37,10 @@ module Cmd =
     let batch (cmds: #seq<Cmd<'msg>>) : Cmd<'msg> =
         cmds |> List.concat
 
+    /// Execute the commands using the supplied dispatcher
+    let exec (dispatch:Dispatch<'msg>) (cmd:Cmd<'msg>)=
+        cmd |> List.iter (fun sub -> sub dispatch)
+
     /// Command that will evaluate an async block and map the result
     /// into success or error (of exception)
     let ofAsync (task: 'a -> Async<_>) 

@@ -5,8 +5,8 @@ dotnet: 2.1.4
 dist: trusty
 
 before_script:
-  - nvm install lts
-  - nvm use lts
+  - nvm install --lts
+  - nvm use --lts
 
 cache:
   yarn: true
