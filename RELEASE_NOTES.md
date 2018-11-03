@@ -1,3 +1,7 @@
+### 2.0.3
+
+* Adding `Cmd.ofTask` for netstandard
+
 ### 2.0.1
 
 * Adding `Cmd.exec`
