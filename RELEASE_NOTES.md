@@ -1,3 +1,7 @@
+### 3.0.0-beta-1
+
+* Ditching MailboxProcessor
+
 ### 2.0.3
 
 * Adding `Cmd.ofTask` for netstandard

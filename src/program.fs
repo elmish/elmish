@@ -87,31 +87,35 @@ module Program =
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
-        let inbox = MailboxProcessor.Start(fun (mb:MailboxProcessor<'msg>) ->
-            let rec loop (state:'model) =
-                async {
-                    let! msg = mb.Receive()
-                    let newState =
-                        try
-                            let (model',cmd') = program.update msg state
-                            program.setState model' mb.Post
-                            cmd' |> Cmd.exec mb.Post
-                            model'
-                        with ex ->
-                            program.onError ("Unable to process a message:", ex)
-                            state
-                    return! loop newState
-                }
-            loop model
-        )
-        program.setState model inbox.Post
+        let mutable rb = RingBuffer 10
+        let mutable reentered = false
+        let mutable state = model        
+        let rec dispatch msg = 
+            if reentered then
+                rb.Push msg
+            else
+                reentered <- true
+                let mutable nextMsg = Some msg
+                while Option.isSome nextMsg do // I wish we could write Rust-like `while (Some msg = nextMsg) do`
+                    let msg = nextMsg.Value
+                    try
+                        let (model',cmd') = program.update msg state
+                        program.setState model' dispatch
+                        cmd' |> Cmd.exec dispatch
+                        state <- model'
+                    with ex ->
+                        program.onError (sprintf "Unable to process the message: %A" msg, ex)
+                    nextMsg <- rb.Pop()
+                reentered <- false
+
+        program.setState model dispatch
         let sub = 
             try 
                 program.subscribe model 
             with ex ->
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
-        sub @ cmd |> Cmd.exec inbox.Post
+        sub @ cmd |> Cmd.exec dispatch
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program

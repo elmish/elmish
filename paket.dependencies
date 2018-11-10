@@ -1,9 +1,15 @@
 source https://nuget.org/api/v2
 
+nuget FsCheck
+nuget FsCheck.NUnit
 nuget FSharp.Core  redirects:force, content:none, >= 4.2.3
 nuget Fable.Core
 nuget Fable.PowerPack
 nuget SourceLink.Create.CommandLine copy_local: true
+nuget nunit
+nuget NUnit3TestAdapter
+nuget Microsoft.NET.Test.Sdk
+nuget Unquote
 
 group Build
 framework: net46

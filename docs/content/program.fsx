@@ -103,7 +103,7 @@ module Program =
                         try
                             let (model',cmd') = program.update msg state
                             program.setState model' mb.Post
-                            cmd' |> List.iter (fun sub -> sub mb.Post)
+                            cmd' |> Cmd.exec mb.Post
                             model'
                         with ex ->
                             program.onError ("Unable to process a message:", ex)
@@ -119,7 +119,7 @@ module Program =
             with ex ->
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
-        sub @ cmd |> List.iter (fun sub -> sub inbox.Post)
+        sub @ cmd |> Cmd.exec inbox.Post
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program
