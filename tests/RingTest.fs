@@ -1,4 +1,4 @@
-module Elmish.RingBufferTests
+module Elmish.RingTests
 
 open FsCheck.NUnit
 open System.Collections.Generic

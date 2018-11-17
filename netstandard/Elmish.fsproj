@@ -10,7 +10,6 @@
     <Compile Include="../src/cmd.fs" />
     <Compile Include="../src/ring.fs" />
     <Compile Include="../src/program.fs" />
-    <Compile Include="meta.fs" />
   </ItemGroup>
   <Import Project="netfx.props" />
   <Import Project="..\.paket\Paket.Restore.targets" />

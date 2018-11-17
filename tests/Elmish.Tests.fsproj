@@ -6,7 +6,8 @@
     <ProjectReference Include="../netstandard/Elmish.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RingBuffer.fs" />
+    <Compile Include="../src/ring.fs" />
+    <Compile Include="RingTest.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
