@@ -17,6 +17,7 @@ type Program<'arg, 'model, 'msg, 'view> = {
     view : 'model -> Dispatch<'msg> -> 'view
     setState : 'model -> Dispatch<'msg> -> unit
     onError : (string*exn) -> unit
+    syncDispatch: Dispatch<'msg> -> Dispatch<'msg>
 }
 
 /// Program module - functions to manipulate program instances
@@ -33,7 +34,8 @@ module Program =
           view = view
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
-          onError = Log.onError }
+          onError = Log.onError
+          syncDispatch = id }
 
     /// Simple program that produces only new state with `init` and `update`.
     let mkSimple 
@@ -45,7 +47,8 @@ module Program =
           view = view
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
-          onError = Log.onError }
+          onError = Log.onError
+          syncDispatch = id }
 
     /// Subscribe to external source of events.
     /// The subscription is called once - with the initial model, but can dispatch new messages at any time.
@@ -87,7 +90,7 @@ module Program =
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
-        let mutable rb = RingBuffer 10
+        let rb = RingBuffer 10
         let mutable reentered = false
         let mutable state = model        
         let rec dispatch msg = 
@@ -100,22 +103,23 @@ module Program =
                     let msg = nextMsg.Value
                     try
                         let (model',cmd') = program.update msg state
-                        program.setState model' dispatch
-                        cmd' |> Cmd.exec dispatch
+                        program.setState model' syncDispatch
+                        cmd' |> Cmd.exec syncDispatch
                         state <- model'
                     with ex ->
                         program.onError (sprintf "Unable to process the message: %A" msg, ex)
                     nextMsg <- rb.Pop()
                 reentered <- false
+        and syncDispatch = program.syncDispatch dispatch            
 
-        program.setState model dispatch
+        program.setState model syncDispatch
         let sub = 
             try 
                 program.subscribe model 
             with ex ->
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
-        sub @ cmd |> Cmd.exec dispatch
+        sub @ cmd |> Cmd.exec syncDispatch
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program
