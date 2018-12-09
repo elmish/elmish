@@ -1,3 +1,7 @@
+### 3.0.0-beta-3
+
+* Ditching PowerPack in favour of Fable.Promise
+
 ### 3.0.0-beta-2
 
 * Ditching MailboxProcessor
