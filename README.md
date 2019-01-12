@@ -1,4 +1,4 @@
-Elmish: Elm-like abstractions for F# applications targeting Fable.
+Elmish: Elm-like abstractions for F# applications.
 =======
 
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-compiler/Fable)
@@ -18,8 +18,9 @@ See the [docs site](https://elmish.github.io/elmish/) for more information.
 
 Using Elmish
 ------
-v2.0 and above releases of Fable.Elmish target Fable 2.x and use `dotnet` SDK and can be installed with `paket`:
+v2.0 and above releases use `dotnet` SDK and can be installed with `dotnet nuget` or `paket`:
 
+For use in a Fable project:
 `paket add nuget Fable.Elmish -i`
 
 If targeting CLR, please use Elmish package:
@@ -31,7 +32,7 @@ For v1.x release information please see the [v1.x branch](https://github.com/elm
 
 Building Elmish
 ------
-As part of Fable 2.x ecosystem, elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core).
+Elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core).
 Unless the SDK is installed and is in the path the build will download and install it locally:
 
 Just run fake:
