@@ -1,0 +1,18 @@
+@startuml
+autonumber "<b>(#)"
+' © Sebastian Porto 2016, 
+' licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+participant program #white
+participant Main.update as MU #white
+participant Child.update as CU #white
+participant GrandChild.update as GC #white
+
+program -> MU: update
+MU -> CU: update
+CU -> GC: update
+GC --> CU: (model, command)
+CU --> MU: (model, command)
+MU -> program : (model, command)
+
+@enduml

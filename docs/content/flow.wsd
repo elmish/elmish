@@ -1,0 +1,15 @@
+@startuml
+' © Sebastian Porto 2016, 
+' licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+autonumber
+participant program #white
+participant update #white
+participant view #white
+
+program -> view : Render view
+|||
+view -> program : Trigger message e.g. Expand
+program -> update : Send message with the current state
+update --> program : Return updated state and command
+program -> view : Render view
+@enduml
