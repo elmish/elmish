@@ -51,9 +51,9 @@ module Cmd =
 
     /// Command that will evaluate an async block and map the result
     /// into success or error (of exception)
-    let ofAsync (task: 'a -> Async<_>) 
-                (arg: 'a) 
-                (ofSuccess: _ -> 'msg) 
+    let ofAsync (task: 'a -> Async<_>)
+                (arg: 'a)
+                (ofSuccess: _ -> 'msg)
                 (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             async {
@@ -103,9 +103,9 @@ module Cmd =
     open Fable.PowerPack
 
     /// Command to call `promise` block and map the results
-    let ofPromise (task: 'a -> Fable.Import.JS.Promise<_>) 
-                  (arg:'a) 
-                  (ofSuccess: _ -> 'msg) 
+    let ofPromise (task: 'a -> Fable.Core.JS.Promise<_>)
+                  (arg:'a)
+                  (ofSuccess: _ -> 'msg)
                   (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             task arg
@@ -117,9 +117,9 @@ module Cmd =
     open System.Threading.Tasks
 
     /// Command to call a task and map the results
-    let inline ofTask (task: 'a -> Task<_>) 
-                      (arg:'a) 
-                      (ofSuccess: _ -> 'msg) 
+    let inline ofTask (task: 'a -> Task<_>)
+                      (arg:'a)
+                      (ofSuccess: _ -> 'msg)
                       (ofError: _ -> 'msg) : Cmd<'msg> =
         ofAsync (task >> Async.AwaitTask) arg ofSuccess ofError
 
