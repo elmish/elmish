@@ -56,6 +56,50 @@ module Cmd =
             }
         [bind >> Async.StartImmediate]
 
+    type AsyncValParams<'a, 'b> =
+        { Value : Async<'a>
+          Success : 'a -> 'b
+          Error : Option<exn -> 'b> }
+
+    /// Converts an `Async<'t>` expression to `Cmd<'u>`, mapping the `'t` to `'u` using the Success function or optionally map an exception to `'u` using the Error function if unexpected errors occur. 
+    /// 
+    /// For example:
+    /// 
+    /// 
+    /// ```
+    /// let getDataCmd = 
+    ///     Cmd.fromAsync {
+    ///         Value = Server.api.getData input
+    ///         Success = fun data -> GotData data
+    ///         Error = Some (fun ex -> FailedToGetData ex.Message)
+    ///     }
+    /// ```
+    /// 
+    /// In case you assume that an `Async` expression does not throw errors, you can set the error handler to None:
+    /// 
+    /// ```
+    /// let getAnswerCmd = 
+    ///     Cmd.fromAsync {
+    ///         Value = async { return 42 }
+    ///         Success = fun answer -> GotAnswer answer
+    ///         Error = None
+    ///     }
+    /// ```
+    ///   
+    let fromAsync (asyncValue: AsyncValParams<'a, 'b>) : Cmd<'b> = 
+        let bind dispatch = 
+            async {
+                let! result = Async.Catch asyncValue.Value
+                match result with 
+                | Choice1Of2 value -> dispatch (asyncValue.Success value) 
+                | Choice2Of2 error -> 
+                    match asyncValue.Error with 
+                    | Some errorHandler -> dispatch (errorHandler error)
+                    | None -> ()
+            } 
+        
+        [ bind >> Async.StartImmediate ]
+
     /// Command to evaluate a simple function and map the result
     /// into success or error (of exception)
     let ofFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
