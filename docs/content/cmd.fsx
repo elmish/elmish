@@ -108,10 +108,10 @@ module Cmd =
                   (ofSuccess: _ -> 'msg)
                   (ofError: _ -> 'msg) : Cmd<'msg> =
         let bind dispatch =
-            task arg
-            |> Promise.map (ofSuccess >> dispatch)
-            |> Promise.catch (ofError >> dispatch)
-            |> ignore
+            (task arg)
+                .``then``(ofSuccess >> dispatch)
+                .catch(ofError >> dispatch)
+                |> ignore
         [bind]
 #else
     open System.Threading.Tasks

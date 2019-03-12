@@ -4,7 +4,6 @@ nuget FsCheck
 nuget FsCheck.NUnit
 nuget FSharp.Core  redirects:force, content:none, >= 4.2.3
 nuget Fable.Core prerelease
-nuget Fable.Promise prerelease
 nuget SourceLink.Create.CommandLine copy_local: true
 nuget nunit
 nuget NUnit3TestAdapter

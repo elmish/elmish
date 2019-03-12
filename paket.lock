@@ -1,9 +1,6 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-    Fable.Core (3.0.0-beta-002)
-      FSharp.Core (>= 4.5.2) - restriction: >= netstandard2.0
-    Fable.Promise (2.0.0-beta-001)
-      Fable.Core (>= 2.0.2) - restriction: >= netstandard2.0
+    Fable.Core (3.0.0-beta-004)
       FSharp.Core (>= 4.5.2) - restriction: >= netstandard2.0
     FsCheck (2.13)
       FSharp.Core (>= 4.0.0.1) - restriction: && (< net452) (>= netstandard1.0) (< netstandard1.6)
@@ -11,7 +8,7 @@ NUGET
     FsCheck.NUnit (2.13)
       FsCheck (2.13)
       NUnit (>= 3.10.1 < 4.0)
-    FSharp.Core (4.5.4) - redirects: force
+    FSharp.Core (4.6.2) - redirects: force
       System.Collections (>= 4.0.11) - restriction: && (< net45) (>= netstandard1.6) (< netstandard2.0)
       System.Console (>= 4.0) - restriction: && (< net45) (>= netstandard1.6) (< netstandard2.0)
       System.Diagnostics.Debug (>= 4.0.11) - restriction: && (< net45) (>= netstandard1.6) (< netstandard2.0)
