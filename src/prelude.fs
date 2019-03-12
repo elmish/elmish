@@ -9,8 +9,7 @@ Basic cross-platform logging API.
 module internal Log =
 
 #if FABLE_COMPILER
-    open Fable.Core.JsInterop
-    open Fable.Import.JS
+    open Fable.Core.JS
 
     let onError (text: string, ex: exn) = console.error (text,ex)
     let toConsole(text: string, o: #obj) = console.log(text,o)
