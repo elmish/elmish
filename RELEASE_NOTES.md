@@ -1,3 +1,7 @@
+### 3.0.0-beta-5
+
+* Fable 3 conversion courtesy of Alfonso
+
 ### 3.0.0-beta-4
 
 * Ditching PowerPack in favour of Fable.Promise

@@ -6,7 +6,7 @@ Elmish: Elm-like abstractions for F# applications.
 [![Mono Build Status](https://travis-ci.org/elmish/elmish.svg "Mono Build Status")](https://travis-ci.org/elmish/elmish)
 [![NuGet version](https://badge.fury.io/nu/Fable.Elmish.svg)](https://badge.fury.io/nu/Fable.Elmish)
 
-Elmish implements core abstractions that can be used to build applications following the [“model view update”](http://www.elm-tutorial.org/en/02-elm-arch/01-introduction.html) style of architecture, as made famous by Elm.
+Elmish implements core abstractions that can be used to build applications following the “model view update” style of architecture, as made famous by Elm.
 The library however does not model any "view" and is intended for use in conjuction with a DOM/renderer, like React/ReactNative or VirtualDOM.
 Those familiar with Redux may find Elmish a more natural fit when targeting React or ReactNative as it allows one to stay completely in idiomatic F#.
 
@@ -27,7 +27,7 @@ If targeting CLR, please use Elmish package:
 `paket add nuget Elmish -i`
 
 For v1.x release information please see the [v1.x branch](https://github.com/elmish/elmish/tree/v1.x)
-
+For v2.x release information please see the [v2.x branch](https://github.com/elmish/elmish/tree/v2.x)
 
 
 Building Elmish
