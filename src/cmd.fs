@@ -93,14 +93,14 @@ module Cmd =
 
 #if FABLE_COMPILER
     /// Command to call `promise` block and map the results
-    let ofPromise (task: 'a -> Fable.Core.JS.Promise<_>)
+    let ofPromise (task: 'a -> Fable.Core.JS.Promise<'b>)
                   (arg:'a)
-                  (ofSuccess: _ -> 'msg)
-                  (ofError: _ -> 'msg) : Cmd<'msg> =
+                  (ofSuccess: 'b -> 'msg)
+                  (ofError: exn -> 'msg) : Cmd<'msg> =
         let bind dispatch =
             (task arg)
                 .``then``(ofSuccess >> dispatch)
-                .catch(ofError >> dispatch)
+                .catch((unbox ofError) >> dispatch)
                 |> ignore
         [bind]
 #else
