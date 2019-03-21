@@ -7,10 +7,9 @@ Core abstractions for creating and running the dispatch loop.
 
 namespace Elmish
 
-open System
 
 /// Program type captures various aspects of program behavior
-type Program<'arg, 'model, 'msg, 'view> = {
+type Program<'arg, 'model, 'msg, 'view> = private {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
     subscribe : 'model -> Cmd<'msg>
@@ -85,6 +84,42 @@ module Program =
         { program
             with onError = onError }
 
+    /// For library authors only: map existing error handler and return new `Program` 
+    let mapErrorHandler map (program: Program<'arg, 'model, 'msg, 'view>) =
+        { program
+            with onError = map program.onError }
+
+    /// For library authors only: function to render the view with the latest state 
+    let withSetState (setState:'model -> Dispatch<'msg> -> unit)
+                     (program: Program<'arg, 'model, 'msg, 'view>) =        
+        { program
+            with setState = setState }
+
+    /// For library authors only: return the function to render the state 
+    let setState (program: Program<'arg, 'model, 'msg, 'view>) =        
+        program.setState
+
+    /// For library authors only: return the view function 
+    let view (program: Program<'arg, 'model, 'msg, 'view>) =        
+        program.view
+
+    /// For library authors only: function to synchronize the dispatch function
+    let withSyncDispatch (syncDispatch:Dispatch<'msg> -> Dispatch<'msg>)
+                         (program: Program<'arg, 'model, 'msg, 'view>) =        
+        { program
+            with syncDispatch = syncDispatch }
+
+    /// For library authors only: map the program type
+    let map mapInit mapUpdate mapView mapSetState mapSubscribe
+            (program: Program<'arg, 'model, 'msg, 'view>) =
+        { init = mapInit program.init
+          update = mapUpdate program.update
+          view = mapView program.view
+          setState = mapSetState program.setState
+          subscribe = mapSubscribe program.subscribe
+          onError = program.onError
+          syncDispatch = id }
+
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
@@ -99,7 +134,7 @@ module Program =
             else
                 reentered <- true
                 let mutable nextMsg = Some msg
-                while Option.isSome nextMsg do // I wish we could write Rust-like `while (Some msg = nextMsg) do`
+                while Option.isSome nextMsg do
                     let msg = nextMsg.Value
                     try
                         let (model',cmd') = program.update msg state
@@ -123,4 +158,3 @@ module Program =
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program
-

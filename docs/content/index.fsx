@@ -50,7 +50,7 @@ Concepts
 
 ### Dispatch loop
 
-![flow](https://www.elm-tutorial.org/en/02-elm-arch/04-flow.png)
+![flow](img/flow.svg)
 
 Once started, Program runs a dispatch loop, producing a new Model given the current state and an input Message.
 
@@ -62,7 +62,7 @@ See the [basics example](basics.html) for details.
 
 Parent-child hierarchy is made explicit by wrapping model and message types of the child with those of the parent.
 
-![flow](https://www.elm-tutorial.org/en-v01/02-elm-arch/06-composing_001.png)
+![flow](img/parent-child.svg)
 
 1. User clicks on the increase button
 2. `Widget.view` dispatches an `Increase` message
@@ -90,7 +90,7 @@ Commands are carriers of instructions, which you issue from the `init` and `upda
 Once evaluated, a command may produce one or more new messages, mapping success or failure as instructed ahead of time. 
 As with any message dispatch, in the case of Parent-Child composition, child commands need to be mapped to the parent's type: 
 
-![cmd](https://www.elm-tutorial.org/en-v01/03-subs-cmds/02-commands.png)
+![cmd](img/commands.svg)
 
 1. `Program` calls the `Main.update` with a message
 2. `Main.update` does its own update and/or delegates to `Child.update`

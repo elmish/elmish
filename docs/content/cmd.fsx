@@ -100,8 +100,6 @@ module Cmd =
         [sub]
 
 #if FABLE_COMPILER
-    open Fable.PowerPack
-
     /// Command to call `promise` block and map the results
     let ofPromise (task: 'a -> Fable.Core.JS.Promise<_>)
                   (arg:'a)
