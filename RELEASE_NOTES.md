@@ -1,3 +1,7 @@
+### 3.0.0-beta-7
+
+* Making `Program` type opaque and reorganizing `Cmd` functions
+
 ### 3.0.0-beta-5
 
 * Fable 3 conversion courtesy of Alfonso
