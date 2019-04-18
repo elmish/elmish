@@ -1,6 +1,6 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-    Fable.Core (3.0.0-beta-004)
+    Fable.Core (3.0)
       FSharp.Core (>= 4.5.2) - restriction: >= netstandard2.0
     FsCheck (2.13)
       FSharp.Core (>= 4.0.0.1) - restriction: && (< net452) (>= netstandard1.0) (< netstandard1.6)
