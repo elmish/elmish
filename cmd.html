@@ -32,253 +32,539 @@
           
 <h2><a name="Cmd" class="anchor" href="#Cmd">Cmd</a></h2>
 <p>Core abstractions for dispatching messages in Elmish.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
-<span class="l">24: </span>
-<span class="l">25: </span>
-<span class="l">26: </span>
-<span class="l">27: </span>
-<span class="l">28: </span>
-<span class="l">29: </span>
-<span class="l">30: </span>
-<span class="l">31: </span>
-<span class="l">32: </span>
-<span class="l">33: </span>
-<span class="l">34: </span>
-<span class="l">35: </span>
-<span class="l">36: </span>
-<span class="l">37: </span>
-<span class="l">38: </span>
-<span class="l">39: </span>
-<span class="l">40: </span>
-<span class="l">41: </span>
-<span class="l">42: </span>
-<span class="l">43: </span>
-<span class="l">44: </span>
-<span class="l">45: </span>
-<span class="l">46: </span>
-<span class="l">47: </span>
-<span class="l">48: </span>
-<span class="l">49: </span>
-<span class="l">50: </span>
-<span class="l">51: </span>
-<span class="l">52: </span>
-<span class="l">53: </span>
-<span class="l">54: </span>
-<span class="l">55: </span>
-<span class="l">56: </span>
-<span class="l">57: </span>
-<span class="l">58: </span>
-<span class="l">59: </span>
-<span class="l">60: </span>
-<span class="l">61: </span>
-<span class="l">62: </span>
-<span class="l">63: </span>
-<span class="l">64: </span>
-<span class="l">65: </span>
-<span class="l">66: </span>
-<span class="l">67: </span>
-<span class="l">68: </span>
-<span class="l">69: </span>
-<span class="l">70: </span>
-<span class="l">71: </span>
-<span class="l">72: </span>
-<span class="l">73: </span>
-<span class="l">74: </span>
-<span class="l">75: </span>
-<span class="l">76: </span>
-<span class="l">77: </span>
-<span class="l">78: </span>
-<span class="l">79: </span>
-<span class="l">80: </span>
-<span class="l">81: </span>
-<span class="l">82: </span>
-<span class="l">83: </span>
-<span class="l">84: </span>
-<span class="l">85: </span>
-<span class="l">86: </span>
-<span class="l">87: </span>
-<span class="l">88: </span>
-<span class="l">89: </span>
-<span class="l">90: </span>
-<span class="l">91: </span>
-<span class="l">92: </span>
-<span class="l">93: </span>
-<span class="l">94: </span>
-<span class="l">95: </span>
-<span class="l">96: </span>
-<span class="l">97: </span>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
+<span class="l">  2: </span>
+<span class="l">  3: </span>
+<span class="l">  4: </span>
+<span class="l">  5: </span>
+<span class="l">  6: </span>
+<span class="l">  7: </span>
+<span class="l">  8: </span>
+<span class="l">  9: </span>
+<span class="l"> 10: </span>
+<span class="l"> 11: </span>
+<span class="l"> 12: </span>
+<span class="l"> 13: </span>
+<span class="l"> 14: </span>
+<span class="l"> 15: </span>
+<span class="l"> 16: </span>
+<span class="l"> 17: </span>
+<span class="l"> 18: </span>
+<span class="l"> 19: </span>
+<span class="l"> 20: </span>
+<span class="l"> 21: </span>
+<span class="l"> 22: </span>
+<span class="l"> 23: </span>
+<span class="l"> 24: </span>
+<span class="l"> 25: </span>
+<span class="l"> 26: </span>
+<span class="l"> 27: </span>
+<span class="l"> 28: </span>
+<span class="l"> 29: </span>
+<span class="l"> 30: </span>
+<span class="l"> 31: </span>
+<span class="l"> 32: </span>
+<span class="l"> 33: </span>
+<span class="l"> 34: </span>
+<span class="l"> 35: </span>
+<span class="l"> 36: </span>
+<span class="l"> 37: </span>
+<span class="l"> 38: </span>
+<span class="l"> 39: </span>
+<span class="l"> 40: </span>
+<span class="l"> 41: </span>
+<span class="l"> 42: </span>
+<span class="l"> 43: </span>
+<span class="l"> 44: </span>
+<span class="l"> 45: </span>
+<span class="l"> 46: </span>
+<span class="l"> 47: </span>
+<span class="l"> 48: </span>
+<span class="l"> 49: </span>
+<span class="l"> 50: </span>
+<span class="l"> 51: </span>
+<span class="l"> 52: </span>
+<span class="l"> 53: </span>
+<span class="l"> 54: </span>
+<span class="l"> 55: </span>
+<span class="l"> 56: </span>
+<span class="l"> 57: </span>
+<span class="l"> 58: </span>
+<span class="l"> 59: </span>
+<span class="l"> 60: </span>
+<span class="l"> 61: </span>
+<span class="l"> 62: </span>
+<span class="l"> 63: </span>
+<span class="l"> 64: </span>
+<span class="l"> 65: </span>
+<span class="l"> 66: </span>
+<span class="l"> 67: </span>
+<span class="l"> 68: </span>
+<span class="l"> 69: </span>
+<span class="l"> 70: </span>
+<span class="l"> 71: </span>
+<span class="l"> 72: </span>
+<span class="l"> 73: </span>
+<span class="l"> 74: </span>
+<span class="l"> 75: </span>
+<span class="l"> 76: </span>
+<span class="l"> 77: </span>
+<span class="l"> 78: </span>
+<span class="l"> 79: </span>
+<span class="l"> 80: </span>
+<span class="l"> 81: </span>
+<span class="l"> 82: </span>
+<span class="l"> 83: </span>
+<span class="l"> 84: </span>
+<span class="l"> 85: </span>
+<span class="l"> 86: </span>
+<span class="l"> 87: </span>
+<span class="l"> 88: </span>
+<span class="l"> 89: </span>
+<span class="l"> 90: </span>
+<span class="l"> 91: </span>
+<span class="l"> 92: </span>
+<span class="l"> 93: </span>
+<span class="l"> 94: </span>
+<span class="l"> 95: </span>
+<span class="l"> 96: </span>
+<span class="l"> 97: </span>
+<span class="l"> 98: </span>
+<span class="l"> 99: </span>
+<span class="l">100: </span>
+<span class="l">101: </span>
+<span class="l">102: </span>
+<span class="l">103: </span>
+<span class="l">104: </span>
+<span class="l">105: </span>
+<span class="l">106: </span>
+<span class="l">107: </span>
+<span class="l">108: </span>
+<span class="l">109: </span>
+<span class="l">110: </span>
+<span class="l">111: </span>
+<span class="l">112: </span>
+<span class="l">113: </span>
+<span class="l">114: </span>
+<span class="l">115: </span>
+<span class="l">116: </span>
+<span class="l">117: </span>
+<span class="l">118: </span>
+<span class="l">119: </span>
+<span class="l">120: </span>
+<span class="l">121: </span>
+<span class="l">122: </span>
+<span class="l">123: </span>
+<span class="l">124: </span>
+<span class="l">125: </span>
+<span class="l">126: </span>
+<span class="l">127: </span>
+<span class="l">128: </span>
+<span class="l">129: </span>
+<span class="l">130: </span>
+<span class="l">131: </span>
+<span class="l">132: </span>
+<span class="l">133: </span>
+<span class="l">134: </span>
+<span class="l">135: </span>
+<span class="l">136: </span>
+<span class="l">137: </span>
+<span class="l">138: </span>
+<span class="l">139: </span>
+<span class="l">140: </span>
+<span class="l">141: </span>
+<span class="l">142: </span>
+<span class="l">143: </span>
+<span class="l">144: </span>
+<span class="l">145: </span>
+<span class="l">146: </span>
+<span class="l">147: </span>
+<span class="l">148: </span>
+<span class="l">149: </span>
+<span class="l">150: </span>
+<span class="l">151: </span>
+<span class="l">152: </span>
+<span class="l">153: </span>
+<span class="l">154: </span>
+<span class="l">155: </span>
+<span class="l">156: </span>
+<span class="l">157: </span>
+<span class="l">158: </span>
+<span class="l">159: </span>
+<span class="l">160: </span>
+<span class="l">161: </span>
+<span class="l">162: </span>
+<span class="l">163: </span>
+<span class="l">164: </span>
+<span class="l">165: </span>
+<span class="l">166: </span>
+<span class="l">167: </span>
+<span class="l">168: </span>
+<span class="l">169: </span>
+<span class="l">170: </span>
+<span class="l">171: </span>
+<span class="l">172: </span>
+<span class="l">173: </span>
+<span class="l">174: </span>
+<span class="l">175: </span>
+<span class="l">176: </span>
+<span class="l">177: </span>
+<span class="l">178: </span>
+<span class="l">179: </span>
+<span class="l">180: </span>
+<span class="l">181: </span>
+<span class="l">182: </span>
+<span class="l">183: </span>
+<span class="l">184: </span>
+<span class="l">185: </span>
+<span class="l">186: </span>
+<span class="l">187: </span>
+<span class="l">188: </span>
+<span class="l">189: </span>
+<span class="l">190: </span>
+<span class="l">191: </span>
+<span class="l">192: </span>
+<span class="l">193: </span>
+<span class="l">194: </span>
+<span class="l">195: </span>
+<span class="l">196: </span>
+<span class="l">197: </span>
+<span class="l">198: </span>
+<span class="l">199: </span>
+<span class="l">200: </span>
+<span class="l">201: </span>
+<span class="l">202: </span>
+<span class="l">203: </span>
+<span class="l">204: </span>
+<span class="l">205: </span>
+<span class="l">206: </span>
+<span class="l">207: </span>
+<span class="l">208: </span>
+<span class="l">209: </span>
+<span class="l">210: </span>
+<span class="l">211: </span>
+<span class="l">212: </span>
+<span class="l">213: </span>
+<span class="l">214: </span>
+<span class="l">215: </span>
+<span class="l">216: </span>
+<span class="l">217: </span>
+<span class="l">218: </span>
+<span class="l">219: </span>
+<span class="l">220: </span>
+<span class="l">221: </span>
+<span class="l">222: </span>
+<span class="l">223: </span>
+<span class="l">224: </span>
+<span class="l">225: </span>
+<span class="l">226: </span>
+<span class="l">227: </span>
+<span class="l">228: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">namespace</span> <span class="i">Elmish</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">namespace</span> <span class="id">Elmish</span>
 
-<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">System</span>
+<span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">System</span>
 
 <span class="c">/// Dispatch - feed new message into the processing loop</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="t">Dispatch</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&#39;</span><span class="i">msg</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="t">unit</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="rt">Dispatch</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span> <span class="ta">&#39;</span><span class="id">msg</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="rt">unit</span>
 
 <span class="c">/// Subscription - return immediately, but may schedule dispatch of a message at any time</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="t">Sub</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="t">Dispatch</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="t">unit</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="rt">Sub</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="rt">Dispatch</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="rt">unit</span>
 
 <span class="c">/// Cmd - container for subscriptions that may produce messages</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="t">Sub</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="t">list</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="rt">Sub</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="rt">list</span>
 
 <span class="c">/// Cmd module for creating and manipulating commands</span>
-[&lt;<span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="t">RequireQualifiedAccess</span>&gt;]
-<span class="k">module</span> <span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="t">Cmd</span> <span class="o">=</span>
-    <span class="c">/// None - no commands, also known as `[]`</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="i">none</span> <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 13)" onmouseover="showTip(event, 'fs5', 13)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        []
+<span class="pn">[&lt;</span><span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="rt">RequireQualifiedAccess</span><span class="pn">&gt;]</span>
+<span class="k">module</span> <span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="m">Cmd</span> <span class="o">=</span>
+    <span class="c">/// Execute the commands using the supplied dispatcher</span>
+    <span class="k">let</span> <span class="k">internal</span> <span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="fn">exec</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs10', 13)" onmouseover="showTip(event, 'fs10', 13)" class="fn">dispatch</span><span class="pn">:</span><span onmouseout="hideTip(event, 'fs2', 14)" onmouseover="showTip(event, 'fs2', 14)" class="rt">Dispatch</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="id">cmd</span><span class="pn">:</span><span onmouseout="hideTip(event, 'fs5', 16)" onmouseover="showTip(event, 'fs5', 16)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span><span class="pn">)</span><span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs11', 17)" onmouseover="showTip(event, 'fs11', 17)" class="id">cmd</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">iter</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="fn">sub</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="fn">sub</span> <span onmouseout="hideTip(event, 'fs10', 22)" onmouseover="showTip(event, 'fs10', 22)" class="fn">dispatch</span><span class="pn">)</span>
 
-    <span class="c">/// Command to issue a specific message</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="f">ofMsg</span> (<span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="i">msg</span><span class="o">:</span><span class="o">&#39;</span><span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="i">msg</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 17)" onmouseover="showTip(event, 'fs5', 17)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        [<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs12', 19)" onmouseover="showTip(event, 'fs12', 19)" class="f">dispatch</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 20)" onmouseover="showTip(event, 'fs12', 20)" class="f">dispatch</span> <span onmouseout="hideTip(event, 'fs11', 21)" onmouseover="showTip(event, 'fs11', 21)" class="i">msg</span>]
+    <span class="c">/// None - no commands, also known as `[]`</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 23)" onmouseover="showTip(event, 'fs15', 23)" class="id">none</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 24)" onmouseover="showTip(event, 'fs5', 24)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span class="pn">[</span><span class="pn">]</span>
 
     <span class="c">/// When emitting the message, map to another type</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 22)" onmouseover="showTip(event, 'fs13', 22)" class="f">map</span> (<span onmouseout="hideTip(event, 'fs14', 23)" onmouseover="showTip(event, 'fs14', 23)" class="f">f</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">msg</span>) (<span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="i">cmd</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 25)" onmouseover="showTip(event, 'fs5', 25)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 26)" onmouseover="showTip(event, 'fs5', 26)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        <span onmouseout="hideTip(event, 'fs15', 27)" onmouseover="showTip(event, 'fs15', 27)" class="i">cmd</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs16', 28)" onmouseover="showTip(event, 'fs16', 28)" class="t">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs17', 29)" onmouseover="showTip(event, 'fs17', 29)" class="f">map</span> (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs18', 30)" onmouseover="showTip(event, 'fs18', 30)" class="f">g</span> <span class="k">-&gt;</span> (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs12', 31)" onmouseover="showTip(event, 'fs12', 31)" class="f">dispatch</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs14', 32)" onmouseover="showTip(event, 'fs14', 32)" class="f">f</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs12', 33)" onmouseover="showTip(event, 'fs12', 33)" class="f">dispatch</span>) <span class="o">&gt;</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="f">g</span>)
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 25)" onmouseover="showTip(event, 'fs16', 25)" class="fn">map</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs17', 26)" onmouseover="showTip(event, 'fs17', 26)" class="fn">f</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs18', 27)" onmouseover="showTip(event, 'fs18', 27)" class="id">cmd</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 28)" onmouseover="showTip(event, 'fs5', 28)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">a</span><span class="pn">&gt;</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 29)" onmouseover="showTip(event, 'fs5', 29)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs18', 30)" onmouseover="showTip(event, 'fs18', 30)" class="id">cmd</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 31)" onmouseover="showTip(event, 'fs12', 31)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs19', 32)" onmouseover="showTip(event, 'fs19', 32)" class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs20', 33)" onmouseover="showTip(event, 'fs20', 33)" class="fn">g</span> <span class="k">-&gt;</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs10', 34)" onmouseover="showTip(event, 'fs10', 34)" class="fn">dispatch</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 35)" onmouseover="showTip(event, 'fs17', 35)" class="fn">f</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs10', 36)" onmouseover="showTip(event, 'fs10', 36)" class="fn">dispatch</span><span class="pn">)</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs20', 37)" onmouseover="showTip(event, 'fs20', 37)" class="fn">g</span><span class="pn">)</span>
 
     <span class="c">/// Aggregate multiple commands</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 35)" onmouseover="showTip(event, 'fs19', 35)" class="f">batch</span> (<span onmouseout="hideTip(event, 'fs20', 36)" onmouseover="showTip(event, 'fs20', 36)" class="i">cmds</span><span class="o">:</span> #<span onmouseout="hideTip(event, 'fs21', 37)" onmouseover="showTip(event, 'fs21', 37)" class="t">seq</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs5', 38)" onmouseover="showTip(event, 'fs5', 38)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span><span class="o">&gt;</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 39)" onmouseover="showTip(event, 'fs5', 39)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        <span onmouseout="hideTip(event, 'fs20', 40)" onmouseover="showTip(event, 'fs20', 40)" class="i">cmds</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs16', 41)" onmouseover="showTip(event, 'fs16', 41)" class="t">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 42)" onmouseover="showTip(event, 'fs22', 42)" class="f">concat</span>
-
-    <span class="c">/// Command that will evaluate an async block and map the result</span>
-    <span class="c">/// into success or error (of exception)</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 43)" onmouseover="showTip(event, 'fs23', 43)" class="f">ofAsync</span> (<span onmouseout="hideTip(event, 'fs24', 44)" onmouseover="showTip(event, 'fs24', 44)" class="f">task</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs25', 45)" onmouseover="showTip(event, 'fs25', 45)" class="t">Async</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) 
-                (<span onmouseout="hideTip(event, 'fs26', 46)" onmouseover="showTip(event, 'fs26', 46)" class="i">arg</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span>) 
-                (<span onmouseout="hideTip(event, 'fs27', 47)" onmouseover="showTip(event, 'fs27', 47)" class="f">ofSuccess</span><span class="o">:</span> _ <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">msg</span>) 
-                (<span onmouseout="hideTip(event, 'fs28', 48)" onmouseover="showTip(event, 'fs28', 48)" class="f">ofError</span><span class="o">:</span> _ <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">msg</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 49)" onmouseover="showTip(event, 'fs5', 49)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 50)" onmouseover="showTip(event, 'fs29', 50)" class="f">bind</span> <span onmouseout="hideTip(event, 'fs30', 51)" onmouseover="showTip(event, 'fs30', 51)" class="f">dispatch</span> <span class="o">=</span>
-            <span onmouseout="hideTip(event, 'fs31', 52)" onmouseover="showTip(event, 'fs31', 52)" class="i">async</span> {
-                <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs32', 53)" onmouseover="showTip(event, 'fs32', 53)" class="i">r</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs24', 54)" onmouseover="showTip(event, 'fs24', 54)" class="f">task</span> <span onmouseout="hideTip(event, 'fs26', 55)" onmouseover="showTip(event, 'fs26', 55)" class="i">arg</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs25', 56)" onmouseover="showTip(event, 'fs25', 56)" class="t">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs33', 57)" onmouseover="showTip(event, 'fs33', 57)" class="f">Catch</span>
-                <span onmouseout="hideTip(event, 'fs30', 58)" onmouseover="showTip(event, 'fs30', 58)" class="f">dispatch</span> (<span class="k">match</span> <span onmouseout="hideTip(event, 'fs32', 59)" onmouseover="showTip(event, 'fs32', 59)" class="i">r</span> <span class="k">with</span>
-                         | <span onmouseout="hideTip(event, 'fs34', 60)" onmouseover="showTip(event, 'fs34', 60)" class="p">Choice1Of2</span> <span onmouseout="hideTip(event, 'fs35', 61)" onmouseover="showTip(event, 'fs35', 61)" class="i">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs27', 62)" onmouseover="showTip(event, 'fs27', 62)" class="f">ofSuccess</span> <span onmouseout="hideTip(event, 'fs35', 63)" onmouseover="showTip(event, 'fs35', 63)" class="i">x</span>
-                         | <span onmouseout="hideTip(event, 'fs36', 64)" onmouseover="showTip(event, 'fs36', 64)" class="p">Choice2Of2</span> <span onmouseout="hideTip(event, 'fs37', 65)" onmouseover="showTip(event, 'fs37', 65)" class="i">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs28', 66)" onmouseover="showTip(event, 'fs28', 66)" class="f">ofError</span> <span onmouseout="hideTip(event, 'fs37', 67)" onmouseover="showTip(event, 'fs37', 67)" class="i">x</span>)
-            }
-        [<span onmouseout="hideTip(event, 'fs29', 68)" onmouseover="showTip(event, 'fs29', 68)" class="f">bind</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs25', 69)" onmouseover="showTip(event, 'fs25', 69)" class="t">Async</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs38', 70)" onmouseover="showTip(event, 'fs38', 70)" class="f">StartImmediate</span>]
-
-    <span class="c">/// Command to evaluate a simple function and map the result</span>
-    <span class="c">/// into success or error (of exception)</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 71)" onmouseover="showTip(event, 'fs39', 71)" class="f">ofFunc</span> (<span onmouseout="hideTip(event, 'fs40', 72)" onmouseover="showTip(event, 'fs40', 72)" class="f">task</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> _) (<span onmouseout="hideTip(event, 'fs26', 73)" onmouseover="showTip(event, 'fs26', 73)" class="i">arg</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span>) (<span onmouseout="hideTip(event, 'fs27', 74)" onmouseover="showTip(event, 'fs27', 74)" class="f">ofSuccess</span><span class="o">:</span> _ <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">msg</span>) (<span onmouseout="hideTip(event, 'fs28', 75)" onmouseover="showTip(event, 'fs28', 75)" class="f">ofError</span><span class="o">:</span> _ <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">msg</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 76)" onmouseover="showTip(event, 'fs5', 76)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 77)" onmouseover="showTip(event, 'fs41', 77)" class="f">bind</span> <span onmouseout="hideTip(event, 'fs42', 78)" onmouseover="showTip(event, 'fs42', 78)" class="f">dispatch</span> <span class="o">=</span>
-            <span class="k">try</span>
-                <span onmouseout="hideTip(event, 'fs40', 79)" onmouseover="showTip(event, 'fs40', 79)" class="f">task</span> <span onmouseout="hideTip(event, 'fs26', 80)" onmouseover="showTip(event, 'fs26', 80)" class="i">arg</span>
-                <span class="o">|&gt;</span> (<span onmouseout="hideTip(event, 'fs27', 81)" onmouseover="showTip(event, 'fs27', 81)" class="f">ofSuccess</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs42', 82)" onmouseover="showTip(event, 'fs42', 82)" class="f">dispatch</span>)
-            <span class="k">with</span> <span onmouseout="hideTip(event, 'fs37', 83)" onmouseover="showTip(event, 'fs37', 83)" class="i">x</span> <span class="k">-&gt;</span>
-                <span onmouseout="hideTip(event, 'fs37', 84)" onmouseover="showTip(event, 'fs37', 84)" class="i">x</span> <span class="o">|&gt;</span> (<span onmouseout="hideTip(event, 'fs28', 85)" onmouseover="showTip(event, 'fs28', 85)" class="f">ofError</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs42', 86)" onmouseover="showTip(event, 'fs42', 86)" class="f">dispatch</span>)
-        [<span onmouseout="hideTip(event, 'fs41', 87)" onmouseover="showTip(event, 'fs41', 87)" class="f">bind</span>]
-
-    <span class="c">/// Command to evaluate a simple function and map the success to a message</span>
-    <span class="c">/// discarding any possible error</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 88)" onmouseover="showTip(event, 'fs43', 88)" class="f">performFunc</span> (<span onmouseout="hideTip(event, 'fs40', 89)" onmouseover="showTip(event, 'fs40', 89)" class="f">task</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> _) (<span onmouseout="hideTip(event, 'fs26', 90)" onmouseover="showTip(event, 'fs26', 90)" class="i">arg</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span>) (<span onmouseout="hideTip(event, 'fs27', 91)" onmouseover="showTip(event, 'fs27', 91)" class="f">ofSuccess</span><span class="o">:</span> _ <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">msg</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 92)" onmouseover="showTip(event, 'fs5', 92)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 93)" onmouseover="showTip(event, 'fs44', 93)" class="f">bind</span> <span onmouseout="hideTip(event, 'fs30', 94)" onmouseover="showTip(event, 'fs30', 94)" class="f">dispatch</span> <span class="o">=</span>
-            <span class="k">try</span>
-                <span onmouseout="hideTip(event, 'fs40', 95)" onmouseover="showTip(event, 'fs40', 95)" class="f">task</span> <span onmouseout="hideTip(event, 'fs26', 96)" onmouseover="showTip(event, 'fs26', 96)" class="i">arg</span>
-                <span class="o">|&gt;</span> (<span onmouseout="hideTip(event, 'fs27', 97)" onmouseover="showTip(event, 'fs27', 97)" class="f">ofSuccess</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs30', 98)" onmouseover="showTip(event, 'fs30', 98)" class="f">dispatch</span>)
-            <span class="k">with</span> <span onmouseout="hideTip(event, 'fs37', 99)" onmouseover="showTip(event, 'fs37', 99)" class="i">x</span> <span class="k">-&gt;</span>
-                ()
-        [<span onmouseout="hideTip(event, 'fs44', 100)" onmouseover="showTip(event, 'fs44', 100)" class="f">bind</span>]
-
-    <span class="c">/// Command to evaluate a simple function and map the error (in case of exception)</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 101)" onmouseover="showTip(event, 'fs45', 101)" class="f">attemptFunc</span> (<span onmouseout="hideTip(event, 'fs46', 102)" onmouseover="showTip(event, 'fs46', 102)" class="f">task</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs3', 103)" onmouseover="showTip(event, 'fs3', 103)" class="t">unit</span>) (<span onmouseout="hideTip(event, 'fs26', 104)" onmouseover="showTip(event, 'fs26', 104)" class="i">arg</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span>) (<span onmouseout="hideTip(event, 'fs28', 105)" onmouseover="showTip(event, 'fs28', 105)" class="f">ofError</span><span class="o">:</span> _ <span class="k">-&gt;</span> <span class="o">&#39;</span><span class="i">msg</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 106)" onmouseover="showTip(event, 'fs5', 106)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 107)" onmouseover="showTip(event, 'fs44', 107)" class="f">bind</span> <span onmouseout="hideTip(event, 'fs30', 108)" onmouseover="showTip(event, 'fs30', 108)" class="f">dispatch</span> <span class="o">=</span>
-            <span class="k">try</span>
-                <span onmouseout="hideTip(event, 'fs46', 109)" onmouseover="showTip(event, 'fs46', 109)" class="f">task</span> <span onmouseout="hideTip(event, 'fs26', 110)" onmouseover="showTip(event, 'fs26', 110)" class="i">arg</span>
-            <span class="k">with</span> <span onmouseout="hideTip(event, 'fs37', 111)" onmouseover="showTip(event, 'fs37', 111)" class="i">x</span> <span class="k">-&gt;</span>
-                <span onmouseout="hideTip(event, 'fs37', 112)" onmouseover="showTip(event, 'fs37', 112)" class="i">x</span> <span class="o">|&gt;</span> (<span onmouseout="hideTip(event, 'fs28', 113)" onmouseover="showTip(event, 'fs28', 113)" class="f">ofError</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs30', 114)" onmouseover="showTip(event, 'fs30', 114)" class="f">dispatch</span>)
-        [<span onmouseout="hideTip(event, 'fs44', 115)" onmouseover="showTip(event, 'fs44', 115)" class="f">bind</span>]
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 38)" onmouseover="showTip(event, 'fs21', 38)" class="fn">batch</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs22', 39)" onmouseover="showTip(event, 'fs22', 39)" class="id">cmds</span><span class="pn">:</span> <span class="pn">#</span><span onmouseout="hideTip(event, 'fs23', 40)" onmouseover="showTip(event, 'fs23', 40)" class="if">seq</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs5', 41)" onmouseover="showTip(event, 'fs5', 41)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span><span class="pn">&gt;</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 42)" onmouseover="showTip(event, 'fs5', 42)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs22', 43)" onmouseover="showTip(event, 'fs22', 43)" class="id">cmds</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 44)" onmouseover="showTip(event, 'fs12', 44)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs24', 45)" onmouseover="showTip(event, 'fs24', 45)" class="id">concat</span>
 
     <span class="c">/// Command to call the subscriber</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 116)" onmouseover="showTip(event, 'fs47', 116)" class="f">ofSub</span> (<span onmouseout="hideTip(event, 'fs48', 117)" onmouseover="showTip(event, 'fs48', 117)" class="f">sub</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs4', 118)" onmouseover="showTip(event, 'fs4', 118)" class="t">Sub</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span>) <span class="o">:</span> <span onmouseout="hideTip(event, 'fs5', 119)" onmouseover="showTip(event, 'fs5', 119)" class="t">Cmd</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">msg</span><span class="o">&gt;</span> <span class="o">=</span>
-        [<span onmouseout="hideTip(event, 'fs48', 120)" onmouseover="showTip(event, 'fs48', 120)" class="f">sub</span>]
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 46)" onmouseover="showTip(event, 'fs25', 46)" class="fn">ofSub</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs14', 47)" onmouseover="showTip(event, 'fs14', 47)" class="fn">sub</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs4', 48)" onmouseover="showTip(event, 'fs4', 48)" class="rt">Sub</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 49)" onmouseover="showTip(event, 'fs5', 49)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span class="pn">[</span><span onmouseout="hideTip(event, 'fs14', 50)" onmouseover="showTip(event, 'fs14', 50)" class="fn">sub</span><span class="pn">]</span>
 
-<span class="prep">#if</span> <span class="i">FABLE_COMPILER</span>
-<span class="inactive">    </span><span class="inactive">open</span><span class="inactive"> </span><span class="inactive">Fable.PowerPack</span>
+    <span class="k">module</span> <span class="m">OfFunc</span> <span class="o">=</span>
+        <span class="c">/// Command to evaluate a simple function and map the result</span>
+        <span class="c">/// into success or error (of exception)</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 51)" onmouseover="showTip(event, 'fs26', 51)" class="fn">either</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs27', 52)" onmouseover="showTip(event, 'fs27', 52)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span class="id">_</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 53)" onmouseover="showTip(event, 'fs28', 53)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 54)" onmouseover="showTip(event, 'fs29', 54)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 55)" onmouseover="showTip(event, 'fs30', 55)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 56)" onmouseover="showTip(event, 'fs5', 56)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 57)" onmouseover="showTip(event, 'fs31', 57)" class="fn">bind</span> <span onmouseout="hideTip(event, 'fs32', 58)" onmouseover="showTip(event, 'fs32', 58)" class="fn">dispatch</span> <span class="o">=</span>
+                <span class="k">try</span>
+                    <span onmouseout="hideTip(event, 'fs27', 59)" onmouseover="showTip(event, 'fs27', 59)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 60)" onmouseover="showTip(event, 'fs28', 60)" class="id">arg</span>
+                    <span class="o">|&gt;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 61)" onmouseover="showTip(event, 'fs29', 61)" class="fn">ofSuccess</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs32', 62)" onmouseover="showTip(event, 'fs32', 62)" class="fn">dispatch</span><span class="pn">)</span>
+                <span class="k">with</span> <span onmouseout="hideTip(event, 'fs33', 63)" onmouseover="showTip(event, 'fs33', 63)" class="id">x</span> <span class="k">-&gt;</span>
+                    <span onmouseout="hideTip(event, 'fs33', 64)" onmouseover="showTip(event, 'fs33', 64)" class="id">x</span> <span class="o">|&gt;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 65)" onmouseover="showTip(event, 'fs30', 65)" class="fn">ofError</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs32', 66)" onmouseover="showTip(event, 'fs32', 66)" class="fn">dispatch</span><span class="pn">)</span>
+            <span class="pn">[</span><span onmouseout="hideTip(event, 'fs31', 67)" onmouseover="showTip(event, 'fs31', 67)" class="fn">bind</span><span class="pn">]</span>
 
-<span class="inactive">    </span><span class="inactive">///</span><span class="inactive"> </span><span class="inactive">Command</span><span class="inactive"> </span><span class="inactive">to</span><span class="inactive"> </span><span class="inactive">call</span><span class="inactive"> </span><span class="inactive">`promise`</span><span class="inactive"> </span><span class="inactive">block</span><span class="inactive"> </span><span class="inactive">and</span><span class="inactive"> </span><span class="inactive">map</span><span class="inactive"> </span><span class="inactive">the</span><span class="inactive"> </span><span class="inactive">results</span>
-<span class="inactive">    </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">ofPromise</span><span class="inactive"> </span><span class="inactive">(task:</span><span class="inactive"> </span><span class="inactive">&#39;a</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">Fable.Import.JS.Promise&lt;_&gt;)</span><span class="inactive"> </span>
-<span class="inactive">                  </span><span class="inactive">(arg:&#39;a)</span><span class="inactive"> </span>
-<span class="inactive">                  </span><span class="inactive">(ofSuccess:</span><span class="inactive"> </span><span class="inactive">_</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span><span class="inactive"> </span>
-<span class="inactive">                  </span><span class="inactive">(ofError:</span><span class="inactive"> </span><span class="inactive">_</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span><span class="inactive"> </span><span class="inactive">:</span><span class="inactive"> </span><span class="inactive">Cmd&lt;&#39;msg&gt;</span><span class="inactive"> </span><span class="inactive">=</span>
-<span class="inactive">        </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">bind</span><span class="inactive"> </span><span class="inactive">dispatch</span><span class="inactive"> </span><span class="inactive">=</span>
-<span class="inactive">            </span><span class="inactive">task</span><span class="inactive"> </span><span class="inactive">arg</span>
-<span class="inactive">            </span><span class="inactive">|&gt;</span><span class="inactive"> </span><span class="inactive">Promise.map</span><span class="inactive"> </span><span class="inactive">(ofSuccess</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">dispatch)</span>
-<span class="inactive">            </span><span class="inactive">|&gt;</span><span class="inactive"> </span><span class="inactive">Promise.catch</span><span class="inactive"> </span><span class="inactive">(ofError</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">dispatch)</span>
-<span class="inactive">            </span><span class="inactive">|&gt;</span><span class="inactive"> </span><span class="inactive">ignore</span>
-<span class="inactive">        </span><span class="inactive">[bind]</span>
-<span class="prep">#endif</span>
+        <span class="c">/// Command to evaluate a simple function and map the success to a message</span>
+        <span class="c">/// discarding any possible error</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs34', 68)" onmouseover="showTip(event, 'fs34', 68)" class="fn">perform</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs27', 69)" onmouseover="showTip(event, 'fs27', 69)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span class="id">_</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 70)" onmouseover="showTip(event, 'fs28', 70)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 71)" onmouseover="showTip(event, 'fs29', 71)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 72)" onmouseover="showTip(event, 'fs5', 72)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 73)" onmouseover="showTip(event, 'fs35', 73)" class="fn">bind</span> <span onmouseout="hideTip(event, 'fs36', 74)" onmouseover="showTip(event, 'fs36', 74)" class="fn">dispatch</span> <span class="o">=</span>
+                <span class="k">try</span>
+                    <span onmouseout="hideTip(event, 'fs27', 75)" onmouseover="showTip(event, 'fs27', 75)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 76)" onmouseover="showTip(event, 'fs28', 76)" class="id">arg</span>
+                    <span class="o">|&gt;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 77)" onmouseover="showTip(event, 'fs29', 77)" class="fn">ofSuccess</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs36', 78)" onmouseover="showTip(event, 'fs36', 78)" class="fn">dispatch</span><span class="pn">)</span>
+                <span class="k">with</span> <span onmouseout="hideTip(event, 'fs33', 79)" onmouseover="showTip(event, 'fs33', 79)" class="id">x</span> <span class="k">-&gt;</span>
+                    <span class="pn">(</span><span class="pn">)</span>
+            <span class="pn">[</span><span onmouseout="hideTip(event, 'fs35', 80)" onmouseover="showTip(event, 'fs35', 80)" class="fn">bind</span><span class="pn">]</span>
+
+        <span class="c">/// Command to evaluate a simple function and map the error (in case of exception)</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 81)" onmouseover="showTip(event, 'fs37', 81)" class="fn">attempt</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs38', 82)" onmouseover="showTip(event, 'fs38', 82)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs3', 83)" onmouseover="showTip(event, 'fs3', 83)" class="rt">unit</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 84)" onmouseover="showTip(event, 'fs28', 84)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 85)" onmouseover="showTip(event, 'fs30', 85)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 86)" onmouseover="showTip(event, 'fs5', 86)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span class="k">let</span> <span onmouseout="hideTip(event, 'fs35', 87)" onmouseover="showTip(event, 'fs35', 87)" class="fn">bind</span> <span onmouseout="hideTip(event, 'fs36', 88)" onmouseover="showTip(event, 'fs36', 88)" class="fn">dispatch</span> <span class="o">=</span>
+                <span class="k">try</span>
+                    <span onmouseout="hideTip(event, 'fs38', 89)" onmouseover="showTip(event, 'fs38', 89)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 90)" onmouseover="showTip(event, 'fs28', 90)" class="id">arg</span>
+                <span class="k">with</span> <span onmouseout="hideTip(event, 'fs33', 91)" onmouseover="showTip(event, 'fs33', 91)" class="id">x</span> <span class="k">-&gt;</span>
+                    <span onmouseout="hideTip(event, 'fs33', 92)" onmouseover="showTip(event, 'fs33', 92)" class="id">x</span> <span class="o">|&gt;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 93)" onmouseover="showTip(event, 'fs30', 93)" class="fn">ofError</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs36', 94)" onmouseover="showTip(event, 'fs36', 94)" class="fn">dispatch</span><span class="pn">)</span>
+            <span class="pn">[</span><span onmouseout="hideTip(event, 'fs35', 95)" onmouseover="showTip(event, 'fs35', 95)" class="fn">bind</span><span class="pn">]</span>
+
+        <span class="c">/// Command to issue a specific message</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 96)" onmouseover="showTip(event, 'fs39', 96)" class="fn">result</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs40', 97)" onmouseover="showTip(event, 'fs40', 97)" class="id">msg</span><span class="pn">:</span><span class="ta">&#39;</span><span onmouseout="hideTip(event, 'fs40', 98)" onmouseover="showTip(event, 'fs40', 98)" class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 99)" onmouseover="showTip(event, 'fs5', 99)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span onmouseout="hideTip(event, 'fs40', 100)" onmouseover="showTip(event, 'fs40', 100)" class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span class="pn">[</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs10', 101)" onmouseover="showTip(event, 'fs10', 101)" class="fn">dispatch</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs10', 102)" onmouseover="showTip(event, 'fs10', 102)" class="fn">dispatch</span> <span onmouseout="hideTip(event, 'fs40', 103)" onmouseover="showTip(event, 'fs40', 103)" class="id">msg</span><span class="pn">]</span>
+
+    <span class="k">module</span> <span class="m">OfAsync</span> <span class="o">=</span>
+        <span class="c">/// Command that will evaluate an async block and map the result</span>
+        <span class="c">/// into success or error (of exception)</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 104)" onmouseover="showTip(event, 'fs41', 104)" class="fn">either</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs42', 105)" onmouseover="showTip(event, 'fs42', 105)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs43', 106)" onmouseover="showTip(event, 'fs43', 106)" class="rt">Async</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                   <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 107)" onmouseover="showTip(event, 'fs28', 107)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                   <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 108)" onmouseover="showTip(event, 'fs29', 108)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span>
+                   <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 109)" onmouseover="showTip(event, 'fs30', 109)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 110)" onmouseover="showTip(event, 'fs5', 110)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 111)" onmouseover="showTip(event, 'fs44', 111)" class="fn">bind</span> <span onmouseout="hideTip(event, 'fs36', 112)" onmouseover="showTip(event, 'fs36', 112)" class="fn">dispatch</span> <span class="o">=</span>
+                <span onmouseout="hideTip(event, 'fs45', 113)" onmouseover="showTip(event, 'fs45', 113)" class="k">async</span> <span class="pn">{</span>
+                    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs46', 114)" onmouseover="showTip(event, 'fs46', 114)" class="id">r</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 115)" onmouseover="showTip(event, 'fs42', 115)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 116)" onmouseover="showTip(event, 'fs28', 116)" class="id">arg</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs43', 117)" onmouseover="showTip(event, 'fs43', 117)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs47', 118)" onmouseover="showTip(event, 'fs47', 118)" class="id">Catch</span>
+                    <span onmouseout="hideTip(event, 'fs36', 119)" onmouseover="showTip(event, 'fs36', 119)" class="fn">dispatch</span> <span class="pn">(</span><span class="k">match</span> <span onmouseout="hideTip(event, 'fs46', 120)" onmouseover="showTip(event, 'fs46', 120)" class="id">r</span> <span class="k">with</span>
+                             <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs48', 121)" onmouseover="showTip(event, 'fs48', 121)" class="uc">Choice1Of2</span> <span onmouseout="hideTip(event, 'fs49', 122)" onmouseover="showTip(event, 'fs49', 122)" class="id">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs29', 123)" onmouseover="showTip(event, 'fs29', 123)" class="fn">ofSuccess</span> <span onmouseout="hideTip(event, 'fs49', 124)" onmouseover="showTip(event, 'fs49', 124)" class="id">x</span>
+                             <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs50', 125)" onmouseover="showTip(event, 'fs50', 125)" class="uc">Choice2Of2</span> <span onmouseout="hideTip(event, 'fs33', 126)" onmouseover="showTip(event, 'fs33', 126)" class="id">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs30', 127)" onmouseover="showTip(event, 'fs30', 127)" class="fn">ofError</span> <span onmouseout="hideTip(event, 'fs33', 128)" onmouseover="showTip(event, 'fs33', 128)" class="id">x</span><span class="pn">)</span>
+                <span class="pn">}</span>
+            <span class="pn">[</span><span onmouseout="hideTip(event, 'fs44', 129)" onmouseover="showTip(event, 'fs44', 129)" class="fn">bind</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs43', 130)" onmouseover="showTip(event, 'fs43', 130)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 131)" onmouseover="showTip(event, 'fs51', 131)" class="id">StartImmediate</span><span class="pn">]</span>
+
+        <span class="c">/// Command that will evaluate an async block and map the success</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs52', 132)" onmouseover="showTip(event, 'fs52', 132)" class="fn">perform</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs42', 133)" onmouseover="showTip(event, 'fs42', 133)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs43', 134)" onmouseover="showTip(event, 'fs43', 134)" class="rt">Async</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                    <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 135)" onmouseover="showTip(event, 'fs28', 135)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                    <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 136)" onmouseover="showTip(event, 'fs29', 136)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="o">=</span>
+            <span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 137)" onmouseover="showTip(event, 'fs44', 137)" class="fn">bind</span> <span onmouseout="hideTip(event, 'fs36', 138)" onmouseover="showTip(event, 'fs36', 138)" class="fn">dispatch</span> <span class="o">=</span>
+                <span onmouseout="hideTip(event, 'fs45', 139)" onmouseover="showTip(event, 'fs45', 139)" class="k">async</span> <span class="pn">{</span>
+                    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs46', 140)" onmouseover="showTip(event, 'fs46', 140)" class="id">r</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 141)" onmouseover="showTip(event, 'fs42', 141)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 142)" onmouseover="showTip(event, 'fs28', 142)" class="id">arg</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs43', 143)" onmouseover="showTip(event, 'fs43', 143)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs47', 144)" onmouseover="showTip(event, 'fs47', 144)" class="id">Catch</span>
+                    <span class="k">match</span> <span onmouseout="hideTip(event, 'fs46', 145)" onmouseover="showTip(event, 'fs46', 145)" class="id">r</span> <span class="k">with</span>
+                    <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs48', 146)" onmouseover="showTip(event, 'fs48', 146)" class="uc">Choice1Of2</span> <span onmouseout="hideTip(event, 'fs49', 147)" onmouseover="showTip(event, 'fs49', 147)" class="id">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 148)" onmouseover="showTip(event, 'fs36', 148)" class="fn">dispatch</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 149)" onmouseover="showTip(event, 'fs29', 149)" class="fn">ofSuccess</span> <span onmouseout="hideTip(event, 'fs49', 150)" onmouseover="showTip(event, 'fs49', 150)" class="id">x</span><span class="pn">)</span>
+                    <span class="pn">|</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="pn">(</span><span class="pn">)</span>
+                <span class="pn">}</span>
+            <span class="pn">[</span><span onmouseout="hideTip(event, 'fs44', 151)" onmouseover="showTip(event, 'fs44', 151)" class="fn">bind</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs43', 152)" onmouseover="showTip(event, 'fs43', 152)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 153)" onmouseover="showTip(event, 'fs51', 153)" class="id">StartImmediate</span><span class="pn">]</span>
+
+        <span class="c">/// Command that will evaluate an async block and map the error (of exception)</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 154)" onmouseover="showTip(event, 'fs53', 154)" class="fn">attempt</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs42', 155)" onmouseover="showTip(event, 'fs42', 155)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs43', 156)" onmouseover="showTip(event, 'fs43', 156)" class="rt">Async</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                    <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 157)" onmouseover="showTip(event, 'fs28', 157)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                    <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 158)" onmouseover="showTip(event, 'fs30', 158)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="o">=</span>
+            <span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 159)" onmouseover="showTip(event, 'fs44', 159)" class="fn">bind</span> <span onmouseout="hideTip(event, 'fs36', 160)" onmouseover="showTip(event, 'fs36', 160)" class="fn">dispatch</span> <span class="o">=</span>
+                <span onmouseout="hideTip(event, 'fs45', 161)" onmouseover="showTip(event, 'fs45', 161)" class="k">async</span> <span class="pn">{</span>
+                    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs46', 162)" onmouseover="showTip(event, 'fs46', 162)" class="id">r</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 163)" onmouseover="showTip(event, 'fs42', 163)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 164)" onmouseover="showTip(event, 'fs28', 164)" class="id">arg</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs43', 165)" onmouseover="showTip(event, 'fs43', 165)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs47', 166)" onmouseover="showTip(event, 'fs47', 166)" class="id">Catch</span>
+                    <span class="k">match</span> <span onmouseout="hideTip(event, 'fs46', 167)" onmouseover="showTip(event, 'fs46', 167)" class="id">r</span> <span class="k">with</span>
+                    <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs50', 168)" onmouseover="showTip(event, 'fs50', 168)" class="uc">Choice2Of2</span> <span onmouseout="hideTip(event, 'fs33', 169)" onmouseover="showTip(event, 'fs33', 169)" class="id">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 170)" onmouseover="showTip(event, 'fs36', 170)" class="fn">dispatch</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 171)" onmouseover="showTip(event, 'fs30', 171)" class="fn">ofError</span> <span onmouseout="hideTip(event, 'fs33', 172)" onmouseover="showTip(event, 'fs33', 172)" class="id">x</span><span class="pn">)</span>
+                    <span class="pn">|</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="pn">(</span><span class="pn">)</span>
+                <span class="pn">}</span>
+            <span class="pn">[</span><span onmouseout="hideTip(event, 'fs44', 173)" onmouseover="showTip(event, 'fs44', 173)" class="fn">bind</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs43', 174)" onmouseover="showTip(event, 'fs43', 174)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 175)" onmouseover="showTip(event, 'fs51', 175)" class="id">StartImmediate</span><span class="pn">]</span>
+
+        <span class="c">/// Command that will evaluate an async block to the message</span>
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 176)" onmouseover="showTip(event, 'fs54', 176)" class="fn">result</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs55', 177)" onmouseover="showTip(event, 'fs55', 177)" class="id">task</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs43', 178)" onmouseover="showTip(event, 'fs43', 178)" class="rt">Async</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span><span class="pn">)</span> <span class="o">=</span>
+            <span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 179)" onmouseover="showTip(event, 'fs44', 179)" class="fn">bind</span> <span onmouseout="hideTip(event, 'fs36', 180)" onmouseover="showTip(event, 'fs36', 180)" class="fn">dispatch</span> <span class="o">=</span>
+                <span onmouseout="hideTip(event, 'fs45', 181)" onmouseover="showTip(event, 'fs45', 181)" class="k">async</span> <span class="pn">{</span>
+                    <span class="k">let!</span> <span onmouseout="hideTip(event, 'fs56', 182)" onmouseover="showTip(event, 'fs56', 182)" class="id">r</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs55', 183)" onmouseover="showTip(event, 'fs55', 183)" class="id">task</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs43', 184)" onmouseover="showTip(event, 'fs43', 184)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs47', 185)" onmouseover="showTip(event, 'fs47', 185)" class="id">Catch</span>
+                    <span class="k">match</span> <span onmouseout="hideTip(event, 'fs56', 186)" onmouseover="showTip(event, 'fs56', 186)" class="id">r</span> <span class="k">with</span>
+                    <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs48', 187)" onmouseover="showTip(event, 'fs48', 187)" class="uc">Choice1Of2</span> <span onmouseout="hideTip(event, 'fs57', 188)" onmouseover="showTip(event, 'fs57', 188)" class="id">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs36', 189)" onmouseover="showTip(event, 'fs36', 189)" class="fn">dispatch</span> <span onmouseout="hideTip(event, 'fs57', 190)" onmouseover="showTip(event, 'fs57', 190)" class="id">x</span>
+                    <span class="pn">|</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="pn">(</span><span class="pn">)</span>
+                <span class="pn">}</span>
+            <span class="pn">[</span><span onmouseout="hideTip(event, 'fs44', 191)" onmouseover="showTip(event, 'fs44', 191)" class="fn">bind</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs43', 192)" onmouseover="showTip(event, 'fs43', 192)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs51', 193)" onmouseover="showTip(event, 'fs51', 193)" class="id">StartImmediate</span><span class="pn">]</span>
+
+<span class="pp">#if</span> <span class="id">FABLE_COMPILER</span>
+<span class="inactive">    </span><span class="inactive">module</span><span class="inactive"> </span><span class="inactive">OfPromise</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">        </span><span class="inactive">///</span><span class="inactive"> </span><span class="inactive">Command</span><span class="inactive"> </span><span class="inactive">to</span><span class="inactive"> </span><span class="inactive">call</span><span class="inactive"> </span><span class="inactive">`promise`</span><span class="inactive"> </span><span class="inactive">block</span><span class="inactive"> </span><span class="inactive">and</span><span class="inactive"> </span><span class="inactive">map</span><span class="inactive"> </span><span class="inactive">the</span><span class="inactive"> </span><span class="inactive">results</span>
+<span class="inactive">        </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">either</span><span class="inactive"> </span><span class="inactive">(task:</span><span class="inactive"> </span><span class="inactive">&#39;a</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">Fable.Core.JS.Promise&lt;_&gt;)</span>
+<span class="inactive">                   </span><span class="inactive">(arg:&#39;a)</span>
+<span class="inactive">                   </span><span class="inactive">(ofSuccess:</span><span class="inactive"> </span><span class="inactive">_</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span>
+<span class="inactive">                   </span><span class="inactive">(ofError:</span><span class="inactive"> </span><span class="inactive">#exn</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span><span class="inactive"> </span><span class="inactive">:</span><span class="inactive"> </span><span class="inactive">Cmd&lt;&#39;msg&gt;</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">            </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">bind</span><span class="inactive"> </span><span class="inactive">dispatch</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">                </span><span class="inactive">(task</span><span class="inactive"> </span><span class="inactive">arg)</span>
+<span class="inactive">                    </span><span class="inactive">.``then``(ofSuccess</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">dispatch)</span>
+<span class="inactive">                    </span><span class="inactive">.catch(unbox</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">ofError</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">dispatch)</span>
+<span class="inactive">                    </span><span class="inactive">|&gt;</span><span class="inactive"> </span><span class="inactive">ignore</span>
+<span class="inactive">            </span><span class="inactive">[bind]</span>
+
+<span class="inactive">        </span><span class="inactive">///</span><span class="inactive"> </span><span class="inactive">Command</span><span class="inactive"> </span><span class="inactive">to</span><span class="inactive"> </span><span class="inactive">call</span><span class="inactive"> </span><span class="inactive">`promise`</span><span class="inactive"> </span><span class="inactive">block</span><span class="inactive"> </span><span class="inactive">and</span><span class="inactive"> </span><span class="inactive">map</span><span class="inactive"> </span><span class="inactive">the</span><span class="inactive"> </span><span class="inactive">success</span>
+<span class="inactive">        </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">perform</span><span class="inactive"> </span><span class="inactive">(task:</span><span class="inactive"> </span><span class="inactive">&#39;a</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">Fable.Core.JS.Promise&lt;_&gt;)</span>
+<span class="inactive">                   </span><span class="inactive">(arg:&#39;a)</span>
+<span class="inactive">                   </span><span class="inactive">(ofSuccess:</span><span class="inactive"> </span><span class="inactive">_</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">            </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">bind</span><span class="inactive"> </span><span class="inactive">dispatch</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">                </span><span class="inactive">(task</span><span class="inactive"> </span><span class="inactive">arg)</span>
+<span class="inactive">                    </span><span class="inactive">.``then``(ofSuccess</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">dispatch)</span>
+<span class="inactive">                    </span><span class="inactive">|&gt;</span><span class="inactive"> </span><span class="inactive">ignore</span>
+<span class="inactive">            </span><span class="inactive">[bind]</span>
+
+<span class="inactive">        </span><span class="inactive">///</span><span class="inactive"> </span><span class="inactive">Command</span><span class="inactive"> </span><span class="inactive">to</span><span class="inactive"> </span><span class="inactive">call</span><span class="inactive"> </span><span class="inactive">`promise`</span><span class="inactive"> </span><span class="inactive">block</span><span class="inactive"> </span><span class="inactive">and</span><span class="inactive"> </span><span class="inactive">map</span><span class="inactive"> </span><span class="inactive">the</span><span class="inactive"> </span><span class="inactive">error</span>
+<span class="inactive">        </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">attempt</span><span class="inactive"> </span><span class="inactive">(task:</span><span class="inactive"> </span><span class="inactive">&#39;a</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">Fable.Core.JS.Promise&lt;_&gt;)</span>
+<span class="inactive">                    </span><span class="inactive">(arg:&#39;a)</span>
+<span class="inactive">                    </span><span class="inactive">(ofError:</span><span class="inactive"> </span><span class="inactive">#exn</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span><span class="inactive"> </span><span class="inactive">:</span><span class="inactive"> </span><span class="inactive">Cmd&lt;&#39;msg&gt;</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">            </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">bind</span><span class="inactive"> </span><span class="inactive">dispatch</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">                </span><span class="inactive">(task</span><span class="inactive"> </span><span class="inactive">arg)</span>
+<span class="inactive">                    </span><span class="inactive">.catch(unbox</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">ofError</span><span class="inactive"> </span><span class="inactive">&gt;&gt;</span><span class="inactive"> </span><span class="inactive">dispatch)</span>
+<span class="inactive">                    </span><span class="inactive">|&gt;</span><span class="inactive"> </span><span class="inactive">ignore</span>
+<span class="inactive">            </span><span class="inactive">[bind]</span>
+
+<span class="inactive">        </span><span class="inactive">///</span><span class="inactive"> </span><span class="inactive">Command</span><span class="inactive"> </span><span class="inactive">to</span><span class="inactive"> </span><span class="inactive">dispatch</span><span class="inactive"> </span><span class="inactive">the</span><span class="inactive"> </span><span class="inactive">`promise`</span><span class="inactive"> </span><span class="inactive">result</span>
+<span class="inactive">        </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">result</span><span class="inactive"> </span><span class="inactive">(task:</span><span class="inactive"> </span><span class="inactive">Fable.Core.JS.Promise&lt;&#39;msg&gt;)</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">            </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">bind</span><span class="inactive"> </span><span class="inactive">dispatch</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">                </span><span class="inactive">task.``then``</span><span class="inactive"> </span><span class="inactive">dispatch</span>
+<span class="inactive">                </span><span class="inactive">|&gt;</span><span class="inactive"> </span><span class="inactive">ignore</span>
+<span class="inactive">            </span><span class="inactive">[bind]</span>
+
+<span class="inactive">    </span><span class="inactive">[&lt;Obsolete(&quot;Use</span><span class="inactive"> </span><span class="inactive">`OfPromise.either`</span><span class="inactive"> </span><span class="inactive">instead&quot;)&gt;]</span>
+<span class="inactive">    </span><span class="inactive">let</span><span class="inactive"> </span><span class="inactive">inline</span><span class="inactive"> </span><span class="inactive">ofPromise</span><span class="inactive"> </span><span class="inactive">(task:</span><span class="inactive"> </span><span class="inactive">&#39;a</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">Fable.Core.JS.Promise&lt;_&gt;)</span>
+<span class="inactive">                         </span><span class="inactive">(arg:&#39;a)</span>
+<span class="inactive">                         </span><span class="inactive">(ofSuccess:</span><span class="inactive"> </span><span class="inactive">_</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span>
+<span class="inactive">                         </span><span class="inactive">(ofError:</span><span class="inactive"> </span><span class="inactive">_</span><span class="inactive"> </span><span class="inactive">-&gt;</span><span class="inactive"> </span><span class="inactive">&#39;msg)</span><span class="inactive"> </span><span class="inactive">:</span><span class="inactive"> </span><span class="inactive">Cmd&lt;&#39;msg&gt;</span><span class="inactive"> </span><span class="inactive">=</span>
+<span class="inactive">        </span><span class="inactive">OfPromise.either</span><span class="inactive"> </span><span class="inactive">task</span><span class="inactive"> </span><span class="inactive">arg</span><span class="inactive"> </span><span class="inactive">ofSuccess</span><span class="inactive"> </span><span class="inactive">ofError</span><span class="inactive">                     </span>
+<span class="pp">#else</span>
+    <span class="k">open</span> <span onmouseout="hideTip(event, 'fs1', 194)" onmouseover="showTip(event, 'fs1', 194)" class="id">System</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs58', 195)" onmouseover="showTip(event, 'fs58', 195)" class="id">Threading</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs59', 196)" onmouseover="showTip(event, 'fs59', 196)" class="id">Tasks</span>
+    <span class="k">module</span> <span class="m">OfTask</span> <span class="o">=</span>
+        <span class="c">/// Command to call a task and map the results</span>
+        <span class="k">let</span> <span class="k">inline</span> <span onmouseout="hideTip(event, 'fs60', 197)" onmouseover="showTip(event, 'fs60', 197)" class="fn">either</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs61', 198)" onmouseover="showTip(event, 'fs61', 198)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs62', 199)" onmouseover="showTip(event, 'fs62', 199)" class="d">Task</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                          <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 200)" onmouseover="showTip(event, 'fs28', 200)" class="id">arg</span><span class="pn">:</span><span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                          <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 201)" onmouseover="showTip(event, 'fs29', 201)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span>
+                          <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 202)" onmouseover="showTip(event, 'fs30', 202)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 203)" onmouseover="showTip(event, 'fs5', 203)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span onmouseout="hideTip(event, 'fs63', 204)" onmouseover="showTip(event, 'fs63', 204)" class="m">OfAsync</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 205)" onmouseover="showTip(event, 'fs41', 205)" class="id">either</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs61', 206)" onmouseover="showTip(event, 'fs61', 206)" class="fn">task</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs43', 207)" onmouseover="showTip(event, 'fs43', 207)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 208)" onmouseover="showTip(event, 'fs64', 208)" class="id">AwaitTask</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs28', 209)" onmouseover="showTip(event, 'fs28', 209)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs29', 210)" onmouseover="showTip(event, 'fs29', 210)" class="fn">ofSuccess</span> <span onmouseout="hideTip(event, 'fs30', 211)" onmouseover="showTip(event, 'fs30', 211)" class="fn">ofError</span>
+
+        <span class="c">/// Command to call a task and map the success</span>
+        <span class="k">let</span> <span class="k">inline</span> <span onmouseout="hideTip(event, 'fs65', 212)" onmouseover="showTip(event, 'fs65', 212)" class="fn">perform</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs61', 213)" onmouseover="showTip(event, 'fs61', 213)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs62', 214)" onmouseover="showTip(event, 'fs62', 214)" class="d">Task</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                           <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 215)" onmouseover="showTip(event, 'fs28', 215)" class="id">arg</span><span class="pn">:</span><span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                           <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 216)" onmouseover="showTip(event, 'fs29', 216)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 217)" onmouseover="showTip(event, 'fs5', 217)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span onmouseout="hideTip(event, 'fs63', 218)" onmouseover="showTip(event, 'fs63', 218)" class="m">OfAsync</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs52', 219)" onmouseover="showTip(event, 'fs52', 219)" class="id">perform</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs61', 220)" onmouseover="showTip(event, 'fs61', 220)" class="fn">task</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs43', 221)" onmouseover="showTip(event, 'fs43', 221)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 222)" onmouseover="showTip(event, 'fs64', 222)" class="id">AwaitTask</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs28', 223)" onmouseover="showTip(event, 'fs28', 223)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs29', 224)" onmouseover="showTip(event, 'fs29', 224)" class="fn">ofSuccess</span>
+
+        <span class="c">/// Command to call a task and map the error</span>
+        <span class="k">let</span> <span class="k">inline</span> <span onmouseout="hideTip(event, 'fs66', 225)" onmouseover="showTip(event, 'fs66', 225)" class="fn">attempt</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs61', 226)" onmouseover="showTip(event, 'fs61', 226)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs62', 227)" onmouseover="showTip(event, 'fs62', 227)" class="d">Task</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                           <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 228)" onmouseover="showTip(event, 'fs28', 228)" class="id">arg</span><span class="pn">:</span><span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                           <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 229)" onmouseover="showTip(event, 'fs30', 229)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 230)" onmouseover="showTip(event, 'fs5', 230)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span onmouseout="hideTip(event, 'fs63', 231)" onmouseover="showTip(event, 'fs63', 231)" class="m">OfAsync</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs53', 232)" onmouseover="showTip(event, 'fs53', 232)" class="id">attempt</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs61', 233)" onmouseover="showTip(event, 'fs61', 233)" class="fn">task</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs43', 234)" onmouseover="showTip(event, 'fs43', 234)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 235)" onmouseover="showTip(event, 'fs64', 235)" class="id">AwaitTask</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs28', 236)" onmouseover="showTip(event, 'fs28', 236)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs30', 237)" onmouseover="showTip(event, 'fs30', 237)" class="fn">ofError</span>
+
+        <span class="c">/// Command and map the task success</span>
+        <span class="k">let</span> <span class="k">inline</span> <span onmouseout="hideTip(event, 'fs67', 238)" onmouseover="showTip(event, 'fs67', 238)" class="fn">result</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs68', 239)" onmouseover="showTip(event, 'fs68', 239)" class="id">task</span><span class="pn">:</span> <span onmouseout="hideTip(event, 'fs62', 240)" onmouseover="showTip(event, 'fs62', 240)" class="d">Task</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 241)" onmouseover="showTip(event, 'fs5', 241)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+            <span onmouseout="hideTip(event, 'fs63', 242)" onmouseover="showTip(event, 'fs63', 242)" class="m">OfAsync</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs54', 243)" onmouseover="showTip(event, 'fs54', 243)" class="id">result</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs68', 244)" onmouseover="showTip(event, 'fs68', 244)" class="id">task</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs43', 245)" onmouseover="showTip(event, 'fs43', 245)" class="rt">Async</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs64', 246)" onmouseover="showTip(event, 'fs64', 246)" class="id">AwaitTask</span><span class="pn">)</span>
+
+    <span class="pn">[&lt;</span><span onmouseout="hideTip(event, 'fs69', 247)" onmouseover="showTip(event, 'fs69', 247)" class="rt">Obsolete</span><span class="pn">(</span><span class="s">&quot;Use OfTask.either instead&quot;</span><span class="pn">)</span><span class="pn">&gt;]</span>
+    <span class="k">let</span> <span class="k">inline</span> <span class="fn">ofTask</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs61', 248)" onmouseover="showTip(event, 'fs61', 248)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs62', 249)" onmouseover="showTip(event, 'fs62', 249)" class="d">Task</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                      <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 250)" onmouseover="showTip(event, 'fs28', 250)" class="id">arg</span><span class="pn">:</span><span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                      <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 251)" onmouseover="showTip(event, 'fs29', 251)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span>
+                      <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 252)" onmouseover="showTip(event, 'fs30', 252)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 253)" onmouseover="showTip(event, 'fs5', 253)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs70', 254)" onmouseover="showTip(event, 'fs70', 254)" class="m">OfTask</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs60', 255)" onmouseover="showTip(event, 'fs60', 255)" class="id">either</span> <span onmouseout="hideTip(event, 'fs61', 256)" onmouseover="showTip(event, 'fs61', 256)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 257)" onmouseover="showTip(event, 'fs28', 257)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs29', 258)" onmouseover="showTip(event, 'fs29', 258)" class="fn">ofSuccess</span> <span onmouseout="hideTip(event, 'fs30', 259)" onmouseover="showTip(event, 'fs30', 259)" class="fn">ofError</span>
+<span class="pp">#endif</span>
+
+    <span class="c">// Synonymous with `OfFunc.result`, may be removed in the future</span>
+    <span class="k">let</span> <span class="k">inline</span> <span onmouseout="hideTip(event, 'fs71', 260)" onmouseover="showTip(event, 'fs71', 260)" class="fn">ofMsg</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs40', 261)" onmouseover="showTip(event, 'fs40', 261)" class="id">msg</span><span class="pn">:</span><span class="ta">&#39;</span><span onmouseout="hideTip(event, 'fs40', 262)" onmouseover="showTip(event, 'fs40', 262)" class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 263)" onmouseover="showTip(event, 'fs5', 263)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span onmouseout="hideTip(event, 'fs40', 264)" onmouseover="showTip(event, 'fs40', 264)" class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs72', 265)" onmouseover="showTip(event, 'fs72', 265)" class="m">OfFunc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs39', 266)" onmouseover="showTip(event, 'fs39', 266)" class="id">result</span> <span onmouseout="hideTip(event, 'fs40', 267)" onmouseover="showTip(event, 'fs40', 267)" class="id">msg</span>
+
+    <span class="pn">[&lt;</span><span onmouseout="hideTip(event, 'fs69', 268)" onmouseover="showTip(event, 'fs69', 268)" class="rt">Obsolete</span><span class="pn">(</span><span class="s">&quot;Use `Cmd.OfAsync.either` instead&quot;</span><span class="pn">)</span><span class="pn">&gt;]</span>
+    <span class="k">let</span> <span class="k">inline</span> <span class="fn">ofAsync</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs42', 269)" onmouseover="showTip(event, 'fs42', 269)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs43', 270)" onmouseover="showTip(event, 'fs43', 270)" class="rt">Async</span><span class="pn">&lt;</span><span class="id">_</span><span class="pn">&gt;</span><span class="pn">)</span>
+                       <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 271)" onmouseover="showTip(event, 'fs28', 271)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span>
+                       <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 272)" onmouseover="showTip(event, 'fs29', 272)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span>
+                       <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 273)" onmouseover="showTip(event, 'fs30', 273)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 274)" onmouseover="showTip(event, 'fs5', 274)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs63', 275)" onmouseover="showTip(event, 'fs63', 275)" class="m">OfAsync</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs41', 276)" onmouseover="showTip(event, 'fs41', 276)" class="id">either</span> <span onmouseout="hideTip(event, 'fs42', 277)" onmouseover="showTip(event, 'fs42', 277)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 278)" onmouseover="showTip(event, 'fs28', 278)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs29', 279)" onmouseover="showTip(event, 'fs29', 279)" class="fn">ofSuccess</span> <span onmouseout="hideTip(event, 'fs30', 280)" onmouseover="showTip(event, 'fs30', 280)" class="fn">ofError</span>
+
+    <span class="pn">[&lt;</span><span onmouseout="hideTip(event, 'fs69', 281)" onmouseover="showTip(event, 'fs69', 281)" class="rt">Obsolete</span><span class="pn">(</span><span class="s">&quot;Use `Cmd.OfFunc.either` instead&quot;</span><span class="pn">)</span><span class="pn">&gt;]</span>
+    <span class="k">let</span> <span class="k">inline</span> <span class="fn">ofFunc</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs27', 282)" onmouseover="showTip(event, 'fs27', 282)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span class="id">_</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 283)" onmouseover="showTip(event, 'fs28', 283)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 284)" onmouseover="showTip(event, 'fs29', 284)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 285)" onmouseover="showTip(event, 'fs30', 285)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 286)" onmouseover="showTip(event, 'fs5', 286)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs72', 287)" onmouseover="showTip(event, 'fs72', 287)" class="m">OfFunc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs26', 288)" onmouseover="showTip(event, 'fs26', 288)" class="id">either</span> <span onmouseout="hideTip(event, 'fs27', 289)" onmouseover="showTip(event, 'fs27', 289)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 290)" onmouseover="showTip(event, 'fs28', 290)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs29', 291)" onmouseover="showTip(event, 'fs29', 291)" class="fn">ofSuccess</span> <span onmouseout="hideTip(event, 'fs30', 292)" onmouseover="showTip(event, 'fs30', 292)" class="fn">ofError</span>
+
+    <span class="pn">[&lt;</span><span onmouseout="hideTip(event, 'fs69', 293)" onmouseover="showTip(event, 'fs69', 293)" class="rt">Obsolete</span><span class="pn">(</span><span class="s">&quot;Use `Cmd.OfFunc.perform` instead&quot;</span><span class="pn">)</span><span class="pn">&gt;]</span>
+    <span class="k">let</span> <span class="k">inline</span> <span class="fn">performFunc</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs27', 294)" onmouseover="showTip(event, 'fs27', 294)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span class="id">_</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 295)" onmouseover="showTip(event, 'fs28', 295)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs29', 296)" onmouseover="showTip(event, 'fs29', 296)" class="fn">ofSuccess</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 297)" onmouseover="showTip(event, 'fs5', 297)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs72', 298)" onmouseover="showTip(event, 'fs72', 298)" class="m">OfFunc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs34', 299)" onmouseover="showTip(event, 'fs34', 299)" class="id">perform</span> <span onmouseout="hideTip(event, 'fs27', 300)" onmouseover="showTip(event, 'fs27', 300)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 301)" onmouseover="showTip(event, 'fs28', 301)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs29', 302)" onmouseover="showTip(event, 'fs29', 302)" class="fn">ofSuccess</span>
+
+    <span class="pn">[&lt;</span><span onmouseout="hideTip(event, 'fs69', 303)" onmouseover="showTip(event, 'fs69', 303)" class="rt">Obsolete</span><span class="pn">(</span><span class="s">&quot;Use `Cmd.OfFunc.attempt` instead&quot;</span><span class="pn">)</span><span class="pn">&gt;]</span>
+    <span class="k">let</span> <span class="fn">attemptFunc</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs38', 304)" onmouseover="showTip(event, 'fs38', 304)" class="fn">task</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs3', 305)" onmouseover="showTip(event, 'fs3', 305)" class="rt">unit</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs28', 306)" onmouseover="showTip(event, 'fs28', 306)" class="id">arg</span><span class="pn">:</span> <span class="ta">&#39;</span><span class="id">a</span><span class="pn">)</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs30', 307)" onmouseover="showTip(event, 'fs30', 307)" class="fn">ofError</span><span class="pn">:</span> <span class="id">_</span> <span class="k">-&gt;</span> <span class="ta">&#39;</span><span class="id">msg</span><span class="pn">)</span> <span class="pn">:</span> <span onmouseout="hideTip(event, 'fs5', 308)" onmouseover="showTip(event, 'fs5', 308)" class="rt">Cmd</span><span class="pn">&lt;</span><span class="ta">&#39;</span><span class="id">msg</span><span class="pn">&gt;</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs72', 309)" onmouseover="showTip(event, 'fs72', 309)" class="m">OfFunc</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs37', 310)" onmouseover="showTip(event, 'fs37', 310)" class="id">attempt</span> <span onmouseout="hideTip(event, 'fs38', 311)" onmouseover="showTip(event, 'fs38', 311)" class="fn">task</span> <span onmouseout="hideTip(event, 'fs28', 312)" onmouseover="showTip(event, 'fs28', 312)" class="id">arg</span> <span onmouseout="hideTip(event, 'fs30', 313)" onmouseover="showTip(event, 'fs30', 313)" class="fn">ofError</span>
 </code></pre></td>
 </tr>
 </table>
 
 <div class="tip" id="fs1">namespace System</div>
-<div class="tip" id="fs2">type Dispatch&lt;&#39;msg&gt; = &#39;msg -&gt; unit<br /><br />Full name: Elmish.Dispatch&lt;_&gt;<br /><em><br /><br />&#160;Dispatch - feed new message into the processing loop</em></div>
-<div class="tip" id="fs3">type unit = Unit<br /><br />Full name: Microsoft.FSharp.Core.unit</div>
-<div class="tip" id="fs4">type Sub&lt;&#39;msg&gt; = Dispatch&lt;&#39;msg&gt; -&gt; unit<br /><br />Full name: Elmish.Sub&lt;_&gt;<br /><em><br /><br />&#160;Subscription - return immediately, but may schedule dispatch of a message at any time</em></div>
-<div class="tip" id="fs5">type Cmd&lt;&#39;msg&gt; = Sub&lt;&#39;msg&gt; list<br /><br />Full name: Elmish.Cmd&lt;_&gt;<br /><em><br /><br />&#160;Cmd - container for subscriptions that may produce messages</em></div>
-<div class="tip" id="fs6">type &#39;T list = List&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Collections.list&lt;_&gt;</div>
-<div class="tip" id="fs7">Multiple items<br />type RequireQualifiedAccessAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; RequireQualifiedAccessAttribute<br /><br />Full name: Microsoft.FSharp.Core.RequireQualifiedAccessAttribute<br /><br />--------------------<br />new : unit -&gt; RequireQualifiedAccessAttribute</div>
-<div class="tip" id="fs8">Multiple items<br />module Cmd<br /><br />from Elmish<br /><em><br /><br />&#160;Cmd module for creating and manipulating commands</em><br /><br />--------------------<br />type Cmd&lt;&#39;msg&gt; = Sub&lt;&#39;msg&gt; list<br /><br />Full name: Elmish.Cmd&lt;_&gt;<br /><em><br /><br />&#160;Cmd - container for subscriptions that may produce messages</em></div>
-<div class="tip" id="fs9">val none : Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.none<br /><em><br /><br />&#160;None - no commands, also known as `[]`</em></div>
-<div class="tip" id="fs10">val ofMsg : msg:&#39;msg -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.ofMsg<br /><em><br /><br />&#160;Command to issue a specific message</em></div>
-<div class="tip" id="fs11">val msg : &#39;msg</div>
-<div class="tip" id="fs12">val dispatch : Dispatch&lt;&#39;msg&gt;</div>
-<div class="tip" id="fs13">val map : f:(&#39;a -&gt; &#39;msg) -&gt; cmd:Cmd&lt;&#39;a&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.map<br /><em><br /><br />&#160;When emitting the message, map to another type</em></div>
-<div class="tip" id="fs14">val f : (&#39;a -&gt; &#39;msg)</div>
-<div class="tip" id="fs15">val cmd : Cmd&lt;&#39;a&gt;</div>
-<div class="tip" id="fs16">Multiple items<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;interface IReadOnlyCollection&lt;&#39;T&gt;<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list<br />&#160;&#160;member Head : &#39;T<br />&#160;&#160;member IsEmpty : bool<br />&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;member Length : int<br />&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;static member Cons : head:&#39;T * tail:&#39;T list -&gt; &#39;T list<br />&#160;&#160;static member Empty : &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List&lt;_&gt;</div>
-<div class="tip" id="fs17">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; list:&#39;T list -&gt; &#39;U list<br /><br />Full name: Microsoft.FSharp.Collections.List.map</div>
-<div class="tip" id="fs18">val g : Sub&lt;&#39;a&gt;</div>
-<div class="tip" id="fs19">val batch : cmds:#seq&lt;Cmd&lt;&#39;msg&gt;&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.batch<br /><em><br /><br />&#160;Aggregate multiple commands</em></div>
-<div class="tip" id="fs20">val cmds : #seq&lt;Cmd&lt;&#39;msg&gt;&gt;</div>
-<div class="tip" id="fs21">Multiple items<br />val seq : sequence:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Core.Operators.seq<br /><br />--------------------<br />type seq&lt;&#39;T&gt; = Collections.Generic.IEnumerable&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Collections.seq&lt;_&gt;</div>
-<div class="tip" id="fs22">val concat : lists:seq&lt;&#39;T list&gt; -&gt; &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List.concat</div>
-<div class="tip" id="fs23">val ofAsync : task:(&#39;a -&gt; Async&lt;&#39;a0&gt;) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.ofAsync<br /><em><br /><br />&#160;Command that will evaluate an async block and map the result<br />&#160;into success or error (of exception)</em></div>
-<div class="tip" id="fs24">val task : (&#39;a -&gt; Async&lt;&#39;a0&gt;)</div>
-<div class="tip" id="fs25">Multiple items<br />type Async<br />static member AsBeginEnd : computation:(&#39;Arg -&gt; Async&lt;&#39;T&gt;) -&gt; (&#39;Arg * AsyncCallback * obj -&gt; IAsyncResult) * (IAsyncResult -&gt; &#39;T) * (IAsyncResult -&gt; unit)<br />static member AwaitEvent : event:IEvent&lt;&#39;Del,&#39;T&gt; * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; (requires delegate and &#39;Del :&gt; Delegate)<br />static member AwaitIAsyncResult : iar:IAsyncResult * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member AwaitTask : task:Task -&gt; Async&lt;unit&gt;<br />static member AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt;<br />static member AwaitWaitHandle : waitHandle:WaitHandle * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />static member CancelDefaultToken : unit -&gt; unit<br />static member Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;<br />static member Choice : computations:seq&lt;Async&lt;&#39;T option&gt;&gt; -&gt; Async&lt;&#39;T option&gt;<br />static member FromBeginEnd : beginAction:(AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg:&#39;Arg1 * beginAction:(&#39;Arg1 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * beginAction:(&#39;Arg1 * &#39;Arg2 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromBeginEnd : arg1:&#39;Arg1 * arg2:&#39;Arg2 * arg3:&#39;Arg3 * beginAction:(&#39;Arg1 * &#39;Arg2 * &#39;Arg3 * AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member FromContinuations : callback:((&#39;T -&gt; unit) * (exn -&gt; unit) * (OperationCanceledException -&gt; unit) -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member Ignore : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;unit&gt;<br />static member OnCancel : interruption:(unit -&gt; unit) -&gt; Async&lt;IDisposable&gt;<br />static member Parallel : computations:seq&lt;Async&lt;&#39;T&gt;&gt; -&gt; Async&lt;&#39;T []&gt;<br />static member RunSynchronously : computation:Async&lt;&#39;T&gt; * ?timeout:int * ?cancellationToken:CancellationToken -&gt; &#39;T<br />static member Sleep : millisecondsDueTime:int -&gt; Async&lt;unit&gt;<br />static member Start : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions * ?cancellationToken:CancellationToken -&gt; Task&lt;&#39;T&gt;<br />static member StartChild : computation:Async&lt;&#39;T&gt; * ?millisecondsTimeout:int -&gt; Async&lt;Async&lt;&#39;T&gt;&gt;<br />static member StartChildAsTask : computation:Async&lt;&#39;T&gt; * ?taskCreationOptions:TaskCreationOptions -&gt; Async&lt;Task&lt;&#39;T&gt;&gt;<br />static member StartImmediate : computation:Async&lt;unit&gt; * ?cancellationToken:CancellationToken -&gt; unit<br />static member StartWithContinuations : computation:Async&lt;&#39;T&gt; * continuation:(&#39;T -&gt; unit) * exceptionContinuation:(exn -&gt; unit) * cancellationContinuation:(OperationCanceledException -&gt; unit) * ?cancellationToken:CancellationToken -&gt; unit<br />static member SwitchToContext : syncContext:SynchronizationContext -&gt; Async&lt;unit&gt;<br />static member SwitchToNewThread : unit -&gt; Async&lt;unit&gt;<br />static member SwitchToThreadPool : unit -&gt; Async&lt;unit&gt;<br />static member TryCancelled : computation:Async&lt;&#39;T&gt; * compensation:(OperationCanceledException -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />static member CancellationToken : Async&lt;CancellationToken&gt;<br />static member DefaultCancellationToken : CancellationToken<br /><br />Full name: Microsoft.FSharp.Control.Async<br /><br />--------------------<br />type Async&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Control.Async&lt;_&gt;</div>
-<div class="tip" id="fs26">val arg : &#39;a</div>
-<div class="tip" id="fs27">val ofSuccess : (&#39;a -&gt; &#39;msg)</div>
-<div class="tip" id="fs28">val ofError : (exn -&gt; &#39;msg)</div>
-<div class="tip" id="fs29">val bind : ((&#39;msg -&gt; unit) -&gt; Async&lt;unit&gt;)</div>
-<div class="tip" id="fs30">val dispatch : (&#39;msg -&gt; unit)</div>
-<div class="tip" id="fs31">val async : AsyncBuilder<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.async</div>
-<div class="tip" id="fs32">val r : Choice&lt;&#39;a,exn&gt;</div>
-<div class="tip" id="fs33">static member Async.Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;</div>
-<div class="tip" id="fs34">union case Choice.Choice1Of2: &#39;T1 -&gt; Choice&lt;&#39;T1,&#39;T2&gt;</div>
-<div class="tip" id="fs35">val x : &#39;a</div>
-<div class="tip" id="fs36">union case Choice.Choice2Of2: &#39;T2 -&gt; Choice&lt;&#39;T1,&#39;T2&gt;</div>
-<div class="tip" id="fs37">val x : exn</div>
-<div class="tip" id="fs38">static member Async.StartImmediate : computation:Async&lt;unit&gt; * ?cancellationToken:Threading.CancellationToken -&gt; unit</div>
-<div class="tip" id="fs39">val ofFunc : task:(&#39;a -&gt; &#39;a0) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.ofFunc<br /><em><br /><br />&#160;Command to evaluate a simple function and map the result<br />&#160;into success or error (of exception)</em></div>
-<div class="tip" id="fs40">val task : (&#39;a -&gt; &#39;a0)</div>
-<div class="tip" id="fs41">val bind : ((&#39;msg -&gt; &#39;b) -&gt; &#39;b)</div>
-<div class="tip" id="fs42">val dispatch : (&#39;msg -&gt; &#39;b)</div>
-<div class="tip" id="fs43">val performFunc : task:(&#39;a -&gt; &#39;a0) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.performFunc<br /><em><br /><br />&#160;Command to evaluate a simple function and map the success to a message<br />&#160;discarding any possible error</em></div>
-<div class="tip" id="fs44">val bind : ((&#39;msg -&gt; unit) -&gt; unit)</div>
-<div class="tip" id="fs45">val attemptFunc : task:(&#39;a -&gt; unit) -&gt; arg:&#39;a -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.attemptFunc<br /><em><br /><br />&#160;Command to evaluate a simple function and map the error (in case of exception)</em></div>
-<div class="tip" id="fs46">val task : (&#39;a -&gt; unit)</div>
-<div class="tip" id="fs47">val ofSub : sub:Sub&lt;&#39;msg&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><br />Full name: Elmish.Cmd.ofSub<br /><em><br /><br />&#160;Command to call the subscriber</em></div>
-<div class="tip" id="fs48">val sub : Sub&lt;&#39;msg&gt;</div>
+<div class="tip" id="fs2">type Dispatch&lt;&#39;msg&gt; = &#39;msg -&gt; unit<br /><em><br /><br />&#160;Dispatch - feed new message into the processing loop</em></div>
+<div class="tip" id="fs3">type unit = Unit</div>
+<div class="tip" id="fs4">type Sub&lt;&#39;msg&gt; = Dispatch&lt;&#39;msg&gt; -&gt; unit<br /><em><br /><br />&#160;Subscription - return immediately, but may schedule dispatch of a message at any time</em></div>
+<div class="tip" id="fs5">type Cmd&lt;&#39;msg&gt; = Sub&lt;&#39;msg&gt; list<br /><em><br /><br />&#160;Cmd - container for subscriptions that may produce messages</em></div>
+<div class="tip" id="fs6">type &#39;T list = List&lt;&#39;T&gt;</div>
+<div class="tip" id="fs7">Multiple items<br />type RequireQualifiedAccessAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; RequireQualifiedAccessAttribute<br /><br />--------------------<br />new : unit -&gt; RequireQualifiedAccessAttribute</div>
+<div class="tip" id="fs8">Multiple items<br />module Cmd<br /><br />from Elmish<br /><em><br /><br />&#160;Cmd module for creating and manipulating commands</em><br /><br />--------------------<br />type Cmd&lt;&#39;msg&gt; = Sub&lt;&#39;msg&gt; list<br /><em><br /><br />&#160;Cmd - container for subscriptions that may produce messages</em></div>
+<div class="tip" id="fs9">val internal exec : dispatch:Dispatch&lt;&#39;msg&gt; -&gt; cmd:Cmd&lt;&#39;msg&gt; -&gt; unit<br /><em><br /><br />&#160;Execute the commands using the supplied dispatcher</em></div>
+<div class="tip" id="fs10">val dispatch : Dispatch&lt;&#39;msg&gt;</div>
+<div class="tip" id="fs11">val cmd : Cmd&lt;&#39;msg&gt;</div>
+<div class="tip" id="fs12">Multiple items<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;&#160;&#160;interface IReadOnlyList&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IReadOnlyCollection&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;interface IEnumerable<br />&#160;&#160;&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;&#160;&#160;member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list<br />&#160;&#160;&#160;&#160;member Head : &#39;T<br />&#160;&#160;&#160;&#160;member IsEmpty : bool<br />&#160;&#160;&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;&#160;&#160;member Length : int<br />&#160;&#160;&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;&#160;&#160;...</div>
+<div class="tip" id="fs13">val iter : action:(&#39;T -&gt; unit) -&gt; list:&#39;T list -&gt; unit</div>
+<div class="tip" id="fs14">val sub : Sub&lt;&#39;msg&gt;</div>
+<div class="tip" id="fs15">val none : Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;None - no commands, also known as `[]`</em></div>
+<div class="tip" id="fs16">val map : f:(&#39;a -&gt; &#39;msg) -&gt; cmd:Cmd&lt;&#39;a&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;When emitting the message, map to another type</em></div>
+<div class="tip" id="fs17">val f : (&#39;a -&gt; &#39;msg)</div>
+<div class="tip" id="fs18">val cmd : Cmd&lt;&#39;a&gt;</div>
+<div class="tip" id="fs19">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; list:&#39;T list -&gt; &#39;U list</div>
+<div class="tip" id="fs20">val g : Sub&lt;&#39;a&gt;</div>
+<div class="tip" id="fs21">val batch : cmds:#seq&lt;Cmd&lt;&#39;msg&gt;&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Aggregate multiple commands</em></div>
+<div class="tip" id="fs22">val cmds : #seq&lt;Cmd&lt;&#39;msg&gt;&gt;</div>
+<div class="tip" id="fs23">Multiple items<br />val seq : sequence:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><br />--------------------<br />type seq&lt;&#39;T&gt; = Collections.Generic.IEnumerable&lt;&#39;T&gt;</div>
+<div class="tip" id="fs24">val concat : lists:seq&lt;&#39;T list&gt; -&gt; &#39;T list</div>
+<div class="tip" id="fs25">val ofSub : sub:Sub&lt;&#39;msg&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to call the subscriber</em></div>
+<div class="tip" id="fs26">val either : task:(&#39;a -&gt; &#39;a0) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to evaluate a simple function and map the result<br />&#160;into success or error (of exception)</em></div>
+<div class="tip" id="fs27">val task : (&#39;a -&gt; &#39;a0)</div>
+<div class="tip" id="fs28">val arg : &#39;a</div>
+<div class="tip" id="fs29">val ofSuccess : (&#39;a -&gt; &#39;msg)</div>
+<div class="tip" id="fs30">val ofError : (exn -&gt; &#39;msg)</div>
+<div class="tip" id="fs31">val bind : ((&#39;msg -&gt; &#39;b) -&gt; &#39;b)</div>
+<div class="tip" id="fs32">val dispatch : (&#39;msg -&gt; &#39;b)</div>
+<div class="tip" id="fs33">val x : exn</div>
+<div class="tip" id="fs34">val perform : task:(&#39;a -&gt; &#39;a0) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to evaluate a simple function and map the success to a message<br />&#160;discarding any possible error</em></div>
+<div class="tip" id="fs35">val bind : ((&#39;msg -&gt; unit) -&gt; unit)</div>
+<div class="tip" id="fs36">val dispatch : (&#39;msg -&gt; unit)</div>
+<div class="tip" id="fs37">val attempt : task:(&#39;a -&gt; unit) -&gt; arg:&#39;a -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to evaluate a simple function and map the error (in case of exception)</em></div>
+<div class="tip" id="fs38">val task : (&#39;a -&gt; unit)</div>
+<div class="tip" id="fs39">val result : msg:&#39;msg -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to issue a specific message</em></div>
+<div class="tip" id="fs40">val msg : &#39;msg</div>
+<div class="tip" id="fs41">val either : task:(&#39;a -&gt; Async&lt;&#39;a0&gt;) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command that will evaluate an async block and map the result<br />&#160;into success or error (of exception)</em></div>
+<div class="tip" id="fs42">val task : (&#39;a -&gt; Async&lt;&#39;a0&gt;)</div>
+<div class="tip" id="fs43">Multiple items<br />type Async =<br />&#160;&#160;static member AsBeginEnd : computation:(&#39;Arg -&gt; Async&lt;&#39;T&gt;) -&gt; (&#39;Arg * AsyncCallback * obj -&gt; IAsyncResult) * (IAsyncResult -&gt; &#39;T) * (IAsyncResult -&gt; unit)<br />&#160;&#160;static member AwaitEvent : event:IEvent&lt;&#39;Del,&#39;T&gt; * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt; (requires delegate and &#39;Del :&gt; Delegate)<br />&#160;&#160;static member AwaitIAsyncResult : iar:IAsyncResult * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />&#160;&#160;static member AwaitTask : task:Task -&gt; Async&lt;unit&gt;<br />&#160;&#160;static member AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt;<br />&#160;&#160;static member AwaitWaitHandle : waitHandle:WaitHandle * ?millisecondsTimeout:int -&gt; Async&lt;bool&gt;<br />&#160;&#160;static member CancelDefaultToken : unit -&gt; unit<br />&#160;&#160;static member Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;<br />&#160;&#160;static member Choice : computations:seq&lt;Async&lt;&#39;T option&gt;&gt; -&gt; Async&lt;&#39;T option&gt;<br />&#160;&#160;static member FromBeginEnd : beginAction:(AsyncCallback * obj -&gt; IAsyncResult) * endAction:(IAsyncResult -&gt; &#39;T) * ?cancelAction:(unit -&gt; unit) -&gt; Async&lt;&#39;T&gt;<br />&#160;&#160;...<br /><br />--------------------<br />type Async&lt;&#39;T&gt; =</div>
+<div class="tip" id="fs44">val bind : ((&#39;msg -&gt; unit) -&gt; Async&lt;unit&gt;)</div>
+<div class="tip" id="fs45">val async : AsyncBuilder</div>
+<div class="tip" id="fs46">val r : Choice&lt;&#39;a,exn&gt;</div>
+<div class="tip" id="fs47">static member Async.Catch : computation:Async&lt;&#39;T&gt; -&gt; Async&lt;Choice&lt;&#39;T,exn&gt;&gt;</div>
+<div class="tip" id="fs48">union case Choice.Choice1Of2: &#39;T1 -&gt; Choice&lt;&#39;T1,&#39;T2&gt;</div>
+<div class="tip" id="fs49">val x : &#39;a</div>
+<div class="tip" id="fs50">union case Choice.Choice2Of2: &#39;T2 -&gt; Choice&lt;&#39;T1,&#39;T2&gt;</div>
+<div class="tip" id="fs51">static member Async.StartImmediate : computation:Async&lt;unit&gt; * ?cancellationToken:Threading.CancellationToken -&gt; unit</div>
+<div class="tip" id="fs52">val perform : task:(&#39;a -&gt; Async&lt;&#39;a0&gt;) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; ((&#39;msg -&gt; unit) -&gt; unit) list<br /><em><br /><br />&#160;Command that will evaluate an async block and map the success</em></div>
+<div class="tip" id="fs53">val attempt : task:(&#39;a -&gt; Async&lt;&#39;a0&gt;) -&gt; arg:&#39;a -&gt; ofError:(exn -&gt; &#39;msg) -&gt; ((&#39;msg -&gt; unit) -&gt; unit) list<br /><em><br /><br />&#160;Command that will evaluate an async block and map the error (of exception)</em></div>
+<div class="tip" id="fs54">val result : task:Async&lt;&#39;msg&gt; -&gt; ((&#39;msg -&gt; unit) -&gt; unit) list<br /><em><br /><br />&#160;Command that will evaluate an async block to the message</em></div>
+<div class="tip" id="fs55">val task : Async&lt;&#39;msg&gt;</div>
+<div class="tip" id="fs56">val r : Choice&lt;&#39;msg,exn&gt;</div>
+<div class="tip" id="fs57">val x : &#39;msg</div>
+<div class="tip" id="fs58">namespace System.Threading</div>
+<div class="tip" id="fs59">namespace System.Threading.Tasks</div>
+<div class="tip" id="fs60">val either : task:(&#39;a -&gt; Task&lt;&#39;a0&gt;) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to call a task and map the results</em></div>
+<div class="tip" id="fs61">val task : (&#39;a -&gt; Task&lt;&#39;a0&gt;)</div>
+<div class="tip" id="fs62">Multiple items<br />type Task =<br />&#160;&#160;new : action:Action -&gt; Task + 7 overloads<br />&#160;&#160;member AsyncState : obj<br />&#160;&#160;member ConfigureAwait : continueOnCapturedContext:bool -&gt; ConfiguredTaskAwaitable<br />&#160;&#160;member ContinueWith : continuationAction:Action&lt;Task&gt; -&gt; Task + 19 overloads<br />&#160;&#160;member CreationOptions : TaskCreationOptions<br />&#160;&#160;member Dispose : unit -&gt; unit<br />&#160;&#160;member Exception : AggregateException<br />&#160;&#160;member GetAwaiter : unit -&gt; TaskAwaiter<br />&#160;&#160;member Id : int<br />&#160;&#160;member IsCanceled : bool<br />&#160;&#160;...<br /><br />--------------------<br />type Task&lt;&#39;TResult&gt; =<br />&#160;&#160;inherit Task<br />&#160;&#160;new : function:Func&lt;&#39;TResult&gt; -&gt; Task&lt;&#39;TResult&gt; + 7 overloads<br />&#160;&#160;member ConfigureAwait : continueOnCapturedContext:bool -&gt; ConfiguredTaskAwaitable&lt;&#39;TResult&gt;<br />&#160;&#160;member ContinueWith : continuationAction:Action&lt;Task&lt;&#39;TResult&gt;&gt; -&gt; Task + 19 overloads<br />&#160;&#160;member GetAwaiter : unit -&gt; TaskAwaiter&lt;&#39;TResult&gt;<br />&#160;&#160;member Result : &#39;TResult<br />&#160;&#160;static member Factory : TaskFactory&lt;&#39;TResult&gt;<br /><br />--------------------<br />Task(action: Action) : Task<br />Task(action: Action, cancellationToken: Threading.CancellationToken) : Task<br />Task(action: Action, creationOptions: TaskCreationOptions) : Task<br />Task(action: Action&lt;obj&gt;, state: obj) : Task<br />Task(action: Action, cancellationToken: Threading.CancellationToken, creationOptions: TaskCreationOptions) : Task<br />Task(action: Action&lt;obj&gt;, state: obj, cancellationToken: Threading.CancellationToken) : Task<br />Task(action: Action&lt;obj&gt;, state: obj, creationOptions: TaskCreationOptions) : Task<br />Task(action: Action&lt;obj&gt;, state: obj, cancellationToken: Threading.CancellationToken, creationOptions: TaskCreationOptions) : Task<br /><br />--------------------<br />Task(function: Func&lt;&#39;TResult&gt;) : Task&lt;&#39;TResult&gt;<br />Task(function: Func&lt;&#39;TResult&gt;, cancellationToken: Threading.CancellationToken) : Task&lt;&#39;TResult&gt;<br />Task(function: Func&lt;&#39;TResult&gt;, creationOptions: TaskCreationOptions) : Task&lt;&#39;TResult&gt;<br />Task(function: Func&lt;obj,&#39;TResult&gt;, state: obj) : Task&lt;&#39;TResult&gt;<br />Task(function: Func&lt;&#39;TResult&gt;, cancellationToken: Threading.CancellationToken, creationOptions: TaskCreationOptions) : Task&lt;&#39;TResult&gt;<br />Task(function: Func&lt;obj,&#39;TResult&gt;, state: obj, cancellationToken: Threading.CancellationToken) : Task&lt;&#39;TResult&gt;<br />Task(function: Func&lt;obj,&#39;TResult&gt;, state: obj, creationOptions: TaskCreationOptions) : Task&lt;&#39;TResult&gt;<br />Task(function: Func&lt;obj,&#39;TResult&gt;, state: obj, cancellationToken: Threading.CancellationToken, creationOptions: TaskCreationOptions) : Task&lt;&#39;TResult&gt;</div>
+<div class="tip" id="fs63">module OfAsync<br /><br />from Elmish.Cmd</div>
+<div class="tip" id="fs64">static member Async.AwaitTask : task:Task -&gt; Async&lt;unit&gt;<br />static member Async.AwaitTask : task:Task&lt;&#39;T&gt; -&gt; Async&lt;&#39;T&gt;</div>
+<div class="tip" id="fs65">val perform : task:(&#39;a -&gt; Task&lt;&#39;a0&gt;) -&gt; arg:&#39;a -&gt; ofSuccess:(&#39;a0 -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to call a task and map the success</em></div>
+<div class="tip" id="fs66">val attempt : task:(&#39;a -&gt; Task&lt;&#39;a0&gt;) -&gt; arg:&#39;a -&gt; ofError:(exn -&gt; &#39;msg) -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command to call a task and map the error</em></div>
+<div class="tip" id="fs67">val result : task:Task&lt;&#39;msg&gt; -&gt; Cmd&lt;&#39;msg&gt;<br /><em><br /><br />&#160;Command and map the task success</em></div>
+<div class="tip" id="fs68">val task : Task&lt;&#39;msg&gt;</div>
+<div class="tip" id="fs69">Multiple items<br />type ObsoleteAttribute =<br />&#160;&#160;inherit Attribute<br />&#160;&#160;new : unit -&gt; ObsoleteAttribute + 2 overloads<br />&#160;&#160;member IsError : bool<br />&#160;&#160;member Message : string<br /><br />--------------------<br />ObsoleteAttribute() : ObsoleteAttribute<br />ObsoleteAttribute(message: string) : ObsoleteAttribute<br />ObsoleteAttribute(message: string, error: bool) : ObsoleteAttribute</div>
+<div class="tip" id="fs70">module OfTask<br /><br />from Elmish.Cmd</div>
+<div class="tip" id="fs71">val ofMsg : msg:&#39;msg -&gt; Cmd&lt;&#39;msg&gt;</div>
+<div class="tip" id="fs72">module OfFunc<br /><br />from Elmish.Cmd</div>
 
         </div>
         <div class="span3">
