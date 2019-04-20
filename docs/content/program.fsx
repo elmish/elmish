@@ -1,7 +1,6 @@
 ﻿(*** hide ***)
 #I "../../src/bin/Release/netstandard2.0"
 #r "Fable.Core.dll"
-#r "Fable.PowerPack.dll"
 #r "Fable.Elmish.dll"
 
 (**
@@ -25,7 +24,6 @@ type Program<'arg, 'model, 'msg, 'view> = private {
     setState : 'model -> Dispatch<'msg> -> unit
     onError : (string*exn) -> unit
     syncDispatch: Dispatch<'msg> -> Dispatch<'msg>
-    terminate : 'msg -> 'model -> bool
 }
 
 /// Program module - functions to manipulate program instances
@@ -43,8 +41,7 @@ module Program =
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
           onError = Log.onError
-          syncDispatch = id 
-          terminate = fun _ _ -> false }
+          syncDispatch = id }
 
     /// Simple program that produces only new state with `init` and `update`.
     let mkSimple 
@@ -57,8 +54,7 @@ module Program =
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
           onError = Log.onError
-          syncDispatch = id
-          terminate = fun _ _ -> false }
+          syncDispatch = id }
 
     /// Subscribe to external source of events.
     /// The subscription is called once - with the initial model, but can dispatch new messages at any time.
@@ -95,20 +91,41 @@ module Program =
         { program
             with onError = onError }
 
+    /// For library authors only: map existing error handler and return new `Program` 
+    let mapErrorHandler map (program: Program<'arg, 'model, 'msg, 'view>) =
+        { program
+            with onError = map program.onError }
+
+    /// For library authors only: function to render the view with the latest state 
     let withSetState (setState:'model -> Dispatch<'msg> -> unit)
                      (program: Program<'arg, 'model, 'msg, 'view>) =        
         { program
             with setState = setState }
 
+    /// For library authors only: return the function to render the state 
+    let setState (program: Program<'arg, 'model, 'msg, 'view>) =        
+        program.setState
+
+    /// For library authors only: return the view function 
+    let view (program: Program<'arg, 'model, 'msg, 'view>) =        
+        program.view
+
+    /// For library authors only: function to synchronize the dispatch function
     let withSyncDispatch (syncDispatch:Dispatch<'msg> -> Dispatch<'msg>)
                          (program: Program<'arg, 'model, 'msg, 'view>) =        
         { program
             with syncDispatch = syncDispatch }
 
-    let withTermination (terminate:'msg -> 'model -> bool)
-                         (program: Program<'arg, 'model, 'msg, 'view>) =        
-        { program
-            with terminate = terminate }
+    /// For library authors only: map the program type
+    let map mapInit mapUpdate mapView mapSetState mapSubscribe
+            (program: Program<'arg, 'model, 'msg, 'view>) =
+        { init = mapInit program.init
+          update = mapUpdate program.update
+          view = mapView program.view
+          setState = mapSetState program.setState
+          subscribe = mapSubscribe program.subscribe
+          onError = program.onError
+          syncDispatch = id }
 
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
@@ -126,8 +143,6 @@ module Program =
                 let mutable nextMsg = Some msg
                 while Option.isSome nextMsg do
                     let msg = nextMsg.Value
-                    if program.terminate msg model then
-                        program.setState model ignore
                     try
                         let (model',cmd') = program.update msg state
                         program.setState model' syncDispatch
@@ -150,14 +165,3 @@ module Program =
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program
-
-    let map mapInit mapUpdate mapView mapSetState mapSubscribe mapSyncDispatch mapTerminate
-            (program: Program<'arg, 'model, 'msg, 'view>) =
-        { init = mapInit program.init
-          update = mapUpdate program.update
-          view = mapView program.view
-          setState = mapSetState program.setState
-          subscribe = mapSubscribe program.subscribe
-          onError = program.onError
-          syncDispatch = mapSyncDispatch program.syncDispatch
-          terminate = mapTerminate }

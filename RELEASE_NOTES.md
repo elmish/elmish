@@ -1,4 +1,8 @@
-### 3.0.0-beta-7
+### 3.0.0
+
+* Releasing stable 3.0
+
+### 3.0.0-beta-8
 
 * Making `Program` type opaque and reorganizing `Cmd` functions
 

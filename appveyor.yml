@@ -1,13 +1,14 @@
 build:
   verbosity: detailed
 
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 install:
   - ps: Install-Product node 8 x64
+  - ps: dotnet tool install fake-cli
 
 build_script:
-  - cmd: build.cmd
+  - cmd: fake build -t Build
 
 cache:
 - "%LOCALAPPDATA%\\Yarn"

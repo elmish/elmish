@@ -119,14 +119,13 @@ module Cmd =
                 }
             [bind >> Async.StartImmediate]
 
-        /// Command that will evaluate an async block and map the success
-        let result (task: Async<_>)
-                   (ofSuccess: _ -> 'msg) =
+        /// Command that will evaluate an async block to the message
+        let result (task: Async<'msg>) =
             let bind dispatch =
                 async {
                     let! r = task |> Async.Catch
                     match r with
-                    | Choice1Of2 x -> dispatch (ofSuccess x)
+                    | Choice1Of2 x -> dispatch x
                     | _ -> ()
                 }
             [bind >> Async.StartImmediate]
@@ -165,11 +164,10 @@ module Cmd =
                     |> ignore
             [bind]
 
-        /// Command to map `promise` the result
-        let result (task: Fable.Core.JS.Promise<_>)
-                   (ofSuccess: _ -> 'msg) =
+        /// Command to dispatch the `promise` result
+        let result (task: Fable.Core.JS.Promise<'msg>) =
             let bind dispatch =
-                task.``then``(ofSuccess >> dispatch)
+                task.``then`` dispatch
                 |> ignore
             [bind]
 
@@ -202,9 +200,8 @@ module Cmd =
             OfAsync.attempt (task >> Async.AwaitTask) arg ofError
 
         /// Command and map the task success
-        let inline result (task: Task<_>)
-                          (ofSuccess: _ -> 'msg) : Cmd<'msg> =
-            OfAsync.result (task |> Async.AwaitTask) ofSuccess
+        let inline result (task: Task<'msg>) : Cmd<'msg> =
+            OfAsync.result (task |> Async.AwaitTask)
 
     [<Obsolete("Use OfTask.either instead")>]
     let inline ofTask (task: 'a -> Task<_>)
@@ -214,26 +211,26 @@ module Cmd =
         OfTask.either task arg ofSuccess ofError
 #endif
 
-    [<Obsolete("Use `OfFunc.result` instead")>]
+    // Synonymous with `OfFunc.result`, may be removed in the future
     let inline ofMsg (msg:'msg) : Cmd<'msg> =
         OfFunc.result msg
 
-    [<Obsolete("Use `OfAsync.either` instead")>]
+    [<Obsolete("Use `Cmd.OfAsync.either` instead")>]
     let inline ofAsync (task: 'a -> Async<_>)
                        (arg: 'a)
                        (ofSuccess: _ -> 'msg)
                        (ofError: _ -> 'msg) : Cmd<'msg> =
         OfAsync.either task arg ofSuccess ofError
 
-    [<Obsolete("Use `OfFunc.either` instead")>]
+    [<Obsolete("Use `Cmd.OfFunc.either` instead")>]
     let inline ofFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
         OfFunc.either task arg ofSuccess ofError
 
-    [<Obsolete("Use `OfFunc.perform` instead")>]
+    [<Obsolete("Use `Cmd.OfFunc.perform` instead")>]
     let inline performFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) : Cmd<'msg> =
         OfFunc.perform task arg ofSuccess
 
-    [<Obsolete("Use `OfFunc.attempt` instead")>]
+    [<Obsolete("Use `Cmd.OfFunc.attempt` instead")>]
     let attemptFunc (task: 'a -> unit) (arg: 'a) (ofError: _ -> 'msg) : Cmd<'msg> =
         OfFunc.attempt task arg ofError
 

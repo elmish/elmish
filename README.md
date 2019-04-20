@@ -32,11 +32,10 @@ For v2.x release information please see the [v2.x branch](https://github.com/elm
 
 Building Elmish
 ------
-Elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core).
-Unless the SDK is installed and is in the path the build will download and install it locally:
+Elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core) and fake global tool:
 
 Just run fake:
-> `./build.sh` or `build`
+> `fake build`
 
 
 Contributing

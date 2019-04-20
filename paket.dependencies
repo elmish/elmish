@@ -1,4 +1,5 @@
 source https://nuget.org/api/v2
+storage: none
 
 nuget FsCheck
 nuget FsCheck.NUnit
@@ -9,15 +10,3 @@ nuget nunit
 nuget NUnit3TestAdapter
 nuget Microsoft.NET.Test.Sdk
 nuget Unquote
-
-group Build
-framework: net46
-
-    source https://nuget.org/api/v2
-    nuget FSharp.Core  redirects:force, content:none
-    nuget FAKE >= 5.0.0
-    nuget FSharp.Formatting
-    nuget Octokit 0.28
-
-
-    github fsharp/FAKE modules/Octokit/Octokit.fsx
