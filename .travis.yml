@@ -8,9 +8,13 @@ before_script:
   - nvm install --lts
   - nvm use --lts
   - dotnet tool install -g fake-cli
+  - export PATH="$PATH:~/.dotnet/tools"
 
 cache:
   yarn: true
+  directories:
+    - '$HOME/.nuget/packages'
+    - '$HOME/.local/share/NuGet/Cache'
 
 script:
   - fake build -t Build
