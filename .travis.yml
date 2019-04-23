@@ -7,7 +7,7 @@ dotnet: 2.2
 before_script:
   - nvm install --lts
   - nvm use --lts
-  - dotnet tool install fake-cli
+  - dotnet tool install -g fake-cli
 
 cache:
   yarn: true

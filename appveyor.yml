@@ -5,7 +5,7 @@ image: Visual Studio 2019
 
 install:
   - ps: Install-Product node 8 x64
-  - ps: dotnet tool install fake-cli
+  - ps: dotnet tool install -g fake-cli
 
 build_script:
   - cmd: fake build -t Build
