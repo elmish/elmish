@@ -15,33 +15,32 @@ type internal RingBuffer<'item>(size) =
         |> Array.ofSeq
 
     let mutable state : 'item RingState =
-        Writable (Array.zeroCreate (max size 10),0)
+        Writable (Array.zeroCreate (max size 10), 0)
 
     member __.Pop() =
         match state with
-        | ReadWritable (items,wix,rix) ->
+        | ReadWritable (items, wix, rix) ->
             let rix' = (rix + 1) % items.Length
             match rix' = wix with
             | true -> 
-                state <- Writable(items,wix)
+                state <- Writable(items, wix)
             | _ ->
-                state <- ReadWritable(items,wix,rix')
+                state <- ReadWritable(items, wix, rix')
             Some items.[rix]
         | _ ->
             None
 
     member __.Push (item:'item) =
         match state with
-        | Writable (items,ix) ->
+        | Writable (items, ix) ->
             items.[ix] <- item
             let wix = (ix + 1) % items.Length
-            state <- ReadWritable(items,wix,ix)
-        | ReadWritable (items,wix,rix) ->
+            state <- ReadWritable(items, wix, ix)
+        | ReadWritable (items, wix, rix) ->
             items.[wix] <- item
             let wix' = (wix + 1) % items.Length
             match wix' = rix with
             | true -> 
-                let items = items |> doubleSize rix                                
-                state <- ReadWritable(items,wix',0)
+                state <- ReadWritable(items |> doubleSize rix, items.Length, 0)
             | _ -> 
-                state <- ReadWritable(items,wix',rix)
+                state <- ReadWritable(items, wix', rix)

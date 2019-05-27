@@ -31,7 +31,7 @@ let internal applyRBOps (ops:Op list) (rb:int RingBuffer) =
                    rb.Push v
                    Pushed)
                    
-[<Property>]
+[<Property(MaxTest = 1000, EndSize = 1000)>]
 let actsLikeAQueue (ops:Op list) =  
     let q = Queue()
     let rb = RingBuffer 10

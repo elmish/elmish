@@ -1,3 +1,7 @@
+### 3.0.1
+
+* Bugfix for ring resizing
+
 ### 3.0.0
 
 * Releasing stable 3.0
