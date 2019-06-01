@@ -29,7 +29,7 @@ type Cmd<'msg> = Sub<'msg> list
 [<RequireQualifiedAccess>]
 module Cmd =
     /// Execute the commands using the supplied dispatcher
-    let internal exec (dispatch:Dispatch<'msg>) (cmd:Cmd<'msg>)=
+    let internal exec (dispatch:Dispatch<'msg>) (cmd:Cmd<'msg>) =
         cmd |> List.iter (fun sub -> sub dispatch)
 
     /// None - no commands, also known as `[]`
@@ -103,7 +103,7 @@ module Cmd =
         /// Command that will evaluate an async block and map the success
         let perform (task: 'a -> Async<_>)
                     (arg: 'a)
-                    (ofSuccess: _ -> 'msg) =
+                    (ofSuccess: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 async {
                     let! r = task arg |> Async.Catch
@@ -116,7 +116,7 @@ module Cmd =
         /// Command that will evaluate an async block and map the error (of exception)
         let attempt (task: 'a -> Async<_>)
                     (arg: 'a)
-                    (ofError: _ -> 'msg) =
+                    (ofError: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 async {
                     let! r = task arg |> Async.Catch
@@ -127,7 +127,7 @@ module Cmd =
             [bind >> Async.StartImmediate]
 
         /// Command that will evaluate an async block to the message
-        let result (task: Async<'msg>) =
+        let result (task: Async<'msg>)  : Cmd<'msg> =
             let bind dispatch =
                 async {
                     let! r = task |> Async.Catch

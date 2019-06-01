@@ -1,3 +1,7 @@
+### 3.0.2
+
+* Reordering: call `trace` with updated state
+
 ### 3.0.1
 
 * Bugfix for ring resizing
