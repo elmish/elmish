@@ -83,8 +83,12 @@ module Program =
 
     /// Trace all the messages as they update the model
     let withTrace trace (program: Program<'arg, 'model, 'msg, 'view>) =
+        let update msg model =
+            let state,cmd = program.update msg model
+            trace msg state
+            state,cmd
         { program
-            with update = fun msg model -> let state,_ = program.update msg model in trace msg state }
+            with update = update }
 
     /// Handle dispatch loop exceptions
     let withErrorHandler onError (program: Program<'arg, 'model, 'msg, 'view>) =

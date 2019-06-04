@@ -1,4 +1,4 @@
-### 3.0.2
+### 3.0.3
 
 * Reordering: call `trace` with updated state
 
