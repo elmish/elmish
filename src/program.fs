@@ -143,8 +143,8 @@ module Program =
                     try
                         let (model',cmd') = program.update msg state
                         program.setState model' syncDispatch
-                        cmd' |> Cmd.exec syncDispatch
                         state <- model'
+                        cmd' |> Cmd.exec syncDispatch
                     with ex ->
                         program.onError (sprintf "Unable to process the message: %A" msg, ex)
                     nextMsg <- rb.Pop()
