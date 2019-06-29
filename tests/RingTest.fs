@@ -1,18 +1,19 @@
 module Elmish.RingTests
 
+open FsCheck
 open FsCheck.NUnit
 open System.Collections.Generic
 open Swensen.Unquote
 
 type Op =
     | Pop
-    | Push of int
+    | Push of PositiveInt
 
 type OpResult =
-    | Poped of int option
+    | Poped of PositiveInt option
     | Pushed
 
-let internal applyQOps (ops:Op list) (q:int Queue) =
+let internal applyQOps (ops:Op list) (q:PositiveInt Queue) =
     ops
     |> List.map (function 
                  | Pop -> 
@@ -22,7 +23,7 @@ let internal applyQOps (ops:Op list) (q:int Queue) =
                    q.Enqueue v
                    Pushed)
 
-let internal applyRBOps (ops:Op list) (rb:int RingBuffer) =
+let internal applyRBOps (ops:Op list) (rb:PositiveInt RingBuffer) =
     ops
     |> List.map (function 
                  | Pop -> 

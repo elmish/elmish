@@ -93,6 +93,10 @@ module Program =
         { program
             with onError = map program.onError }
 
+    /// For library authors only: get the current error handler 
+    let onError (program: Program<'arg, 'model, 'msg, 'view>) =
+        program.onError
+
     /// For library authors only: function to render the view with the latest state 
     let withSetState (setState:'model -> Dispatch<'msg> -> unit)
                      (program: Program<'arg, 'model, 'msg, 'view>) =        

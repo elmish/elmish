@@ -1,3 +1,7 @@
+### 3.0.4
+
+* Access to `Program`'s error handler
+
 ### 3.0.3
 
 * Reordering: call `trace` with updated state
