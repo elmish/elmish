@@ -1,3 +1,8 @@
+### 4.0.0-alpha-1
+
+* Adding termination
+* Moving `syncDispatch` into `runWith` args
+
 ### 3.0.6
 
 * Changing Cmd.OfAsync implementations to start via 0-interval StartImmediate to mimic .NET behavior
