@@ -84,10 +84,11 @@ module Cmd =
         let result (msg:'msg) : Cmd<'msg> =
             [fun dispatch -> dispatch msg]
 
-    module OfAsync =
+    module OfAsyncWith =
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
-        let either (task: 'a -> Async<_>)
+        let either (start: Async<unit> -> unit) 
+                   (task: 'a -> Async<_>)
                    (arg: 'a)
                    (ofSuccess: _ -> 'msg)
                    (ofError: _ -> 'msg) : Cmd<'msg> =
@@ -98,10 +99,11 @@ module Cmd =
                              | Choice1Of2 x -> ofSuccess x
                              | Choice2Of2 x -> ofError x)
                 }
-            [bind >> Async.StartImmediate]
+            [bind >> start]
 
         /// Command that will evaluate an async block and map the success
-        let perform (task: 'a -> Async<_>)
+        let perform (start: Async<unit> -> unit) 
+                    (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofSuccess: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
@@ -111,10 +113,11 @@ module Cmd =
                     | Choice1Of2 x -> dispatch (ofSuccess x)
                     | _ -> ()
                 }
-            [bind >> Async.StartImmediate]
+            [bind >> start]
 
         /// Command that will evaluate an async block and map the error (of exception)
-        let attempt (task: 'a -> Async<_>)
+        let attempt (start: Async<unit> -> unit) 
+                    (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofError: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
@@ -124,10 +127,11 @@ module Cmd =
                     | Choice2Of2 x -> dispatch (ofError x)
                     | _ -> ()
                 }
-            [bind >> Async.StartImmediate]
+            [bind >> start]
 
         /// Command that will evaluate an async block to the message
-        let result (task: Async<'msg>)  : Cmd<'msg> =
+        let result (start: Async<unit> -> unit) 
+                   (task: Async<'msg>) : Cmd<'msg> =
             let bind dispatch =
                 async {
                     let! r = task |> Async.Catch
@@ -135,7 +139,57 @@ module Cmd =
                     | Choice1Of2 x -> dispatch x
                     | _ -> ()
                 }
-            [bind >> Async.StartImmediate]
+            [bind >> start]
+
+    module OfAsync =
+        /// Command that will evaluate an async block and map the result
+        /// into success or error (of exception)
+        let inline either (task: 'a -> Async<_>)
+                          (arg: 'a)
+                          (ofSuccess: _ -> 'msg)
+                          (ofError: _ -> 'msg) : Cmd<'msg> =
+            OfAsyncWith.either Async.Start task arg ofSuccess ofError
+
+        /// Command that will evaluate an async block and map the success
+        let inline perform (task: 'a -> Async<_>)
+                           (arg: 'a)
+                           (ofSuccess: _ -> 'msg) : Cmd<'msg> =
+            OfAsyncWith.perform Async.Start task arg ofSuccess
+
+        /// Command that will evaluate an async block and map the error (of exception)
+        let inline attempt (task: 'a -> Async<_>)
+                           (arg: 'a)
+                           (ofError: _ -> 'msg) : Cmd<'msg> =
+            OfAsyncWith.attempt Async.Start task arg ofError
+
+        /// Command that will evaluate an async block to the message
+        let inline result (task: Async<'msg>) : Cmd<'msg> =
+            OfAsyncWith.result Async.Start task
+
+    module OfAsyncImmediate =
+        /// Command that will evaluate an async block and map the result
+        /// into success or error (of exception)
+        let inline either (task: 'a -> Async<_>)
+                          (arg: 'a)
+                          (ofSuccess: _ -> 'msg)
+                          (ofError: _ -> 'msg) : Cmd<'msg> =
+            OfAsyncWith.either Async.StartImmediate task arg ofSuccess ofError
+
+        /// Command that will evaluate an async block and map the success
+        let inline perform (task: 'a -> Async<_>)
+                           (arg: 'a)
+                           (ofSuccess: _ -> 'msg) : Cmd<'msg> =
+            OfAsyncWith.perform Async.StartImmediate task arg ofSuccess
+
+        /// Command that will evaluate an async block and map the error (of exception)
+        let inline attempt (task: 'a -> Async<_>)
+                           (arg: 'a)
+                           (ofError: _ -> 'msg) : Cmd<'msg> =
+            OfAsyncWith.attempt Async.StartImmediate task arg ofError
+
+        /// Command that will evaluate an async block to the message
+        let inline result (task: Async<'msg>) : Cmd<'msg> =
+            OfAsyncWith.result Async.StartImmediate task
 
 #if FABLE_COMPILER
     module OfPromise =

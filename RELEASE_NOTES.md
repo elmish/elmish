@@ -1,3 +1,9 @@
+### 3.0.5
+
+* Changing Cmd.OfAsync implementations to start on thread pool to restore v2.x experience
+* Adding Cmd.OfAsyncImmediate implementations
+* Adding Cmd.OfAsyncWith for custom async start implementations
+
 ### 3.0.4
 
 * Access to `Program`'s error handler
