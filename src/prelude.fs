@@ -23,3 +23,13 @@ module internal Log =
     let toConsole(text: string, o: #obj) = printfn "%s: %A" text o
 #endif
 #endif
+
+#if FABLE_COMPILER
+module internal Timer =
+    open System.Timers
+    let delay interval callback =
+        let t = new Timer(float interval, AutoReset = false)
+        t.Elapsed.Add callback
+        t.Enabled <- true
+        t.Start()
+#endif

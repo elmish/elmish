@@ -142,29 +142,34 @@ module Cmd =
             [bind >> start]
 
     module OfAsync =
+#if FABLE_COMPILER
+        let start x = Timer.delay 0 (fun _ -> Async.StartImmediate x)
+#else
+        let inline start x = Async.Start x
+#endif    
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
         let inline either (task: 'a -> Async<_>)
                           (arg: 'a)
                           (ofSuccess: _ -> 'msg)
                           (ofError: _ -> 'msg) : Cmd<'msg> =
-            OfAsyncWith.either Async.Start task arg ofSuccess ofError
+            OfAsyncWith.either start task arg ofSuccess ofError
 
         /// Command that will evaluate an async block and map the success
         let inline perform (task: 'a -> Async<_>)
                            (arg: 'a)
                            (ofSuccess: _ -> 'msg) : Cmd<'msg> =
-            OfAsyncWith.perform Async.Start task arg ofSuccess
+            OfAsyncWith.perform start task arg ofSuccess
 
         /// Command that will evaluate an async block and map the error (of exception)
         let inline attempt (task: 'a -> Async<_>)
                            (arg: 'a)
                            (ofError: _ -> 'msg) : Cmd<'msg> =
-            OfAsyncWith.attempt Async.Start task arg ofError
+            OfAsyncWith.attempt start task arg ofError
 
         /// Command that will evaluate an async block to the message
         let inline result (task: Async<'msg>) : Cmd<'msg> =
-            OfAsyncWith.result Async.Start task
+            OfAsyncWith.result start task
 
     module OfAsyncImmediate =
         /// Command that will evaluate an async block and map the result

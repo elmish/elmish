@@ -1,3 +1,7 @@
+### 3.0.6
+
+* Changing Cmd.OfAsync implementations to start via 0-interval StartImmediate to mimic .NET behavior
+
 ### 3.0.5
 
 * Changing Cmd.OfAsync implementations to start on thread pool to restore v2.x experience
