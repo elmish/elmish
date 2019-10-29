@@ -116,6 +116,14 @@ module Program =
     let view (program: Program<'arg, 'model, 'msg, 'view>) =        
         program.view
 
+    /// Return the init function 
+    let init (program: Program<'arg, 'model, 'msg, 'view>) =        
+        program.init
+
+    /// Return the update function 
+    let update (program: Program<'arg, 'model, 'msg, 'view>) =        
+        program.update
+
     /// Map the program type
     let map mapInit mapUpdate mapView mapSetState mapSubscribe mapTermination
             (program: Program<'arg, 'model, 'msg, 'view>) =
