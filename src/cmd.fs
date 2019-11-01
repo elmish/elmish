@@ -22,7 +22,7 @@ type Cmd<'msg> = Sub<'msg> list
 [<RequireQualifiedAccess>]
 module Cmd =
     /// Execute the commands using the supplied dispatcher
-    let internal exec (dispatch:Dispatch<'msg>) (cmd:Cmd<'msg>) =
+    let internal exec (dispatch: Dispatch<'msg>) (cmd: Cmd<'msg>) =
         cmd |> List.iter (fun sub -> sub dispatch)
 
     /// None - no commands, also known as `[]`
@@ -80,7 +80,7 @@ module Cmd =
     module OfAsyncWith =
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
-        let either (start: Async<unit> -> unit) 
+        let either (start: Async<unit> -> unit)
                    (task: 'a -> Async<_>)
                    (arg: 'a)
                    (ofSuccess: _ -> 'msg)
@@ -95,7 +95,7 @@ module Cmd =
             [bind >> start]
 
         /// Command that will evaluate an async block and map the success
-        let perform (start: Async<unit> -> unit) 
+        let perform (start: Async<unit> -> unit)
                     (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofSuccess: _ -> 'msg) : Cmd<'msg> =
@@ -109,7 +109,7 @@ module Cmd =
             [bind >> start]
 
         /// Command that will evaluate an async block and map the error (of exception)
-        let attempt (start: Async<unit> -> unit) 
+        let attempt (start: Async<unit> -> unit)
                     (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofError: _ -> 'msg) : Cmd<'msg> =
@@ -123,7 +123,7 @@ module Cmd =
             [bind >> start]
 
         /// Command that will evaluate an async block to the message
-        let result (start: Async<unit> -> unit) 
+        let result (start: Async<unit> -> unit)
                    (task: Async<'msg>) : Cmd<'msg> =
             let bind dispatch =
                 async {
@@ -139,7 +139,7 @@ module Cmd =
         let start x = Timer.delay 0 (fun _ -> Async.StartImmediate x)
 #else
         let inline start x = Async.Start x
-#endif    
+#endif
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
         let inline either (task: 'a -> Async<_>)
@@ -206,7 +206,7 @@ module Cmd =
         /// Command to call `promise` block and map the success
         let perform (task: 'a -> Fable.Core.JS.Promise<_>)
                    (arg:'a)
-                   (ofSuccess: _ -> 'msg) =
+                   (ofSuccess: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 (task arg)
                     .``then``(ofSuccess >> dispatch)
@@ -224,7 +224,7 @@ module Cmd =
             [bind]
 
         /// Command to dispatch the `promise` result
-        let result (task: Fable.Core.JS.Promise<'msg>) =
+        let result (task: Fable.Core.JS.Promise<'msg>) : Cmd<'msg> =
             let bind dispatch =
                 task.``then`` dispatch
                 |> ignore
@@ -235,7 +235,7 @@ module Cmd =
                          (arg:'a)
                          (ofSuccess: _ -> 'msg)
                          (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfPromise.either task arg ofSuccess ofError                     
+        OfPromise.either task arg ofSuccess ofError
 #else
     open System.Threading.Tasks
     module OfTask =
