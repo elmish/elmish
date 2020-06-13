@@ -229,13 +229,6 @@ module Cmd =
                 task.``then`` dispatch
                 |> ignore
             [bind]
-
-    [<Obsolete("Use `OfPromise.either` instead")>]
-    let inline ofPromise (task: 'a -> Fable.Core.JS.Promise<_>)
-                         (arg:'a)
-                         (ofSuccess: _ -> 'msg)
-                         (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfPromise.either task arg ofSuccess ofError
 #else
     open System.Threading.Tasks
     module OfTask =
@@ -261,35 +254,8 @@ module Cmd =
         /// Command and map the task success
         let inline result (task: Task<'msg>) : Cmd<'msg> =
             OfAsync.result (task |> Async.AwaitTask)
-
-    [<Obsolete("Use OfTask.either instead")>]
-    let inline ofTask (task: 'a -> Task<_>)
-                      (arg:'a)
-                      (ofSuccess: _ -> 'msg)
-                      (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfTask.either task arg ofSuccess ofError
 #endif
 
     // Synonymous with `OfFunc.result`, may be removed in the future
     let inline ofMsg (msg:'msg) : Cmd<'msg> =
         OfFunc.result msg
-
-    [<Obsolete("Use `Cmd.OfAsync.either` instead")>]
-    let inline ofAsync (task: 'a -> Async<_>)
-                       (arg: 'a)
-                       (ofSuccess: _ -> 'msg)
-                       (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfAsync.either task arg ofSuccess ofError
-
-    [<Obsolete("Use `Cmd.OfFunc.either` instead")>]
-    let inline ofFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfFunc.either task arg ofSuccess ofError
-
-    [<Obsolete("Use `Cmd.OfFunc.perform` instead")>]
-    let inline performFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) : Cmd<'msg> =
-        OfFunc.perform task arg ofSuccess
-
-    [<Obsolete("Use `Cmd.OfFunc.attempt` instead")>]
-    let attemptFunc (task: 'a -> unit) (arg: 'a) (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfFunc.attempt task arg ofError
-
