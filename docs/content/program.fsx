@@ -1,6 +1,5 @@
 ﻿(*** hide ***)
 #I "../../src/bin/Release/netstandard2.0"
-#r "Fable.Core.dll"
 #r "Fable.Elmish.dll"
 
 (**
@@ -161,19 +160,16 @@ module Program =
                 else
                     reentered <- true
                     let mutable nextMsg = Some msg
-                    while Option.isSome nextMsg do
+                    while not terminated && Option.isSome nextMsg do
                         let msg = nextMsg.Value
                         if toTerminate msg then
                             terminate state
                             terminated <- true
                         else                        
-                            try
-                                let (model',cmd') = program.update msg state
-                                program.setState model' dispatch'
-                                cmd' |> Cmd.exec dispatch'
-                                state <- model'
-                            with ex ->
-                                program.onError (sprintf "Unable to process the message: %A" msg, ex)
+                            let (model',cmd') = program.update msg state
+                            program.setState model' dispatch'
+                            cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
+                            state <- model'
                             nextMsg <- rb.Pop()
                     reentered <- false
         and dispatch' = syncDispatch dispatch // serialized dispatch            
@@ -185,7 +181,8 @@ module Program =
             with ex ->
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
-        sub @ cmd |> Cmd.exec dispatch'
+        Cmd.batch [sub; cmd]
+        |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith id () program

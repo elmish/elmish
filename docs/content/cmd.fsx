@@ -1,6 +1,5 @@
 ﻿(*** hide ***)
 #I "../../src/bin/Release/netstandard2.0"
-#r "Fable.Core.dll"
 #r "Fable.Elmish.dll"
 
 (**
@@ -14,39 +13,52 @@ Core abstractions for dispatching messages in Elmish.
 
 namespace Elmish
 
+#if FABLE_COMPILER
+type LeanAttribute = Fable.Core.EraseAttribute
+#else
+type LeanAttribute = StructAttribute
+#endif
+
 open System
 
 /// Dispatch - feed new message into the processing loop
 type Dispatch<'msg> = 'msg -> unit
 
 /// Subscription - return immediately, but may schedule dispatch of a message at any time
-type Sub<'msg> = Dispatch<'msg> -> unit
+[<Lean>]
+type Sub<'msg> = Sub of (Dispatch<'msg> -> unit)
 
 /// Cmd - container for subscriptions that may produce messages
-type Cmd<'msg> = Sub<'msg> list
+[<Lean>]
+type Cmd<'msg> = Cmd of Sub<'msg> list
 
 /// Cmd module for creating and manipulating commands
 [<RequireQualifiedAccess>]
 module Cmd =
     /// Execute the commands using the supplied dispatcher
-    let internal exec (dispatch:Dispatch<'msg>) (cmd:Cmd<'msg>) =
-        cmd |> List.iter (fun sub -> sub dispatch)
+    let internal exec onError (dispatch: Dispatch<'msg>) (Cmd cmd) =
+        cmd |> List.iter (fun (Sub sub) -> try sub dispatch with ex -> onError ex)
 
     /// None - no commands, also known as `[]`
     let none : Cmd<'msg> =
-        []
+        Cmd []
 
     /// When emitting the message, map to another type
-    let map (f: 'a -> 'msg) (cmd: Cmd<'a>) : Cmd<'msg> =
-        cmd |> List.map (fun g -> (fun dispatch -> f >> dispatch) >> g)
+    let map (f: 'a -> 'msg) (Cmd cmd) : Cmd<'msg> =
+        cmd |> List.map (fun (Sub g) -> (fun dispatch -> f >> dispatch) >> g |> Sub) |> Cmd
 
     /// Aggregate multiple commands
     let batch (cmds: #seq<Cmd<'msg>>) : Cmd<'msg> =
-        cmds |> List.concat
+        cmds |> Seq.map (fun (Cmd list) -> list) |> List.concat |> Cmd
 
     /// Command to call the subscriber
-    let ofSub (sub: Sub<'msg>) : Cmd<'msg> =
-        [sub]
+    let ofSub (Sub sub) (ofError: _ -> 'msg) : Cmd<'msg> =
+        let bind dispatch =
+            try
+                sub dispatch
+            with x ->
+                x |> (ofError >> dispatch)
+        Cmd [Sub bind]
 
     module OfFunc =
         /// Command to evaluate a simple function and map the result
@@ -58,7 +70,7 @@ module Cmd =
                     |> (ofSuccess >> dispatch)
                 with x ->
                     x |> (ofError >> dispatch)
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to evaluate a simple function and map the success to a message
         /// discarding any possible error
@@ -69,7 +81,7 @@ module Cmd =
                     |> (ofSuccess >> dispatch)
                 with x ->
                     ()
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to evaluate a simple function and map the error (in case of exception)
         let attempt (task: 'a -> unit) (arg: 'a) (ofError: _ -> 'msg) : Cmd<'msg> =
@@ -78,16 +90,16 @@ module Cmd =
                     task arg
                 with x ->
                     x |> (ofError >> dispatch)
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to issue a specific message
         let result (msg:'msg) : Cmd<'msg> =
-            [fun dispatch -> dispatch msg]
+            Cmd [Sub (fun dispatch -> dispatch msg)]
 
     module OfAsyncWith =
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
-        let either (start: Async<unit> -> unit) 
+        let either (start: Async<unit> -> unit)
                    (task: 'a -> Async<_>)
                    (arg: 'a)
                    (ofSuccess: _ -> 'msg)
@@ -99,10 +111,10 @@ module Cmd =
                              | Choice1Of2 x -> ofSuccess x
                              | Choice2Of2 x -> ofError x)
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
         /// Command that will evaluate an async block and map the success
-        let perform (start: Async<unit> -> unit) 
+        let perform (start: Async<unit> -> unit)
                     (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofSuccess: _ -> 'msg) : Cmd<'msg> =
@@ -113,10 +125,10 @@ module Cmd =
                     | Choice1Of2 x -> dispatch (ofSuccess x)
                     | _ -> ()
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
         /// Command that will evaluate an async block and map the error (of exception)
-        let attempt (start: Async<unit> -> unit) 
+        let attempt (start: Async<unit> -> unit)
                     (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofError: _ -> 'msg) : Cmd<'msg> =
@@ -127,10 +139,10 @@ module Cmd =
                     | Choice2Of2 x -> dispatch (ofError x)
                     | _ -> ()
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
         /// Command that will evaluate an async block to the message
-        let result (start: Async<unit> -> unit) 
+        let result (start: Async<unit> -> unit)
                    (task: Async<'msg>) : Cmd<'msg> =
             let bind dispatch =
                 async {
@@ -139,14 +151,14 @@ module Cmd =
                     | Choice1Of2 x -> dispatch x
                     | _ -> ()
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
     module OfAsync =
 #if FABLE_COMPILER
         let start x = Timer.delay 0 (fun _ -> Async.StartImmediate x)
 #else
         let inline start x = Async.Start x
-#endif    
+#endif
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
         let inline either (task: 'a -> Async<_>)
@@ -208,17 +220,17 @@ module Cmd =
                     .``then``(ofSuccess >> dispatch)
                     .catch(unbox >> ofError >> dispatch)
                     |> ignore
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to call `promise` block and map the success
         let perform (task: 'a -> Fable.Core.JS.Promise<_>)
                    (arg:'a)
-                   (ofSuccess: _ -> 'msg) =
+                   (ofSuccess: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 (task arg)
                     .``then``(ofSuccess >> dispatch)
                     |> ignore
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to call `promise` block and map the error
         let attempt (task: 'a -> Fable.Core.JS.Promise<_>)
@@ -228,21 +240,14 @@ module Cmd =
                 (task arg)
                     .catch(unbox >> ofError >> dispatch)
                     |> ignore
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to dispatch the `promise` result
-        let result (task: Fable.Core.JS.Promise<'msg>) =
+        let result (task: Fable.Core.JS.Promise<'msg>) : Cmd<'msg> =
             let bind dispatch =
                 task.``then`` dispatch
                 |> ignore
-            [bind]
-
-    [<Obsolete("Use `OfPromise.either` instead")>]
-    let inline ofPromise (task: 'a -> Fable.Core.JS.Promise<_>)
-                         (arg:'a)
-                         (ofSuccess: _ -> 'msg)
-                         (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfPromise.either task arg ofSuccess ofError                     
+            Cmd [Sub bind]
 #else
     open System.Threading.Tasks
     module OfTask =
@@ -268,35 +273,8 @@ module Cmd =
         /// Command and map the task success
         let inline result (task: Task<'msg>) : Cmd<'msg> =
             OfAsync.result (task |> Async.AwaitTask)
-
-    [<Obsolete("Use OfTask.either instead")>]
-    let inline ofTask (task: 'a -> Task<_>)
-                      (arg:'a)
-                      (ofSuccess: _ -> 'msg)
-                      (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfTask.either task arg ofSuccess ofError
 #endif
 
     // Synonymous with `OfFunc.result`, may be removed in the future
     let inline ofMsg (msg:'msg) : Cmd<'msg> =
         OfFunc.result msg
-
-    [<Obsolete("Use `Cmd.OfAsync.either` instead")>]
-    let inline ofAsync (task: 'a -> Async<_>)
-                       (arg: 'a)
-                       (ofSuccess: _ -> 'msg)
-                       (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfAsync.either task arg ofSuccess ofError
-
-    [<Obsolete("Use `Cmd.OfFunc.either` instead")>]
-    let inline ofFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfFunc.either task arg ofSuccess ofError
-
-    [<Obsolete("Use `Cmd.OfFunc.perform` instead")>]
-    let inline performFunc (task: 'a -> _) (arg: 'a) (ofSuccess: _ -> 'msg) : Cmd<'msg> =
-        OfFunc.perform task arg ofSuccess
-
-    [<Obsolete("Use `Cmd.OfFunc.attempt` instead")>]
-    let attemptFunc (task: 'a -> unit) (arg: 'a) (ofError: _ -> 'msg) : Cmd<'msg> =
-        OfFunc.attempt task arg ofError
-

@@ -7,39 +7,52 @@ Core abstractions for dispatching messages in Elmish.
 
 namespace Elmish
 
+#if FABLE_COMPILER
+type LeanAttribute = Fable.Core.EraseAttribute
+#else
+type LeanAttribute = StructAttribute
+#endif
+
 open System
 
 /// Dispatch - feed new message into the processing loop
 type Dispatch<'msg> = 'msg -> unit
 
 /// Subscription - return immediately, but may schedule dispatch of a message at any time
-type Sub<'msg> = Dispatch<'msg> -> unit
+[<Lean>]
+type Sub<'msg> = Sub of (Dispatch<'msg> -> unit)
 
 /// Cmd - container for subscriptions that may produce messages
-type Cmd<'msg> = Sub<'msg> list
+[<Lean>]
+type Cmd<'msg> = Cmd of Sub<'msg> list
 
 /// Cmd module for creating and manipulating commands
 [<RequireQualifiedAccess>]
 module Cmd =
     /// Execute the commands using the supplied dispatcher
-    let internal exec (dispatch: Dispatch<'msg>) (cmd: Cmd<'msg>) =
-        cmd |> List.iter (fun sub -> sub dispatch)
+    let internal exec onError (dispatch: Dispatch<'msg>) (Cmd cmd) =
+        cmd |> List.iter (fun (Sub sub) -> try sub dispatch with ex -> onError ex)
 
     /// None - no commands, also known as `[]`
     let none : Cmd<'msg> =
-        []
+        Cmd []
 
     /// When emitting the message, map to another type
-    let map (f: 'a -> 'msg) (cmd: Cmd<'a>) : Cmd<'msg> =
-        cmd |> List.map (fun g -> (fun dispatch -> f >> dispatch) >> g)
+    let map (f: 'a -> 'msg) (Cmd cmd) : Cmd<'msg> =
+        cmd |> List.map (fun (Sub g) -> (fun dispatch -> f >> dispatch) >> g |> Sub) |> Cmd
 
     /// Aggregate multiple commands
     let batch (cmds: #seq<Cmd<'msg>>) : Cmd<'msg> =
-        cmds |> List.concat
+        cmds |> Seq.map (fun (Cmd list) -> list) |> List.concat |> Cmd
 
     /// Command to call the subscriber
-    let ofSub (sub: Sub<'msg>) : Cmd<'msg> =
-        [sub]
+    let ofSub (Sub sub) (ofError: _ -> 'msg) : Cmd<'msg> =
+        let bind dispatch =
+            try
+                sub dispatch
+            with x ->
+                x |> (ofError >> dispatch)
+        Cmd [Sub bind]
 
     module OfFunc =
         /// Command to evaluate a simple function and map the result
@@ -51,7 +64,7 @@ module Cmd =
                     |> (ofSuccess >> dispatch)
                 with x ->
                     x |> (ofError >> dispatch)
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to evaluate a simple function and map the success to a message
         /// discarding any possible error
@@ -62,7 +75,7 @@ module Cmd =
                     |> (ofSuccess >> dispatch)
                 with x ->
                     ()
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to evaluate a simple function and map the error (in case of exception)
         let attempt (task: 'a -> unit) (arg: 'a) (ofError: _ -> 'msg) : Cmd<'msg> =
@@ -71,11 +84,11 @@ module Cmd =
                     task arg
                 with x ->
                     x |> (ofError >> dispatch)
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to issue a specific message
         let result (msg:'msg) : Cmd<'msg> =
-            [fun dispatch -> dispatch msg]
+            Cmd [Sub (fun dispatch -> dispatch msg)]
 
     module OfAsyncWith =
         /// Command that will evaluate an async block and map the result
@@ -92,7 +105,7 @@ module Cmd =
                              | Choice1Of2 x -> ofSuccess x
                              | Choice2Of2 x -> ofError x)
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
         /// Command that will evaluate an async block and map the success
         let perform (start: Async<unit> -> unit)
@@ -106,7 +119,7 @@ module Cmd =
                     | Choice1Of2 x -> dispatch (ofSuccess x)
                     | _ -> ()
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
         /// Command that will evaluate an async block and map the error (of exception)
         let attempt (start: Async<unit> -> unit)
@@ -120,7 +133,7 @@ module Cmd =
                     | Choice2Of2 x -> dispatch (ofError x)
                     | _ -> ()
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
         /// Command that will evaluate an async block to the message
         let result (start: Async<unit> -> unit)
@@ -132,7 +145,7 @@ module Cmd =
                     | Choice1Of2 x -> dispatch x
                     | _ -> ()
                 }
-            [bind >> start]
+            Cmd [Sub (bind >> start)]
 
     module OfAsync =
 #if FABLE_COMPILER
@@ -201,7 +214,7 @@ module Cmd =
                     .``then``(ofSuccess >> dispatch)
                     .catch(unbox >> ofError >> dispatch)
                     |> ignore
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to call `promise` block and map the success
         let perform (task: 'a -> Fable.Core.JS.Promise<_>)
@@ -211,7 +224,7 @@ module Cmd =
                 (task arg)
                     .``then``(ofSuccess >> dispatch)
                     |> ignore
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to call `promise` block and map the error
         let attempt (task: 'a -> Fable.Core.JS.Promise<_>)
@@ -221,14 +234,14 @@ module Cmd =
                 (task arg)
                     .catch(unbox >> ofError >> dispatch)
                     |> ignore
-            [bind]
+            Cmd [Sub bind]
 
         /// Command to dispatch the `promise` result
         let result (task: Fable.Core.JS.Promise<'msg>) : Cmd<'msg> =
             let bind dispatch =
                 task.``then`` dispatch
                 |> ignore
-            [bind]
+            Cmd [Sub bind]
 #else
     open System.Threading.Tasks
     module OfTask =

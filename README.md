@@ -28,14 +28,15 @@ If targeting CLR, please use Elmish package:
 
 For v1.x release information please see the [v1.x branch](https://github.com/elmish/elmish/tree/v1.x)
 For v2.x release information please see the [v2.x branch](https://github.com/elmish/elmish/tree/v2.x)
+For v3.x release information please see the [v3.x branch](https://github.com/elmish/elmish/tree/v3.x)
 
 
 Building Elmish
 ------
-Elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core) and fake global tool:
+Elmish depends on [dotnet SDK 3.1](https://www.microsoft.com/net/download/core) and fake global tool:
 
-Just run fake:
-> `fake build`
+* once: `dotnet tool restore` to install local fake
+* `dotnet fake build`
 
 
 Contributing

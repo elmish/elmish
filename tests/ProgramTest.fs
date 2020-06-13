@@ -7,24 +7,29 @@ open Elmish
 type Model = int
 type Msg =
   | Increment
-  | Increment100Times
+  | Decrement
+  | Increment10Times
 
 let init msgs = 0, msgs |> List.map Cmd.ofMsg |> Cmd.batch
 
 let update msg m =
   match msg with
   | Increment -> m + 1, Cmd.none
-  | Increment100Times -> m, Cmd.batch [ for _ in 1..100 -> Cmd.ofMsg Increment ] 
+  | Decrement -> m - 1, Cmd.none
+  | Increment10Times -> m, Cmd.batch [ for _ in 1..10 -> Cmd.ofMsg Increment ] 
 
-// [<Property>]
-// let dispatchesBatch (msgs: Msg list) =  
-//     let expected = (0, msgs) ||> List.fold (fun s -> function Increment -> s + 1 | Increment100Times -> s + 100)
-//     let mutable counted = 0
-//     let count m _ = counted <- m
-    
-//     async {
-//       Program.mkProgram init update count
-//       |> Program.runWith msgs
-//     } |> Async.Start
-//     System.Threading.Thread.Sleep (expected * 100)
-//     counted =! expected
+[<Property(MaxTest = 10, EndSize = 100)>]
+let dispatchesBatch (msgs: Msg list) =  
+    printfn "Folding..."
+    let expected =
+      (0, msgs)
+      ||> List.fold (fun s -> function Increment -> s + 1 | Decrement -> s - 1 | Increment10Times -> s + 10)
+    let mutable counted = 0
+    let count m _ = counted <- m
+    printfn "Starting..."
+    async {
+      Program.mkProgram init update count
+      |> Program.runWith id msgs
+    } |> Async.Start
+    System.Threading.Thread.Sleep (1_000)
+    counted =! expected

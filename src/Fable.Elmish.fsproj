@@ -13,5 +13,8 @@
   <ItemGroup>
     <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.*" />
+    <PackageReference Include="Fable.Core" Version="3.*" />
+  </ItemGroup>
 </Project>

@@ -1,3 +1,8 @@
+### 4.0.0-alpha-2
+* Changing `Cmd` and `Sub` aliases to DUs
+* Changing `ofSub` to take the error mapper
+* Dropping netstandard1.6 from Elmish (for CLR) targets
+
 ### 4.0.0-alpha-1
 
 * Adding termination

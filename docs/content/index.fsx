@@ -9,7 +9,7 @@
 >`-ish` <br />
 >  a suffix used to convey the sense of “having some characteristics of”
 
-Elmish implements core abstractions that can be used to build Fable applications following the [“model view update”](https://guide.elm-lang.org/architecture/) style of architecture, as made famous by Elm.
+Elmish implements core abstractions that can be used to build F# applications following the [“model view update”](https://guide.elm-lang.org/architecture/) style of architecture, as made famous by Elm.
 
 
 The goal of the architecture is to provide a solid UI-independent core to build the rest of the functionality around.

@@ -27,9 +27,6 @@ let projects  =
     !! "src/**.fsproj"
     ++ "netstandard/**.fsproj"
 
-
-let withWorkDir = DotNet.Options.withWorkingDirectory
-
 Target.create "Clean" (fun _ ->
     Shell.cleanDir "src/obj"
     Shell.cleanDir "src/bin"
@@ -39,23 +36,12 @@ Target.create "Clean" (fun _ ->
 
 Target.create "Restore" (fun _ ->
     projects
-    |> Seq.iter (fun s ->
-        let dir = Path.GetDirectoryName s
-        DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
-    )
+    |> Seq.iter (Path.GetDirectoryName >> DotNet.restore id)
 )
 
 Target.create "Build" (fun _ ->
     projects
-    |> Seq.iter (fun s ->
-        let dir = Path.GetDirectoryName s
-        DotNet.build (fun a ->
-            a.WithCommon
-                (fun c ->
-                    let c = c |> withWorkDir dir
-                    {c with CustomParams = Some "/p:SourceLinkCreate=true"}))
-            s
-    )
+    |> Seq.iter (Path.GetDirectoryName >> DotNet.build id)
 )
 
 Target.create "Test" (fun _ ->
@@ -66,10 +52,17 @@ let release = ReleaseNotes.load "RELEASE_NOTES.md"
 
 Target.create "Meta" (fun _ ->
     [ "<Project xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">"
+      "<ItemGroup>"
+      "<None Include=\"../docs/files/img/logo.png\" Pack=\"true\" PackagePath=\"\\\"/>"
+      "<PackageReference Include=\"Microsoft.SourceLink.GitHub\" Version=\"1.0.0\" PrivateAssets=\"All\"/>"
+      "</ItemGroup>"
       "<PropertyGroup>"
+      "<EmbedUntrackedSources>true</EmbedUntrackedSources>"
+      "<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>"
       "<PackageProjectUrl>https://github.com/elmish/elmish</PackageProjectUrl>"
-      "<PackageLicenseUrl>https://raw.githubusercontent.com/elmish/elmish/master/LICENSE.md</PackageLicenseUrl>"
+      "<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>"
       "<PackageIconUrl>https://raw.githubusercontent.com/elmish/elmish/master/docs/files/img/logo.png</PackageIconUrl>"
+      "<PackageIcon>logo.png</PackageIcon>"
       "<RepositoryUrl>https://github.com/elmish/elmish.git</RepositoryUrl>"
       sprintf "<PackageReleaseNotes>%s</PackageReleaseNotes>" (List.head release.Notes)
       "<PackageTags>fable;elm;fsharp</PackageTags>"
@@ -85,19 +78,11 @@ Target.create "Meta" (fun _ ->
 
 Target.create "Package" (fun _ ->
     projects
-    |> Seq.iter (fun s ->
-        let dir = Path.GetDirectoryName s
-        DotNet.pack (fun a ->
-            a.WithCommon (withWorkDir dir)
-        ) s
-    )
+    |> Seq.iter (Path.GetDirectoryName >> DotNet.pack id)
 )
 
 Target.create "PublishNuget" (fun _ ->
-    let exec dir =
-        DotNet.exec (fun a ->
-            a.WithCommon (withWorkDir dir)
-        )
+    let exec dir = DotNet.exec (DotNet.Options.withWorkingDirectory dir)
 
     let args = sprintf "push Fable.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
     let result = exec "src/bin/Release" "nuget" args
@@ -123,7 +108,6 @@ let copyFiles() =
     let header =
         Fake.Core.String.splitStr "\n" """(*** hide ***)
 #I "../../src/bin/Release/netstandard2.0"
-#r "Fable.Core.dll"
 #r "Fable.Elmish.dll"
 
 (**
@@ -149,7 +133,7 @@ let generateDocs _ =
                 Source = "docs/content"
                 OutputDirectory = docs_out
                 LayoutRoots = [ "docs/tools/templates"
-                                ".fake/build.fsx/packages/fsharp.formatting/templates" ]
+                                ".fake/build.fsx/packages/FSharp.Formatting/templates" ]
                 ProjectParameters  = ("root", docsHome)::info
                 Template = "docpage.cshtml" } )
 

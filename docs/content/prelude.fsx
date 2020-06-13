@@ -1,6 +1,5 @@
 ﻿(*** hide ***)
 #I "../../src/bin/Release/netstandard2.0"
-#r "Fable.Core.dll"
 #r "Fable.Elmish.dll"
 
 (**

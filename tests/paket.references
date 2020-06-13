@@ -1,7 +1,0 @@
-nunit
-NUnit3TestAdapter
-Microsoft.NET.Test.Sdk
-FSharp.Core
-FsCheck
-FsCheck.NUnit
-Unquote
