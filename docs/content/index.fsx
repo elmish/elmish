@@ -62,7 +62,23 @@ See the [basics example](basics.html) for details.
 
 Parent-child hierarchy is made explicit by wrapping model and message types of the child with those of the parent.
 
-![flow](img/parent-child.svg)
+First the UI is initialised:
+
+![parent-child composition: UML diagram of UI initialisation](img/parent-child-1-ui-init.svg)
+
+1. `program` requests the initial model from the parent, top-level component (`Main`)
+2. Parent component requests the initial model from its child subcomponent (`Widget`)
+3. `Widget.initialModel` returns its initial model to the parent
+4. `Main.initialModel` wraps child's model and returns the top-level initial model to the program
+5. Program sends the model to the parent's `Main.view`
+6. Parent unwraps the child's component model from its model and sends it to child's `Widget.view`
+7. `Widget.view` returns a rendered `HTML` page
+8. `Main.view` embeds child's `HTML` page in its `HTML` page
+9. The resulting `HTML` page is send to the user
+
+Then the user interacts with the browser:
+
+![parent-child composition: UML diagram of user interacting with the browser](img/parent-child-2-user-interaction.svg)
 
 1. User clicks on the increase button
 2. `Widget.view` dispatches an `Increase` message

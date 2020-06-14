@@ -1,4 +1,4 @@
-@startuml "parent-child"
+@startuml "parent-child-2-user-interaction"
 ' © Sebastian Porto 2016, 
 ' licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 autonumber "<b>(#)"
@@ -11,19 +11,6 @@ participant Widget.initialModel as Wim #white
 participant Widget.view as WV #white
 participant Widget.update as WU #white
 
-program -> Mim: initialModel
-Mim -> Wim: initialModel
-Wim --> Mim: widgetModel
-Mim --> program: mainModel
-program -> MV : mainModel
-MV -> WV : widgetModel
-WV --> MV : Html
-MV --> program : Html
-program -> User : Html
-
-newpage
-
-autonumber 1 "<b>(#)"
 User -> WV : Click
 WV -> MV: Increase
 MV -> program: (WidgetMsg Increase)
@@ -35,4 +22,5 @@ program -> MV : mainModel
 MV -> WV : widgetModel
 WV --> MV : Html
 MV --> program : Html
+
 @enduml
