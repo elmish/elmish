@@ -2,7 +2,7 @@
 ' © Sebastian Porto 2016, 
 ' licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 autonumber "<b>(#)"
-participant User #white
+actor User #white
 participant program #white
 participant Main.initialModel as Mim #white
 participant Main.view as MV #white
