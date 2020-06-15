@@ -62,6 +62,9 @@ See the [basics example](basics.html) for details.
 
 Parent-child hierarchy is made explicit by wrapping model and message types of the child with those of the parent.
 
+Following diagrams show interactions between components in case of a user interacting with an example web app.
+Note that Elmish doesn't depend on any specific UI such as HTML rendering (it actually does not require any UI at all), and HTML is used just for explanation purposes.
+
 First the UI is initialised:
 
 ![parent-child composition: UML diagram of UI initialisation](img/parent-child-1-ui-init.svg)
