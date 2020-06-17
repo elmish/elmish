@@ -139,14 +139,14 @@
 <div class="tip" id="fs10">val doubleSize : (int -&gt; &#39;item array -&gt; &#39;item [])</div>
 <div class="tip" id="fs11">val ix : int</div>
 <div class="tip" id="fs12">val items : &#39;item array</div>
-<div class="tip" id="fs13">Multiple items<br />val seq : sequence:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><br />--------------------<br />type seq&lt;&#39;T&gt; = Collections.Generic.IEnumerable&lt;&#39;T&gt;</div>
+<div class="tip" id="fs13">Multiple items<br />val seq : sequence:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><br />--------------------<br />type seq&lt;&#39;T&gt; = System.Collections.Generic.IEnumerable&lt;&#39;T&gt;</div>
 <div class="tip" id="fs14">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
 <div class="tip" id="fs15">val skip : count:int -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;</div>
 <div class="tip" id="fs16">val take : count:int -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;</div>
-<div class="tip" id="fs17">property Array.Length: int</div>
+<div class="tip" id="fs17">property System.Array.Length: int</div>
 <div class="tip" id="fs18">module Unchecked<br /><br />from Microsoft.FSharp.Core.Operators</div>
 <div class="tip" id="fs19">val defaultof&lt;&#39;T&gt; : &#39;T</div>
-<div class="tip" id="fs20">type Array =<br />&#160;&#160;member Clone : unit -&gt; obj<br />&#160;&#160;member CopyTo : array:Array * index:int -&gt; unit + 1 overload<br />&#160;&#160;member GetEnumerator : unit -&gt; IEnumerator<br />&#160;&#160;member GetLength : dimension:int -&gt; int<br />&#160;&#160;member GetLongLength : dimension:int -&gt; int64<br />&#160;&#160;member GetLowerBound : dimension:int -&gt; int<br />&#160;&#160;member GetUpperBound : dimension:int -&gt; int<br />&#160;&#160;member GetValue : index:int64 -&gt; obj + 7 overloads<br />&#160;&#160;member Initialize : unit -&gt; unit<br />&#160;&#160;member IsFixedSize : bool<br />&#160;&#160;...</div>
+<div class="tip" id="fs20">module Array<br /><br />from Microsoft.FSharp.Collections</div>
 <div class="tip" id="fs21">val ofSeq : source:seq&lt;&#39;T&gt; -&gt; &#39;T []</div>
 <div class="tip" id="fs22">[&lt;Struct&gt;]<br />val mutable state : RingState&lt;&#39;item&gt;</div>
 <div class="tip" id="fs23">val zeroCreate : count:int -&gt; &#39;T []</div>

@@ -82,7 +82,23 @@ See the <a href="program.html"><code>Program</code></a> module for more details.
 <p>See the <a href="basics.html">basics example</a> for details.</p>
 <h3><a name="Parent-child-composition-and-user-interaction" class="anchor" href="#Parent-child-composition-and-user-interaction">Parent-child composition and user interaction</a></h3>
 <p>Parent-child hierarchy is made explicit by wrapping model and message types of the child with those of the parent.</p>
-<p><img src="img/parent-child.svg" alt="flow" /></p>
+<p>Following diagrams show interactions between components in case of a user interacting with an example web app.
+Note that Elmish doesn't depend on any specific UI such as HTML rendering (it actually does not require any UI at all), and HTML is used just for explanation purposes.</p>
+<p>First the UI is initialised:</p>
+<p><img src="img/parent-child-1-ui-init.svg" alt="parent-child composition: UML diagram of UI initialisation" /></p>
+<ol>
+<li><code>program</code> requests the initial model from the parent, top-level component (<code>Main</code>)</li>
+<li>Parent component requests the initial model from its child subcomponent (<code>Widget</code>)</li>
+<li><code>Widget.initialModel</code> returns its initial model to the parent</li>
+<li><code>Main.initialModel</code> wraps child's model and returns the top-level initial model to the program</li>
+<li>Program sends the model to the parent's <code>Main.view</code></li>
+<li>Parent unwraps the child's component model from its model and sends it to child's <code>Widget.view</code></li>
+<li><code>Widget.view</code> returns a rendered <code>HTML</code> page</li>
+<li><code>Main.view</code> embeds child's <code>HTML</code> page in its <code>HTML</code> page</li>
+<li>The resulting <code>HTML</code> page is send to the user</li>
+</ol>
+<p>Then the user interacts with the browser:</p>
+<p><img src="img/parent-child-2-user-interaction.svg" alt="parent-child composition: UML diagram of user interacting with the browser" /></p>
 <ol>
 <li>User clicks on the increase button</li>
 <li><code>Widget.view</code> dispatches an <code>Increase</code> message</li>
