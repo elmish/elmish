@@ -32,10 +32,11 @@ For v2.x release information please see the [v2.x branch](https://github.com/elm
 
 Building Elmish
 ------
-Elmish depends on [dotnet SDK](https://www.microsoft.com/net/download/core) and fake global tool:
+Elmish depends on [dotnet SDK 3.1.301](https://www.microsoft.com/net/download/core), `fake` tool and `yarn`:
 
-Just run fake:
-> `fake build`
+When building for the first time: `dotnet tool restore`
+Running fake:
+> `dotnet fake build`
 
 
 Contributing

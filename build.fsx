@@ -5,6 +5,7 @@ nuget Fake.DotNet.Cli
 nuget Fake.Core.Target
 nuget Fake.Core.ReleaseNotes
 nuget Fake.Tools.Git
+nuget Fake.JavaScript.Yarn
 nuget Fake.DotNet.FSFormatting //"
 #if !FAKE
 #load ".fake/build.fsx/intellisense.fsx"
@@ -18,7 +19,7 @@ open Fake.Tools
 open Fake.IO
 open Fake.IO.FileSystemOperators
 open Fake.IO.Globbing.Operators
-open System
+open Fake.JavaScript
 open System.IO
 
 
@@ -43,6 +44,7 @@ Target.create "Restore" (fun _ ->
         let dir = Path.GetDirectoryName s
         DotNet.restore (fun a -> a.WithCommon (withWorkDir dir)) s
     )
+    Yarn.install id
 )
 
 Target.create "Build" (fun _ ->
@@ -59,7 +61,8 @@ Target.create "Build" (fun _ ->
 )
 
 Target.create "Test" (fun _ ->
-    DotNet.test (fun a -> a.WithCommon id) "tests"
+    DotNet.test (fun a -> a.WithCommon id) "netstandard.tests"
+    Yarn.exec "test" id
 )
 
 let release = ReleaseNotes.load "RELEASE_NOTES.md"
