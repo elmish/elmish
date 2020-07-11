@@ -147,7 +147,7 @@ module Program =
                     try
                         let (model',cmd') = program.update msg state
                         program.setState model' syncDispatch
-                        cmd' |> Cmd.exec syncDispatch
+                        cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error in command while handling: %A" msg, ex)) syncDispatch
                         state <- model'
                     with ex ->
                         program.onError (sprintf "Unable to process the message: %A" msg, ex)
@@ -162,7 +162,8 @@ module Program =
             with ex ->
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
-        sub @ cmd |> Cmd.exec syncDispatch
+        Cmd.batch [sub; cmd]
+        |> Cmd.exec (fun ex -> program.onError ("Error intitializing:", ex)) syncDispatch
 
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program

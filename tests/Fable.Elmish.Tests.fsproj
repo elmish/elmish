@@ -1,0 +1,17 @@
+  
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../src/prelude.fs" />
+    <Compile Include="../src/cmd.fs" />
+    <Compile Include="../src/ring.fs" />
+    <Compile Include="../src/program.fs" />
+    <Compile Include="prelude.fs" />
+    <Compile Include="tests.cmd.fs" />
+    <Compile Include="tests.program.fs" />
+    <Compile Include="main.fs" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>

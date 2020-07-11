@@ -1,3 +1,7 @@
+### 3.1.0
+
+* Changing Cmd.OfAsync/OfAsyncImmediate `result` implementation to allow exceptions to escape into the dispatch loop.
+
 ### 3.0.6
 
 * Changing Cmd.OfAsync implementations to start via 0-interval StartImmediate to mimic .NET behavior

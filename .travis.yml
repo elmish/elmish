@@ -2,12 +2,13 @@ language: csharp
 
 sudo: false  # use the new container-based Travis infrastructure
 dist: xenial
-dotnet: 2.2
+dotnet: 3.1
 
 before_script:
   - nvm install --lts
   - nvm use --lts
-  - dotnet tool install -g fake-cli
+  - npm i -g yarn
+  - dotnet tool restore
   - export PATH="$PATH:~/.dotnet/tools"
 
 cache:
@@ -17,4 +18,4 @@ cache:
     - '$HOME/.local/share/NuGet/Cache'
 
 script:
-  - fake build -t Build
+  - dotnet fake build -t Test

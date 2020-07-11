@@ -22,8 +22,8 @@ type Cmd<'msg> = Sub<'msg> list
 [<RequireQualifiedAccess>]
 module Cmd =
     /// Execute the commands using the supplied dispatcher
-    let internal exec (dispatch:Dispatch<'msg>) (cmd:Cmd<'msg>) =
-        cmd |> List.iter (fun sub -> sub dispatch)
+    let internal exec onError (dispatch: Dispatch<'msg>) (cmd: Cmd<'msg>) =
+        cmd |> List.iter (fun call -> try call dispatch with ex -> onError ex)
 
     /// None - no commands, also known as `[]`
     let none : Cmd<'msg> =
@@ -127,10 +127,8 @@ module Cmd =
                    (task: Async<'msg>) : Cmd<'msg> =
             let bind dispatch =
                 async {
-                    let! r = task |> Async.Catch
-                    match r with
-                    | Choice1Of2 x -> dispatch x
-                    | _ -> ()
+                    let! r = task
+                    dispatch r
                 }
             [bind >> start]
 

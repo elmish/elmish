@@ -1,0 +1,15 @@
+{
+    "private": true,
+    "scripts": {
+        "test": "fable-splitter -c tests/splitter.js && mocha tests/bin"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.5.5",
+        "@babel/preset-env": "^7.5.5",
+        "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+        "fable-compiler": "^2.4.7",
+        "fable-splitter": "^2.1.10",
+        "mocha": "^6.2.0"
+    },
+    "dependencies": {}
+}
