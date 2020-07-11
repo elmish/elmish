@@ -11,7 +11,7 @@ let tests : Test =
                 let onError (ex:exn) = 
                     if ex.Message = "expected" then errored <- true
                 Cmd.OfAsyncImmediate.attempt task () onError
-                |> Cmd.exec ignore
+                |> Cmd.exec ignore ignore
                 Timer.delay 1000 ignore
                 true =! errored
         ]
