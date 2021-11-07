@@ -16,6 +16,7 @@ type Program<'arg, 'model, 'msg, 'view> = private {
     view : 'model -> Dispatch<'msg> -> 'view
     setState : 'model -> Dispatch<'msg> -> unit
     onError : (string*exn) -> unit
+    termination : ('msg -> bool) * ('model -> unit)
     syncDispatch: Dispatch<'msg> -> Dispatch<'msg>
 }
 
@@ -34,6 +35,7 @@ module Program =
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
           onError = Log.onError
+          termination = (fun _ -> false), ignore
           syncDispatch = id }
 
     /// Simple program that produces only new state with `init` and `update`.
@@ -47,6 +49,7 @@ module Program =
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none
           onError = Log.onError
+          termination = (fun _ -> false), ignore
           syncDispatch = id }
 
     /// Subscribe to external source of events.
@@ -88,6 +91,11 @@ module Program =
         { program
             with onError = onError }
 
+    /// Exit criteria and the handler, overrides existing. 
+    let withTermination (predicate: 'msg -> bool) (terminate: 'model -> unit) (program: Program<'arg, 'model, 'msg, 'view>) =
+        { program
+            with termination = predicate, terminate }            
+
     /// For library authors only: map existing error handler and return new `Program` 
     let mapErrorHandler map (program: Program<'arg, 'model, 'msg, 'view>) =
         { program
@@ -126,24 +134,36 @@ module Program =
           setState = mapSetState program.setState
           subscribe = mapSubscribe program.subscribe
           onError = program.onError
+          termination = program.termination
           syncDispatch = id }
+
+    /// For library authors only: map the exit criteria and handler
+    let mapTermination mapTermination (program: Program<'arg, 'model, 'msg, 'view>) =
+        { program with termination = mapTermination program.termination }
 
     /// Start the program loop.
     /// arg: argument to pass to the init() function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
+        let toTerminate, terminate = program.termination
         let rb = RingBuffer 10
         let mutable reentered = false
         let mutable state = model        
+        let mutable terminated = false
         let rec dispatch msg = 
+          if terminated then ()
+          else
             if reentered then
                 rb.Push msg
             else
                 reentered <- true
                 let mutable nextMsg = Some msg
-                while Option.isSome nextMsg do
+                while not terminated && Option.isSome nextMsg do
                     let msg = nextMsg.Value
+                    if toTerminate msg then
+                        terminate state
+                        terminated <- true
                     try
                         let (model',cmd') = program.update msg state
                         program.setState model' syncDispatch
