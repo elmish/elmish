@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../netstandard/Elmish.fsproj" />
@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsCheck" Version="2.*" />
-    <PackageReference Include="FsCheck.NUnit" Version="2.14.3" />
+    <PackageReference Include="FsCheck.NUnit" Version="2.*" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

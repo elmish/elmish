@@ -47,8 +47,8 @@ module Program =
         (init : 'arg -> 'model) 
         (update : 'msg -> 'model -> 'model)
         (view : 'model -> Dispatch<'msg> -> 'view) =
-        { init = init >> fun state -> state,Cmd.none
-          update = fun msg -> update msg >> fun state -> state,Cmd.none
+        { init = init >> fun state -> state, Cmd.none
+          update = fun msg -> update msg >> fun state -> state, Cmd.none
           view = view
           setState = fun model -> view model >> ignore
           subscribe = fun _ -> Cmd.none

@@ -1,3 +1,8 @@
+### 4.0.0-beta-1
+* Move to .NET 5 SDK
+* Reverting `Cmd` and `Sub` changes to v3
+* For end-user compatibility with v3 keep `Program.runWith` signature and introduce `Program.runWithDispatch` to allow for multi-threaded sync function.
+
 ### 4.0.0-alpha-2
 * Changing `Cmd` and `Sub` aliases to DUs
 * Changing `ofSub` to take the error mapper
@@ -7,6 +12,9 @@
 
 * Adding termination
 * Moving `syncDispatch` into `runWith` args
+
+### 3.1.0
+* Changing Cmd.OfAsync/OfAsyncImmediate `result` implementation to allow exceptions to escape into the dispatch loop.
 
 ### 3.0.6
 
