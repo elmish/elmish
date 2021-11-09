@@ -1,5 +1,6 @@
 #r "paket:
 storage: packages
+nuget FSharp.Core 4.7
 nuget Fake.IO.FileSystem
 nuget Fake.DotNet.Cli
 nuget Fake.Core.Target
