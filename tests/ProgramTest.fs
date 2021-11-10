@@ -29,7 +29,7 @@ let dispatchesBatch (msgs: Msg list) =
     printfn "Starting..."
     async {
       Program.mkProgram init update count
-      |> Program.runWith id msgs
+      |> Program.runWith msgs
     } |> Async.Start
     System.Threading.Thread.Sleep (1_000)
     counted =! expected
