@@ -28,3 +28,4 @@ Directory.Build.props
 temp
 paket-files
 .ionide
+docs_deploy/

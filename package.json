@@ -1,0 +1,26 @@
+{
+    "name": "hmr",
+    "private": true,
+    "scripts": {
+        "postinstall": "dotnet tool restore",
+        "docs:watch": "nacara watch",
+        "docs:build": "nacara build",
+        "docs:publish": "nacara build && gh-pages -d docs_deploy"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/elmish/hmr.git"
+    },
+    "devDependencies": {
+        "bulma": "^0.9.3",
+        "gatsby-remark-vscode": "^3.3.0",
+        "nacara-layout-standard": "^1.2.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "unified": "^10.1.0",
+        "vscode-theme-onelight": "github:akamud/vscode-theme-onelight"
+    },
+    "dependencies": {
+        "nacara": "^1.4.0"
+    }
+}

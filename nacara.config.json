@@ -1,0 +1,40 @@
+{
+    "siteMetadata": {
+        "title": "Elmish",
+        "url": "https://elmish.github.io",
+        "baseUrl": "/elmish/",
+        "editUrl" : "https://github.com/elmish/hmr/edit/master/docs",
+        "favIcon": "img/logo.png"
+    },
+    "navbar": {
+        "start": [
+            {
+                "pinned": true,
+                "label": "Docs",
+                "url": "/elmish/docs/basics.html"
+            }
+        ],
+        "end": [
+            {
+                "url": "https://github.com/elmish/elmish",
+                "icon": "fab fa-2x fa-github",
+                "label": "GitHub"
+            }
+        ]
+    },
+    "remarkPlugins": [
+        {
+            "resolve": "gatsby-remark-vscode",
+            "property": "remarkPlugin",
+            "options": {
+                "theme": "Atom One Light",
+                "extensions": [
+                    "vscode-theme-onelight"
+                ]
+            }
+        }
+    ],
+    "layouts": [
+        "nacara-layout-standard"
+    ]
+}

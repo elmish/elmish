@@ -1,11 +1,21 @@
+(**
+---
+layout: standard
+title: Subscriptions
+---
+**)
+
 (*** hide ***)
 // This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
-#I "../../src/bin/Debug/netstandard2.0"
-#r "Fable.Elmish.dll"
 
-(** Working with external sources of events
----------
+#r "nuget: Fable.Elmish"
+#r "nuget: Fable.Core"
+
+(**
+
+### Working with external sources of events
+
 Sometimes we have a source of events that doesn't depend on the current state of the model, like a timer.
 We can setup forwarding of those events to be processed by our `update` function like any other change.
 
@@ -16,23 +26,28 @@ open System
 
 
 type Model =
-    { current : DateTime }
+    {
+        current : DateTime
+    }
 
 type Msg =
     | Tick of DateTime
-
 
 (**
 This time we'll define the "simple" version of `init` and `update` functions, that don't produce commands:
 *)
 
 let init () =
-    { current = DateTime.Now }
+    {
+        current = DateTime.Now
+    }
 
 let update msg model =
     match msg with
     | Tick current ->
-        { model with current = current }
+        { model with
+            current = current
+        }
 
 (**
 
@@ -42,13 +57,16 @@ Now lets define our timer subscription:
 
 *)
 open Elmish
-open Browser
+open Fable.Core
 
 let timer initial =
     let sub dispatch =
-        window.setInterval(fun _ ->
-            dispatch (Tick DateTime.Now)
-            , 1000) |> ignore
+        JS.setInterval
+            (fun _ ->
+                dispatch (Tick DateTime.Now)
+            )
+            1000
+            |> ignore
     Cmd.ofSub sub
 
 Program.mkSimple init update (fun model _ -> printf "%A\n" model)
@@ -76,9 +94,12 @@ module Second =
 
     let subscribe initial =
         let sub dispatch =
-            window.setInterval(fun _ ->
-                dispatch (Second DateTime.Now.Second)
-                , 1000) |> ignore
+            JS.setInterval
+                (fun _ ->
+                    dispatch (Second DateTime.Now.Second)
+                )
+                1000
+                |> ignore
         Cmd.ofSub sub
 
     let init () =
@@ -101,34 +122,48 @@ module Hour =
 
     let subscribe initial =
         let sub dispatch =
-            window.setInterval(fun _ ->
-                dispatch (Hour DateTime.Now.Hour)
-                , 1000*60) |> ignore
+            JS.setInterval
+                (fun _ ->
+                    dispatch (Hour DateTime.Now.Hour)
+                )
+                1000*60
+                |> ignore
         Cmd.ofSub sub
 
 module App =
     type Model =
-        { seconds : Second.Model
-          hours : Hour.Model }
+        {
+            seconds : Second.Model
+            hours : Hour.Model
+        }
 
     type Msg =
         | SecondMsg of Second.Msg
         | HourMsg of Hour.Msg
 
     let init () =
-        { seconds = Second.init()
-          hours = Hour.init() }
+        {
+            seconds = Second.init()
+            hours = Hour.init()
+        }
 
     let update msg model =
         match msg with
         | HourMsg msg ->
-            { model with hours = Hour.update msg model.hours }
+            { model with
+                hours = Hour.update msg model.hours
+            }
+
         | SecondMsg msg ->
-            { model with seconds = Second.update msg model.seconds }
+            { model with
+                seconds = Second.update msg model.seconds
+            }
 
     let subscription model =
-        Cmd.batch [ Cmd.map HourMsg (Hour.subscribe model.hours)
-                    Cmd.map SecondMsg (Second.subscribe model.seconds) ]
+        Cmd.batch [
+            Cmd.map HourMsg (Hour.subscribe model.hours)
+            Cmd.map SecondMsg (Second.subscribe model.seconds)
+        ]
 
     Program.mkSimple init update (fun model _ -> printf "%A\n" model)
     |> Program.withSubscription subscription

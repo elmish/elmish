@@ -1,0 +1,11 @@
+[
+    {
+        "type": "section",
+        "label": "Step by step",
+        "items": [
+            "docs/basics",
+            "docs/parent-child",
+            "docs/subscription"
+        ]
+    }
+]

@@ -1,0 +1,90 @@
+@import "./../node_modules/bulma/sass/utilities/initial-variables";
+
+// Color palette
+// https://lospec.com/palette-list/fluffy8
+
+/////////////////////////////////
+/// Customize Bulma
+/////////////////////////////////
+$primary: #2d3947;
+$text: #2b2b2b;
+$danger: #c43636;
+
+@import "./../node_modules/bulma/sass/utilities/derived-variables";
+
+/////////////////////////////////
+/// nacara-layout-standard customizations
+/// Do not touch unless you know what you are doing
+/////////////////////////////////
+$navbar-breakpoint: 0px;
+$navbar-padding-vertical: 0.5rem;
+$navbar-padding-horizontal: 1rem;
+/////////////////////////////////
+
+// Specific to gatsby-remark-vscode usage
+$content-pre-padding: unset;
+
+/////////////////////////////////
+/// Customize Bulma
+/////////////////////////////////
+
+$navbar-item-color: $white;
+$navbar-background-color: $primary;
+$navbar-item-active-color: $white;
+$navbar-item-active-background-color: lighten($primary, 12%);
+$navbar-item-hover-color: $white;
+$navbar-item-hover-background-color: lighten($primary, 12%);;
+$navbar-dropdown-item-active-background-color: $primary;
+$navbar-dropdown-item-hover-background-color: $primary;
+$navbar-dropdown-item-hover-color: $white;
+$navbar-dropdown-item-active-color: $white;
+
+$menu-item-active-background-color: $primary;
+$menu-item-active-color: $white;
+$menu-item-hover-color: $primary;
+$menu-item-hover-background-color: transparent;
+$menu-label-font-size: $size-6;
+$menu-item-radius: $radius-large $radius-large;
+
+$footer-background-color: $primary;
+$footer-color: $white;
+
+$code: $red;
+
+$body-size: 14px;
+
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+@import "./../node_modules/bulma/bulma.sass";
+@import "./../node_modules/nacara-layout-standard/scss/nacara.scss";
+
+// Begin gatsby-remark-vscode specific
+:root {
+    --grvsc-padding-v: 1.25rem;
+}
+
+// Make the code use the full width for when user use line highlighting
+.content {
+    pre > code {
+        width: 100%;
+    }
+}
+// End gatsby-remark-vscode specific
+
+// Override bulma
+.navbar {
+    .navbar-dropdown {
+        @include desktop {
+            // Force navbar item text color otherwise it is the same as $navbar-item-color
+            // Which is white in our case...
+            .navbar-item {
+                color: $text;
+            }
+        }
+    }
+
+    .navbar-link {
+        &:not(.is-arrowless)::after {
+            border-color: $white;
+        }
+    }
+}
