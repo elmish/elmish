@@ -9,7 +9,8 @@ title: Subscriptions
 // This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
 
-#r "nuget: Fable.Elmish"
+#I "../../src/bin/Debug/netstandard2.0"
+#r "Fable.Elmish.dll"
 #r "nuget: Fable.Core"
 
 (**

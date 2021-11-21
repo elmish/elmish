@@ -10,12 +10,14 @@ title: Basics
 // This block of code is omitted in the generated HTML documentation. Use
 // it to define helpers that you do not want to show in the documentation.
 
+#I "../../src/bin/Debug/netstandard2.0"
+
 (**
 This is a very basic example of an Elmish app - it simply prints the current state in the Console.
 First, let's import our dependencies. In a real application, these imports will be in your project file and/or `paket.references`.
 *)
 
-#r "nuget: Fable.Elmish"
+#r "Fable.Elmish.dll"
 
 (**
 Let's define our `Model` and `Msg` types. `Model` will hold the current state and `Msg` will tell us the nature of the change that we need to apply to the current state.
