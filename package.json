@@ -2,7 +2,6 @@
     "name": "hmr",
     "private": true,
     "scripts": {
-        "postinstall": "dotnet tool restore",
         "docs:watch": "nacara watch",
         "docs:build": "nacara build",
         "docs:publish": "nacara build && gh-pages -d docs_deploy"
