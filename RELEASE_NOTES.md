@@ -1,6 +1,6 @@
 ### 4.0.0-beta-1
 * Move to .NET 5 SDK
-* Reverting `Cmd` and `Sub` changes to v3
+* Deferring `Cmd` and `Sub` changes to v5
 * For end-user compatibility with v3 keep `Program.runWith` signature and introduce `Program.runWithDispatch` to allow for multi-threaded sync function.
 
 ### 4.0.0-alpha-2

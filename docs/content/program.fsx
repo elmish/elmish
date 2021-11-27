@@ -145,7 +145,7 @@ module Program =
     /// syncDispatch: specify how to serialize dispatch calls.
     /// arg: argument to pass to the init() function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
-    let runWith (syncDispatch: Dispatch<'msg> -> Dispatch<'msg>) (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
+    let runWithDispatch (syncDispatch: Dispatch<'msg> -> Dispatch<'msg>) (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
         let toTerminate, terminate = program.termination
         let rb = RingBuffer 10
@@ -184,5 +184,11 @@ module Program =
         Cmd.batch [sub; cmd]
         |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
 
+
+    /// Start the single-threaded dispatch loop.
+    /// arg: argument to pass to the 'init' function.
+    /// program: program created with 'mkSimple' or 'mkProgram'.
+    let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) = runWithDispatch id arg program
+    
     /// Start the dispatch loop with `unit` for the init() function.
-    let run (program: Program<unit, 'model, 'msg, 'view>) = runWith id () program
+    let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program
