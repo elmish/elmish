@@ -73,10 +73,6 @@ module Cmd =
                     x |> (ofError >> dispatch)
             [bind]
 
-        /// Command to issue a specific message
-        let result (msg:'msg) : Cmd<'msg> =
-            [fun dispatch -> dispatch msg]
-
     module OfAsyncWith =
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
@@ -122,19 +118,9 @@ module Cmd =
                 }
             [bind >> start]
 
-        /// Command that will evaluate an async block to the message
-        let result (start: Async<unit> -> unit) 
-                   (task: Async<'msg>) : Cmd<'msg> =
-            let bind dispatch =
-                async {
-                    let! r = task
-                    dispatch r
-                }
-            [bind >> start]
-
     module OfAsync =
 #if FABLE_COMPILER
-        let start x = Timer.delay 0 (fun _ -> Async.StartImmediate x)
+        let start x = Timer.delay 100 (fun _ -> Async.StartImmediate x)
 #else
         let inline start x = Async.Start x
 #endif    
@@ -158,10 +144,6 @@ module Cmd =
                            (ofError: _ -> 'msg) : Cmd<'msg> =
             OfAsyncWith.attempt start task arg ofError
 
-        /// Command that will evaluate an async block to the message
-        let inline result (task: Async<'msg>) : Cmd<'msg> =
-            OfAsyncWith.result start task
-
     module OfAsyncImmediate =
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
@@ -182,10 +164,6 @@ module Cmd =
                            (arg: 'a)
                            (ofError: _ -> 'msg) : Cmd<'msg> =
             OfAsyncWith.attempt Async.StartImmediate task arg ofError
-
-        /// Command that will evaluate an async block to the message
-        let inline result (task: Async<'msg>) : Cmd<'msg> =
-            OfAsyncWith.result Async.StartImmediate task
 
 #if FABLE_COMPILER
     module OfPromise =
@@ -220,13 +198,6 @@ module Cmd =
                     .catch(unbox >> ofError >> dispatch)
                     |> ignore
             [bind]
-
-        /// Command to dispatch the `promise` result
-        let result (task: Fable.Core.JS.Promise<'msg>) : Cmd<'msg> =
-            let bind dispatch =
-                task.``then`` dispatch
-                |> ignore
-            [bind]
 #else
     open System.Threading.Tasks
     module OfTask =
@@ -248,13 +219,9 @@ module Cmd =
                            (arg:'a)
                            (ofError: _ -> 'msg) : Cmd<'msg> =
             OfAsync.attempt (task >> Async.AwaitTask) arg ofError
-
-        /// Command and map the task success
-        let inline result (task: Task<'msg>) : Cmd<'msg> =
-            OfAsync.result (task |> Async.AwaitTask)
 #endif
 
-    // Synonymous with `OfFunc.result`, may be removed in the future
+    /// Command to issue a specific message
     let inline ofMsg (msg:'msg) : Cmd<'msg> =
-        OfFunc.result msg
+        [fun dispatch -> dispatch msg]
 

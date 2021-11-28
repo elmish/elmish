@@ -1,3 +1,6 @@
+### 4.0.0-beta-2
+* Obsolete all `Cmd.xxx.result` functions
+
 ### 4.0.0-beta-1
 * Move to .NET 5 SDK
 * Deferring `Cmd` and `Sub` changes to v5
