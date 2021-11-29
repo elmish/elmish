@@ -120,7 +120,7 @@ module Cmd =
 
     module OfAsync =
 #if FABLE_COMPILER
-        let start x = Timer.delay 100 (fun _ -> Async.StartImmediate x)
+        let start x = Timer.delay 1 (fun _ -> Async.StartImmediate x)
 #else
         let inline start x = Async.Start x
 #endif    
