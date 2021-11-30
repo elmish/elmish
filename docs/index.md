@@ -49,7 +49,7 @@ Elm architecture operates using the following concepts, as they translate to Elm
 ### Installation
 
 ```sh
-paket add nuget Fable.Elmish
+dotnet add package Fable.Elmish
 ```
 
 Concepts
