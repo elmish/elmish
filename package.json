@@ -13,13 +13,13 @@
     "devDependencies": {
         "bulma": "^0.9.3",
         "gatsby-remark-vscode": "^3.3.0",
-        "nacara-layout-standard": "^1.2.1",
+        "nacara-layout-standard": "^1.3.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "unified": "^10.1.0",
         "vscode-theme-onelight": "github:akamud/vscode-theme-onelight"
     },
     "dependencies": {
-        "nacara": "^1.4.0"
+        "nacara": "^1.4.2"
     }
 }

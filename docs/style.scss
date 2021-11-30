@@ -51,7 +51,9 @@ $footer-color: $white;
 
 $code: $red;
 
-$body-size: 14px;
+$nacara-navbar-dropdown-floating-max-width: 450px;
+
+$body-size: 16px;
 
 @import "../node_modules/bulma/sass/utilities/_all.sass";
 @import "./../node_modules/bulma/bulma.sass";
