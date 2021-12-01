@@ -1,3 +1,6 @@
+### 4.0.0-beta-3
+* Breaking: `withSubscription` replaces existing subscription, use `mapSubscription` to add/accumulate the subscribers
+
 ### 4.0.0-beta-2
 * Obsolete all `Cmd.xxx.result` functions
 
