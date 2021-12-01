@@ -49,13 +49,16 @@ module Program =
           onError = Log.onError
           termination = (fun _ -> false), ignore }
 
-    /// Subscribe to external source of events.
+    /// Subscribe to external source of events, overrides existing subscription.
     /// The subscription is called once - with the initial model, but can dispatch new messages at any time.
     let withSubscription (subscribe : 'model -> Cmd<'msg>) (program: Program<'arg, 'model, 'msg, 'view>) =
-        let sub model =
-            Cmd.batch [ program.subscribe model
-                        subscribe model ]
-        { program with subscribe = sub }
+        { program with
+            subscribe = subscribe }
+
+    /// Map existing subscription to external source of events.
+    let mapSubscription map (program: Program<'arg, 'model, 'msg, 'view>) =
+        { program with
+            subscribe = map program.subscribe }
 
     /// Trace all the updates to the console
     let withConsoleTrace (program: Program<'arg, 'model, 'msg, 'view>) =
@@ -80,23 +83,28 @@ module Program =
             let state,cmd = program.update msg model
             trace msg state
             state,cmd
-        { program
-            with update = update }
+        { program with
+            update = update }
 
     /// Handle dispatch loop exceptions
     let withErrorHandler onError (program: Program<'arg, 'model, 'msg, 'view>) =
-        { program
-            with onError = onError }
+        { program with
+            onError = onError }
 
     /// Exit criteria and the handler, overrides existing. 
     let withTermination (predicate: 'msg -> bool) (terminate: 'model -> unit) (program: Program<'arg, 'model, 'msg, 'view>) =
-        { program
-            with termination = predicate, terminate }
+        { program with
+            termination = predicate, terminate }
+
+    /// Map existing criteria and the handler. 
+    let mapTermination map (program: Program<'arg, 'model, 'msg, 'view>) =
+        { program with
+            termination = map program.termination }
 
     /// Map existing error handler and return new `Program` 
     let mapErrorHandler map (program: Program<'arg, 'model, 'msg, 'view>) =
-        { program
-            with onError = map program.onError }
+        { program with
+            onError = map program.onError }
 
     /// Get the current error handler 
     let onError (program: Program<'arg, 'model, 'msg, 'view>) =
@@ -105,8 +113,8 @@ module Program =
     /// Function to render the view with the latest state 
     let withSetState (setState:'model -> Dispatch<'msg> -> unit)
                      (program: Program<'arg, 'model, 'msg, 'view>) =        
-        { program
-            with setState = setState }
+        { program with
+            setState = setState }
 
     /// Return the function to render the state 
     let setState (program: Program<'arg, 'model, 'msg, 'view>) =        
