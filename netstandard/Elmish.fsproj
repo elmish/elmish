@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>Elmish core for .NET apps</Description>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -11,7 +11,6 @@
     <Compile Include="../src/ring.fs" />
     <Compile Include="../src/program.fs" />
   </ItemGroup>
-  <Import Project="netfx.props" />
   <ItemGroup>
     <ImportPackage Update="FSharp.Core" Version="4.7.*" />
   </ItemGroup>
