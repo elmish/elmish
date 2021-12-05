@@ -1,3 +1,10 @@
+## 4.0.0-beta-4
+* Move to .NET 6 SDK
+* Breaking: dropping .NET 4.6.1 as the target
+
+## 4.0.0-beta-3
+* Breaking: `withSubscription` replaces existing subscription, use `mapSubscription` to add/accumulate the subscribers
+
 ## 4.0.0-beta-2
 * Obsolete all `Cmd.xxx.result` functions
 
