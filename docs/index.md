@@ -58,7 +58,7 @@ Concepts
 
 ### Dispatch loop
 
-![flow](img/flow.svg)
+![flow](static/img/flow.svg)
 
 Once started, Program runs a dispatch loop, producing a new Model given the current state and an input Message.
 
@@ -75,7 +75,7 @@ Note that Elmish doesn't depend on any specific UI such as HTML rendering (it ac
 
 First the UI is initialised:
 
-![parent-child composition: UML diagram of UI initialisation](img/parent-child-1-ui-init.svg)
+![parent-child composition: UML diagram of UI initialisation](static/img/parent-child-1-ui-init.svg)
 
 1. `program` requests the initial model from the parent, top-level component (`Main`)
 2. Parent component requests the initial model from its child subcomponent (`Widget`)
@@ -89,7 +89,7 @@ First the UI is initialised:
 
 Then the user interacts with the browser:
 
-![parent-child composition: UML diagram of user interacting with the browser](img/parent-child-2-user-interaction.svg)
+![parent-child composition: UML diagram of user interacting with the browser](static/img/parent-child-2-user-interaction.svg)
 
 1. User clicks on the increase button
 2. `Widget.view` dispatches an `Increase` message
@@ -117,7 +117,7 @@ Commands are carriers of instructions, which you issue from the `init` and `upda
 Once evaluated, a command may produce one or more new messages, mapping success or failure as instructed ahead of time.
 As with any message dispatch, in the case of Parent-Child composition, child commands need to be mapped to the parent's type:
 
-![cmd](img/commands.svg)
+![cmd](static/img/commands.svg)
 
 1. `Program` calls the `Main.update` with a message
 2. `Main.update` does its own update and/or delegates to `Child.update`

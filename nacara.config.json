@@ -12,47 +12,6 @@
                 "pinned": true,
                 "label": "Docs",
                 "url": "/elmish/docs/basics.html"
-            },
-            {
-                "pinned": true,
-                "label": "Modules",
-                "items": [
-                    {
-                        "label": "Fable.Elmish",
-                        "description": "Defines core abstractions that can be used to build Fable applications following <strong>Model View Update</strong> style of architecture",
-                        "url": "https://elmish.github.io/elmish/"
-                    },
-                    "divider",
-                    {
-                        "label": "Fable.Elmish.Browser",
-                        "description": "Implements <strong>routing</strong> and <strong>navigation</strong> forelmish apps targeting browser (SPAs)",
-                        "url": "https://elmish.github.io/browser/"
-                    },
-                    "divider",
-                    {
-                        "label": "Fable.Elmish.UrlParser",
-                        "description": "Turn your URLs into nicely structured data",
-                        "url": "https://elmish.github.io/urlParser/"
-                    },
-                    "divider",
-                    {
-                        "label": "Fable.Elmish.Debugger",
-                        "description": "Time-traveling <strong>debugger</strong> and <strong>import/export</strong> for elmish applications",
-                        "url": "https://elmish.github.io/debugger/"
-                    },
-                    "divider",
-                    {
-                        "label": "Fable.Elmish.React",
-                        "description": "Build <strong>React</strong> and <strong>ReactNative</strong> apps with elmish",
-                        "url": "https://elmish.github.io/react/"
-                    },
-                    "divider",
-                    {
-                        "label": "Fable.Elmish.HMR",
-                        "description": "<strong>Hot Module Replacement</strong> for Elmish",
-                        "url": "https://elmish.github.io/hmr/"
-                    }
-                ]
             }
         ],
         "end": [

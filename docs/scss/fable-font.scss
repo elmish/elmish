@@ -1,0 +1,67 @@
+@font-face {
+    font-family: 'fable-font';
+    src: url('/static/fonts/fable-font/fable-font.eot?qh7nog');
+    src: url('/static/fonts/fable-font/fable-font.eot?qh7nog#iefix') format('embedded-opentype'),
+         url('/static/fonts/fable-font/fable-font.ttf?qh7nog') format('truetype'),
+         url('/static/fonts/fable-font/fable-font.woff?qh7nog') format('woff'),
+         url('/static/fonts/fable-font/fable-font.svg?qh7nog#fable-font') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+// Prepare bulma to accept our customs icons
+.icon {
+    .faf {
+        font-size: 21px;
+    }
+
+    &.is-small {
+        height: 1rem;
+        width: 1rem;
+
+        .faf {
+            font-size: 14px;
+        }
+    }
+
+    &.is-medium {
+        height: 2rem;
+        width: 2rem;
+
+        .faf {
+            // font-size: 28px;
+            font-size: 1.33333em;
+            line-height: 0.75em;
+            vertical-align: -.0667em;
+        }
+    }
+
+    &.is-large {
+        height: 3rem;
+        width: 3rem;
+
+        .faf {
+            font-size: 42px;
+        }
+    }
+}
+
+.faf {
+    display: inline-block;
+    font: normal normal normal 14px/1 'fable-font';
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$icons: (
+    fable: "\e900",
+    fsharp-org: "\e901"
+);
+
+@each $name, $icon in $icons {
+    .faf-#{$name}:after {
+        content: $icon;
+    }
+}

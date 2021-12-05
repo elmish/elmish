@@ -53,11 +53,12 @@ $code: $red;
 
 $nacara-navbar-dropdown-floating-max-width: 450px;
 
-$body-size: 16px;
+$body-size: 14px;
 
 @import "../node_modules/bulma/sass/utilities/_all.sass";
 @import "./../node_modules/bulma/bulma.sass";
 @import "./../node_modules/nacara-layout-standard/scss/nacara.scss";
+@import "./scss/fable-font.scss";
 
 // Begin gatsby-remark-vscode specific
 :root {
@@ -87,6 +88,66 @@ $body-size: 16px;
     .navbar-link {
         &:not(.is-arrowless)::after {
             border-color: $white;
+        }
+    }
+}
+
+.footer a {
+    color: $white;
+}
+
+.sitemap {
+
+    max-width: 1024px;
+    margin: 0 auto 2rem;
+    display: grid;
+    grid-gap: 4rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    font-size: $size-6;
+
+    @include mobile {
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+    }
+
+    a {
+        color : white;
+    }
+
+    .sitemap-section {
+        width: 100%;
+
+        .sitemap-section-title {
+            font-size: $size-4;
+            font-weight: $weight-bold;
+            text-align: center;
+            padding-bottom: 1rem;
+
+            @include mobile {
+                text-align: left;
+            }
+        }
+
+        .sitemap-section-list {
+
+            li {
+                border-top: 2px solid lighten($primary, 8%);
+            }
+
+            .sitemap-section-list-item {
+                padding: 1rem 0.5rem;
+                width: 100%;
+
+                &:hover {
+                    background-color: lighten($primary, 4%);
+                }
+
+                .icon-text:hover {
+                    .sitemap-section-list-item-text {
+                        text-decoration: underline;
+                    }
+                }
+            }
         }
     }
 }

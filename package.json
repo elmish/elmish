@@ -1,6 +1,11 @@
 {
     "name": "hmr",
     "private": true,
+    "type": "module",
+    "engines": {
+        "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
+        "npm": ">=7.0.0"
+    },
     "scripts": {
         "docs:watch": "nacara watch",
         "docs:build": "nacara build",
@@ -11,15 +16,16 @@
         "url": "git+https://github.com/elmish/hmr.git"
     },
     "devDependencies": {
+        "@babel/preset-react": "^7.16.0",
         "bulma": "^0.9.3",
         "gatsby-remark-vscode": "^3.3.0",
-        "nacara-layout-standard": "^1.3.0",
+        "nacara-layout-standard": "^1.4.2",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
-        "unified": "^10.1.0",
+        "unified": "^10.1.1",
         "vscode-theme-onelight": "github:akamud/vscode-theme-onelight"
     },
     "dependencies": {
-        "nacara": "^1.4.2"
+        "nacara": "^1.5.1"
     }
 }
