@@ -30,6 +30,12 @@
                     },
                     "divider",
                     {
+                        "label": "Fable.Elmish.UrlParser",
+                        "description": "Turn your URLs into nicely structured data",
+                        "url": "https://elmish.github.io/urlParser/"
+                    },
+                    "divider",
+                    {
                         "label": "Fable.Elmish.Debugger",
                         "description": "Time-traveling <strong>debugger</strong> and <strong>import/export</strong> for elmish applications",
                         "url": "https://elmish.github.io/debugger/"
