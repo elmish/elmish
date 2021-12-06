@@ -3,7 +3,6 @@ Elmish: Elm-like abstractions for F# applications.
 
 [![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/fable-compiler/Fable)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/c8k7a67evgci6ama?svg=true)](https://ci.appveyor.com/project/et1975/elmish)
-[![Mono Build Status](https://travis-ci.org/elmish/elmish.svg "Mono Build Status")](https://travis-ci.org/elmish/elmish)
 [![NuGet version](https://badge.fury.io/nu/Fable.Elmish.svg)](https://badge.fury.io/nu/Fable.Elmish)
 
 Elmish implements core abstractions that can be used to build applications following the “model view update” style of architecture, as made famous by Elm.
