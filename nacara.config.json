@@ -3,7 +3,7 @@
         "title": "Elmish",
         "url": "https://elmish.github.io",
         "baseUrl": "/elmish/",
-        "editUrl" : "https://github.com/elmish/elmish/edit/master/docs",
+        "editUrl" : "https://github.com/elmish/elmish/edit/v4.x/docs",
         "favIcon": "img/logo.png"
     },
     "navbar": {
