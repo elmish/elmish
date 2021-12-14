@@ -46,9 +46,9 @@ open Browser
 
 let timer initial =
     let sub dispatch =
-        window.setInterval(fun _ ->
-            dispatch (Tick DateTime.Now)
-            , 1000) |> ignore
+        window.setInterval((fun _ ->
+            dispatch (Tick DateTime.Now))
+            , 1000, []) |> ignore
     Cmd.ofSub sub
 
 Program.mkSimple init update (fun model _ -> printf "%A\n" model)
@@ -76,9 +76,9 @@ module Second =
 
     let subscribe initial =
         let sub dispatch =
-            window.setInterval(fun _ ->
-                dispatch (Second DateTime.Now.Second)
-                , 1000) |> ignore
+            window.setInterval((fun _ ->
+                dispatch (Second DateTime.Now.Second))
+                , 1000, []) |> ignore
         Cmd.ofSub sub
 
     let init () =
@@ -101,9 +101,9 @@ module Hour =
 
     let subscribe initial =
         let sub dispatch =
-            window.setInterval(fun _ ->
-                dispatch (Hour DateTime.Now.Hour)
-                , 1000*60) |> ignore
+            window.setInterval((fun _ ->
+                dispatch (Hour DateTime.Now.Hour))
+                , 1000*60, []) |> ignore
         Cmd.ofSub sub
 
 module App =
