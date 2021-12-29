@@ -2,7 +2,7 @@ name: Publish
 on:
   push:
     branches:
-      - $default-branch
+      - v4.x
   workflow_dispatch:
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '5.0.x'
+          dotnet-version: '6.0.x'
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
