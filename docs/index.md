@@ -62,7 +62,7 @@ Concepts
 
 Once started, Program runs a dispatch loop, producing a new Model given the current state and an input Message.
 
-See the [basics example](basics.html) for details.
+See the [basics example](docs/basics.html) for details.
 
 
 
@@ -100,7 +100,7 @@ Then the user interacts with the browser:
 7. `Main.update` returns the updated `mainModel` to `program`
 8. `program` then renders the view again passing the updated `mainModel`
 
-See the [example](parent-child.html) for details.
+See the [example](docs/parent-child.html) for details.
 
 
 
@@ -136,7 +136,7 @@ See the [`Cmd`](cmd.html) module for ways to construct, map and batch commands.
 Most of the messages (changes in the state) will originate within your code, but some will come from the outside, for example from a timer or a websocket.
 These sources can be tapped into with subscriptions, defined as F# functions that can dispatch new messages as they happen.
 
-See the [subscriptions example](subscriptions.html) for details.
+See the [subscriptions example](docs/subscription.html) for details.
 
 
 ### View
