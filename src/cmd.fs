@@ -73,6 +73,7 @@ module Cmd =
                     x |> (ofError >> dispatch)
             [bind]
 
+(*
     module OfAsyncWith =
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
@@ -220,7 +221,7 @@ module Cmd =
                            (ofError: _ -> 'msg) : Cmd<'msg> =
             OfAsync.attempt (task >> Async.AwaitTask) arg ofError
 #endif
-
+*)
     /// Command to issue a specific message
     let inline ofMsg (msg:'msg) : Cmd<'msg> =
         [fun dispatch -> dispatch msg]

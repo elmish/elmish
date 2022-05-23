@@ -3,15 +3,15 @@ open System
 
 [<Struct>]
 type internal RingState<'item> =
-    | Writable of wx:'item array * ix:int
-    | ReadWritable of rw:'item array * wix:int * rix:int
+    | Writable of wx:'item option array * ix:int
+    | ReadWritable of rw:'item option array * wix:int * rix:int
 
 type internal RingBuffer<'item>(size) =
-    let doubleSize ix (items: 'item array) =
+    let doubleSize ix (items: 'item option array) =
         seq { yield! items |> Seq.skip ix
               yield! items |> Seq.take ix
               for _ in 0..items.Length do
-                yield Unchecked.defaultof<'item> }
+                yield None }
         |> Array.ofSeq
 
     let mutable state : 'item RingState =
@@ -26,18 +26,18 @@ type internal RingBuffer<'item>(size) =
                 state <- Writable(items, wix)
             | _ ->
                 state <- ReadWritable(items, wix, rix')
-            Some items.[rix]
+            items.[rix]
         | _ ->
             None
 
     member __.Push (item:'item) =
         match state with
         | Writable (items, ix) ->
-            items.[ix] <- item
+            items.[ix] <- Some item
             let wix = (ix + 1) % items.Length
             state <- ReadWritable(items, wix, ix)
         | ReadWritable (items, wix, rix) ->
-            items.[wix] <- item
+            items.[wix] <- Some item
             let wix' = (wix + 1) % items.Length
             match wix' = rix with
             | true -> 

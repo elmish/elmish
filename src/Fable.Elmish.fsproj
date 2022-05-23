@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DefineConstants>$(DefineConstants);FABLE_COMPILER</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="prelude.fs" />
     <Compile Include="cmd.fs" />
-    <Compile Include="cmd.obsolete.fs" />
+    <!-- <Compile Include="cmd.obsolete.fs" /> -->
     <Compile Include="ring.fs" />
     <Compile Include="program.fs" />
   </ItemGroup>
@@ -15,7 +15,7 @@
     <Content Include="*.fsproj; *.fs" PackagePath="fable\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.7.*" />
+    <!-- <PackageReference Update="FSharp.Core" Version="4.7.*" /> -->
     <PackageReference Include="Fable.Core" Version="3.*" />
   </ItemGroup>
 </Project>

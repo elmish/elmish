@@ -154,7 +154,10 @@ module Program =
         let mutable reentered = false
         let mutable state = model
         let mutable terminated = false
-        let rec dispatch msg = 
+
+        // TODO: LetRec in Dart
+        let mutable dispatch' = Unchecked.defaultof<_>
+        let dispatch msg = 
             if terminated then ()
             else 
                 if reentered then
@@ -170,11 +173,12 @@ module Program =
                         else                        
                             let (model',cmd') = program.update msg state
                             program.setState model' dispatch'
-                            cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
+                            cmd' |> Cmd.exec (fun ex -> program.onError ($"Error handling the message: {msg}", ex)) dispatch'
                             state <- model'
                             nextMsg <- rb.Pop()
                     reentered <- false
-        and dispatch' = syncDispatch dispatch // serialized dispatch            
+        
+        dispatch' <- syncDispatch dispatch // serialized dispatch            
 
         program.setState model dispatch'
         let sub = 
@@ -184,7 +188,7 @@ module Program =
                 program.onError ("Unable to subscribe:", ex)
                 Cmd.none
         Cmd.batch [sub; cmd]
-        |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
+        |> Cmd.exec (fun ex -> program.onError ("Error intitializing:", ex)) dispatch'
 
 
     /// Start the single-threaded dispatch loop.

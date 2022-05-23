@@ -8,11 +8,14 @@ Basic cross-platform logging API.
 *)
 module internal Log =
 
-#if FABLE_COMPILER
-    open Fable.Core.JS
+#if FABLE_COMPILER_DART
+    open Fable.Core
 
-    let onError (text: string, ex: exn) = console.error (text,ex)
-    let toConsole(text: string, o: #obj) = console.log(text,o)
+    [<Global>]
+    let print (info: obj): unit = ()
+
+    let onError (text: string, ex: exn) = print $"{text} {ex}"
+    let toConsole(text: string, o: #obj) = print $"{text} {o}"
 
 #else
 #if NETSTANDARD2_0
@@ -24,12 +27,12 @@ module internal Log =
 #endif
 #endif
 
-#if FABLE_COMPILER
-module internal Timer =
-    open System.Timers
-    let delay interval callback =
-        let t = new Timer(float interval, AutoReset = false)
-        t.Elapsed.Add callback
-        t.Enabled <- true
-        t.Start()
-#endif
+// #if FABLE_COMPILER
+// module internal Timer =
+//     open System.Timers
+//     let delay interval callback =
+//         let t = new Timer(float interval, AutoReset = false)
+//         t.Elapsed.Add callback
+//         t.Enabled <- true
+//         t.Start()
+// #endif
