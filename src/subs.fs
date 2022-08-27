@@ -17,8 +17,9 @@ module Sub =
 module Subs =
 
     /// When emitting the message, map to another type
-    let map (f: 'a -> 'msg) (subs: (SubId * Sub<'a>) list) : (SubId * Sub<'msg>) list =
-        List.map (fun (subId, sub) -> subId, Sub.map f sub) subs
+    let map (idPrefix: string) (f: 'a -> 'msg) (subs: (SubId * Sub<'a>) list)
+        : (SubId * Sub<'msg>) list =
+        List.map (fun (subId, sub) -> idPrefix + subId, Sub.map f sub) subs
 
     module Internal =
 
