@@ -2,7 +2,7 @@ namespace Elmish
 
 open System
 
-/// SubId - ID for live subscriptions, alias for string
+/// SubId - Subscription ID, alias for string
 type SubId = string
 
 /// Subscription - Generates new messages when running
