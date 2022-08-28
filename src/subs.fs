@@ -6,13 +6,14 @@ open System
 type SubId = string
 
 /// Subscription - Generates new messages when running
-type Sub<'msg> = { Subscribe: Dispatch<'msg> -> IDisposable }
+type Sub<'msg> = { Subscribe: SubId -> Dispatch<'msg> -> IDisposable }
 
 module Sub =
 
     /// When emitting the message, map to another type
     let map (f: 'a -> 'msg) (sub: Sub<'a>) : Sub<'msg> =
-        { Subscribe = fun dispatch -> sub.Subscribe (f >> dispatch) }
+        { Subscribe = fun subId dispatch ->
+            sub.Subscribe subId (f >> dispatch) }
 
 module Subs =
 
@@ -32,7 +33,7 @@ module Subs =
 
         let tryStart onError dispatch (subId, newSub: Sub<'msg>) =
             try
-                Some (subId, newSub.Subscribe dispatch)
+                Some (subId, newSub.Subscribe subId dispatch)
             with ex ->
                 onError (sprintf "Error starting subscription: %s" subId, ex)
                 None
