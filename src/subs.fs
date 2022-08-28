@@ -16,7 +16,8 @@ module Sub =
 
 module Subs =
 
-    /// When emitting the message, map to another type
+    /// When emitting the message, map to another type.
+    /// To avoid ID conflicts with other components, scope SubIds with a prefix.
     let map (idPrefix: string) (f: 'a -> 'msg) (subs: (SubId * Sub<'a>) list)
         : (SubId * Sub<'msg>) list =
         List.map (fun (subId, sub) -> idPrefix + subId, Sub.map f sub) subs
