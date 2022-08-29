@@ -164,7 +164,7 @@ module Program =
         let rb = RingBuffer 10
         let mutable reentered = false
         let mutable state = model
-        let mutable activeSubs = []
+        let mutable activeSubs = Subs.empty
         let mutable terminated = false
         let rec dispatch msg = 
             if terminated then ()
@@ -177,7 +177,7 @@ module Program =
                     while not terminated && Option.isSome nextMsg do
                         let msg = nextMsg.Value
                         if toTerminate msg then
-                            Subs.stop program.onError activeSubs
+                            Subs.Fx.stop program.onError activeSubs
                             terminate state
                             terminated <- true
                         else                        
@@ -186,14 +186,14 @@ module Program =
                             program.setState model' dispatch'
                             cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
                             state <- model'
-                            activeSubs <- Subs.recalc activeSubs subs' |> Subs.change program.onError dispatch'
+                            activeSubs <- Subs.getChanges activeSubs subs' |> Subs.Fx.change program.onError dispatch'
                             nextMsg <- rb.Pop()
                     reentered <- false
         and dispatch' = syncDispatch dispatch // serialized dispatch            
 
         program.setState model dispatch'
         cmd |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
-        activeSubs <- Subs.recalc activeSubs subs |> Subs.change program.onError dispatch'
+        activeSubs <- Subs.getChanges activeSubs subs |> Subs.Fx.change program.onError dispatch'
 
 
     /// Start the single-threaded dispatch loop.

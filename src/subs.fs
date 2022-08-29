@@ -25,33 +25,56 @@ module Subs =
 
     module Internal =
 
-        let tryStop onError (subId, sub: IDisposable) =
-            try
-                sub.Dispose()
-            with ex ->
-                onError (sprintf "Error stopping subscription: %s" subId, ex)
+        module Fx =
 
-        let tryStart onError dispatch (subId, newSub: Sub<'msg>) =
-            try
-                Some (subId, newSub.Subscribe subId dispatch)
-            with ex ->
-                onError (sprintf "Error starting subscription: %s" subId, ex)
-                None
+            let warnDupe onError subId =
+                let ex = exn "Duplicate SubId"
+                onError ("Duplicate SubId: " + subId, ex)
 
-        let change onError dispatch (toStop, toKeep, toStart) =
-            toStop |> List.iter (tryStop onError)
-            let started = toStart |> List.choose (tryStart onError dispatch)
-            List.append toKeep started
+            let tryStop onError (subId, sub: IDisposable) =
+                try
+                    sub.Dispose()
+                with ex ->
+                    onError ("Error stopping subscription: " + subId, ex)
 
-        let recalc (subs: (SubId * IDisposable) list) (newSubs: (SubId * Sub<'msg>) list) =
-            let keys = subs |> List.map fst |> Set.ofList
-            let newKeys = newSubs |> List.map fst |> Set.ofList
+            let tryStart onError dispatch (subId, newSub: Sub<'msg>) =
+                try
+                    Some (subId, newSub.Subscribe subId dispatch)
+                with ex ->
+                    onError ("Error starting subscription: " + subId, ex)
+                    None
+
+            let stop onError subs =
+                subs |> List.iter (tryStop onError)
+
+            let change onError dispatch (dupes, toStop, toKeep, toStart) =
+                dupes |> List.iter (warnDupe onError)
+                toStop |> List.iter (tryStop onError)
+                let started = toStart |> List.choose (tryStart onError dispatch)
+                List.append toKeep started
+
+        module NewSubs =
+
+            let (_dupes, _newKeys, _newSubs) as init =
+                List.empty, Set.empty, List.empty
+
+            let update ((subId, _) as newSub) (dupes, newKeys, newSubs) =
+                if Set.contains subId newKeys then
+                    subId :: dupes, newKeys, newSubs
+                else
+                    dupes, Set.add subId newKeys, newSub :: newSubs
+
+            let calculate subs =
+                List.foldBack update subs init
+
+        let empty = List.empty<SubId * IDisposable>
+
+        let getChanges (activeSubs: (SubId * IDisposable) list) (subs: (SubId * Sub<'msg>) list) =
+            let keys = activeSubs |> List.map fst |> Set.ofList
+            let dupes, newKeys, newSubs = NewSubs.calculate subs
             if keys = newKeys then
-                [], subs, []
+                dupes, [], activeSubs, []
             else
-                let toKeep, toStop = subs |> List.partition (fun (k, _) -> Set.contains k newKeys)
+                let toKeep, toStop = activeSubs |> List.partition (fun (k, _) -> Set.contains k newKeys)
                 let toStart = newSubs |> List.filter (fun (k, _) -> not (Set.contains k keys))
-                toStop, toKeep, toStart
-
-        let stop onError subs =
-            subs |> List.iter (tryStop onError)
+                dupes, toStop, toKeep, toStart
