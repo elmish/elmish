@@ -12,7 +12,7 @@ namespace Elmish
 type Program<'arg, 'model, 'msg, 'view> = private {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
-    subscribe : 'model -> (SubId * Sub<'msg>) list
+    subscribe : 'model -> Sub<'msg> list
     view : 'model -> Dispatch<'msg> -> 'view
     setState : 'model -> Dispatch<'msg> -> unit
     onError : (string*exn) -> unit
@@ -52,7 +52,7 @@ module Program =
     /// Subscribe to external source of events, overrides existing subscription.
     /// Return the subscriptions that should be active based on the current model.
     /// Subscriptions will be started or stopped automatically to match.
-    let withSubscription (subscribe : 'model -> (SubId * Sub<'msg>) list) (program: Program<'arg, 'model, 'msg, 'view>) =
+    let withSubscription (subscribe : 'model -> Sub<'msg> list) (program: Program<'arg, 'model, 'msg, 'view>) =
         { program with
             subscribe = subscribe }
 
@@ -76,7 +76,7 @@ module Program =
 
         let traceSubscribe model =
             let subs = program.subscribe model
-            Log.toConsole ("Updated subs:", subs |> List.map fst)
+            Log.toConsole ("Updated subs:", subs |> List.map (fun x -> x.SubId))
             subs
 
         { program with
@@ -88,7 +88,7 @@ module Program =
     let withTrace trace (program: Program<'arg, 'model, 'msg, 'view>) =
         let update msg model =
             let state,cmd = program.update msg model
-            let subIds = program.subscribe state |> List.map fst
+            let subIds = program.subscribe state |> List.map (fun x -> x.SubId)
             trace msg state subIds
             state,cmd
         { program with

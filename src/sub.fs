@@ -6,16 +6,11 @@ open System
 type SubId = string
 
 /// Subscription - Generates new messages when running
-type Sub<'msg> = { Start: SubId -> Dispatch<'msg> -> IDisposable }
+type Sub<'msg> =
+    { SubId: SubId
+      Start: SubId -> Dispatch<'msg> -> IDisposable }
 
 module Sub =
-
-    module One =
-
-        /// When emitting the message, map to another type
-        let map (f: 'a -> 'msg) (sub: Sub<'a>) : Sub<'msg> =
-            { Start = fun subId dispatch ->
-                sub.Start subId (f >> dispatch) }
 
     /// None - no subscriptions, also known as `[]`
     let none : Sub<'msg> list =
@@ -27,9 +22,11 @@ module Sub =
 
     /// When emitting the message, map to another type.
     /// To avoid ID conflicts with other components, scope SubIds with a prefix.
-    let map (idPrefix: string) (f: 'a -> 'msg) (subs: (SubId * Sub<'a>) list)
-        : (SubId * Sub<'msg>) list =
-        List.map (fun (subId, sub) -> idPrefix + subId, One.map f sub) subs
+    let map (idPrefix: string) (f: 'a -> 'msg) (subs: Sub<'a> list)
+        : Sub<'msg> list =
+        subs |> List.map (fun sub ->
+            { SubId = idPrefix + sub.SubId
+              Start = fun subId dispatch -> sub.Start subId (f >> dispatch) })
 
     module Internal =
 
@@ -45,9 +42,9 @@ module Sub =
                 with ex ->
                     onError ("Error stopping subscription: " + subId, ex)
 
-            let tryStart onError dispatch (subId, newSub: Sub<'msg>) =
+            let tryStart onError dispatch (subId, start) : (SubId * IDisposable) option =
                 try
-                    Some (subId, newSub.Start subId dispatch)
+                    Some (subId, start subId dispatch)
                 with ex ->
                     onError ("Error starting subscription: " + subId, ex)
                     None
@@ -66,18 +63,18 @@ module Sub =
             let (_dupes, _newKeys, _newSubs) as init =
                 List.empty, Set.empty, List.empty
 
-            let update ((subId, _) as newSub) (dupes, newKeys, newSubs) =
+            let update ({SubId = subId; Start = start}) (dupes, newKeys, newSubs) =
                 if Set.contains subId newKeys then
                     subId :: dupes, newKeys, newSubs
                 else
-                    dupes, Set.add subId newKeys, newSub :: newSubs
+                    dupes, Set.add subId newKeys, (subId, start) :: newSubs
 
             let calculate subs =
                 List.foldBack update subs init
 
         let empty = List.empty<SubId * IDisposable>
 
-        let diff (activeSubs: (SubId * IDisposable) list) (subs: (SubId * Sub<'msg>) list) =
+        let diff (activeSubs: (SubId * IDisposable) list) (subs: Sub<'msg> list) =
             let keys = activeSubs |> List.map fst |> Set.ofList
             let dupes, newKeys, newSubs = NewSubs.calculate subs
             if keys = newKeys then
