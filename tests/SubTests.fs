@@ -2,6 +2,7 @@
 
 open Elmish
 open NUnit.Framework
+open Swensen.Unquote
 open System
 
 // TIL: Each use of a let fn binding creates a new FSharpFunc object.
@@ -31,12 +32,12 @@ type DiffBehavior() =
     let toKeys2 subs =
         subs |> List.map (fun sub -> sub.SubId)
     let toIds (dupes, toStop, toKeep, toStart) =
-        dupes, toKeys toStop, toKeys toKeep, toKeys toStart
+        {| Dupes = dupes; ToStop = toKeys toStop; ToKeep = toKeys toKeep; ToStart = toKeys toStart |}
     let toIds2 (dupes, toStop, toKeep, toStart) =
-        toKeys2 dupes, toKeys toStop, toKeys toKeep, toKeys2 toStart
+        {| Dupes = toKeys2 dupes; ToStop = toKeys toStop; ToKeep = toKeys toKeep; ToStart = toKeys2 toStart |}
     let run = Sub.Internal.diff
-    let eq expected actual (message: string) =
-        Assert.IsTrue((toIds2 expected = toIds actual), message)
+    let eq expected actual =
+        toIds2 expected =! toIds actual
 
     [<Test>]
     member _.``no changes when subs and active subs are the same`` () =
@@ -44,7 +45,7 @@ type DiffBehavior() =
         let subs = genSub 0 6 sub.Sub
         let expected = [], [], activeSubs, []
         let actual = run activeSubs subs
-        eq expected actual "incorrect changes, expecting none"
+        eq expected actual
 
     [<Test>]
     member _.``active subs are stopped when not found in subs`` () =
@@ -52,7 +53,7 @@ type DiffBehavior() =
         let subs = genSub 3 6 sub.Sub
         let expected = [], activeSubs[0..2], activeSubs[3..6], []
         let actual = run activeSubs subs
-        eq expected actual "incorrect stopped subs"
+        eq expected actual
 
     [<Test>]
     member _.``subs are started when not found in active subs`` () =
@@ -60,7 +61,7 @@ type DiffBehavior() =
         let subs = genSub 0 6 sub.Sub
         let expected = [], [], activeSubs, subs[3..6]
         let actual = run activeSubs subs
-        eq expected actual "incorrect started subs"
+        eq expected actual
 
     [<Test>]
     member _.``subs are started and stopped when subs has new ids and omits old ids`` () =
@@ -69,7 +70,7 @@ type DiffBehavior() =
         let subs = tmp[3..9]
         let expected = [], activeSubs[0..2], activeSubs[3..6], tmp[7..9]
         let actual = run activeSubs subs
-        eq expected actual "incorrect started and/or stopped subs"
+        eq expected actual
 
     [<Test>]
     member _.``dupe subs are detected even when there are no changes`` () =
@@ -77,7 +78,7 @@ type DiffBehavior() =
         let subs = Sub.batch [genSub 2 2 sub.Dupe; genSub 2 2 sub.Dupe; genSub 0 6 sub.Sub]
         let expected = subs[0..1], [], activeSubs, []
         let actual = run activeSubs subs
-        eq expected actual "incorrect dupes"
+        eq expected actual
 
     [<Test>]
     member _.``last dupe wins when starting new subs`` () =
@@ -91,5 +92,5 @@ type DiffBehavior() =
         Assert.IsTrue((dupeSubId = startId), "Started dupe has wrong ID")
         Assert.IsTrue(Object.ReferenceEquals(sub.Sub, startDupe), "Started dupe is the wrong one")
         Assert.IsFalse(Object.ReferenceEquals(sub.Dupe, startDupe), "Started dupe is the wrong one")
-        eq expected actual "incorrect dupes and/or started subs"
+        eq expected actual
 
