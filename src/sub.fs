@@ -18,7 +18,7 @@ module Sub =
                 sub.Start subId (f >> dispatch) }
 
     /// None - no subscriptions, also known as `[]`
-    let none : Cmd<'msg> =
+    let none : Sub<'msg> list =
         []
 
     /// Aggregate multiple subscriptions
