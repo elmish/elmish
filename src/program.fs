@@ -151,7 +151,7 @@ module Program =
           onError = program.onError
           termination = mapTermination program.termination }
 
-    module Subs = Subs.Internal
+    module Subs = Sub.Internal
 
     /// Start the program loop.
     /// syncDispatch: specify how to serialize dispatch calls.
@@ -186,14 +186,14 @@ module Program =
                             program.setState model' dispatch'
                             cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
                             state <- model'
-                            activeSubs <- Subs.getChanges activeSubs subs' |> Subs.Fx.change program.onError dispatch'
+                            activeSubs <- Subs.diff activeSubs subs' |> Subs.Fx.change program.onError dispatch'
                             nextMsg <- rb.Pop()
                     reentered <- false
         and dispatch' = syncDispatch dispatch // serialized dispatch            
 
         program.setState model dispatch'
         cmd |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
-        activeSubs <- Subs.getChanges activeSubs subs |> Subs.Fx.change program.onError dispatch'
+        activeSubs <- Subs.diff activeSubs subs |> Subs.Fx.change program.onError dispatch'
 
 
     /// Start the single-threaded dispatch loop.

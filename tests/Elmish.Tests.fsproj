@@ -7,7 +7,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="../src/ring.fs" />
-    <Compile Include="SubsTests.fs" />
+    <Compile Include="SubTests.fs" />
     <Compile Include="RingTest.fs" />
     <Compile Include="ProgramTest.fs" />
   </ItemGroup>

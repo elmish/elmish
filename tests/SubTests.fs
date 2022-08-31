@@ -1,4 +1,4 @@
-﻿module Elmish.SubsTests
+﻿module Elmish.SubTests
 
 open Elmish
 open NUnit.Framework
@@ -7,9 +7,9 @@ open System
 [<TestFixture>]
 type GetChangesBehavior() =
     // data
-    let unsub = {new IDisposable with member _.Dispose() = () }
-    let sub = { Subscribe = fun _ (_: Dispatch<obj>) -> unsub }
-    let dupeSub = { Subscribe = fun _ (_: Dispatch<obj>) -> unsub }
+    let stop = {new IDisposable with member _.Dispose() = () }
+    let sub = { Start = fun _ (_: Dispatch<obj>) -> stop }
+    let dupeSub = { Start = fun _ (_: Dispatch<obj>) -> stop }
     let newId i = sprintf "sub/%i" i
     let gen idRangeStart idRangeEnd second =
         let count = idRangeEnd + 1 - idRangeStart
@@ -21,13 +21,13 @@ type GetChangesBehavior() =
         dupes, toKeys toStop, toKeys toKeep, toKeys toStart
     let toIds2 (dupes, toStop, toKeep, toStart) =
         toKeys dupes, toKeys toStop, toKeys toKeep, toKeys toStart
-    let run = Subs.Internal.getChanges
+    let run = Sub.Internal.diff
     let eq expected actual (message: string) =
         Assert.IsTrue((toIds2 expected = toIds actual), message)
 
     [<Test>]
     member _.``no changes when subs and active subs are the same`` () =
-        let activeSubs = gen 0 6 unsub
+        let activeSubs = gen 0 6 stop
         let subs = gen 0 6 sub
         let expected = [], [], activeSubs, []
         let actual = run activeSubs subs
@@ -35,7 +35,7 @@ type GetChangesBehavior() =
 
     [<Test>]
     member _.``active subs are stopped when not found in subs`` () =
-        let activeSubs = gen 0 6 unsub
+        let activeSubs = gen 0 6 stop
         let subs = gen 3 6 sub
         let expected = [], activeSubs[0..2], activeSubs[3..6], []
         let actual = run activeSubs subs
@@ -43,7 +43,7 @@ type GetChangesBehavior() =
 
     [<Test>]
     member _.``subs are started when not found in active subs`` () =
-        let activeSubs = gen 0 2 unsub
+        let activeSubs = gen 0 2 stop
         let subs = gen 0 6 sub
         let expected = [], [], activeSubs, subs[3..6]
         let actual = run activeSubs subs
@@ -51,7 +51,7 @@ type GetChangesBehavior() =
 
     [<Test>]
     member _.``subs are started and stopped when subs has new ids and omits old ids`` () =
-        let activeSubs = gen 0 6 unsub
+        let activeSubs = gen 0 6 stop
         let tmp = gen 0 9 sub
         let subs = tmp[3..9]
         let expected = [], activeSubs[0..2], activeSubs[3..6], tmp[7..9]
@@ -60,7 +60,7 @@ type GetChangesBehavior() =
 
     [<Test>]
     member _.``dupe subs are detected even when there are no changes`` () =
-        let activeSubs = gen 0 6 unsub
+        let activeSubs = gen 0 6 stop
         let subs = List.concat [gen 2 2 dupeSub; gen 2 2 dupeSub; gen 0 6 sub]
         let expected = subs[0..1], [], activeSubs, []
         let actual = run activeSubs subs
