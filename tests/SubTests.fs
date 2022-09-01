@@ -17,7 +17,7 @@ type DiffBehavior() =
     // data
     let stop = {new IDisposable with member _.Dispose() = () }
     let sub = {Sub = (fun _ _  -> stop); Dupe = (fun _ _ -> stop) }
-    let newId i = sprintf "sub/%i" i
+    let newId i = ["sub"; string i]
     let gen idRangeStart idRangeEnd second =
         let count = idRangeEnd + 1 - idRangeStart
         List.init count (fun i -> newId (idRangeStart + i), second)

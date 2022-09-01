@@ -2,8 +2,8 @@ namespace Elmish
 
 open System
 
-/// SubId - Subscription ID, alias for string
-type SubId = string
+/// SubId - Subscription ID, alias for string list
+type SubId = string list
 
 /// Subscription - Generates new messages when running
 type Sub<'msg> =
@@ -25,28 +25,33 @@ module Sub =
     let map (idPrefix: string) (f: 'a -> 'msg) (subs: Sub<'a> list)
         : Sub<'msg> list =
         subs |> List.map (fun sub ->
-            { SubId = idPrefix + sub.SubId
+            { SubId = idPrefix :: sub.SubId
               Start = fun subId dispatch -> sub.Start subId (f >> dispatch) })
 
     module Internal =
+
+        module SubId =
+
+            let toString (subId: SubId) =
+                String.Join("/", subId)
 
         module Fx =
 
             let warnDupe onError subId =
                 let ex = exn "Duplicate SubId"
-                onError ("Duplicate SubId: " + subId, ex)
+                onError ("Duplicate SubId: " + SubId.toString subId, ex)
 
             let tryStop onError (subId, sub: IDisposable) =
                 try
                     sub.Dispose()
                 with ex ->
-                    onError ("Error stopping subscription: " + subId, ex)
+                    onError ("Error stopping subscription: " + SubId.toString subId, ex)
 
             let tryStart onError dispatch (subId, start) : (SubId * IDisposable) option =
                 try
                     Some (subId, start subId dispatch)
                 with ex ->
-                    onError ("Error starting subscription: " + subId, ex)
+                    onError ("Error starting subscription: " + SubId.toString subId, ex)
                     None
 
             let stop onError subs =
