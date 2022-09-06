@@ -9,14 +9,14 @@ open System
 // Meaning reference equality with let fn binding is always false.
 // As record properties, these become concrete objects, ref equality works.
 type SubContainer =
-    { Sub: SubId -> Dispatch<obj> -> IDisposable
-      Dupe: SubId -> Dispatch<obj> -> IDisposable }
+    { Sub: Dispatch<obj> -> IDisposable
+      Dupe: Dispatch<obj> -> IDisposable }
 
 [<TestFixture>]
 type DiffBehavior() =
     // data
     let stop = {new IDisposable with member _.Dispose() = () }
-    let sub = {Sub = (fun _ _  -> stop); Dupe = (fun _ _ -> stop) }
+    let sub = {Sub = (fun _ -> stop); Dupe = (fun _ -> stop) }
     let newId i = ["sub"; string i]
     let gen idRangeStart idRangeEnd second =
         let count = idRangeEnd + 1 - idRangeStart

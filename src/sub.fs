@@ -8,7 +8,7 @@ type SubId = string list
 /// Subscription - Generates new messages when running
 type Sub<'msg> =
     { SubId: SubId
-      Start: SubId -> Dispatch<'msg> -> IDisposable }
+      Start: Dispatch<'msg> -> IDisposable }
 
 module Sub =
 
@@ -26,7 +26,7 @@ module Sub =
         : Sub<'msg> list =
         subs |> List.map (fun sub ->
             { SubId = idPrefix :: sub.SubId
-              Start = fun subId dispatch -> sub.Start subId (f >> dispatch) })
+              Start = fun dispatch -> sub.Start (f >> dispatch) })
 
     module Internal =
 
@@ -49,7 +49,7 @@ module Sub =
 
             let tryStart onError dispatch (subId, start) : (SubId * IDisposable) option =
                 try
-                    Some (subId, start subId dispatch)
+                    Some (subId, start dispatch)
                 with ex ->
                     onError ("Error starting subscription: " + SubId.toString subId, ex)
                     None
