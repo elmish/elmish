@@ -32,7 +32,7 @@ module Program =
           update = update
           view = view
           setState = fun model -> view model >> ignore
-          subscribe = fun _ -> []
+          subscribe = fun _ -> Sub.none
           onError = Log.onError
           termination = (fun _ -> false), ignore }
 
@@ -45,7 +45,7 @@ module Program =
           update = fun msg -> update msg >> fun state -> state, Cmd.none
           view = view
           setState = fun model -> view model >> ignore
-          subscribe = fun _ -> []
+          subscribe = fun _ -> Sub.none
           onError = Log.onError
           termination = (fun _ -> false), ignore }
 
