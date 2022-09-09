@@ -53,7 +53,7 @@ The `update` function will receive the change required by `Msg`, and the current
 
 let update msg model =
     match msg with
-    | Increment when model.Value < 3 ->
+    | Increment when model.Value < 2 ->
         { model with
             Value = model.Value + 1
         }
@@ -65,7 +65,7 @@ let update msg model =
         }
         , Cmd.ofMsg Decrement
 
-    | Decrement when model.Value > 0 ->
+    | Decrement when model.Value > 1 ->
         { model with
             Value = model.Value - 1
         }
