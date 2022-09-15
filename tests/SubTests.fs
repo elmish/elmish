@@ -23,18 +23,14 @@ type DiffBehavior() =
         List.init count (fun i -> newId (idRangeStart + i), second)
     let genSub idRangeStart idRangeEnd whichSub =
         let count = idRangeEnd + 1 - idRangeStart
-        List.init count (fun i ->
-            { SubId = newId (idRangeStart + i)
-              Start = whichSub })
+        List.init count (fun i -> newId (idRangeStart + i), whichSub)
     // helpers
     let toKeys keyValueList =
         List.map fst keyValueList
-    let toKeys2 subs =
-        subs |> List.map (fun sub -> sub.SubId)
     let toIds (dupes, toStop, toKeep, toStart) =
         {| Dupes = dupes; ToStop = toKeys toStop; ToKeep = toKeys toKeep; ToStart = toKeys toStart |}
     let toIds2 (dupes, toStop, toKeep, toStart) =
-        {| Dupes = toKeys2 dupes; ToStop = toKeys toStop; ToKeep = toKeys toKeep; ToStart = toKeys2 toStart |}
+        {| Dupes = toKeys dupes; ToStop = toKeys toStop; ToKeep = toKeys toKeep; ToStart = toKeys toStart |}
     let run = Sub.Internal.diff
     let eq expected actual =
         toIds2 expected =! toIds actual

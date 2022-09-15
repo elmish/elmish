@@ -5,28 +5,28 @@ open System
 /// SubId - Subscription ID, alias for string list
 type SubId = string list
 
+/// Subscribe - Starts a subscription, returns IDisposable to stop it
+type Subscribe<'msg> = Dispatch<'msg> -> IDisposable
+
 /// Subscription - Generates new messages when running
-type Sub<'msg> =
-    { SubId: SubId
-      Start: Dispatch<'msg> -> IDisposable }
+type Sub<'msg> = (SubId * Subscribe<'msg>) list
 
 module Sub =
 
     /// None - no subscriptions, also known as `[]`
-    let none : Sub<'msg> list =
+    let none : Sub<'msg> =
         []
 
     /// Aggregate multiple subscriptions
-    let batch (subs: #seq<Sub<'msg> list>) : Sub<'msg> list =
+    let batch (subs: #seq<Sub<'msg>>) : Sub<'msg> =
         subs |> List.concat
 
     /// When emitting the message, map to another type.
     /// To avoid ID conflicts with other components, scope SubIds with a prefix.
-    let map (idPrefix: string) (f: 'a -> 'msg) (subs: Sub<'a> list)
-        : Sub<'msg> list =
-        subs |> List.map (fun sub ->
-            { SubId = idPrefix :: sub.SubId
-              Start = fun dispatch -> sub.Start (f >> dispatch) })
+    let map (idPrefix: string) (f: 'a -> 'msg) (sub: Sub<'a>) : Sub<'msg> =
+        sub |> List.map (fun (subId, subscribe) ->
+            idPrefix :: subId,
+            fun dispatch -> subscribe (f >> dispatch))
 
     module Internal =
 
@@ -68,7 +68,7 @@ module Sub =
             let (_dupes, _newKeys, _newSubs) as init =
                 List.empty, Set.empty, List.empty
 
-            let update ({SubId = subId; Start = start}) (dupes, newKeys, newSubs) =
+            let update (subId, start) (dupes, newKeys, newSubs) =
                 if Set.contains subId newKeys then
                     subId :: dupes, newKeys, newSubs
                 else
@@ -79,9 +79,9 @@ module Sub =
 
         let empty = List.empty<SubId * IDisposable>
 
-        let diff (activeSubs: (SubId * IDisposable) list) (subs: Sub<'msg> list) =
+        let diff (activeSubs: (SubId * IDisposable) list) (sub: Sub<'msg>) =
             let keys = activeSubs |> List.map fst |> Set.ofList
-            let dupes, newKeys, newSubs = NewSubs.calculate subs
+            let dupes, newKeys, newSubs = NewSubs.calculate sub
             if keys = newKeys then
                 dupes, [], activeSubs, []
             else

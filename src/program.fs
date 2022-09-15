@@ -12,7 +12,7 @@ namespace Elmish
 type Program<'arg, 'model, 'msg, 'view> = private {
     init : 'arg -> 'model * Cmd<'msg>
     update : 'msg -> 'model -> 'model * Cmd<'msg>
-    subscribe : 'model -> Sub<'msg> list
+    subscribe : 'model -> Sub<'msg>
     view : 'model -> Dispatch<'msg> -> 'view
     setState : 'model -> Dispatch<'msg> -> unit
     onError : (string*exn) -> unit
@@ -52,7 +52,7 @@ module Program =
     /// Subscribe to external source of events, overrides existing subscription.
     /// Return the subscriptions that should be active based on the current model.
     /// Subscriptions will be started or stopped automatically to match.
-    let withSubscription (subscribe : 'model -> Sub<'msg> list) (program: Program<'arg, 'model, 'msg, 'view>) =
+    let withSubscription (subscribe : 'model -> Sub<'msg>) (program: Program<'arg, 'model, 'msg, 'view>) =
         { program with
             subscribe = subscribe }
 
@@ -75,9 +75,9 @@ module Program =
             newModel,cmd
 
         let traceSubscribe model =
-            let subs = program.subscribe model
-            Log.toConsole ("Updated subs:", subs |> List.map (fun x -> x.SubId))
-            subs
+            let sub = program.subscribe model
+            Log.toConsole ("Updated subs:", sub |> List.map fst)
+            sub
 
         { program with
             init = traceInit 
@@ -88,7 +88,7 @@ module Program =
     let withTrace trace (program: Program<'arg, 'model, 'msg, 'view>) =
         let update msg model =
             let state,cmd = program.update msg model
-            let subIds = program.subscribe state |> List.map (fun x -> x.SubId)
+            let subIds = program.subscribe state |> List.map fst
             trace msg state subIds
             state,cmd
         { program with
@@ -159,7 +159,7 @@ module Program =
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWithDispatch (syncDispatch: Dispatch<'msg> -> Dispatch<'msg>) (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) =
         let (model,cmd) = program.init arg
-        let subs = program.subscribe model
+        let sub = program.subscribe model
         let toTerminate, terminate = program.termination
         let rb = RingBuffer 10
         let mutable reentered = false
@@ -182,18 +182,18 @@ module Program =
                             terminated <- true
                         else                        
                             let (model',cmd') = program.update msg state
-                            let subs' = program.subscribe model'
+                            let sub' = program.subscribe model'
                             program.setState model' dispatch'
                             cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
                             state <- model'
-                            activeSubs <- Subs.diff activeSubs subs' |> Subs.Fx.change program.onError dispatch'
+                            activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
                             nextMsg <- rb.Pop()
                     reentered <- false
         and dispatch' = syncDispatch dispatch // serialized dispatch            
 
         program.setState model dispatch'
         cmd |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
-        activeSubs <- Subs.diff activeSubs subs |> Subs.Fx.change program.onError dispatch'
+        activeSubs <- Subs.diff activeSubs sub |> Subs.Fx.change program.onError dispatch'
 
 
     /// Start the single-threaded dispatch loop.
