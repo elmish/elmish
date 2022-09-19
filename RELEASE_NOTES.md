@@ -1,3 +1,6 @@
+## 4.0.0-beta-5
+* Breaking: subs receive current model, automatically started/stopped as needed (#248), thanks Kasey Speakman!
+
 ## 4.0.0-beta-4
 * Move to .NET 6 SDK
 * Breaking: dropping .NET 4.6.1 as the target
