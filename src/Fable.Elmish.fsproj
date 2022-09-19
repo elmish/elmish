@@ -8,6 +8,7 @@
     <Compile Include="prelude.fs" />
     <Compile Include="cmd.fs" />
     <Compile Include="cmd.obsolete.fs" />
+    <Compile Include="sub.fs" />
     <Compile Include="ring.fs" />
     <Compile Include="program.fs" />
   </ItemGroup>
