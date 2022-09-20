@@ -17,7 +17,7 @@ module Obsolete =
         module OfAsyncWith =
             /// Command that will evaluate an async block to the message
             [<Obsolete("Use `either`,`attempt` or `perform` instead")>]
-            let result (start: Async<unit> -> unit) 
+            let result (start: Async<unit> -> unit)
                     (task: Async<'msg>) : Cmd<'msg> =
                 let bind dispatch =
                     async {

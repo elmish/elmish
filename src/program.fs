@@ -24,8 +24,8 @@ type Program<'arg, 'model, 'msg, 'view> = private {
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Program =
     /// Typical program, new commands are produced by `init` and `update` along with the new state.
-    let mkProgram 
-        (init : 'arg -> 'model * Cmd<'msg>) 
+    let mkProgram
+        (init : 'arg -> 'model * Cmd<'msg>)
         (update : 'msg -> 'model -> 'model * Cmd<'msg>)
         (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init
@@ -37,8 +37,8 @@ module Program =
           termination = (fun _ -> false), ignore }
 
     /// Simple program that produces only new state with `init` and `update`.
-    let mkSimple 
-        (init : 'arg -> 'model) 
+    let mkSimple
+        (init : 'arg -> 'model)
         (update : 'msg -> 'model -> 'model)
         (view : 'model -> Dispatch<'msg> -> 'view) =
         { init = init >> fun state -> state, Cmd.none
@@ -80,7 +80,7 @@ module Program =
             sub
 
         { program with
-            init = traceInit 
+            init = traceInit
             update = traceUpdate
             subscribe = traceSubscribe }
 
@@ -99,45 +99,45 @@ module Program =
         { program with
             onError = onError }
 
-    /// Exit criteria and the handler, overrides existing. 
+    /// Exit criteria and the handler, overrides existing.
     let withTermination (predicate: 'msg -> bool) (terminate: 'model -> unit) (program: Program<'arg, 'model, 'msg, 'view>) =
         { program with
             termination = predicate, terminate }
 
-    /// Map existing criteria and the handler. 
+    /// Map existing criteria and the handler.
     let mapTermination map (program: Program<'arg, 'model, 'msg, 'view>) =
         { program with
             termination = map program.termination }
 
-    /// Map existing error handler and return new `Program` 
+    /// Map existing error handler and return new `Program`
     let mapErrorHandler map (program: Program<'arg, 'model, 'msg, 'view>) =
         { program with
             onError = map program.onError }
 
-    /// Get the current error handler 
+    /// Get the current error handler
     let onError (program: Program<'arg, 'model, 'msg, 'view>) =
         program.onError
 
-    /// Function to render the view with the latest state 
+    /// Function to render the view with the latest state
     let withSetState (setState:'model -> Dispatch<'msg> -> unit)
-                     (program: Program<'arg, 'model, 'msg, 'view>) =        
+                     (program: Program<'arg, 'model, 'msg, 'view>) =
         { program with
             setState = setState }
 
-    /// Return the function to render the state 
-    let setState (program: Program<'arg, 'model, 'msg, 'view>) =        
+    /// Return the function to render the state
+    let setState (program: Program<'arg, 'model, 'msg, 'view>) =
         program.setState
 
-    /// Return the view function 
-    let view (program: Program<'arg, 'model, 'msg, 'view>) =        
+    /// Return the view function
+    let view (program: Program<'arg, 'model, 'msg, 'view>) =
         program.view
 
-    /// Return the init function 
-    let init (program: Program<'arg, 'model, 'msg, 'view>) =        
+    /// Return the init function
+    let init (program: Program<'arg, 'model, 'msg, 'view>) =
         program.init
 
-    /// Return the update function 
-    let update (program: Program<'arg, 'model, 'msg, 'view>) =        
+    /// Return the update function
+    let update (program: Program<'arg, 'model, 'msg, 'view>) =
         program.update
 
     /// Map the program type
@@ -166,9 +166,9 @@ module Program =
         let mutable state = model
         let mutable activeSubs = Subs.empty
         let mutable terminated = false
-        let rec dispatch msg = 
+        let rec dispatch msg =
             if terminated then ()
-            else 
+            else
                 if reentered then
                     rb.Push msg
                 else
@@ -180,7 +180,7 @@ module Program =
                             Subs.Fx.stop program.onError activeSubs
                             terminate state
                             terminated <- true
-                        else                        
+                        else
                             let (model',cmd') = program.update msg state
                             let sub' = program.subscribe model'
                             program.setState model' dispatch'
@@ -189,7 +189,7 @@ module Program =
                             activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
                             nextMsg <- rb.Pop()
                     reentered <- false
-        and dispatch' = syncDispatch dispatch // serialized dispatch            
+        and dispatch' = syncDispatch dispatch // serialized dispatch
 
         program.setState model dispatch'
         cmd |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
@@ -200,6 +200,6 @@ module Program =
     /// arg: argument to pass to the 'init' function.
     /// program: program created with 'mkSimple' or 'mkProgram'.
     let runWith (arg: 'arg) (program: Program<'arg, 'model, 'msg, 'view>) = runWithDispatch id arg program
-    
+
     /// Start the dispatch loop with `unit` for the init() function.
     let run (program: Program<unit, 'model, 'msg, 'view>) = runWith () program

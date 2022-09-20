@@ -22,7 +22,7 @@ type internal RingBuffer<'item>(size) =
         | ReadWritable (items, wix, rix) ->
             let rix' = (rix + 1) % items.Length
             match rix' = wix with
-            | true -> 
+            | true ->
                 state <- Writable(items, wix)
             | _ ->
                 state <- ReadWritable(items, wix, rix')
@@ -40,7 +40,7 @@ type internal RingBuffer<'item>(size) =
             items.[wix] <- item
             let wix' = (wix + 1) % items.Length
             match wix' = rix with
-            | true -> 
+            | true ->
                 state <- ReadWritable(items |> doubleSize rix, items.Length, 0)
-            | _ -> 
+            | _ ->
                 state <- ReadWritable(items, wix', rix)

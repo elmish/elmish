@@ -76,7 +76,7 @@ module Cmd =
     module OfAsyncWith =
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
-        let either (start: Async<unit> -> unit) 
+        let either (start: Async<unit> -> unit)
                    (task: 'a -> Async<_>)
                    (arg: 'a)
                    (ofSuccess: _ -> 'msg)
@@ -91,7 +91,7 @@ module Cmd =
             [bind >> start]
 
         /// Command that will evaluate an async block and map the success
-        let perform (start: Async<unit> -> unit) 
+        let perform (start: Async<unit> -> unit)
                     (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofSuccess: _ -> 'msg) : Cmd<'msg> =
@@ -105,7 +105,7 @@ module Cmd =
             [bind >> start]
 
         /// Command that will evaluate an async block and map the error (of exception)
-        let attempt (start: Async<unit> -> unit) 
+        let attempt (start: Async<unit> -> unit)
                     (task: 'a -> Async<_>)
                     (arg: 'a)
                     (ofError: _ -> 'msg) : Cmd<'msg> =
@@ -123,7 +123,7 @@ module Cmd =
         let start x = Timer.delay 1 (fun _ -> Async.StartImmediate x)
 #else
         let inline start x = Async.Start x
-#endif    
+#endif
         /// Command that will evaluate an async block and map the result
         /// into success or error (of exception)
         let inline either (task: 'a -> Async<_>)
