@@ -26,6 +26,7 @@
         "vscode-theme-onelight": "github:akamud/vscode-theme-onelight"
     },
     "dependencies": {
-        "nacara": "^1.5.1"
+        "nacara": "^1.5.1",
+        "remark-parse": "^10.0.1"
     }
 }
