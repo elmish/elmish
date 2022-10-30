@@ -167,33 +167,36 @@ module Program =
         let mutable activeSubs = Subs.empty
         let mutable terminated = false
         let rec dispatch msg =
-            if terminated then ()
-            else
-                if reentered then
-                    rb.Push msg
-                else
+            if not terminated then
+                rb.Push msg
+                if not reentered then
                     reentered <- true
-                    let mutable nextMsg = Some msg
-                    while not terminated && Option.isSome nextMsg do
-                        let msg = nextMsg.Value
-                        if toTerminate msg then
-                            Subs.Fx.stop program.onError activeSubs
-                            terminate state
-                            terminated <- true
-                        else
-                            let (model',cmd') = program.update msg state
-                            let sub' = program.subscribe model'
-                            program.setState model' dispatch'
-                            cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
-                            state <- model'
-                            activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
-                            nextMsg <- rb.Pop()
+                    processMsgs ()
                     reentered <- false
         and dispatch' = syncDispatch dispatch // serialized dispatch
+        and processMsgs () =
+            let mutable nextMsg = rb.Pop()
+            while not terminated && Option.isSome nextMsg do
+                let msg = nextMsg.Value
+                if toTerminate msg then
+                    Subs.Fx.stop program.onError activeSubs
+                    terminate state
+                    terminated <- true
+                else
+                    let (model',cmd') = program.update msg state
+                    let sub' = program.subscribe model'
+                    program.setState model' dispatch'
+                    cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
+                    state <- model'
+                    activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
+                    nextMsg <- rb.Pop()
 
+        reentered <- true
         program.setState model dispatch'
         cmd |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
         activeSubs <- Subs.diff activeSubs sub |> Subs.Fx.change program.onError dispatch'
+        processMsgs ()
+        reentered <- false
 
 
     /// Start the single-threaded dispatch loop.
