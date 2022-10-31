@@ -23,61 +23,123 @@ We can setup forwarding of those events to be processed by our `update` function
 Let's define our `Model` and `Msg` types. `Model` will hold the current state and `Msg` will tell us the nature of the change that we need to apply to the current state.
 *)
 
+open Elmish
+open Fable.Core
 open System
 
 
-type Model =
-    {
-        current : DateTime
-    }
+module Example1 =
 
-type Msg =
-    | Tick of DateTime
+    type Model =
+        {
+            current : DateTime
+        }
+
+    type Msg =
+        | Tick of DateTime
 
 (**
 This time we'll define the "simple" version of `init` and `update` functions, that don't produce commands:
 *)
 
-let init () =
-    {
-        current = DateTime.Now
-    }
-
-let update msg model =
-    match msg with
-    | Tick current ->
-        { model with
-            current = current
+    let init () =
+        {
+            current = DateTime.MinValue
         }
+
+    let update msg model =
+        match msg with
+        | Tick current ->
+            { model with
+                current = current
+            }
 
 (**
 
-Note that "simple" is not a requirement and is just a matter of convenience for the purpose of the example!
+Note that "simple" is not a requirement and is just a matter of convenience for the example!
 
 Now lets define our timer subscription:
 
 *)
-open Elmish
-open Fable.Core
+    let timer onTick =
+        let subId = ["timer"]
+        let start dispatch =
+            let intervalId = 
+                JS.setInterval
+                    (fun _ -> dispatch (onTick DateTime.Now))
+                    1000
+            { new IDisposable with
+                member _.Dispose() = JS.clearInterval intervalId }
+        subId, start
 
-let timer initial =
-    let sub dispatch =
-        JS.setInterval
-            (fun _ ->
-                dispatch (Tick DateTime.Now)
-            )
-            1000
-            |> ignore
-    Cmd.ofSub sub
+    let subscribe model =
+        [ timer Tick ]
 
-Program.mkSimple init update (fun model _ -> printf "%A\n" model)
-|> Program.withSubscription timer
-|> Program.run
+    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    |> Program.withSubscription subscribe
+    |> Program.run
 
 
 (**
-In this example program initialization will call our subscriber (once) with inital `Model` state, passing the `dispatch` function to be called whenever an event occurs.
-However, any time you need to issue a message (for example from a callback) you can use `Cmd.ofSub`.
+`subscribe` answers the question: "Which subscriptions should be running?" It has the current program state, `model`, to use for decisions.
+When the model changes, `subscribe` is called. Elmish then starts or stops subscriptions to match what should be running.
+
+Here, the `timer` subscription is always returned, so it will stay running as long as the program is running.
+
+Let's look at an example where the timer can be turned off. First up, add the field `enabled`.
+*)
+
+module Example2 =
+
+    type Model =
+        {
+            current : DateTime
+            enabled : bool
+        }
+
+    type Msg =
+        | Tick of DateTime
+
+    let init () =
+        {
+            current = DateTime.MinValue
+            enabled = true
+        }
+
+(**
+`update` and `timer` are the same as before.
+*)
+    let update msg model =
+        match msg with
+        | Tick current ->
+            { model with
+                current = current
+            }
+
+    let timer onTick =
+        let subId = ["timer"]
+        let start dispatch =
+            let intervalId = 
+                JS.setInterval
+                    (fun _ -> dispatch (onTick DateTime.Now))
+                    1000
+            { new IDisposable with
+                member _.Dispose() = JS.clearInterval intervalId }
+        subId, start
+
+(**
+Next, change the subscribe function to check `enabled` before including the `timer` subscription.
+*)
+    let subscribe model =
+        [ if model.enabled then
+            timer Tick ]
+
+    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    |> Program.withSubscription subscribe
+    |> Program.run
+
+(**
+All that's left is to add user interaction to change `enabled`. The timer will stop or start accordingly.
 *)
 
 (**
@@ -87,27 +149,35 @@ If you need to aggregate multiple subscriptions follow the same pattern as when 
 For example:
 *)
 
+module Sub =
+
+    // a reusable subscription
+    let timer intervalMs onTick =
+        let subId = ["timer"]
+        let start dispatch =
+            let intervalId = 
+                JS.setInterval
+                    (fun _ -> dispatch (onTick DateTime.Now))
+                    intervalMs
+            { new IDisposable with
+                member _.Dispose() = JS.clearInterval intervalId }
+        subId, start
+
+
 module Second =
     type Msg =
         | Second of int
 
     type Model = int
 
-    let subscribe initial =
-        let sub dispatch =
-            JS.setInterval
-                (fun _ ->
-                    dispatch (Second DateTime.Now.Second)
-                )
-                1000
-                |> ignore
-        Cmd.ofSub sub
-
     let init () =
         0
 
     let update (Second seconds) model =
         seconds
+
+    let subscribe model =
+        [ Sub.timer 1000 (fun now -> Second now.Second) ]
 
 module Hour =
     type Msg =
@@ -118,18 +188,11 @@ module Hour =
     let init () =
         0
 
-    let update (Hour hours) model =
-        hours
+    let update (Hour hour) model =
+        hour
 
-    let subscribe initial =
-        let sub dispatch =
-            JS.setInterval
-                (fun _ ->
-                    dispatch (Hour DateTime.Now.Hour)
-                )
-                1000*60
-                |> ignore
-        Cmd.ofSub sub
+    let subscribe model =
+        [ Sub.timer (60*1000) (fun now -> Hour now.Hour) ]
 
 module App =
     type Model =
@@ -160,12 +223,18 @@ module App =
                 seconds = Second.update msg model.seconds
             }
 
-    let subscription model =
-        Cmd.batch [
-            Cmd.map HourMsg (Hour.subscribe model.hours)
-            Cmd.map SecondMsg (Second.subscribe model.seconds)
+    let subscribe model =
+        Sub.batch [
+            Sub.map "hour" HourMsg (Hour.subscribe model.hours)
+            Sub.map "second" SecondMsg (Second.subscribe model.seconds)
         ]
 
     Program.mkSimple init update (fun model _ -> printf "%A\n" model)
-    |> Program.withSubscription subscription
+    |> Program.withSubscription subscribe
     |> Program.run
+
+(**
+Notice `Sub.map` takes an id prefix as its first parameter. This helps keep subscriptions distinct from each other.
+
+Before Sub.map, Second and Hour have the same ID: `["timer"]`. After Sub.map, their IDs are: `["hour"; "timer"]` and `["second"; "timer"]`.
+*)
