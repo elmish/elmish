@@ -28,7 +28,7 @@ open Fable.Core
 open System
 
 
-module Example1 =
+module BasicTimer =
 
     type Model =
         {
@@ -83,15 +83,15 @@ Now lets define our timer subscription:
 `subscribe` answers the question: "Which subscriptions should be running?" It has the current program state, `model`, to use for decisions.
 When the model changes, `subscribe` is called. Elmish then starts or stops subscriptions to match what should be running.
 
-A subscription has an ID, `["timer"]` here, and a start function. You're probably wondering why the ID is a list.
-It allows you to include dependencies. Later we will use this to make the timer change intervals.
+A subscription has an ID, `["timer"]` here, and a start function. The ID needs to be unique within that page.
+You're probably wondering why it is a list. This allows you to include dependencies. Later we will use this to make the timer change intervals.
 
-Here, the timer subscription is always returned, so it will stay running as long as the program is running.
+Here, the timer subscription is always returned from `subscribe`, so it will stay running as long as the program is running.
 
 Let's look at an example where the timer can be turned off. First we add the field `enabled`.
 *)
 
-module Example2 =
+module ToggleTimer =
 
     type Model =
         {
@@ -129,7 +129,7 @@ module Example2 =
         start
 
 (**
-Next, change the subscribe function to check `enabled` before including the `timer` subscription.
+Next, change the subscribe function to check `enabled` before including the timer subscription.
 *)
     let subscribe model =
         [ if model.enabled then
@@ -142,11 +142,32 @@ Next, change the subscribe function to check `enabled` before including the `tim
 (**
 All that's left is to add user interaction to change `enabled`. The timer will stop or start accordingly.
 
-Note that above I used `let` to define the start fn, then return it. You will often see a function return written like this:
+You probably noticed that `subscribe` returns a list. So let's add another timer that's always on.
 *)
 
+(*** hide ***)
+module ToggleTimer2 =
+
+    open ToggleTimer
+
+(*** show ***)
+    let subscribe model =
+        [
+            if model.enabled then
+                ["user"; "timer"], timer Tick
+            ["page"; "timer"], timer Tick
+        ]
+
+(**
+Subscription IDs need to be unique. It's not necessary to use two ID segments... I just liked it better than camel casing the words.
+
+Small stylistic note: In the timer subscriptions above, I used `let` to define the `start` fn, then return it. You will often see a function return value written like this:
+*)
+
+(*** hide ***)
 module Example3 =
 
+(*** show ***)
     let timer onTick =
         fun dispatch ->
             let intervalId = 
@@ -157,7 +178,7 @@ module Example3 =
                 member _.Dispose() = JS.clearInterval intervalId }
 
 (**
-This returns an anonymous function. Defining the function with let made it more understandable for me. Use whichever style fits your brain better.
+This returns an anonymous function. Using `let` made it more understandable for me. Use whichever style fits your brain better.
 *)
 
 (**
@@ -224,8 +245,8 @@ module App =
 
     let init () =
         {
-            seconds = Second.init()
-            hours = Hour.init()
+            seconds = Second.init ()
+            hours = Hour.init ()
         }
 
     let update msg model =
@@ -263,13 +284,13 @@ Before Sub.map, Second and Hour have the same ID: `["timer"]`. After Sub.map, th
 > The `Effect` type was known as `Sub` in v3. With the change to subscriptions, Sub would have been an overloaded and confusing term.
 > Effect works exactly the same as before. Only the names have been changed to protect the innocent.
 
-In the last section, we increased reusability of `timer` by taking the interval as a parameter.
-We can use Effect to factor out the hard-coded DateTime.Now behavior for even more reuse.
+In the last section, we increased reusability of the timer by taking the interval as a parameter.
+We can use Effect to factor out the hard-coded `DateTime.Now` behavior for even more reuse.
 
-First let's turn DateTime.Now into an Effect.
+First let's turn `DateTime.Now` into an Effect.
 *)
 
-module Example4 =
+module EffectTimer =
 
     module Time =
 
@@ -328,17 +349,19 @@ The timer subscription can now run any kind of effect. Calling an API, playing a
 
 I mentioned earlier that ID is a list so that you can add dependencies to it. What does this mean?
 
-In the last example, the timer's interval was pulled from the model:
+In the last example, the timer's interval came from the model:
 
 `Sub.timer model.intervalMs (Time.now Tick)`
 
 But nothing happens to the subscription if `model.intervalMs` changes. Let's fix that.
 *)
 
-module IdDeps1 =
+(*** hide ***)
+module IdDeps =
 
-    open Example4 // reuse last example's code
+    open EffectTimer // reuse last example's code
 
+(*** show ***)
     let subscribe model =
         [ ["timer"; string model.intervalMs], Sub.timer model.intervalMs (Time.now Tick) ]
 
@@ -346,7 +369,6 @@ module IdDeps1 =
 Now that intervalMs is part of the ID, an interesting thing happens. When the interval changes, the timer will stop then restart with the new interval.
 
 How does it work? It's taking advantage of ID uniqueness.
-
 Let's say that `intervalMs` is initially 1000. The sub ID is `["timer"; "1000"]`, Elmish starts the subscription.
 Then `intervalMs` changes to 2000. The sub ID becomes `["timer"; "2000"]`.
 Elmish sees that `["timer"; "1000"]` is no longer active and stops it. Then it starts the "new" subscription `["timer"; "2000"]`.
@@ -356,20 +378,41 @@ To Elmish each interval is a different subscription. But to `subscribe` this is 
 Let's look at another example: multiple timers.
 *)
 
-module IdDeps2 =
+module MultipleTimers =
 
-    // type alias to make the model more legible, in theory
+    module Sub =
+
+        let timer intervalMs (effect: Effect<'msg>) =
+            let start dispatch =
+                let intervalId = 
+                    JS.setInterval (fun _ -> effect dispatch) intervalMs
+                { new IDisposable with
+                    member _.Dispose() = JS.clearInterval intervalId }
+            start
+
+    module Fx =
+
+        let print timerId interval : Effect<_> =
+            fun _ ->
+                printfn "timerId = %i, interval = %i, now = %A" timerId interval DateTime.Now
+
+(**
+This includes the same timer from last example and a print effect.
+*)
+
+    // type aliases to make the model more legible, in theory
     type TimerId = int
-    type Interval = int
+    type IntervalMs = int
 
     type Model =
         {
-            timers : Map<TimerId, Interval>
+            timers : Map<TimerId, IntervalMs>
             nextId : TimerId // incrementing ID
         }
 
     type Msg =
-        | AddTimer of interval: int
+        | AddTimer of intervalMs: int
+        | ChangeInterval of timerId: int * intervalMs: int
         | RemoveTimer of timerId: int
 
     let init () =
@@ -380,24 +423,33 @@ module IdDeps2 =
 
     let update msg model =
         match msg with
-        | AddTimer interval ->
+        | AddTimer intervalMs ->
             {
-                timers = Map.add model.nextId interval model.timers
+                timers = Map.add model.nextId intervalMs model.timers
                 nextId = model.nextId + 1
             }
         | RemoveTimer timerId ->
             { model with
                 timers = Map.remove timerId model.timers
             }
-
-    let printEffect timerId interval =
-        fun _ ->
-            printfn "timerId = %i, interval = %i, now = %A" timerId interval DateTime.Now
+        | ChangeInterval (timerId, intervalMs) ->
+            { model with
+                // Map.add updates entries if they already exist
+                timers = Map.add timerId intervalMs model.timers
+            }
 
     let subscribe model =
-        [ for (timerId, interval) in Map.toList model.timers do
-            ["timer"; string timerId], Sub.timer interval (printEffect timerId interval) ]
+        [ for timerId, intervalMs in Map.toList model.timers do
+            ["timer"; string timerId; string intervalMs], Sub.timer intervalMs (Fx.print timerId intervalMs) ]
 
 (**
-This example supports adding and removing timers. Each timer will have its own subscription.
+This example supports multiple user-controlled timers.
+
+In the subscription IDs, we included `timerId` and `intervalMs`. Each serves a slightly different purpose.
+
+We can't use just "timer" because it won't be unique. `timerId` provides a unique (auto-incrementing) ID, so it satisfies that requirement.
+Any data we add to the ID beyond that, like `intervalMs` will cause the subscription to restart when that data changes. This is perfect for settings that affect the subscription runtime behavior.
+
+Note that "timer" isn't needed in the ID anymore. Since timerId is providing uniqueness, "timer" is only a prefix now.
+A prefix might still be useful if there is a chance that another subscription within that page could have the same ID.
 *)
