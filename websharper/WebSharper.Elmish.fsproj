@@ -7,10 +7,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="prelude.fs" />
-    <Compile Include="../../src/cmd.fs" />
-    <Compile Include="../../src/sub.fs" />
-    <Compile Include="../../src/ring.fs" />
-    <Compile Include="../../src/program.fs" />
+    <Compile Include="../src/cmd.fs" />
+    <Compile Include="../src/sub.fs" />
+    <Compile Include="../src/ring.fs" />
+    <Compile Include="../src/program.fs" />
     <None Include="wsconfig.json" />
   </ItemGroup>
   <ItemGroup>

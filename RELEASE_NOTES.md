@@ -1,3 +1,6 @@
+## 4.0.0-beta-6
+* WebSharper support by @granicz (Adam Granicz)
+
 ## 4.0.0-beta-5
 * Breaking: subs receive current model, automatically started/stopped as needed (#248), thanks Kasey Speakman!
 

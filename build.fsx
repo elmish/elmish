@@ -27,15 +27,15 @@ open System.IO
 let projects  =
     !! "src/**.fsproj"
     ++ "netstandard/**.fsproj"
-    ++ "netstandard/websharper/**.fsproj"
+    ++ "websharper/**.fsproj"
 
 Target.create "Clean" (fun _ ->
     Shell.cleanDir "src/obj"
     Shell.cleanDir "src/bin"
     Shell.cleanDir "netstandard/obj"
     Shell.cleanDir "netstandard/bin"
-    Shell.cleanDir "netstandard/websharper/obj"
-    Shell.cleanDir "netstandard/websharper/bin"
+    Shell.cleanDir "websharper/obj"
+    Shell.cleanDir "websharper/bin"
 )
 
 Target.create "Restore" (fun _ ->
@@ -93,7 +93,7 @@ Target.create "PublishNuget" (fun _ ->
     if (not result.OK) then failwithf "%A" result.Errors
 
     let args = sprintf "push WebSharper.Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
-    let result = exec "netstandard/websharper/bin/Release" "nuget" args
+    let result = exec "websharper/bin/Release" "nuget" args
     if (not result.OK) then failwithf "%A" result.Errors
 
     let args = sprintf "push Elmish.%s.nupkg -s nuget.org -k %s" (string release.SemVer) (Environment.environVar "nugetkey")
