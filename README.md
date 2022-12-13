@@ -22,6 +22,9 @@ v2.0 and above releases use `dotnet` SDK and can be installed with `dotnet nuget
 For use in a Fable project:
 `paket add nuget Fable.Elmish -i`
 
+For use in a WebSharper project:
+`paket add nuget WebSharper.Elmish -i`
+
 If targeting CLR, please use Elmish package:
 `paket add nuget Elmish -i`
 
