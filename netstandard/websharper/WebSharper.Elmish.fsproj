@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Elmish core for WebSharper apps</Description>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="prelude.fs" />
+    <Compile Include="../../src/cmd.fs" />
+    <Compile Include="../../src/sub.fs" />
+    <Compile Include="../../src/ring.fs" />
+    <Compile Include="../../src/program.fs" />
+    <None Include="wsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImportPackage Update="FSharp.Core" Version="4.7.*" />
+    <PackageReference Include="WebSharper" Version="6.0.4.240" />    
+    <PackageReference Include="WebSharper.FSharp" Version="6.0.4.240" />
+  </ItemGroup>
+</Project>
