@@ -39,27 +39,23 @@ module BasicTimer =
         | Tick of DateTime
 
 (**
-This time we'll define the "simple" version of `init` and `update` functions, that don't produce commands:
+Now let's define `init` and `update`.
 *)
 
     let init () =
         {
             current = DateTime.MinValue
-        }
+        }, []
 
     let update msg model =
         match msg with
         | Tick current ->
             { model with
                 current = current
-            }
+            }, []
 
 (**
-
-Note that "simple" is not a requirement and is just a matter of convenience for the example!
-
 Now lets define our timer subscription:
-
 *)
     let timer onTick =
         let start dispatch =
@@ -74,7 +70,7 @@ Now lets define our timer subscription:
     let subscribe model =
         [ ["timer"], timer Tick ]
 
-    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    Program.mkProgram init update (fun model _ -> printf "%A\n" model)
     |> Program.withSubscription subscribe
     |> Program.run
 
@@ -106,7 +102,7 @@ module ToggleTimer =
         {
             current = DateTime.MinValue
             enabled = true
-        }
+        }, []
 
 (**
 `update` and `timer` are the same as before.
@@ -116,7 +112,7 @@ module ToggleTimer =
         | Tick current ->
             { model with
                 current = current
-            }
+            }, []
 
     let timer onTick =
         let start dispatch =
@@ -135,7 +131,7 @@ Next, change the subscribe function to check `enabled` before including the time
         [ if model.enabled then
             ["timer"], timer Tick ]
 
-    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    Program.mkProgram init update (fun model _ -> printf "%A\n" model)
     |> Program.withSubscription subscribe
     |> Program.run
 
@@ -209,10 +205,10 @@ module Second =
     type Model = int
 
     let init () =
-        0
+        0, []
 
     let update (Second seconds) model =
-        seconds
+        seconds, []
 
     let subscribe model =
         [ ["timer"], Sub.timer 1000 (fun now -> Second now.Second) ]
@@ -224,10 +220,10 @@ module Hour =
     type Model = int
 
     let init () =
-        0
+        0, []
 
     let update (Hour hour) model =
-        hour
+        hour, []
 
     let subscribe model =
         [ ["timer"], Sub.timer (60*1000) (fun now -> Hour now.Hour) ]
@@ -244,22 +240,26 @@ module App =
         | HourMsg of Hour.Msg
 
     let init () =
+        let seconds, secondsCmd = Second.init ()
+        let hours, hoursCmd = Hour.init ()
         {
-            seconds = Second.init ()
-            hours = Hour.init ()
-        }
+            seconds = seconds
+            hours = hours
+        }, Cmd.batch [Cmd.map SecondMsg secondsCmd; Cmd.map HourMsg hoursCmd]
 
     let update msg model =
         match msg with
         | HourMsg msg ->
+            let hours, hoursCmd = Hour.update msg model.hours
             { model with
-                hours = Hour.update msg model.hours
-            }
+                hours = hours
+            }, Cmd.map HourMsg hoursCmd
 
         | SecondMsg msg ->
+            let seconds, secondsCmd = Second.update msg model.seconds
             { model with
-                seconds = Second.update msg model.seconds
-            }
+                seconds = seconds
+            }, Cmd.map SecondMsg secondsCmd
 
     let subscribe model =
         Sub.batch [
@@ -267,7 +267,7 @@ module App =
             Sub.map "second" SecondMsg (Second.subscribe model.seconds)
         ]
 
-    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    Program.mkProgram init update (fun model _ -> printf "%A\n" model)
     |> Program.withSubscription subscribe
     |> Program.run
 
@@ -419,7 +419,7 @@ This includes the same timer from last example and a print effect.
         {
             timers = Map.empty
             nextId = 1
-        }
+        }, []
 
     let update msg model =
         match msg with
@@ -427,16 +427,16 @@ This includes the same timer from last example and a print effect.
             {
                 timers = Map.add model.nextId intervalMs model.timers
                 nextId = model.nextId + 1
-            }
+            }, []
         | RemoveTimer timerId ->
             { model with
                 timers = Map.remove timerId model.timers
-            }
+            }, []
         | ChangeInterval (timerId, intervalMs) ->
             { model with
                 // Map.add updates entries if they already exist
                 timers = Map.add timerId intervalMs model.timers
-            }
+            }, []
 
     let subscribe model =
         [ for timerId, intervalMs in Map.toList model.timers do
