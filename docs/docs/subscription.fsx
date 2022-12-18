@@ -12,6 +12,7 @@ title: Subscriptions
 #I "../../src/bin/Debug/netstandard2.0"
 #r "Fable.Elmish.dll"
 #r "nuget: Fable.Core"
+#r "nuget: Feliz"
 
 (**
 
@@ -84,7 +85,7 @@ You're probably wondering why it is a list. This allows you to include dependenc
 
 Here, the timer subscription is always returned from `subscribe`, so it will stay running as long as the program is running.
 
-Let's look at an example where the timer can be turned off. First we add the field `enabled`.
+Let's look at an example where the timer can be turned off. First we add the field `enabled` and a Msg case to toggle it.
 *)
 
 module ToggleTimer =
@@ -96,7 +97,8 @@ module ToggleTimer =
         }
 
     type Msg =
-        | Tick of DateTime
+        | Toggle of enabled: bool
+        | Tick of now: DateTime
 
     let init () =
         {
@@ -105,14 +107,22 @@ module ToggleTimer =
         }, []
 
 (**
-`update` and `timer` are the same as before.
+Now let's handle the `Toggle` message.
 *)
     let update msg model =
         match msg with
-        | Tick current ->
+        | Toggle enabled ->
             { model with
-                current = current
+                enabled = enabled
             }, []
+        | Tick now ->
+            { model with
+                current = now
+            }, []
+
+(**
+`timer` is the same as before.
+*)
 
     let timer onTick =
         let start dispatch =
@@ -125,18 +135,44 @@ module ToggleTimer =
         start
 
 (**
-Next, change the subscribe function to check `enabled` before including the timer subscription.
+Next, we change the subscribe function to check `enabled` before including the timer subscription.
 *)
     let subscribe model =
         [ if model.enabled then
             ["timer"], timer Tick ]
 
-    Program.mkProgram init update (fun model _ -> printf "%A\n" model)
+(**
+Now let's add an HTML view to visualize and control the timer.
+*)
+
+    open Feliz
+
+    let view model dispatch =
+        Html.div [
+            Html.div [Html.text (model.current.ToString("yyyy-MM-dd HH:mm:ss.ffff"))]
+            Html.div [
+                Html.label [
+                    prop.children [
+                        Html.input [
+                            prop.type' "checkbox"
+                            prop.isChecked model.enabled
+                            prop.onCheckedChange (fun b -> dispatch (Toggle b))
+                        ]
+                        Html.text " enabled"
+                    ]
+                ]
+            ]
+        ]
+
+
+    Program.mkProgram init update view
     |> Program.withSubscription subscribe
     |> Program.run
 
 (**
-All that's left is to add user interaction to change `enabled`. The timer will stop or start accordingly.
+Here is the running program.
+
+![demo of user toggling checkbox to stop and start time updates](../static/img/timer-with-enable.gif)
 
 You probably noticed that `subscribe` returns a list. So let's add another timer that's always on.
 *)
@@ -375,10 +411,17 @@ Elmish sees that `["timer"; "1000"]` is no longer active and stops it. Then it s
 
 To Elmish each interval is a different subscription. But to `subscribe` this is a single timer that changes intervals.
 
-Let's look at another example: multiple timers.
+Let's look at another example: multiple timers. This one will be a full-fledged example including UI forms to take user input.
 *)
 
 module MultipleTimers =
+
+    module Time =
+
+        let now (tag: DateTime -> 'msg) : Effect<'msg> =
+            let effectFn dispatch =
+                dispatch (tag DateTime.Now)
+            effectFn
 
     module Sub =
 
@@ -390,66 +433,287 @@ module MultipleTimers =
                     member _.Dispose() = JS.clearInterval intervalId }
             start
 
-    module Fx =
-
-        let print timerId interval : Effect<_> =
-            fun _ ->
-                printfn "timerId = %i, interval = %i, now = %A" timerId interval DateTime.Now
-
 (**
-This includes the same timer from last example and a print effect.
+This includes the same `Sub.timer` subscription and `Time.now` effect from before.
+
+Now let's create a reusable form that accepts timer interval changes and validates them.
 *)
 
     // type aliases to make the model more legible, in theory
     type TimerId = int
     type IntervalMs = int
 
+    type FormState =
+        | Unchanged
+        | NewValue of IntervalMs
+        | Invalid of error: string
+
+    type IntervalForm =
+        {
+            current : IntervalMs
+            userEntry : string
+            state : FormState
+        }
+
+    module IntervalForm =
+        let [<Literal>] NoInterval = -1
+
+        let empty =
+            {
+                current = NoInterval
+                userEntry = ""
+                state = Unchanged
+            }
+
+        let create intervalMs =
+            {
+                current = intervalMs
+                userEntry = string intervalMs
+                state = Unchanged
+            }
+
+        let reset form =
+            let userEntry =
+                if form.current = NoInterval then
+                    ""
+                else
+                    string form.current
+            {form with userEntry = userEntry; state = Unchanged}
+
+        let validate form =
+            match Int32.TryParse form.userEntry with
+            | false, _ when form.current = NoInterval && form.userEntry = "" ->
+                {form with state = Unchanged}
+            | false, _ when form.userEntry = "" ->
+                {form with state = Invalid "cannot be blank"}
+            | false, _ ->
+                {form with state = Invalid "must be an integer"}
+            | true, interval when interval <= 0 ->
+                {form with state = Invalid "must be greater than zero"}
+            | true, interval when interval = form.current ->
+                {form with state = Unchanged}
+            | true, interval ->
+                {form with state = NewValue interval}
+
+        let userEntry text form =
+            validate {form with userEntry = text}
+
+(**
+Now let's create the overall model to manage timers.
+*)
+
+
     type Model =
         {
-            timers : Map<TimerId, IntervalMs>
-            nextId : TimerId // incrementing ID
+            // lookup by TimerId, last tick and interval settings
+            timers : Map<TimerId, DateTime * IntervalForm>
+            // incrementing ID
+            nextId : TimerId
+            // form for the user to add a new interval
+            addForm : IntervalForm
         }
 
     type Msg =
+        | AddFormReset
+        | AddFormUserEntry of text: string
+        | ChangeFormReset of timerId: int
+        | ChangeFormUserEntry of timerId: int * text: string
         | AddTimer of intervalMs: int
-        | ChangeInterval of timerId: int * intervalMs: int
         | RemoveTimer of timerId: int
+        | ChangeInterval of timerId: int * intervalMs: int
+        | Tick of timerId: int * now: DateTime
+
+     module Model =
+
+        let updateTimer timerId f model =
+            { model with
+                timers =
+                    model.timers
+                    |> Map.change timerId (Option.map f)
+            }
+
+        let updateForm timerId f model =
+            model |> updateTimer timerId (fun (now, form) -> now, f form)
+
+        let updateNow timerId newNow model =
+            model |> updateTimer timerId (fun (now, form) -> newNow, form)
 
     let init () =
         {
             timers = Map.empty
             nextId = 1
+            addForm = IntervalForm.empty
         }, []
 
     let update msg model =
         match msg with
-        | AddTimer intervalMs ->
-            {
-                timers = Map.add model.nextId intervalMs model.timers
-                nextId = model.nextId + 1
+        // form changes
+        | AddFormReset ->
+            { model with
+                addForm = IntervalForm.reset model.addForm
             }, []
+        | AddFormUserEntry text ->
+            { model with
+                addForm = IntervalForm.userEntry text model.addForm
+            }, []
+        | ChangeFormReset timerId ->
+            Model.updateForm timerId IntervalForm.reset model, []
+        | ChangeFormUserEntry (timerId, text) ->
+            Model.updateForm timerId (IntervalForm.userEntry text) model, []
+        // timer changes
+        | AddTimer intervalMs ->
+            { model with
+                timers =
+                    let form = IntervalForm.create intervalMs
+                    Map.add model.nextId (DateTime.MinValue, form) model.timers
+                nextId = model.nextId + 1
+                addForm = IntervalForm.empty
+            }, [Time.now (fun now -> Tick (model.nextId, now))]
         | RemoveTimer timerId ->
             { model with
                 timers = Map.remove timerId model.timers
             }, []
         | ChangeInterval (timerId, intervalMs) ->
-            { model with
-                // Map.add updates entries if they already exist
-                timers = Map.add timerId intervalMs model.timers
-            }, []
+            let form = IntervalForm.create intervalMs
+            Model.updateForm timerId (fun _ -> form) model, []
+        | Tick (timerId, now) ->
+            Model.updateNow timerId now model, []
 
     let subscribe model =
-        [ for timerId, intervalMs in Map.toList model.timers do
-            ["timer"; string timerId; string intervalMs], Sub.timer intervalMs (Fx.print timerId intervalMs) ]
+        [
+            for timerId, (_now, {current = intervalMs}) in Map.toList model.timers do
+                let subId = ["timer"; string timerId; string intervalMs]
+                let tick now = Tick (timerId, now)
+                subId, Sub.timer intervalMs (Time.now tick)
+        ]
 
 (**
-This example supports multiple user-controlled timers.
-
 In the subscription IDs, we included `timerId` and `intervalMs`. Each serves a slightly different purpose.
 
 We can't use just "timer" because it won't be unique. `timerId` provides a unique (auto-incrementing) ID, so it satisfies that requirement.
 Any data we add to the ID beyond that, like `intervalMs` will cause the subscription to restart when that data changes. This is perfect for settings that affect the subscription runtime behavior.
 
-Note that "timer" isn't needed in the ID anymore. Since timerId is providing uniqueness, "timer" is only a prefix now.
+Note that "timer" isn't needed in the ID here. Since timerId is providing uniqueness, "timer" is only a prefix now.
 A prefix might still be useful if there is a chance that another subscription within that page could have the same ID.
+
+Let's finish things off with view functions.
+*)
+
+
+    open Feliz
+
+    let formView resetTag userEntryTag saveTag (saveText: string) form dispatch =
+        Html.div [
+            Html.text " "
+            Html.input [
+                prop.type'.text
+                prop.value form.userEntry
+                prop.onChange (fun (text: string) -> dispatch (userEntryTag text))
+            ]
+            Html.text " "
+            Html.button [
+                prop.type'.button
+                prop.text saveText
+                match form.state with
+                | Unchanged | Invalid _ ->
+                    prop.disabled true
+                | NewValue intervalMs ->
+                    prop.onClick (fun _ -> dispatch (saveTag intervalMs))
+            ]
+            Html.text " "
+            Html.a [
+                prop.text "Reset"
+                prop.style [style.userSelect.none]
+                match form.state with
+                | Unchanged ->
+                    prop.disabled true
+                    prop.style [style.color.gray; style.pointerEvents.none; style.userSelect.none]
+                | _ ->
+                    prop.onClick (fun _ -> dispatch resetTag)
+            ]
+            Html.text " "
+            Html.br []
+            match form.state with
+            | Unchanged | NewValue _ ->
+                Html.span [
+                    prop.style [style.visibility.hidden]
+                    prop.text "no error"
+                ]
+            | Invalid error ->
+                Html.span [
+                    prop.style [style.color.orangeRed; style.fontSize (length.rem 0.8)]
+                    prop.text error
+                ]
+        ]
+
+    let view model dispatch =
+        Html.div [
+            prop.style [style.padding (length.px 12)]
+            prop.children [
+                Html.style
+                    """
+                    table {border-collapse: collapse; border-spacing: 0; box-sizing: border-box; border: 1px solid gray}
+                    table th, table td {padding: 3px 12px}
+                    """
+                Html.h4 "Add a timer"
+                formView AddFormReset AddFormUserEntry AddTimer "Add" model.addForm dispatch
+                Html.h4 "Timers"
+                Html.table [
+                    Html.thead [
+                        Html.tr [
+                            Html.th " "
+                            Html.th " Timer ID "
+                            Html.th " Last Tick "
+                            Html.th " Interval (ms) "
+                        ]
+                    ]
+                    Html.tbody [
+                        for timerId, (now, form) in Map.toList model.timers do
+                            Html.tr [
+                                prop.key timerId
+                                prop.children [
+                                    Html.td [
+                                        Html.text " "
+                                        Html.button [
+                                            prop.type' "button"
+                                            prop.onClick (fun _ -> dispatch (RemoveTimer timerId))
+                                            prop.text " X "
+                                        ]
+                                        Html.text " "
+                                    ]
+                                    Html.td [
+                                        prop.style [style.textAlign.right]
+                                        prop.text (" " + string timerId + " ")
+                                    ]
+                                    Html.td [
+                                        Html.div [
+                                            prop.key (string now.Ticks)
+                                            let timestampStr =
+                                                let s = now.ToString("yyyy-MM-dd HH:mm:ss.ffff")
+                                                let zeros = 23 - s.Length
+                                                s + String.replicate zeros "0"
+                                            prop.text timestampStr
+                                        ]
+                                    ]
+                                    Html.td [
+                                        let reset = ChangeFormReset timerId
+                                        let userEntry text = ChangeFormUserEntry (timerId, text)
+                                        let save intervalMs = ChangeInterval (timerId, intervalMs)
+                                        formView reset userEntry save "Save" form dispatch
+                                    ]
+                                ]
+                            ]
+                    ]
+                ]
+            ]
+        ]
+
+    Program.mkProgram init update view
+    |> Program.withSubscription subscribe
+    |> Program.run
+
+(**
+Here is a demo.
+
+![demo of user adding updating and removing timers in a table](../static/img/timer-multi.gif)
 *)
