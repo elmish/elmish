@@ -82,14 +82,17 @@ When the model changes, `subscribe` is called. Elmish then starts or stops subsc
 
 A subscription has an ID, `["timer"]` here, and a start function. The ID needs to be unique within that page.
 
-> **ID is a list**
-> This allows us to include dependencies. Later we will use this feature to change the timer's interval.
+> **ID is a list?**
+> 
+> This allows us to include dependencies. Later we will use this to change the timer's interval.
 
+
+### Conditional subscriptions
 
 In the above example, the timer subscription is always returned from `subscribe`, so it will stay running as long as the program is running.
 Let's look at an example where the timer can be turned off.
 
-First we add the field `enabled` and a Msg case to toggle it.
+First we add the field `enabled` and a msg `Toggle` to change it.
 *)
 
 module ToggleTimer =
@@ -178,28 +181,6 @@ Now let's add an HTML view to visualize and control the timer.
 Here is the running program.
 
 ![demo of user toggling checkbox to stop and start time updates](../static/img/timer-with-enable.gif)
-
-Notice that `subscribe` returns a list. This means you can have multiple subscriptions running at a time. So let's add another timer that's always on.
-*)
-
-(*** hide ***)
-module ToggleTimer2 =
-
-    open ToggleTimer
-
-(*** show ***)
-    let subscribe model =
-        [
-            if model.enabled then
-                ["user"; "timer"], timer Tick
-            ["page"; "timer"], timer Tick
-        ]
-
-(**
-Now we have a timer that the user can toggle off and on. And a page timer that stays running.
-
-> **ID style**
-> Instead of `["user"; "timer"]` we could use `["userTimer"]` or whatever we prefer. As long as the subscription IDs are unique.
 *)
 
 (**
@@ -211,7 +192,7 @@ For example:
 
 module Sub =
 
-    // a reusable subscription
+    // now usable for different intervals
     let timer intervalMs onTick =
         let start dispatch =
             let intervalId = 
@@ -224,6 +205,7 @@ module Sub =
 
 
 module Second =
+
     type Msg =
         | Second of int
 
@@ -239,6 +221,7 @@ module Second =
         [ ["timer"], Sub.timer 1000 (fun now -> Second now.Second) ]
 
 module Hour =
+
     type Msg =
         | Hour of int
 
@@ -254,6 +237,7 @@ module Hour =
         [ ["timer"], Sub.timer (60*1000) (fun now -> Hour now.Hour) ]
 
 module App =
+
     type Model =
         {
             seconds : Second.Model
@@ -307,7 +291,9 @@ It is common for parent pages to have one active child page. This partial exampl
 (*** hide ***)
 module ActiveChildPage =
     open App
-(*** show ***)
+
+(**
+*)
 
     type Msg =
         | SecondMsg of Second.Msg
@@ -334,11 +320,13 @@ When the active page changes, the old page's subscriptions are stopped and the n
 *)
 
 (**
-### Subscription reusability with Effect
+### Subscription reusability
 
 > 📌 **Effect**
-> The `Effect` type was known as `Sub` in v3. With the change to subscriptions, Sub would have been an overloaded and confusing term.
-> Effect works exactly the same as before. Only the name has been changed. This includes helper functions like `Cmd.ofSub`, which is now `Cmd.ofEffect`.
+> 
+> The `Effect` type was known as `Sub` in v3. With the change to subscriptions, `Sub` would have been an overloaded and confusing term.
+> Helper functions have also been renamed. For example, `Cmd.ofSub` is now `Cmd.ofEffect`.
+> This is a change in name only -- `Effect` works exactly the same as v3 `Sub`.
 
 In the last section, we increased reusability of the timer by taking the interval as a parameter.
 We can use Effect to factor out the hard-coded `DateTime.Now` behavior for even more reuse.
@@ -356,9 +344,9 @@ module EffectTimer =
             effectFn
 
 (**
-> Strange as it seems, DateTime.Now is a side effect. This property reads from a clock and may return a different value each time. Code that uses it becomes nondeterministic.
+> Strange as it seems, `DateTime.Now` is a side effect. This property reads from a clock and may return a different value each time. Code that uses it becomes nondeterministic.
 
-Now let's change timer to run an Effect when the interval fires.
+Now let's change timer to run an `Effect` when the interval fires.
 *)
 
     module Sub =
@@ -407,7 +395,9 @@ Earlier we noted that ID is a list so that you can add dependencies to it. We'll
 
 In that example, the timer's interval came from the model:
 
-`Sub.timer model.intervalMs (Time.now Tick)`
+```fsharp
+Sub.timer model.intervalMs (Time.now Tick)
+```
 
 But nothing happens to the subscription if `model.intervalMs` changes. Let's fix that.
 *)
@@ -417,7 +407,8 @@ module IdDeps =
 
     open EffectTimer // reuse last example's code
 
-(*** show ***)
+(**
+*)
     let subscribe model =
         let subId = ["timer"; string model.intervalMs]
         [ subId, Sub.timer model.intervalMs (Time.now Tick) ]
@@ -425,7 +416,7 @@ module IdDeps =
 (**
 Now that `intervalMs` is part of the ID, the timer will stop the old interval then start with the new interval whenever the interval changes.
 
-How does it work? It's taking advantage of ID uniqueness.
+How does it work? It is taking advantage of ID uniqueness.
 Let's say that `intervalMs` is initially 1000. The sub ID is `["timer"; "1000"]`, Elmish starts the subscription.
 Then `intervalMs` changes to 2000. The sub ID becomes `["timer"; "2000"]`.
 Elmish sees that `["timer"; "1000"]` is no longer active and stops it. Then it starts the "new" subscription `["timer"; "2000"]`.
@@ -737,7 +728,7 @@ Here is a demo.
 
 ![demo of user adding updating and removing timers in a table](../static/img/timer-multi.gif)
 
-#### Style used in this guide
+### Style used in this guide
 
 This guide uses a named fn, `start`, inside subscriptions for increased explicitness. The pattern looks like this:
 *)
@@ -745,29 +736,25 @@ This guide uses a named fn, `start`, inside subscriptions for increased explicit
 (*** hide ***)
 module Style2 =
 
-(*** show ***)
+(**
+*)
     let timer intervalMs onTick =
         let start dispatch = // define start fn
-            (* . . . *)
-(*** hide ***)
-            ()
-(*** show ***)
+            ((* . . . *))
         start // return start fn
 
 (**
-In the source code of Elmish libraries, you will typically find anonymous functions returns instead. Like this:
+In the source code of Elmish libraries, you will typically find anonymous function returns instead. Like this:
 *)
 
 (*** hide ***)
 module Style1 =
 
-(*** show ***)
+(**
+*)
     let timer intervalMs onTick =
         fun dispatch ->
-            (* . . . *)
-(*** hide ***)
-            ()
-(*** show ***)
+            ((* . . . *))
 
 (**
 Both styles are equivalent in functionality. Feel free to use whichever you prefer.
