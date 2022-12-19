@@ -16,6 +16,8 @@ title: Subscriptions
 
 (**
 
+> Subscriptions were changed in v4. For v3 and earlier subscription, see [this page](./subscriptionv3.html).
+
 ### Working with external sources of events
 
 Sometimes we have a source of events that runs independently of Elmish, like a timer.
