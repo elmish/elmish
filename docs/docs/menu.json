@@ -5,7 +5,8 @@
         "items": [
             "docs/basics",
             "docs/parent-child",
-            "docs/subscription"
+            "docs/subscription",
+            "docs/subscriptionv3"
         ]
     }
 ]
