@@ -763,7 +763,7 @@ module V3Sub =
             }
 
 (**
-Here is the main part we are concerned with -- the subscription. I've added type annotations.
+Here is the main part we are concerned with: the subscription. Type annotations have been added.
 *)
 
     open Elmish
