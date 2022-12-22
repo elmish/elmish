@@ -2,10 +2,9 @@ image: Visual Studio 2022
 
 install:
   - ps: Install-Product node 17 x64
-  - ps: dotnet tool restore
 
 build_script:
-  - cmd: dotnet fake build
+  - cmd: dotnet fsi build.fsx
 
 cache:
 - "%LOCALAPPDATA%\\Yarn"
