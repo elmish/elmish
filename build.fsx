@@ -144,4 +144,4 @@ Target.create "Publish" ignore
     ==> "Publish"
 
 // start build
-Target.runOrDefault "Build"
+Target.runOrDefault "Test"
