@@ -156,6 +156,10 @@ Larger Elmish applications for the browser may benefit from advanced features li
 For information about these features please see [elmish-browser](https://elmish.github.io/browser).
 
 
+### Controlling termination
+
+Hot reloading requires the new version of the application loop to be started. To faciliate the interaction with libraries that implement this functionality the v4 elmish extends the abstractions with "termination". Use `withTermination` function to specify the predicate that can evaluate incoming messages and decide if the dispatch loop should stop processing the messages, as well as specify how to release the resources.
+
 ### Observing the state changes
 
 Every message going through the dispatch loop can be traced, along with the current state of the app.
