@@ -1,12 +1,15 @@
 #r "paket:
-storage: packages
-nuget FSharp.Core 4.7
+nuget FSharp.Core 6
+nuget Microsoft.Build 17.3.2
+nuget Microsoft.Build.Framework 17.3.2
+nuget Microsoft.Build.Tasks.Core 17.3.2
+nuget Microsoft.Build.Utilities.Core 17.3.2
+
 nuget Fake.IO.FileSystem
 nuget Fake.DotNet.Cli
 nuget Fake.Core.Target
 nuget Fake.Core.ReleaseNotes
-nuget Fake.Tools.Git
-nuget Fake.DotNet.FSFormatting //"
+nuget Fake.Tools.Git //"
 #if !FAKE
 #load ".fake/build.fsx/intellisense.fsx"
 #r "Facades/netstandard"
@@ -69,7 +72,7 @@ Target.create "Meta" (fun _ ->
       "<PackageIcon>logo.png</PackageIcon>"
       "<RepositoryUrl>https://github.com/elmish/elmish.git</RepositoryUrl>"
       sprintf "<PackageReleaseNotes>%s</PackageReleaseNotes>" (List.head release.Notes)
-      "<PackageTags>fable;elm;fsharp</PackageTags>"
+      "<PackageTags>MVU;fsharp</PackageTags>"
       "<Authors>Eugene Tolmachev</Authors>"
       sprintf "<Version>%s</Version>" (string release.SemVer)
       "</PropertyGroup>"
