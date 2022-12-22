@@ -1,16 +1,10 @@
-#r "paket:
-storage: packages
-nuget FSharp.Core 4.7
-nuget Fake.IO.FileSystem
-nuget Fake.DotNet.Cli
-nuget Fake.Core.Target
-nuget Fake.Core.ReleaseNotes
-nuget Fake.Tools.Git
-nuget Fake.DotNet.FSFormatting //"
-#if !FAKE
-#load ".fake/build.fsx/intellisense.fsx"
-#r "Facades/netstandard"
-#endif
+#!/usr/bin/env -S dotnet fsi
+#r "nuget: Fake.Core.Target"
+#r "nuget: Fake.IO.FileSystem"
+#r "nuget: Fake.DotNet.Cli"
+#r "nuget: Fake.Core.Target"
+#r "nuget: Fake.Core.ReleaseNotes"
+#r "nuget: Fake.Tools.Git"
 
 open Fake.Core
 open Fake.Core.TargetOperators
@@ -28,6 +22,14 @@ let projects  =
     !! "src/**.fsproj"
     ++ "netstandard/**.fsproj"
     ++ "websharper/**.fsproj"
+
+
+System.Environment.GetCommandLineArgs() 
+|> Array.skip 2 // fsi.exe; build.fsx
+|> Array.toList
+|> Context.FakeExecutionContext.Create false __SOURCE_FILE__
+|> Context.RuntimeContext.Fake
+|> Context.setExecutionContext
 
 Target.create "Clean" (fun _ ->
     Shell.cleanDir "src/obj"
@@ -69,7 +71,7 @@ Target.create "Meta" (fun _ ->
       "<PackageIcon>logo.png</PackageIcon>"
       "<RepositoryUrl>https://github.com/elmish/elmish.git</RepositoryUrl>"
       sprintf "<PackageReleaseNotes>%s</PackageReleaseNotes>" (List.head release.Notes)
-      "<PackageTags>fable;elm;fsharp</PackageTags>"
+      "<PackageTags>MVU;fsharp</PackageTags>"
       "<Authors>Eugene Tolmachev</Authors>"
       sprintf "<Version>%s</Version>" (string release.SemVer)
       "</PropertyGroup>"
@@ -142,4 +144,4 @@ Target.create "Publish" ignore
     ==> "Publish"
 
 // start build
-Target.runOrDefault "Build"
+Target.runOrDefault "Test"

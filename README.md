@@ -35,10 +35,9 @@ For v3.x release information please see the [v3.x branch](https://github.com/elm
 
 Building Elmish
 ------
-Elmish depends on [dotnet SDK 6](https://www.microsoft.com/net/download/core) and fake global tool:
+Elmish depends on [dotnet SDK 6](https://www.microsoft.com/net/download/core):
 
-* once: `dotnet tool restore` to install local fake
-* `dotnet fake build`
+* `dotnet fsi build.fsx` or `./build.fsx` on a *nix system.
 
 
 Contributing

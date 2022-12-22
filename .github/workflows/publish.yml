@@ -21,10 +21,8 @@ jobs:
         run: npm i -g npm@7
       - name: Install NPM dependencies
         run: npm install
-      - name: Restore tools
-        run: dotnet tool restore
       - name: Build site
-        run: dotnet fake build -t GenerateDocs
+        run: ./build.fsx -t GenerateDocs
       - name: Deploy site
         uses: peaceiris/actions-gh-pages@v3
         with:
