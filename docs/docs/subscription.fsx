@@ -16,7 +16,8 @@ title: Subscriptions
 
 (**
 
-> Subscriptions were changed in v4. For v3 and earlier subscription, see [this page](./subscriptionv3.html).
+> Subscriptions changed in v4. For v3 and earlier subscription, see [Subscriptions (v3)](./subscriptionv3.html).
+> Or see [Migrating from v3](#migrating-from-v3) below.
 
 ### Working with external sources of events
 
@@ -729,6 +730,132 @@ Let's finish things off with view functions.
 Here is a demo.
 
 ![demo of user adding updating and removing timers in a table](../static/img/timer-multi.gif)
+
+### Migrating from v3
+
+Migrating from Elmish v3 is fairly simple. First we will look at what we have from V3.
+
+#### v3 example
+*)
+
+// from v3 docs
+module V3Sub =
+    open System
+
+    type Model =
+        {
+            current : DateTime
+        }
+
+    type Msg =
+        | Tick of DateTime
+
+    let init () =
+        {
+            current = DateTime.Now
+        }
+
+    let update msg model =
+        match msg with
+        | Tick current ->
+            { model with
+                current = current
+            }
+
+(**
+Here is the main part we are concerned with -- the subscription. I've added type annotations.
+*)
+
+    open Elmish
+    open Fable.Core
+
+    let timer (initial: Model) : Cmd<Msg> =
+        let sub dispatch =
+            JS.setInterval
+                (fun _ ->
+                    dispatch (Tick DateTime.Now)
+                )
+                1000
+                |> ignore
+        Cmd.ofSub sub
+
+    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    |> Program.withSubscription timer
+    |> Program.run
+
+
+(**
+#### v4 conversion
+
+First, let's see the v4-migrated `timer` function. Then we'll go through the differences.
+*)
+
+(*** hide ***)
+module V4Sub =
+    open V3Sub
+(**
+*)
+    let timer (model: Model) : (SubId * Subscribe<Msg>) list =
+        let sub dispatch : IDisposable =
+            JS.setInterval
+                (fun _ ->
+                    dispatch (Tick DateTime.Now)
+                )
+                1000
+                |> ignore
+            {new IDisposable with member _.Dispose() = ()}
+        [ ["timer"], sub ]
+
+    Program.mkSimple init update (fun model _ -> printf "%A\n" model)
+    |> Program.withSubscription timer
+    |> Program.run
+
+(*** hide ***)
+module V4SubExplained =
+    open V3Sub
+(**
+#### Differences
+
+First, the function signature is different.
+*)
+                             //vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    let timer (model: Model) : (SubId * Subscribe<Msg>) list =
+(**
+Instead of returning `Cmd<Msg>`, the subscription now returns a list containing `SubId`s and their associated `Subscribe` functions in a tuple.
+
+To convert `sub` into a `Subscribe<Msg>` function, the only change is that it returns an `IDisposable` instead of `unit`.
+*)
+                         //vvvvvvvvvvv
+        let sub dispatch : IDisposable =
+            JS.setInterval
+                (fun _ ->
+                    dispatch (Tick DateTime.Now)
+                )
+                1000
+                |> ignore
+            {new IDisposable with member _.Dispose() = ()}
+          //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(**
+The `IDisposable` is meant to provide a way to stop the subscription. We used an empty `IDisposable` because v3 subscriptions did not have "stop" functionality. So this matches v3 behavior.
+
+> If "stop" functionality was needed in v3, it had to be manually coded. By behaving like v3, the above remains compatible with any such code.
+> Then the full v4 subscription functionality can be implemented when and if it is convenient.
+
+Now let's examine the return value.
+*)
+        [ ["timer"], sub ]
+
+(**
+The return value is a list containing a single element: a combination of `["timer"]` (the subscription ID) and `sub` (the subscribe function) in a tuple.
+The subscription ID should be unique among other subscriptions in the list. For more info on why the ID is a list, see the section [IDs and dependencies](#ids-and-dependencies).
+
+This is all that's necessary to migrate v3 subs to v4 to get an existing code base working.
+Subscriptions in v4 offer new functionality, such as automatically stopping or restarting subscriptions when the model changes.
+For more information, please consult the previous sections in this document. They offer a step-by-step guide to the new features.
+*)
+
+
+(**
 
 ### Style used in this guide
 
