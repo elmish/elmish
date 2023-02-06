@@ -4,6 +4,7 @@
     <Description>Elmish core for .NET apps</Description>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DisableImplicitFSharpCoreReference>True</DisableImplicitFSharpCoreReference>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../src/prelude.fs" />
