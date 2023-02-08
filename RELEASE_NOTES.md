@@ -1,3 +1,6 @@
+## 4.0.1
+* Elmish targeting .NET runtime was imposing v6 FSharp.Core despite 4.7 being the reference (#267), thanks @JordanMarr.
+
 ## 4.0.0
 * Breaking: `withSubscription` replaces existing subscription, use `mapSubscription` to add/accumulate the subscribers
 * Obsolete all `Cmd.xxx.result` functions
