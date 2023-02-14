@@ -702,10 +702,7 @@ Let's finish things off with view functions.
                                     Html.td [
                                         Html.div [
                                             prop.key (string now.Ticks)
-                                            let timestampStr =
-                                                let s = now.ToString("yyyy-MM-dd HH:mm:ss.ffff")
-                                                let zeros = 23 - s.Length
-                                                s + String.replicate zeros "0"
+                                            let timestampStr = now.ToString("yyyy-MM-dd HH:mm:ss.ffff")
                                             prop.text timestampStr
                                         ]
                                     ]
