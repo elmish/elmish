@@ -1,3 +1,6 @@
+## 4.0.2
+* Loosen the tasks contraint when we don't care about the result (#277).
+
 ## 4.0.1
 * Elmish targeting .NET runtime was imposing v6 FSharp.Core despite 4.7 being the reference (#267), thanks @JordanMarr.
 
