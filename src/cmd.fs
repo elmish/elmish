@@ -215,7 +215,7 @@ module Cmd =
             OfAsync.perform (task >> Async.AwaitTask) arg ofSuccess
 
         /// Command to call a task and map the error
-        let inline attempt (task: 'a -> Task<_>)
+        let inline attempt (task: 'a -> #Task)
                            (arg:'a)
                            (ofError: _ -> 'msg) : Cmd<'msg> =
             OfAsync.attempt (task >> Async.AwaitTask) arg ofError
