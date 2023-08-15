@@ -15,7 +15,7 @@ title: Subscriptions (v3)
 
 (**
 
-### Working with external sources of events
+## Working with external sources of events
 
 Sometimes we have a source of events that doesn't depend on the current state of the model, like a timer.
 We can setup forwarding of those events to be processed by our `update` function like any other change.
@@ -81,7 +81,7 @@ However, any time you need to issue a message (for example from a callback) you 
 *)
 
 (**
-### Aggregating multiple subscribers
+## Aggregating multiple subscribers
 If you need to aggregate multiple subscriptions follow the same pattern as when implementing `init`, `update`, and `view` functions - delegate to child components to setup their own subscriptions.
 
 For example:

@@ -19,7 +19,7 @@ title: Subscriptions
 > Subscriptions changed in v4. For v3 and earlier subscription, see [Subscriptions (v3)](./subscriptionv3.html).
 > Or see [Migrating from v3](#migrating-from-v3) below.
 
-### Working with external sources of events
+## Working with external sources of events
 
 Sometimes we have a source of events that runs independently of Elmish, like a timer.
 We can use subscriptions control when those sources are running, and forward its events to our `update` function.
@@ -90,7 +90,7 @@ A subscription has an ID, `["timer"]` here, and a start function. The ID needs t
 > This allows us to include dependencies. Later we will use this to change the timer's interval.
 
 
-### Conditional subscriptions
+## Conditional subscriptions
 
 In the above example, the timer subscription is always returned from `subscribe`, so it will stay running as long as the program is running.
 Let's look at an example where the timer can be turned off.
@@ -187,7 +187,7 @@ Here is the running program.
 *)
 
 (**
-### Aggregating multiple subscribers
+## Aggregating multiple subscribers
 If you need to aggregate multiple subscriptions follow the same pattern as when implementing `init`, `update`, and `view` functions - delegate to child components to setup their own subscriptions.
 
 For example:
@@ -323,7 +323,7 @@ When the active page changes, the old page's subscriptions are stopped and the n
 *)
 
 (**
-### Subscription reusability
+## Subscription reusability
 
 > 📌 **Effect**
 > 
@@ -392,7 +392,7 @@ The timer subscription can now run any kind of effect. Calling an API, playing a
         , Cmd.ofEffect (Time.now Tick)
 
 (**
-### IDs and dependencies
+## IDs and dependencies
 
 Earlier we noted that ID is a list so that you can add dependencies to it. We'll use that to improve the last example.
 
@@ -728,11 +728,11 @@ Here is a demo.
 
 ![demo of user adding updating and removing timers in a table](../static/img/timer-multi.gif)
 
-### Migrating from v3
+## Migrating from v3
 
 Migrating from Elmish v3 is fairly simple. First we will look at what we have from V3.
 
-#### v3 example
+### v3 example
 *)
 
 // from v3 docs
@@ -782,7 +782,7 @@ Here is the main part we are concerned with: the subscription. Type annotations 
 
 
 (**
-#### v4 conversion
+### v4 conversion
 
 First, let's see the v4-migrated `timer` function. Then we'll go through the differences.
 *)
@@ -811,7 +811,7 @@ module V4Sub =
 module V4SubExplained =
     open V3Sub
 (**
-#### Differences
+### Differences
 
 First, the function signature is different.
 *)
@@ -854,7 +854,7 @@ For more information, please consult the previous sections in this document. The
 
 (**
 
-### Style used in this guide
+## Style used in this guide
 
 This guide uses a named fn, `start`, inside subscriptions for increased explicitness. The pattern looks like this:
 *)
