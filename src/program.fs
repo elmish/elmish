@@ -186,15 +186,15 @@ module Program =
                     let (model',cmd') = program.update msg state
                     let sub' = program.subscribe model'
                     program.setState model' dispatch'
+                    activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
                     cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
                     state <- model'
-                    activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
                     nextMsg <- rb.Pop()
 
         reentered <- true
         program.setState model dispatch'
-        cmd |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
         activeSubs <- Subs.diff activeSubs sub |> Subs.Fx.change program.onError dispatch'
+        cmd |> Cmd.exec (fun ex -> program.onError (sprintf "Error intitializing:", ex)) dispatch'
         processMsgs ()
         reentered <- false
 
