@@ -1,3 +1,6 @@
+## 4.1.0
+* Reverse order of subs and cmds evaluation [#66](https://github.com/elmish/browser/issues/66)
+
 ## 4.0.2
 * Loosen the tasks contraint when we don't care about the result (#277).
 
