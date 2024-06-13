@@ -178,18 +178,21 @@ module Program =
             let mutable nextMsg = rb.Pop()
             while not terminated && Option.isSome nextMsg do
                 let msg = nextMsg.Value
-                if toTerminate msg then
-                    Subs.Fx.stop program.onError activeSubs
-                    terminate state
-                    terminated <- true
-                else
-                    let (model',cmd') = program.update msg state
-                    let sub' = program.subscribe model'
-                    program.setState model' dispatch'
-                    activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
-                    cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
-                    state <- model'
-                    nextMsg <- rb.Pop()
+                try
+                    if toTerminate msg then
+                        Subs.Fx.stop program.onError activeSubs
+                        terminate state
+                        terminated <- true
+                    else
+                        let (model',cmd') = program.update msg state
+                        let sub' = program.subscribe model'
+                        program.setState model' dispatch'
+                        activeSubs <- Subs.diff activeSubs sub' |> Subs.Fx.change program.onError dispatch'
+                        cmd' |> Cmd.exec (fun ex -> program.onError (sprintf "Error handling the message: %A" msg, ex)) dispatch'
+                        state <- model'
+                with ex ->
+                    program.onError (sprintf "Unable to process the message: %A" msg, ex)
+                nextMsg <- rb.Pop()
 
         reentered <- true
         program.setState model dispatch'
