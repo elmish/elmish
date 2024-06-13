@@ -1,3 +1,6 @@
+## 4.2.0
+* reintroduce try/catch in the dispatch loop
+
 ## 4.1.0
 * Reverse order of subs and cmds evaluation [#66](https://github.com/elmish/browser/issues/66)
 
