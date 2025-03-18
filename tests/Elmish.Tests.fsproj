@@ -10,6 +10,7 @@
     <Compile Include="SubTests.fs" />
     <Compile Include="RingTest.fs" />
     <Compile Include="ProgramTest.fs" />
+    <Compile Include="CmdTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FsCheck" Version="2.*" />

@@ -60,7 +60,7 @@ module Cmd =
                 try
                     task arg
                     |> (ofSuccess >> dispatch)
-                with x ->
+                with _ ->
                     ()
             [bind]
 
@@ -83,10 +83,14 @@ module Cmd =
                    (ofError: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 async {
-                    let! r = task arg |> Async.Catch
-                    dispatch (match r with
-                             | Choice1Of2 x -> ofSuccess x
-                             | Choice2Of2 x -> ofError x)
+                    try
+                        let! r = task arg |> Async.Catch
+                        dispatch (
+                            match r with
+                            | Choice1Of2 x -> ofSuccess x
+                            | Choice2Of2 x -> ofError x
+                        )
+                    with x -> dispatch (ofError x)
                 }
             [bind >> start]
 
@@ -97,10 +101,12 @@ module Cmd =
                     (ofSuccess: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 async {
-                    let! r = task arg |> Async.Catch
-                    match r with
-                    | Choice1Of2 x -> dispatch (ofSuccess x)
-                    | _ -> ()
+                    try
+                        let! r = task arg |> Async.Catch
+                        match r with
+                        | Choice1Of2 x -> dispatch (ofSuccess x)
+                        | _ -> ()
+                    with _ -> ()
                 }
             [bind >> start]
 
@@ -111,10 +117,12 @@ module Cmd =
                     (ofError: _ -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 async {
-                    let! r = task arg |> Async.Catch
-                    match r with
-                    | Choice2Of2 x -> dispatch (ofError x)
-                    | _ -> ()
+                    try
+                        let! r = task arg |> Async.Catch
+                        match r with
+                        | Choice2Of2 x -> dispatch (ofError x)
+                        | _ -> ()
+                    with x -> dispatch (ofError x)
                 }
             [bind >> start]
 
@@ -174,10 +182,12 @@ module Cmd =
                    (ofSuccess: _ -> 'msg)
                    (ofError: #exn -> 'msg) : Cmd<'msg> =
             let bind dispatch =
-                (task arg)
-                    .``then``(ofSuccess >> dispatch)
-                    .catch(unbox >> ofError >> dispatch)
-                    |> ignore
+                try
+                    (task arg)
+                        .``then``(ofSuccess >> dispatch)
+                        .catch(unbox >> ofError >> dispatch)
+                        |> ignore
+                with x -> x |> unbox |> ofError |> dispatch
             [bind]
 
         /// Command to call `promise` block and map the success
@@ -185,9 +195,11 @@ module Cmd =
                    (arg:'a)
                    (ofSuccess: _ -> 'msg) =
             let bind dispatch =
-                (task arg)
-                    .``then``(ofSuccess >> dispatch)
-                    |> ignore
+                try
+                    (task arg)
+                        .``then``(ofSuccess >> dispatch)
+                        |> ignore
+                with _ -> ()
             [bind]
 
         /// Command to call `promise` block and map the error
@@ -195,9 +207,11 @@ module Cmd =
                     (arg:'a)
                     (ofError: #exn -> 'msg) : Cmd<'msg> =
             let bind dispatch =
-                (task arg)
-                    .catch(unbox >> ofError >> dispatch)
-                    |> ignore
+                try
+                    (task arg)
+                        .catch(unbox >> ofError >> dispatch)
+                        |> ignore
+                with x -> x |> unbox |> ofError |> dispatch
             [bind]
 #else
     open System.Threading.Tasks
