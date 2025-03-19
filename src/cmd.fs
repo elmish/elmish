@@ -84,12 +84,8 @@ module Cmd =
             let bind dispatch =
                 async {
                     try
-                        let! r = task arg |> Async.Catch
-                        dispatch (
-                            match r with
-                            | Choice1Of2 x -> ofSuccess x
-                            | Choice2Of2 x -> ofError x
-                        )
+                        let! r = task arg
+                        dispatch (ofSuccess r)
                     with x -> dispatch (ofError x)
                 }
             [bind >> start]
@@ -102,10 +98,8 @@ module Cmd =
             let bind dispatch =
                 async {
                     try
-                        let! r = task arg |> Async.Catch
-                        match r with
-                        | Choice1Of2 x -> dispatch (ofSuccess x)
-                        | _ -> ()
+                        let! r = task arg
+                        dispatch (ofSuccess r)
                     with _ -> ()
                 }
             [bind >> start]
@@ -118,10 +112,8 @@ module Cmd =
             let bind dispatch =
                 async {
                     try
-                        let! r = task arg |> Async.Catch
-                        match r with
-                        | Choice2Of2 x -> dispatch (ofError x)
-                        | _ -> ()
+                        let! _ = task arg
+                        ()
                     with x -> dispatch (ofError x)
                 }
             [bind >> start]
@@ -185,7 +177,6 @@ module Cmd =
                 try
                     (task arg)
                         .``then``(ofSuccess >> dispatch)
-                        .catch(unbox >> ofError >> dispatch)
                         |> ignore
                 with x -> x |> unbox |> ofError |> dispatch
             [bind]
@@ -208,9 +199,7 @@ module Cmd =
                     (ofError: #exn -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 try
-                    (task arg)
-                        .catch(unbox >> ofError >> dispatch)
-                        |> ignore
+                    (task arg) |> ignore
                 with x -> x |> unbox |> ofError |> dispatch
             [bind]
 #else
