@@ -14,3 +14,6 @@ module internal Array =
 module internal Log =
     let onError (text: string, ex: exn) = Console.Error (text,ex)
     let toConsole(text: string, o: #obj) = Console.Log(text,o)
+
+module AsyncHelpers =
+    let inline start x = Async.Start x

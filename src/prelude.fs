@@ -33,3 +33,10 @@ module internal Timer =
         t.Enabled <- true
         t.Start()
 #endif
+
+module AsyncHelpers =
+#if FABLE_COMPILER
+    let start x = Timer.delay 1 (fun _ -> Async.StartImmediate x)
+#else
+    let inline start x = Async.Start x
+#endif
