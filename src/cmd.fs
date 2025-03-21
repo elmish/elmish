@@ -119,6 +119,7 @@ module Cmd =
             [bind >> start]
 
     module OfAsync =
+        [<Obsolete("Use `AsyncHelpers.start` instead")>]
 #if FABLE_COMPILER
         let start x = Timer.delay 1 (fun _ -> Async.StartImmediate x)
 #else
@@ -130,19 +131,19 @@ module Cmd =
                           (arg: 'a)
                           (ofSuccess: _ -> 'msg)
                           (ofError: _ -> 'msg) : Cmd<'msg> =
-            OfAsyncWith.either start task arg ofSuccess ofError
+            OfAsyncWith.either AsyncHelpers.start task arg ofSuccess ofError
 
         /// Command that will evaluate an async block and map the success
         let inline perform (task: 'a -> Async<_>)
                            (arg: 'a)
                            (ofSuccess: _ -> 'msg) : Cmd<'msg> =
-            OfAsyncWith.perform start task arg ofSuccess
+            OfAsyncWith.perform AsyncHelpers.start task arg ofSuccess
 
         /// Command that will evaluate an async block and map the error (of exception)
         let inline attempt (task: 'a -> Async<_>)
                            (arg: 'a)
                            (ofError: _ -> 'msg) : Cmd<'msg> =
-            OfAsyncWith.attempt start task arg ofError
+            OfAsyncWith.attempt AsyncHelpers.start task arg ofError
 
     module OfAsyncImmediate =
         /// Command that will evaluate an async block and map the result
@@ -224,4 +225,3 @@ module Cmd =
     /// Command to issue a specific message
     let inline ofMsg (msg:'msg) : Cmd<'msg> =
         [fun dispatch -> dispatch msg]
-
