@@ -1,3 +1,6 @@
+## 4.3.0
+* CE Cmds handle more exceptions (#300)
+
 ## 4.2.0
 * reintroduce try/catch in the dispatch loop
 
