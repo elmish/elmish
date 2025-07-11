@@ -204,6 +204,7 @@ module Cmd =
             [bind]
 #else
     open System.Threading.Tasks
+#if WEBSHARPER
     module OfTask =
         /// Command to call a task and map the results
         let inline either (task: 'a -> Task<_>)
@@ -223,6 +224,132 @@ module Cmd =
                            (arg:'a)
                            (ofError: _ -> 'msg) : Cmd<'msg> =
             OfAsync.attempt (task >> Async.AwaitTask) arg ofError
+#else
+    module OfTask =
+        /// Command to call a task and map the results
+        let either (task: 'a -> Task<'b>)
+                   (arg:'a)
+                   (ofSuccess: 'b -> 'msg)
+                   (ofError: exn -> 'msg) : Cmd<'msg> =
+            let bind dispatch =
+                try
+                    TaskBuilder.task {
+                        try
+                            let! r = task arg in dispatch (ofSuccess r)
+                        with ex ->
+                            dispatch (ofError ex)
+                    } |> ignore
+                with x ->
+                    dispatch (ofError x)
+            [bind]
+
+        /// Command to call a task and map the success
+        let perform (task: 'a -> Task<'b>)
+                    (arg:'a)
+                    (ofSuccess: 'b -> 'msg) : Cmd<'msg> =
+            let bind dispatch =
+                try
+                    TaskBuilder.task {
+                        try
+                            let! r = task arg in dispatch (ofSuccess r)
+                        with _ -> ()
+                    } |> ignore
+                with _ -> ()
+            [bind]
+
+        /// Command to call a task and map the error
+        let attempt (task: 'a -> Task)
+                    (arg:'a)
+                    (ofError: exn -> 'msg) : Cmd<'msg> =
+            let bind dispatch =
+                try
+                    TaskBuilder.task {
+                        try
+                            do! task arg
+                        with ex ->
+                            dispatch (ofError ex)
+                    } |> ignore
+                with x ->
+                    dispatch (ofError x)
+            [bind]
+#endif // WEBSHARPER
+#endif // FABLE_COMPILER
+#if !NETSTANDARD2_0
+    module OfValueTask =
+        open System.Threading.Tasks
+        /// Command to call a value task and map the results
+        let either (task: 'a -> ValueTask<'b>)
+                   (arg:'a)
+                   (ofSuccess: 'b -> 'msg)
+                   (ofError: exn -> 'msg) : Cmd<'msg> =
+            let bind dispatch =
+                try
+                    let vt: ValueTask<'b> = task arg
+                    if vt.IsCompleted then
+                        if not vt.IsCompletedSuccessfully then
+                            try
+                                vt.GetAwaiter().GetResult() |> ignore
+                            with ex ->
+                                dispatch (ofError ex)
+                        else
+                            dispatch (ofSuccess vt.Result)
+                    else
+                        TaskBuilder.task {
+                            try
+                                let! r = vt in dispatch (ofSuccess r)
+                            with ex ->
+                                dispatch (ofError ex)
+                        } |> ignore
+                with x ->
+                    dispatch (ofError x)
+            [bind]
+
+        /// Command to call a value task and map the success
+        let perform (task: 'a -> ValueTask<'b>)
+                    (arg:'a)
+                    (ofSuccess: 'b -> 'msg) : Cmd<'msg> =
+            let bind dispatch =
+                try
+                    let vt: ValueTask<'b> = task arg
+                    if vt.IsCompleted then
+                        if not vt.IsCompletedSuccessfully then
+                            try
+                                vt.GetAwaiter().GetResult() |> ignore
+                            with _ -> ()
+                        else
+                            dispatch (ofSuccess vt.Result)
+                    else
+                        TaskBuilder.task {
+                            try
+                                let! r = vt in dispatch (ofSuccess r)
+                            with _ -> ()
+                        } |> ignore
+                with _ -> ()
+            [bind]
+
+        /// Command to call a value task and map the error
+        let attempt (task: 'a -> ValueTask)
+                    (arg:'a)
+                    (ofError: exn -> 'msg) : Cmd<'msg> =
+            let bind dispatch =
+                try
+                    let vt: ValueTask = task arg
+                    if vt.IsCompleted then
+                        if not vt.IsCompletedSuccessfully then
+                            try
+                                vt.GetAwaiter().GetResult()
+                            with ex ->
+                                dispatch (ofError ex)
+                    else
+                        TaskBuilder.task {
+                            try
+                                let! _ = vt in ()
+                            with ex ->
+                                dispatch (ofError ex)
+                        } |> ignore
+                with x ->
+                    dispatch (ofError x)
+            [bind]
 #endif
 
     /// Command to issue a specific message
