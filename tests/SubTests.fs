@@ -84,9 +84,9 @@ type DiffBehavior() =
         let expected = subs[0..1], [], activeSubs, subs[2..8]
         let ((dupes, _, _, toStart) as actual) = run activeSubs subs
         let startId, startDupe = toStart[2]
-        Assert.IsTrue(List.forall (fun subId -> dupeSubId = subId) dupes, "Dupes have wrong ID")
-        Assert.IsTrue((dupeSubId = startId), "Started dupe has wrong ID")
-        Assert.IsTrue(Object.ReferenceEquals(sub.Sub, startDupe), "Started dupe is the wrong one")
-        Assert.IsFalse(Object.ReferenceEquals(sub.Dupe, startDupe), "Started dupe is the wrong one")
+        Assert.That(List.forall (fun subId -> dupeSubId = subId) dupes, "Dupes have wrong ID")
+        Assert.That(dupeSubId, Is.EqualTo<string> startId, "Started dupe has wrong ID")
+        Assert.That(sub.Sub, Is.SameAs startDupe, "Started dupe is the wrong one")
+        Assert.That(sub.Dupe, Is.Not.SameAs startDupe, "Started dupe is the wrong one")
         eq expected actual
 

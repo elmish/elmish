@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="build.fsx" />
+    <File Path="global.json" />
+    <File Path="package.json" />
+    <File Path="README.md" />
+    <File Path="RELEASE_NOTES.md" />
+  </Folder>
+  <Project Path="netstandard/Elmish.fsproj" />
+  <Project Path="src/Fable.Elmish.fsproj" />
+  <Project Path="tests/Elmish.Tests.fsproj" />
+  <Project Path="websharper/WebSharper.Elmish.fsproj" />
+</Solution>

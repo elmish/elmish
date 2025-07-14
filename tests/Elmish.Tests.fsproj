@@ -1,6 +1,6 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../netstandard/Elmish.fsproj" />
@@ -11,15 +11,20 @@
     <Compile Include="RingTest.fs" />
     <Compile Include="ProgramTest.fs" />
     <Compile Include="CmdTests.fs" />
+    <Compile Include="Attributes.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FsCheck" Version="2.*" />
-    <PackageReference Include="FsCheck.NUnit" Version="2.*" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+    <PackageReference Include="FsCheck" Version="3.3.0" />
+    <PackageReference Include="FsCheck.NUnit" Version="3.3.0" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Unquote" Version="4.*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.6.1" />
+    <PackageReference Include="Unquote" Version="7.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="9.0.300" />
   </ItemGroup>
 </Project>
