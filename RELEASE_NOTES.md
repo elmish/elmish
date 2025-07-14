@@ -1,3 +1,6 @@
+## 5.0.0
+* Implement native support for Task and ValueTask by (@xperiandri) (#303)
+
 ## 4.3.0
 * CE Cmds handle more exceptions (#300)
 
