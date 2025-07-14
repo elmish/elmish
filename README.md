@@ -31,11 +31,12 @@ If targeting CLR, please use Elmish package:
 For v1.x release information please see the [v1.x branch](https://github.com/elmish/elmish/tree/v1.x)
 For v2.x release information please see the [v2.x branch](https://github.com/elmish/elmish/tree/v2.x)
 For v3.x release information please see the [v3.x branch](https://github.com/elmish/elmish/tree/v3.x)
+For v4.x release information please see the [v3.x branch](https://github.com/elmish/elmish/tree/v4.x)
 
 
 Building Elmish
 ------
-Elmish depends on [dotnet SDK 6](https://www.microsoft.com/net/download/core):
+Elmish depends on [dotnet SDK 8](https://www.microsoft.com/net/download/core):
 
 * `dotnet fsi build.fsx` or `./build.fsx` on a *nix system.
 
