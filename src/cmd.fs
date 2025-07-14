@@ -177,6 +177,7 @@ module Cmd =
                 try
                     (task arg)
                         .``then``(ofSuccess >> dispatch)
+                        .catch(unbox >> ofError >> dispatch)
                         |> ignore
                 with x -> x |> unbox |> ofError |> dispatch
             [bind]
@@ -199,7 +200,9 @@ module Cmd =
                     (ofError: #exn -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 try
-                    (task arg) |> ignore
+                    (task arg)
+                        .catch(unbox >> ofError >> dispatch)
+                        |> ignore
                 with x -> x |> unbox |> ofError |> dispatch
             [bind]
 #else
