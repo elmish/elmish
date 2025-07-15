@@ -1,3 +1,6 @@
+## 5.0.2
+* Fix: OfTask.attempt signature
+
 ## 5.0.1
 * Fix: Conditions around ValueTask for target platforms
 
