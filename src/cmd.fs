@@ -261,14 +261,14 @@ module Cmd =
             [bind]
 
         /// Command to call a task and map the error
-        let attempt (task: 'a -> Task)
+        let attempt (task: 'a -> #Task)
                     (arg:'a)
                     (ofError: exn -> 'msg) : Cmd<'msg> =
             let bind dispatch =
                 try
                     TaskBuilder.task {
                         try
-                            do! task arg
+                            do! (task arg :> Task)
                         with ex ->
                             dispatch (ofError ex)
                     } |> ignore
