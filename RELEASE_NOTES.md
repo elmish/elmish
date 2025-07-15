@@ -1,3 +1,6 @@
+## 5.0.1
+* Fix: Conditions around ValueTask for target platforms
+
 ## 5.0.0
 * Implement native support for Task and ValueTask by (@xperiandri) (#303)
 

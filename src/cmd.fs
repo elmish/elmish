@@ -277,7 +277,7 @@ module Cmd =
             [bind]
 #endif // WEBSHARPER
 #endif // FABLE_COMPILER
-#if !NETSTANDARD2_0
+#if NET8_0_OR_GREATER && !(FABLE_COMPILER || WEBSHARPER)
     module OfValueTask =
         open System.Threading.Tasks
         /// Command to call a value task and map the results

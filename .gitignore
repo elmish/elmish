@@ -20,7 +20,7 @@ out
 *.orig
 
 .vs
-
+*.log
 docs/output
 docs/temp
 
